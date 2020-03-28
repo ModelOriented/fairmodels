@@ -1,0 +1,22 @@
+Package: fairmodels
+Type: Package
+Title: Model fairness measuring tool
+Version: 0.1.0
+Author: Jakub Wiśniewski
+Maintainer: The package maintainer <yourself@somewhere.net>
+Description: Measure all fairness metric in one place. Group and (individual?).
+License: BSD
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    DALEX, 
+    fairness, 
+    ggplot2,
+    patchwork,
+    RColorBrewer,
+    fmsb, 
+    crayon
+Suggests:
+    mlr, 
+    ranger
+RoxygenNote: 7.1.0
