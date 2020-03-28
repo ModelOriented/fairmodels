@@ -3,7 +3,7 @@
 
 Package for fairness audit and visualization. Make sure your models are classifying protected groups similarly. 
 
-
+![Image description](https://uploads.yields.io/a01e2f/bias.png)
 
 BEWARE! Work in progres ;) 
 
