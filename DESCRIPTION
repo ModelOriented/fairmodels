@@ -17,6 +17,9 @@ Imports:
     fmsb, 
     crayon
 Suggests:
-    mlr, 
-    ranger
+    mlr,
+    ranger,
+    knitr,
+    rmarkdown
 RoxygenNote: 7.1.0
+VignetteBuilder: knitr

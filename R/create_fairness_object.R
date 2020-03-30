@@ -63,8 +63,8 @@ create_fairness_object <- function(x,
   fairness_labels <- c("eqo", "prpar", "accpar", "fnrpar", "fprpar", "npvpar", "specpar", "mcccomp", "model labels")
 
   for (i in seq_along(explainers)) {
-    data[, m + 1] <- explainers[[i]]$y_hat
-    colnames(data)[m + 1] <- "probabilities"
+    data$probabilities <- explainers[[i]]$y_hat
+    #colnames(data)[m + 1] <- "probabilities"
 
     eqo <- fairness::equal_odds(data = data, outcome = outcome, group = group, probs = "probabilities", base = base)
     pr  <- fairness::pred_rate_parity(data = data, outcome = outcome, group = group, probs = "probabilities", base = base)

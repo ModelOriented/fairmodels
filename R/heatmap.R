@@ -55,27 +55,7 @@ heatmap <- function(x, midpoint = NULL, ...)  UseMethod("heatmap")
 heatmap.fairness_object <- function(x, midpoint = NULL,  ... ){
 
 
-  metric_data <- x$metric_data
-  num_explainers <- length(x$explainers)
-  m <- ncol(metric_data)
-  explainers_labels <- sapply(metric_data[,m], toString)
-
-  # rows = metrics * explainers
-  heatmap_data <- as.data.frame(matrix(0,nrow =(m-1)*num_explainers , ncol = 3))
-
-  for (i in seq_len(m-1)){
-
-    column_name <- colnames(metric_data)[i]
-    to_add <- cbind(rep(column_name,num_explainers), explainers_labels, metric_data[,i])
-
-    if (i == 1){
-      heatmap_data[1:num_explainers,] <- to_add
-    } else{
-        from <- num_explainers*(i-1)+1
-        to <- num_explainers*i
-        heatmap_data[from:to,] <- to_add
-    }
-  }
+  heatmap_data <- expand_fairness_object(x)
 
   heatmap_data <- as.data.frame(heatmap_data)
   colnames(heatmap_data) <- c("metric","model","score")
