@@ -1,4 +1,4 @@
-# FairModels
+# FairModels [Name can change]
 ## Mi^2 Data Lab
 
 Package for fairness audit and visualization. Make sure your models are classifying protected groups similarly. 
