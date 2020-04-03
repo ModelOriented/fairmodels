@@ -60,7 +60,7 @@ create_fairness_object <- function(x,
   fairness_matrix <- matrix(nrow = n, ncol = 9)
 
   # labels for future columns
-  fairness_labels <- c("eqo", "prpar", "accpar", "fnrpar", "fprpar", "npvpar", "specpar", "mcccomp", "model labels")
+  fairness_labels <- c("equal_odds", "pred_rate_parity", "acc_parity", "fnr_parity", "fpr_parity", "npv_parity", "spec_parity", "mcc_parity", "model labels")
 
   for (i in seq_along(explainers)) {
     data$probabilities <- explainers[[i]]$y_hat
@@ -73,6 +73,7 @@ create_fairness_object <- function(x,
     fpr <- fairness::fpr_parity(data = data, outcome = outcome, group = group, probs = "probabilities", base = base)
     npv <- fairness::npv_parity(data = data, outcome = outcome, group = group, probs = "probabilities", base = base)
     spc <- fairness::spec_parity(data = data, outcome = outcome, group = group, probs = "probabilities", base = base)
+    # necessary?
     mcc <- fairness::mcc_parity(data = data, outcome = outcome, group = group, probs = "probabilities", base = base)
 
     metrics <- list(eqo, pr, acc, fnr, fpr, npv, spc, mcc)
