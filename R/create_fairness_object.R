@@ -18,7 +18,7 @@
 #' library(DALEX)
 #' library(ranger)
 #'
-#' compas <- fairness::compas[,1:7]
+#' data("compas")
 #'
 #' rf_compas  <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
 #' glm_compas <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
@@ -28,7 +28,7 @@
 #' explainer_rf  <- explain(rf_compas, data = compas, y = y_numeric)
 #' explainer_glm <- explain(glm_compas, data = compas, y = y_numeric)
 #'
-#'cfo <-create_fairness_object(explainer_glm, explainer_rf,  outcome = "Two_yr_Recidivism", group = "ethnicity", base = "Caucasian"  )
+#'cfo <-create_fairness_object(explainer_glm, explainer_rf,  outcome = "Two_yr_Recidivism", group = "Ethnicity", base = "Caucasian"  )
 #
 #' @export create_fairness_object
 #' @rdname create_fairness_object
@@ -57,7 +57,7 @@ create_fairness_object <- function(x,
   m <- ncol(data)
 
   # fairness matrix
-  fairness_matrix <- matrix(nrow = n, ncol = 9)
+  fairness_matrix <- matrix(nrow = n, ncol = 9) # WARNING if number of metrics changed, change this
 
   # labels for future columns
   fairness_labels <- c("equal_odds", "pred_rate_parity", "acc_parity", "fnr_parity", "fpr_parity", "npv_parity", "spec_parity", "mcc_parity", "model labels")
@@ -65,7 +65,7 @@ create_fairness_object <- function(x,
   for (i in seq_along(explainers)) {
     data$probabilities <- explainers[[i]]$y_hat
     #colnames(data)[m + 1] <- "probabilities"
-
+    print(group)
     eqo <- fairness::equal_odds(data = data, outcome = outcome, group = group, probs = "probabilities", base = base)
     pr  <- fairness::pred_rate_parity(data = data, outcome = outcome, group = group, probs = "probabilities", base = base)
     acc <- fairness::acc_parity(data = data, outcome = outcome, group = group, probs = "probabilities", base = base)

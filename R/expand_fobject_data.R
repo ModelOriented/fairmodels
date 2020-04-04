@@ -1,5 +1,10 @@
-
-# TODO make legitimate method
+#' Expand Fairness Object
+#'
+#' @param x fairness_object
+#'
+#' @return
+#' @export
+#' @rdname expand_fairness_object
 
 expand_fairness_object <- function(x){
 

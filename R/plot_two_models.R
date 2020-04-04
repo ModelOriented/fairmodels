@@ -12,7 +12,7 @@ plot.two_models <- function(x, ...){
 
   fairness_data <- x$fairness
   performance_data <- x$performance
-
+  print(x$labels)
   # Don't touch order here!
 
   fairness_data$to_vjust <- rep(0,nrow(fairness_data))
@@ -23,15 +23,20 @@ plot.two_models <- function(x, ...){
 
 
 
-plot1 <- ggplot(fairness_data, aes(x, y, fill = order)) + geom_bar(stat="identity", position = "identity")  +
-          geom_text(aes(label=round(y,2)),vjust = fairness_data$to_vjust,  color="black", size=3 , fontface = "bold") +
-          theme_drwhy()+
-          theme(axis.text.x=element_text(angle=70, hjust=0.7),
-                legend.position = "none") +
-          ylab(x$fairness_metric) +
-          xlab("Models metrics in groups") +
-          scale_fill_manual(values=c("#9a53c9", "#789ffa")) +
-          ggtitle("2 models plot")
+plot1 <- ggplot(fairness_data, aes(x, y, fill = order)) +
+            geom_bar(stat="identity", position = "identity")  +
+            geom_text(aes(label=round(y,2)),
+                      vjust = fairness_data$to_vjust,
+                      color="black",
+                      size=3 ,
+                      fontface = "bold") +
+            theme_drwhy()+
+            theme(axis.text.x=element_text(angle=70, hjust=0.7),
+                  legend.position = "none") +
+            ylab(x$fairness_metric) +
+            xlab("Models metrics in groups") +
+            scale_fill_manual(values=c("#9a53c9", "#86aff0", "gray")) +
+            ggtitle("2 models plot", subtitle = paste("Created with",x$labels[1],"and", x$labels[2]))
 
 plot2 <- ggplot(performance_data, aes(x,y, fill = x)) +
         geom_bar(stat = "identity", width = 0.4) +
