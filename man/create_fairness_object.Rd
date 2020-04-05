@@ -4,7 +4,15 @@
 \alias{create_fairness_object}
 \title{Create Fairness Object}
 \usage{
-create_fairness_object(x, ..., data = NULL, outcome, group, base)
+create_fairness_object(
+  x,
+  ...,
+  data = NULL,
+  outcome,
+  group,
+  base = NULL,
+  cutoff = 0.5
+)
 }
 \arguments{
 \item{x}{DALEX explainer}
@@ -18,6 +26,8 @@ create_fairness_object(x, ..., data = NULL, outcome, group, base)
 \item{group}{protected group/variable that}
 
 \item{base}{in regard to what subgroup of group}
+
+\item{cutoff}{threshold for probability, deafult 0.5}
 }
 \value{
 An object of class \code{fairness object}
@@ -41,5 +51,11 @@ y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
 explainer_rf  <- explain(rf_compas, data = compas, y = y_numeric)
 explainer_glm <- explain(glm_compas, data = compas, y = y_numeric)
 
-cfo <-create_fairness_object(explainer_glm, explainer_rf,  outcome = "Two_yr_Recidivism", group = "Ethnicity", base = "Caucasian"  )
+cfo <-create_fairness_object(explainer_glm, explainer_rf,
+                             outcome = "Two_yr_Recidivism",
+                             group = "Ethnicity",
+                             base = "Caucasian",
+                             cutoff = 0.5)
+
+
 }

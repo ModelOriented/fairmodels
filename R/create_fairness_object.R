@@ -6,13 +6,11 @@
 #' @param outcome the target of classification
 #' @param group protected group/variable that
 #' @param base in regard to what subgroup of group
-#'
+#' @param cutoff threshold for probability, deafult 0.5
 #' @return An object of class \code{fairness object}
 #'
 #' It's a list with following fields:
 #'
-#'
-
 #'
 #' @examples
 #' library(DALEX)
@@ -28,9 +26,14 @@
 #' explainer_rf  <- explain(rf_compas, data = compas, y = y_numeric)
 #' explainer_glm <- explain(glm_compas, data = compas, y = y_numeric)
 #'
-#'cfo <-create_fairness_object(explainer_glm, explainer_rf,  outcome = "Two_yr_Recidivism", group = "Ethnicity", base = "Caucasian"  )
-#
-#' @export create_fairness_object
+#' cfo <-create_fairness_object(explainer_glm, explainer_rf,
+#'                              outcome = "Two_yr_Recidivism",
+#'                              group = "Ethnicity",
+#'                              base = "Caucasian",
+#'                              cutoff = 0.5)
+#'
+#'
+#' @export
 #' @rdname create_fairness_object
 
 
@@ -40,13 +43,17 @@ create_fairness_object <- function(x,
                                    data = NULL,
                                    outcome,
                                    group,
-                                   base) {
+                                   base = NULL,
+                                   cutoff = 0.5) {
 
   # check if data provided, if not get data from first explainer
   if (is.null(data)) {
     data = x$data
     cat("Getting data from first (", crayon::green(x$label),")  explainer \n")
   }
+
+  # if base = null take first from data
+  if (is.null(base)) base <- data[1, group]
 
   # checking if explainers
 
@@ -59,30 +66,58 @@ create_fairness_object <- function(x,
   # fairness matrix
   fairness_matrix <- matrix(nrow = n, ncol = 9) # WARNING if number of metrics changed, change this
 
+  explainers_groups <- list(rep(0,n))
+
+
   # labels for future columns
-  fairness_labels <- c("equal_odds", "pred_rate_parity", "acc_parity", "fnr_parity", "fpr_parity", "npv_parity", "spec_parity", "mcc_parity", "model labels")
+  fairness_labels <- c("equal_odds", "pred_rate_parity", "acc_parity", "fnr_parity",
+                       "fpr_parity", "npv_parity", "spec_parity", "mcc_parity", "model labels")
 
   for (i in seq_along(explainers)) {
+
     data$probabilities <- explainers[[i]]$y_hat
     #colnames(data)[m + 1] <- "probabilities"
-    print(group)
-    eqo <- fairness::equal_odds(data = data, outcome = outcome, group = group, probs = "probabilities", base = base)
-    pr  <- fairness::pred_rate_parity(data = data, outcome = outcome, group = group, probs = "probabilities", base = base)
-    acc <- fairness::acc_parity(data = data, outcome = outcome, group = group, probs = "probabilities", base = base)
-    fnr <- fairness::fnr_parity(data = data, outcome = outcome, group = group, probs = "probabilities", base = base)
-    fpr <- fairness::fpr_parity(data = data, outcome = outcome, group = group, probs = "probabilities", base = base)
-    npv <- fairness::npv_parity(data = data, outcome = outcome, group = group, probs = "probabilities", base = base)
-    spc <- fairness::spec_parity(data = data, outcome = outcome, group = group, probs = "probabilities", base = base)
+    label <- explainers[[i]]$label
+
+
+    eqo <- fairness::equal_odds(data = data, outcome = outcome, group = group, probs = "probabilities", base = base, cutoff = cutoff)
+    pr  <- fairness::pred_rate_parity(data = data, outcome = outcome, group = group, probs = "probabilities", base = base, cutoff = cutoff)
+    acc <- fairness::acc_parity(data = data, outcome = outcome, group = group, probs = "probabilities", base = base, cutoff = cutoff)
+    fnr <- fairness::fnr_parity(data = data, outcome = outcome, group = group, probs = "probabilities", base = base, cutoff = cutoff)
+    fpr <- fairness::fpr_parity(data = data, outcome = outcome, group = group, probs = "probabilities", base = base, cutoff = cutoff)
+    npv <- fairness::npv_parity(data = data, outcome = outcome, group = group, probs = "probabilities", base = base, cutoff = cutoff)
+    spc <- fairness::spec_parity(data = data, outcome = outcome, group = group, probs = "probabilities", base = base, cutoff = cutoff)
     # necessary?
-    mcc <- fairness::mcc_parity(data = data, outcome = outcome, group = group, probs = "probabilities", base = base)
+    mcc <- fairness::mcc_parity(data = data, outcome = outcome, group = group, probs = "probabilities", base = base, cutoff = cutoff)
 
-    metrics <- list(eqo, pr, acc, fnr, fpr, npv, spc, mcc)
-    class(metrics) <- "fairness_metrics"
-    metrics <- lapply(metrics, absolute)
-    metrics <- unlist(metrics)
-    metrics <- c(metrics, explainers[[i]]$label)
+    # cummuleted metrics "how much to base level" over all groups, then summed
+    cummulated_metrics <- lapply(list(eqo, pr, acc, fnr, fpr, npv, spc, mcc), absolute)
 
-    fairness_matrix[i, ] <- unlist(metrics)
+    if(NaN %in% cummulated_metrics){
+      cat(crayon::red("\nWARNING! NA's created, check fairness_object$groups_data \n\n"))
+
+    }
+
+
+    # metrics over all groups
+    metrics <- list(equal_odds = eqo$Metric[2,],
+                    pred_rate_parity =  pr$Metric[2,],
+                    acc_parity = acc$Metric[2,],
+                    fnr_parity = fnr$Metric[2,],
+                    fpr_parity = fpr$Metric[2,],
+                    npv_parity = npv$Metric[2,],
+                    spec_parity = spc$Metric[2,],
+                    mcc_parity = mcc$Metric[2,],
+                    label = label)
+
+    # with label
+    metrics <- c(metrics, label)
+
+    fairness_matrix[i, ] <- c(unlist(cummulated_metrics),label)
+
+    # all information can be taken from here,
+    # every group value for every metric for every explainer
+    explainers_groups[[i]] <- metrics
   }
 
   # as data frame and making numeric
@@ -91,8 +126,14 @@ create_fairness_object <- function(x,
   colnames(fairness_df) <- fairness_labels
 
   # S3 object
-  fairness_object <- list(metric_data = fairness_df, explainers = explainers, data = data)
+  fairness_object <- list(metric_data = fairness_df, groups_data = explainers_groups, explainers = explainers, data = data, cutoff = cutoff)
   class(fairness_object) <- "fairness_object"
 
   return(fairness_object)
+}
+
+
+
+absolute <- function(x){
+  return(sum(abs(1- x$Metric[2,])))
 }

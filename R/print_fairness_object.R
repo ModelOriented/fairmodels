@@ -17,5 +17,5 @@ print.fairness_object <- function(x, ...){
   for (explainer in x$explainers) print(explainer$label)
 
   cat("\nData: \n")
-  head(x$data, 2, ...)
+  print(head(x$data,2))
 }
