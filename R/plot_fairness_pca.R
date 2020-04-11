@@ -1,6 +1,7 @@
 #' Plot fairness PCA
 #'
 #' @param x fairness_pca object
+#' @param scale tbd- za mało wiem jak na razie
 #' @param ... other parameters
 #'
 #'
@@ -12,26 +13,65 @@
 #' @export
 #' @rdname plot_fairness_pca
 
-plot.fairness_pca <- function(x, ...){
+plot.fairness_pca <- function(x, scale = 0.5,  ...){
+
+
+  # scaling like in stats::biplot
+  lam <- x$sdev[1:2]
+  n <- nrow(x$x)
+  lam <- lam * sqrt(n)
+  if(scale != 0) lam <- lam^scale else lam <- 1
+
+  pca_df <- t(t(x$x[,1:2])/lam)
+  rotation <-  t(t(x$rotation[,1:2])*lam)
 
   pc_1_2 <- x$pc_1_2
-  pca_data <- x$pca_data
+  pca_data <- as.data.frame(pca_df)
+  pca_data$labels <- x$labels
+
+  pca_feature <- as.data.frame(rotation)
+  pca_feature$labels <- rownames(rotation)
+
+
+
   lab_x <- paste("PC1: explained", pc_1_2[1]*100,"% of variance" )
   lab_y <- paste("PC2: explained", pc_1_2[2]*100,"% of variance" )
 
 
-
+  n <- nrow(rotation)
 
   # to add knn ?
 
-  ggplot(pca_data, aes(PC1, PC2, color = labels, label = labels)) +
-                  geom_point(size = 2) +
-                  theme_drwhy() +
-                  xlab(lab_x) +
-                  ylab(lab_y) +
-                  ggtitle("Fairness Metric PCA plot") +
-      geom_segment(aes(x=rep(0,nrow(pca_data)), y =rep(0,nrow(pca_data)),
-                       xend = PC1, yend = PC2 ), arrow = arrow(length = unit(0.01, "cm"))) +
-      geom_text(hjust = 0, nudge_x = 0.05, color = "black", check_overlap = TRUE)
+  ggplot() +
+            # hline covers lines from theme
+            geom_hline(yintercept = 0, color = "white", linetype = "dashed") +
+            geom_vline(xintercept = 0, color = "lightgrey", linetype = "dashed" ) +
+            geom_point(data = pca_data,
+                       aes(PC1, PC2, color = labels),
+                       size = 3) +
+            geom_text(data = pca_data,
+                      aes(PC1, PC2, color = labels, label = labels),
+                      check_overlap = TRUE,
+                      nudge_x = 0.05,
+                      nudge_y = 0.05)+
+            geom_segment(data = pca_feature,
+                         aes(x=rep(0,n),
+                             y =rep(0,n),
+                             xend = PC1,
+                             yend = PC2 ),
+                         arrow = arrow(length = unit(0.2, "cm"))) +
+
+            geom_text(data = pca_feature,
+                      aes(  x = PC1,
+                            y = PC2,
+                            label = labels),
+                            hjust = 0,
+                            nudge_x = 0.05,
+                            color = "black",
+                            check_overlap = TRUE) +
+              theme_drwhy() +
+              xlab(lab_x) +
+              ylab(lab_y) +
+              ggtitle("Fairness Metric PCA plot")
 
 }

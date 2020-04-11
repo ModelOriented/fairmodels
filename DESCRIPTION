@@ -15,10 +15,12 @@ Imports:
     patchwork,
     RColorBrewer,
     fmsb, 
-    crayon
+    crayon, 
+    ggdendro
 Suggests:
     mlr,
     ranger,
+    gbm,
     knitr,
     rmarkdown
 RoxygenNote: 7.1.0.9000

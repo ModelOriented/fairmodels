@@ -4,10 +4,14 @@
 \alias{plot_heatmap}
 \title{Plot Heatmap}
 \usage{
-plot_heatmap(x)
+plot_heatmap(x, midpoint = NULL, text = TRUE)
 }
 \arguments{
 \item{x}{fairness object}
+
+\item{midpoint}{midpoint on gradient scale}
+
+\item{text}{deafult \code{TRUE} means it shows values on tiles}
 }
 \value{
 ggplot object

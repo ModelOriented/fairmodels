@@ -56,12 +56,14 @@ create_fairness_pca <- function(x)  UseMethod("create_fairness_pca")
 #' @rdname create_fairness_pca
 create_fairness_pca.fairness_object <- function(x) {
   stopifnot(class(x) == "fairness_object")
+
   # extracting metric data from object
   metric_data <- x$metric_data
   n <- ncol(metric_data)
 
   # normalising
-  metric_num_data <- scale(metric_data[,1:(n-1)])
+  metric_num_data <- as.data.frame(scale(metric_data[,1:(n-1)]))
+
   labs <- metric_data[,n]
 
   create_fairness_object.deafult(data = metric_num_data, labels = labs)
@@ -73,20 +75,17 @@ create_fairness_pca.fairness_object <- function(x) {
 create_fairness_object.deafult <- function(data, labels){
 
   pca_fair <- stats::prcomp(data)
+
+  # variances
   pca_summary <- summary(pca_fair)
   pc_1_2 <- round(pca_summary$importance[2,][1:2],2)
 
-  pca_df <- pca_fair$x
-  pca_df <- as.data.frame(pca_df)
-  pca_df$labels <- labels
-
-
-
-  colnames(pca_df)[ncol(pca_df)] <- "labels"
-
-  fairness_pca <- list(pca_data =as.data.frame(pca_df), pc_1_2 = pc_1_2)
+  fairness_pca <- list(pc_1_2 = pc_1_2, rotation = pca_fair$rotation, x = pca_fair$x, sdev = pca_fair$sdev , labels = labels)
 
   class(fairness_pca) <- "fairness_pca"
   return (fairness_pca)
 
 }
+
+
+

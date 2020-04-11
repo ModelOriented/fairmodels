@@ -52,6 +52,10 @@ create_fairness_object <- function(x,
     cat("Getting data from first (", crayon::green(x$label),")  explainer \n")
   }
 
+  # if columns not in data
+  if (! outcome %in% colnames(data)) stop(cat(outcome, "is not column name in data \n"))
+  if (! group %in% colnames(data))   stop(cat(group, "is not column name in data \n"))
+
   # if base = null take first from data
   if (is.null(base)) base <- data[1, group]
 
@@ -126,7 +130,14 @@ create_fairness_object <- function(x,
   colnames(fairness_df) <- fairness_labels
 
   # S3 object
-  fairness_object <- list(metric_data = fairness_df, groups_data = explainers_groups, explainers = explainers, data = data, cutoff = cutoff)
+  fairness_object <- list(metric_data = fairness_df,
+                          groups_data = explainers_groups,
+                          explainers = explainers,
+                          data = data,
+                          cutoff = cutoff,
+                          outcome = outcome,
+                          group = group,
+                          base = base)
   class(fairness_object) <- "fairness_object"
 
   return(fairness_object)

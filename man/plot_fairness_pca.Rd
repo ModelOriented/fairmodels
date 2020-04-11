@@ -4,10 +4,12 @@
 \alias{plot.fairness_pca}
 \title{Plot fairness PCA}
 \usage{
-\method{plot}{fairness_pca}(x, ...)
+\method{plot}{fairness_pca}(x, scale = 0.5, ...)
 }
 \arguments{
 \item{x}{fairness_pca object}
+
+\item{scale}{tbd- za mało wiem jak na razie}
 
 \item{...}{other parameters}
 }

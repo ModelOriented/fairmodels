@@ -1,9 +1,14 @@
 #' Plot Heatmap
 #'
 #' @param x fairness object
+#' @param midpoint midpoint on gradient scale
+#' @param text deafult \code{TRUE} means it shows values on tiles
 #'
 #' @return ggplot object
 #'
+#' @import patchwork
+#' @import ggplot2
+#' @import ggdendro
 #'
 #' @examples
 #'
@@ -46,38 +51,85 @@
 #' @rdname plot_heatmap
 
 
-plot_heatmap <- function(x){
+plot_heatmap <- function(x, midpoint = NULL, text = TRUE){
 
-    # m <- ncol(x$metric_data)
-    #
-    # heatmap_data <- expand_fairness_object(x)
-    # heatmap_data <- as.data.frame(heatmap_data)
-    # colnames(heatmap_data) <- c("metric","model","score")
-    # heatmap_data$metric <- as.factor(heatmap_data$metric)
-    # heatmap_data$model <- as.factor(heatmap_data$model)
-    # heatmap_data$score <- round(as.numeric(heatmap_data$score),3)
-    #
-    #
-    #
-    # dist(as.matrix(x$metric_data[,1:(m-1)]))
-    # hclust()
-    # as.dendrogram()
-    # ggdendrogram(, rotate = TRUE)
+    m <- ncol(x$metric_data)
 
-  ht  <- as.matrix(x$metric_data[,1:(ncol(x$metric_data)-1)])
-  rownames(ht) <- unlist(x$metric_data["model labels"])
+    heatmap_data <- expand_fairness_object(x)
+    heatmap_data <- as.data.frame(heatmap_data)
+    colnames(heatmap_data) <- c("metric","model","score")
+    heatmap_data$metric <- as.factor(heatmap_data$metric)
+    heatmap_data$model <- as.factor(heatmap_data$model)
+    heatmap_data$score <- round(as.numeric(heatmap_data$score),3)
 
-  ht_transposed <- t(ht)
-  rownames(ht_transposed) <- colnames(x$metric_data)[1:(ncol(x$metric_data)-1)]
 
-  heat_map <- stats::heatmap(ht_transposed)
-  heat_map
-    # if (is.null(midpoint)) midpoint <- max(heatmap_data$score)/2
-    #
-    #
-    # ggplot(heatmap_data, aes(model, metric, fill = score))  +
-    #   geom_tile(colour = "grey50") +
-    #   scale_fill_gradient2(low="#64f211",mid = "#fbff00", high="#ff0000", midpoint = midpoint) +
-    #   theme_drwhy() +
-    #   ggtitle("Heatmap")
-}
+    matrix_model <- x$metric_data[,1:(m-1)]
+    rownames(matrix_model) <- x$metric_data[,m]
+
+    model1 <- hclust(dist(matrix_model))
+    dhc1 <- as.dendrogram(model1)
+    # Rectangular lines
+    dendro_data1 <- dendro_data(dhc1, type = "rectangle")
+    dendogram_top <-   ggplot(segment(dendro_data1)) +
+                        geom_segment(aes(x = x, y = y, xend = xend, yend = yend)) +
+                        # theme = nothing
+                        theme_drwhy() +
+                        theme(panel.grid= element_blank(),
+                              axis.text = element_blank(),
+                              axis.title = element_blank()) +
+                        ggtitle("Heatmap", subtitle = "With dendograms")
+
+
+
+    model2 <- hclust(dist(t(as.matrix(matrix_model))))
+    dhc2 <- as.dendrogram(model2)
+    # Rectangular lines
+    dendro_data2 <- dendro_data(dhc2, type = "rectangle")
+    dendogram_right <-   ggplot(segment(dendro_data2)) +
+      geom_segment(aes(x = x, y = y, xend = xend, yend = yend)) +
+      # theme = nothing
+      theme_minimal() +
+      theme(panel.grid= element_blank(),
+            axis.text = element_blank(),
+            axis.title = element_blank()) +
+      coord_flip()
+
+
+
+
+  if (is.null(midpoint)) midpoint <- max(heatmap_data$score)/2
+
+  # ordered levels of models
+  model_levels <- levels(unlist(dendro_data1$labels['label']))
+
+  # ordered metrics
+  metric_levels <- levels(unlist(dendro_data2$labels['label']))
+
+  # releveling
+  levels(heatmap_data$model) <- model_levels
+  levels(heatmap_data$metric) <- metric_levels
+
+  heatmap <-   ggplot(heatmap_data, aes(model, metric, fill = score))  +
+                      geom_tile(colour = "grey50") +
+    geom_text(aes(label = score), color = "white") +
+                      scale_fill_gradient2(low="navyblue",
+                                           mid = "darkmagenta",
+                                           high="darkorange1",
+                                           midpoint = midpoint) +
+                      theme_drwhy() +
+                      theme(legend.position = "bottom",
+                            axis.ticks = element_blank()
+                            )
+
+  # if text true add text
+  if (text) heatmap <- heatmap + geom_text(aes(label = score), color = "white")
+
+
+
+  # Plot layout
+  dendogram_top + plot_spacer() +
+  heatmap + dendogram_right  +
+  plot_layout(ncol = 2,
+              widths = c(1,0.5),
+              heights = c(0.5,1))
+  }
