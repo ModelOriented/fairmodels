@@ -144,7 +144,7 @@ plot_two_models <- function(fairness_object , fairness_metric = NULL, performanc
     fairness_data$to_vjust[i] <- ifelse(fairness_data[i,"value"] == min(fairness_data[fairness_data$group == fairness_data$group[i],"value"]), 1.5, -0.5)
   }
 
-  print(fairness_data)
+
 
   plot1 <- ggplot(fairness_data, aes(group, value, fill = order)) +
     geom_bar(stat="identity", position = "identity")  +

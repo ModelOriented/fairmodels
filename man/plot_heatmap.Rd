@@ -4,7 +4,7 @@
 \alias{plot_heatmap}
 \title{Plot Heatmap}
 \usage{
-plot_heatmap(x, midpoint = NULL, text = TRUE)
+plot_heatmap(x, midpoint = NULL, text = TRUE, scale = FALSE)
 }
 \arguments{
 \item{x}{fairness object}
@@ -12,6 +12,8 @@ plot_heatmap(x, midpoint = NULL, text = TRUE)
 \item{midpoint}{midpoint on gradient scale}
 
 \item{text}{deafult \code{TRUE} means it shows values on tiles}
+
+\item{scale}{whether metrics should be normalised}
 }
 \value{
 ggplot object

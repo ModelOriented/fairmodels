@@ -40,35 +40,28 @@ plot.fairness_pca <- function(x, scale = 0.5,  ...){
 
   n <- nrow(rotation)
 
-  # to add knn ?
+  for_hjust <- ifelse(pca_feature[1] > 0 , 1.5, -0.3)
 
   ggplot() +
             # hline covers lines from theme
             geom_hline(yintercept = 0, color = "white", linetype = "dashed") +
             geom_vline(xintercept = 0, color = "lightgrey", linetype = "dashed" ) +
-            geom_point(data = pca_data,
-                       aes(PC1, PC2, color = labels),
-                       size = 3) +
-            geom_text(data = pca_data,
-                      aes(PC1, PC2, color = labels, label = labels),
-                      check_overlap = TRUE,
-                      nudge_x = 0.05,
-                      nudge_y = 0.05)+
+            geom_label(data = pca_data,
+                       aes(PC1, PC2, fill = labels, label = labels),
+                       size = 3,
+                       color = "black") +
             geom_segment(data = pca_feature,
                          aes(x=rep(0,n),
                              y =rep(0,n),
                              xend = PC1,
                              yend = PC2 ),
                          arrow = arrow(length = unit(0.2, "cm"))) +
-
             geom_text(data = pca_feature,
                       aes(  x = PC1,
                             y = PC2,
                             label = labels),
-                            hjust = 0,
-                            nudge_x = 0.05,
-                            color = "black",
-                            check_overlap = TRUE) +
+                            hjust = for_hjust,
+                            color = "black") +
               theme_drwhy() +
               xlab(lab_x) +
               ylab(lab_y) +

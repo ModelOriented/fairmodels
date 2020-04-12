@@ -57,7 +57,8 @@ plot.fairness_object <- function(x, ...){
         geom_boxplot(aes(fill = group) ,width = 0.3, alpha = 0.5, outlier.alpha = 0.6) +
         scale_x_continuous(limits = c(0,1)) +
         theme_drwhy_vertical() +
-        ylab(x$group)
+        ylab(x$group) +
+        ggtitle("Probability plot")
   p + facet_grid(rows = vars(label))
 
 }
