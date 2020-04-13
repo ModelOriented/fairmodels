@@ -61,12 +61,9 @@ create_fairness_pca.fairness_object <- function(x) {
   metric_data <- x$metric_data
   n <- ncol(metric_data)
 
-  # normalising
-  metric_num_data <- as.data.frame(scale(metric_data[,1:(n-1)]))
-
   labs <- metric_data[,n]
 
-  create_fairness_object.deafult(data = metric_num_data, labels = labs)
+  create_fairness_object.deafult(data = metric_data[,1:(n-1)], labels = labs)
 }
 
 
@@ -74,7 +71,7 @@ create_fairness_pca.fairness_object <- function(x) {
 #' @rdname create_fairness_pca
 create_fairness_object.deafult <- function(data, labels){
 
-  pca_fair <- stats::prcomp(data)
+  pca_fair <- stats::prcomp(data, scale = TRUE)
 
   # variances
   pca_summary <- summary(pca_fair)

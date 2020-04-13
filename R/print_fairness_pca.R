@@ -6,7 +6,7 @@
 #' @return
 #' @export
 #'
-#' @examples
+
 
 print.fairness_pca <- function(x, ...){
 

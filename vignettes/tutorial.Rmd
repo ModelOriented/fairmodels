@@ -28,10 +28,9 @@ knitr::opts_chunk$set(
 library(fairmodels)
 
 library(DALEX)
-library(gbm)
 library(ranger)
+library(gbm)
 
-library(DT)
 ```
 ## Why? 
 
@@ -85,6 +84,8 @@ But mabey some groups are statisticaly more likely to go do crimes in the future
 To really see what `fairness_object` is about, we need to make some more models and explainers. 
 
 ```{r, results= "hide"}
+set.seed(123)
+
 rf_compas_1 <- ranger(Two_yr_Recidivism ~Number_of_Priors+Age_Below_TwentyFive, data = compas, probability = TRUE)
 lr_compas_1 <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
 rf_compas_2 <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE) 
@@ -136,6 +137,7 @@ Let's see how they perform in diffrent metrics.
 ```{r}
 plot_stacked_barplot(fobject)
 ```
+   
 At first we see that lm is the worst overall model. It does not give us information if plots are similar to each other. 
 
 ## Plot fairness PCA
@@ -152,7 +154,7 @@ plot(fair_pca)
 
 It is done with loadings plot, which can be customised. 
 ```{r}
-plot(fair_pca, scale = 0) # this is deafult
+plot(fair_pca, scale = 0) # deafult = 0.5
 ```
 
 ## Plot Heatmap
@@ -172,18 +174,53 @@ plot_heatmap(fobject, scale = TRUE) # we can turn values off via text= FALSE
 Now we know what those scores are and how "similar" models are to each other
 ## Metric and Performance Plot
 
-Tu coś jeszcze będzie
+Sometimes we would like to know how good are models in performance metrics and in fairness metrics at the same time, to see the tradeoff between them.
+
+```{r}
+plot_performance_with_fairness(fobject)
+```
+
+We can add plots with help of `patchwork` 
+
+```{r}
+library(patchwork)
+library(ggplot2)
+
+p1 <- plot_performance_with_fairness(fobject,  "equal_odds", "accuracy")
+p2 <- plot_performance_with_fairness(fobject,  "fpr_parity", "auc") + ggtitle(" ")
+p3 <- plot_performance_with_fairness(fobject,  "npv_parity", "recall")+ ggtitle(" ")
+p4 <- plot_performance_with_fairness(fobject,  "pred_rate_parity", "f1")+ ggtitle(" ")
+
+(p1 + p2)/(p3+p4)
+```
+
+
 
 ## Back to detail 
 
 When we have narrowed down our search for the best model we can use `two_models_plot` to check once again metrics within groups and decide which model to use.
 
 ```{r}
-fobject <- create_fairness_object(explainer_1,explainer_3, 
+fobject2 <- create_fairness_object(explainer_1,explainer_3, 
                                    data = compas, 
                                   outcome = "Two_yr_Recidivism",
                                   group  = "Ethnicity",
                                   base   = "Caucasian")
-plot_two_models(fobject)
+plot_two_models(fobject2)
 ```
+
+We can also use simple `plot` when we have only few explainers.
+```{r}
+plot(fobject2)
+```
+
+```{r}
+fobject3 <- create_fairness_object(explainer_2,explainer_5, 
+                                   data = compas, 
+                                  outcome = "Two_yr_Recidivism",
+                                  group  = "Sex",
+                                  base = "Female")
+plot(fobject3)
+```
+
 

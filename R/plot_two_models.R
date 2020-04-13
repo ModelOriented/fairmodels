@@ -51,7 +51,7 @@
 plot_two_models <- function(fairness_object , fairness_metric = NULL, performance_metric = NULL){
 
   stopifnot("fairness_object" %in% class(fairness_object))
-  stopifnot(length(fairness_object$explainers) == 2)
+  if (length(fairness_object$explainers) != 2) stop("\nNumber of explainers should be 2 for this function\n")
 
   x <- fairness_object$explainers[[1]]
   y <- fairness_object$explainers[[2]]
@@ -64,16 +64,10 @@ plot_two_models <- function(fairness_object , fairness_metric = NULL, performanc
   # extract row labels
   row_names <- names(tmp)
 
-  if (is.null(data)) {
-    data = fairness_object$data
-    cat("Getting data from first (", crayon::green(x$label),")  explainer \n")
-  }
-
   if (is.null(fairness_metric)) {
     fairness_metric = "acc_parity"
     cat("Fairness Metric is NULL, setting deafult (", crayon::green(fairness_metric),")  \n")
   }
-
 
   if (is.null(performance_metric)) {
     performance_metric = "auc"
@@ -90,8 +84,6 @@ plot_two_models <- function(fairness_object , fairness_metric = NULL, performanc
   # setting model info (temporary)
   x$model_info$type <- "classification"
   y$model_info$type <- "classification"
-
-
 
   # getting data
   from_x <- unlist(fairness_object$groups_data[[1]][fairness_metric])
@@ -131,8 +123,6 @@ plot_two_models <- function(fairness_object , fairness_metric = NULL, performanc
 
   performance_data <- data.frame(x = c(x$lab, y$lab), y = c(perf_val_1, perf_val_2))
 
-
-
   labels <- c(x$label, y$label)
 
   print(performance_metric)
@@ -169,6 +159,7 @@ plot_two_models <- function(fairness_object , fairness_metric = NULL, performanc
     theme(legend.title = element_blank(),
           axis.text.x=element_text(angle=0, hjust=0.3)) +
     scale_fill_manual(values=c("#9a53c9", "#789ffa")) +
+    scale_y_continuous(limits = c(0,1))+
     xlab("Models") +
     ylab(performance_metric)
 

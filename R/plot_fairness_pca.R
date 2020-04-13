@@ -40,7 +40,6 @@ plot.fairness_pca <- function(x, scale = 0.5,  ...){
 
   n <- nrow(rotation)
 
-  for_hjust <- ifelse(pca_feature[1] > 0 , 1.5, -0.3)
 
   ggplot() +
             # hline covers lines from theme
@@ -55,13 +54,13 @@ plot.fairness_pca <- function(x, scale = 0.5,  ...){
                              y =rep(0,n),
                              xend = PC1,
                              yend = PC2 ),
+                         color = "grey",
                          arrow = arrow(length = unit(0.2, "cm"))) +
             geom_text(data = pca_feature,
                       aes(  x = PC1,
                             y = PC2,
                             label = labels),
-                            hjust = for_hjust,
-                            color = "black") +
+                            color = "red") +
               theme_drwhy() +
               xlab(lab_x) +
               ylab(lab_y) +
