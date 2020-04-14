@@ -90,6 +90,7 @@ rf_compas_1 <- ranger(Two_yr_Recidivism ~Number_of_Priors+Age_Below_TwentyFive, 
 lr_compas_1 <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
 rf_compas_2 <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE) 
 rf_compas_3 <- ranger(Two_yr_Recidivism ~ Age_Above_FourtyFive+Misdemeanor, data = compas, probability = TRUE)
+rf_compas_4 <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
 df <- compas
 df$Two_yr_Recidivism <- as.numeric(compas$Two_yr_Recidivism)-1
 gbm_compas_1<- gbm(Two_yr_Recidivism~., data = df) 
@@ -99,12 +100,13 @@ explainer_2 <- explain(lr_compas_1,  data = compas[,-1], y = y_numeric)
 explainer_3 <- explain(rf_compas_2,  data = compas[,-1], y = y_numeric, label = "ranger_2")
 explainer_4 <- explain(rf_compas_3,  data = compas[,-1], y = y_numeric, label = "ranger_3")
 explainer_5 <- explain(gbm_compas_1, data = compas[,-1], y = y_numeric)
+explainer_6 <- explain(rf_compas_4,  data = compas[,-1], y = y_numeric, label = "ranger_4")
 
 ```
    
 Now we create one object with all explainers
 ```{r}
-fobject <- create_fairness_object(explainer_1,explainer_2,explainer_3,explainer_4,explainer_5,
+fobject <- create_fairness_object(explainer_1,explainer_2,explainer_3,explainer_4,explainer_5,explainer_6,
                                   data = compas, 
                                   outcome = "Two_yr_Recidivism",
                                   group  = "Ethnicity",
@@ -161,14 +163,14 @@ plot(fair_pca, scale = 0) # deafult = 0.5
 Another way to deal with grouped data is using heatmap.
 
 ```{r}
-plot_heatmap(fobject)
+plot_heatmap(fobject, subtitle = "With cool colors and dendograms")
 ```
    
 For both models and metrics dendograms are created. This way through hierarchical clustering we can look on similarities between models/metrics. It should give similar but more detailed information than PCA
    
 It can be normalised among metrics.
 ```{r}
-plot_heatmap(fobject, scale = TRUE) # we can turn values off via text= FALSE
+plot_heatmap(fobject, scale = TRUE, title = "Title can be changed") # we can turn values off via text= FALSE
 ```
 
 Now we know what those scores are and how "similar" models are to each other
@@ -187,9 +189,9 @@ library(patchwork)
 library(ggplot2)
 
 p1 <- plot_performance_with_fairness(fobject,  "equal_odds", "accuracy")
-p2 <- plot_performance_with_fairness(fobject,  "fpr_parity", "auc") + ggtitle(" ")
-p3 <- plot_performance_with_fairness(fobject,  "npv_parity", "recall")+ ggtitle(" ")
-p4 <- plot_performance_with_fairness(fobject,  "pred_rate_parity", "f1")+ ggtitle(" ")
+p2 <- plot_performance_with_fairness(fobject,  "fpr_parity", "auc")     + ggtitle(" ") + theme(legend.position = "none")
+p3 <- plot_performance_with_fairness(fobject,  "npv_parity", "recall")  + ggtitle(" ") + theme(legend.position = "none")
+p4 <- plot_performance_with_fairness(fobject,  "pred_rate_parity", "f1")+ ggtitle(" ") + theme(legend.position = "none")
 
 (p1 + p2)/(p3+p4)
 ```

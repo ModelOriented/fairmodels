@@ -4,6 +4,8 @@
 #' @param scale whether metrics should be normalised
 #' @param midpoint midpoint on gradient scale
 #' @param text deafult \code{TRUE} means it shows values on tiles
+#' @param title title of the plot
+#' @param subtitle subtitle of the plot
 #'
 #' @return ggplot object
 #'
@@ -52,7 +54,7 @@
 #' @rdname plot_heatmap
 
 
-plot_heatmap <- function(x, midpoint = NULL, text = TRUE, scale = FALSE){
+plot_heatmap <- function(x, midpoint = NULL, title = NULL, subtitle = NULL,   text = TRUE, scale = FALSE){
 
     m <- ncol(x$metric_data)
 
@@ -73,6 +75,10 @@ plot_heatmap <- function(x, midpoint = NULL, text = TRUE, scale = FALSE){
     model1 <- hclust(dist(matrix_model))
     dhc1 <- as.dendrogram(model1)
 
+    # title and subtitle
+    if (is.null(title))    title    <- "Heatmap"
+    if (is.null(subtitle)) subtitle <- "With dendograms"
+
     dendro_data1 <- dendro_data(dhc1, type = "rectangle")
     dendogram_top <-   ggplot(segment(dendro_data1)) +
                         geom_segment(aes(x = x, y = y, xend = xend, yend = yend)) +
@@ -81,7 +87,7 @@ plot_heatmap <- function(x, midpoint = NULL, text = TRUE, scale = FALSE){
                         theme(panel.grid= element_blank(),
                               axis.text = element_blank(),
                               axis.title = element_blank()) +
-                        ggtitle("Heatmap", subtitle = "With dendograms")
+                        ggtitle(title, subtitle = subtitle)
 
 
     # right dendogram

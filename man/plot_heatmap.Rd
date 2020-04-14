@@ -4,12 +4,23 @@
 \alias{plot_heatmap}
 \title{Plot Heatmap}
 \usage{
-plot_heatmap(x, midpoint = NULL, text = TRUE, scale = FALSE)
+plot_heatmap(
+  x,
+  midpoint = NULL,
+  title = NULL,
+  subtitle = NULL,
+  text = TRUE,
+  scale = FALSE
+)
 }
 \arguments{
 \item{x}{fairness object}
 
 \item{midpoint}{midpoint on gradient scale}
+
+\item{title}{title of the plot}
+
+\item{subtitle}{subtitle of the plot}
 
 \item{text}{deafult \code{TRUE} means it shows values on tiles}
 
