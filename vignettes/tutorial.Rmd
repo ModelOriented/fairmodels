@@ -112,6 +112,13 @@ fobject <- create_fairness_object(explainer_1,explainer_2,explainer_3,explainer_
                                   group  = "Ethnicity",
                                   base   = "Caucasian") 
 ```
+   
+As we can see there is some parameters in fobject such as: 
+1. DALEX  Explainer or list of explainers
+2. data - if first explainer was not provided with whole data frame, we should do it here 
+3. outcome - target variable, what we want to predict
+4. group - protected group/ sensitive variable which can be unfairly treated
+5. base - to what subgroup we want to compare metric scores with. If not provided gets first subgroup in data.
 
 What consists of fairness object? 
 ```{r}
@@ -179,12 +186,12 @@ Now we know what those scores are and how "similar" models are to each other
 Sometimes we would like to know how good are models in performance metrics and in fairness metrics at the same time, to see the tradeoff between them.
 
 ```{r}
-plot_performance_with_fairness(fobject)
+plot_performance_with_fairness(fobject, fairness_metric = "fpr_parity")
 ```
 
 We can add plots with help of `patchwork` 
 
-```{r}
+```{r, results= "hide"}
 library(patchwork)
 library(ggplot2)
 
@@ -193,6 +200,8 @@ p2 <- plot_performance_with_fairness(fobject,  "fpr_parity", "auc")     + ggtitl
 p3 <- plot_performance_with_fairness(fobject,  "npv_parity", "recall")  + ggtitle(" ") + theme(legend.position = "none")
 p4 <- plot_performance_with_fairness(fobject,  "pred_rate_parity", "f1")+ ggtitle(" ") + theme(legend.position = "none")
 
+```
+```{r}
 (p1 + p2)/(p3+p4)
 ```
 
@@ -208,7 +217,8 @@ fobject2 <- create_fairness_object(explainer_1,explainer_3,
                                   outcome = "Two_yr_Recidivism",
                                   group  = "Ethnicity",
                                   base   = "Caucasian")
-plot_two_models(fobject2)
+
+plot_two_models(fobject2, fairness_metric = "fpr_parity") # both fairness_metric and performance_metric have deafult values
 ```
 
 We can also use simple `plot` when we have only few explainers.
@@ -216,12 +226,13 @@ We can also use simple `plot` when we have only few explainers.
 plot(fobject2)
 ```
 
+Of course the protected group can be changed.
 ```{r}
 fobject3 <- create_fairness_object(explainer_2,explainer_5, 
                                    data = compas, 
                                   outcome = "Two_yr_Recidivism",
                                   group  = "Sex",
-                                  base = "Female")
+                                  base = "Female")  
 plot(fobject3)
 ```
 

@@ -81,7 +81,8 @@ plot_heatmap <- function(x, midpoint = NULL, title = NULL, subtitle = NULL,   te
 
     dendro_data1 <- dendro_data(dhc1, type = "rectangle")
     dendogram_top <-   ggplot(segment(dendro_data1)) +
-                        geom_segment(aes(x = x, y = y, xend = xend, yend = yend)) +
+                        geom_segment(aes(x = x, y = y, xend = xend, yend = yend),
+                                     color = "#371ea3") +
                         # theme = nothing
                         theme_drwhy() +
                         theme(panel.grid= element_blank(),
@@ -96,7 +97,8 @@ plot_heatmap <- function(x, midpoint = NULL, title = NULL, subtitle = NULL,   te
 
     dendro_data2 <- dendro_data(dhc2, type = "rectangle")
     dendogram_right <-   ggplot(segment(dendro_data2)) +
-      geom_segment(aes(x = x, y = y, xend = xend, yend = yend)) +
+      geom_segment(aes(x = x, y = y, xend = xend, yend = yend),
+                   color = "#371ea3") +
       # theme = nothing
       theme_minimal() +
       theme(panel.grid= element_blank(),
@@ -121,9 +123,9 @@ plot_heatmap <- function(x, midpoint = NULL, title = NULL, subtitle = NULL,   te
   heatmap <-   ggplot(heatmap_data, aes(model, metric, fill = score))  +
                       geom_tile(colour = "grey50") +
     geom_text(aes(label = score), color = "white") +
-                      scale_fill_gradient2(low="navyblue",
-                                           mid = "darkmagenta",
-                                           high="darkorange1",
+                      scale_fill_gradient2(low="#c7f5bf",
+                                           mid = "#46bac2",
+                                           high="#371ea3",
                                            midpoint = midpoint) +
                       theme_drwhy() +
                       theme(legend.position = "bottom",

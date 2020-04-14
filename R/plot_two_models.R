@@ -144,11 +144,11 @@ plot_two_models <- function(fairness_object , fairness_metric = NULL, performanc
               size=3 ,
               fontface = "bold") +
     theme_drwhy()+
-    theme(axis.text.x=element_text(angle=70, hjust=0.7),
+    theme(axis.text.x=element_text(angle=90, hjust=1),
           legend.position = "none") +
     ylab(fairness_metric) +
     xlab("Models metrics in groups") +
-    scale_fill_manual(values=c("#9a53c9", "#86aff0", "gray")) +
+    scale_fill_manual(values=c("#8bdcbe", "#4378bf", "#ceced9")) +
     ggtitle("2 models plot", subtitle = paste("Created with",x$labels[1],"and", x$labels[2]))
 
   plot2 <- ggplot(performance_data, aes(x,y, fill = x)) +
@@ -158,7 +158,7 @@ plot_two_models <- function(fairness_object , fairness_metric = NULL, performanc
     theme_drwhy() +
     theme(legend.title = element_blank(),
           axis.text.x=element_text(angle=0, hjust=0.3)) +
-    scale_fill_manual(values=c("#9a53c9", "#789ffa")) +
+    scale_fill_manual(values=c("#8bdcbe", "#4378bf")) +
     scale_y_continuous(limits = c(0,1))+
     xlab("Models") +
     ylab(performance_metric)

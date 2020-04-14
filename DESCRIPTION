@@ -13,7 +13,6 @@ Imports:
     fairness, 
     ggplot2,
     patchwork,
-    RColorBrewer,
     fmsb, 
     crayon, 
     ggdendro

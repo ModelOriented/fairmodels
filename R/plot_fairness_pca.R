@@ -49,6 +49,7 @@ plot.fairness_pca <- function(x, scale = 0.5,  ...){
                        aes(PC1, PC2, fill = labels, label = labels),
                        size = 3,
                        color = "black") +
+            scale_fill_manual(values = DALEX::colors_discrete_drwhy(n = n)) +
             geom_segment(data = pca_feature,
                          aes(x=rep(0,n),
                              y =rep(0,n),
@@ -62,6 +63,7 @@ plot.fairness_pca <- function(x, scale = 0.5,  ...){
                             label = labels),
                             color = "red") +
               theme_drwhy() +
+              theme(legend.position = "none") + #without legend
               xlab(lab_x) +
               ylab(lab_y) +
               ggtitle("Fairness Metric PCA plot")
