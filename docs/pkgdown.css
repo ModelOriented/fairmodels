@@ -180,7 +180,7 @@ a.anchor {
 
 /* All levels of nav */
 
-nav[data-toggle='toc'] .nav > li > a {
+/*nav[data-toggle='toc'] .nav > li > a {
   padding: 4px 20px 4px 6px;
   font-size: 1.5rem;
   font-weight: 400;
@@ -202,7 +202,7 @@ nav[data-toggle='toc'] .nav > .active:focus > a {
   font-weight: 400;
   color: inherit;
   border-left: 2px solid #878787;
-}
+}*/
 
 /* Nav: second level (shown on .active) */
 
@@ -210,7 +210,7 @@ nav[data-toggle='toc'] .nav .nav {
   display: none; /* Hide by default, but at >768px, show it */
   padding-bottom: 10px;
 }
-
+/*
 nav[data-toggle='toc'] .nav .nav > li > a {
   padding-left: 16px;
   font-size: 1.35rem;
@@ -227,7 +227,7 @@ nav[data-toggle='toc'] .nav .nav > .active:focus > a {
   padding-left: 15px;
   font-weight: 500;
   font-size: 1.35rem;
-}
+}*/
 
 /* orcid ------------------------------------------------------------------- */
 

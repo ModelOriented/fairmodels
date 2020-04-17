@@ -1,1 +1,3 @@
-destination: docs
+template:
+  package: DrWhyTemplate
+  default_assets: false
