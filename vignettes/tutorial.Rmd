@@ -113,12 +113,12 @@ fobject <- create_fairness_object(explainer_1,explainer_2,explainer_3,explainer_
                                   base   = "Caucasian") 
 ```
    
-As we can see there is some parameters in fobject such as: 
-1. DALEX  Explainer or list of explainers
-2. data - if first explainer was not provided with whole data frame, we should do it here 
-3. outcome - target variable, what we want to predict
-4. group - protected group/ sensitive variable which can be unfairly treated
-5. base - to what subgroup we want to compare metric scores with. If not provided gets first subgroup in data.
+As we can see there is some parameters in fobject such as:    
+1. DALEX  Explainer or list of explainers   
+2. data - if first explainer was not provided with whole data frame, we should do it here    
+3. outcome - target variable, what we want to predict   
+4. group - protected group/ sensitive variable which can be unfairly treated   
+5. base - to what subgroup we want to compare metric scores with. If not provided gets first subgroup in data.   
 
 What consists of fairness object? 
 ```{r}

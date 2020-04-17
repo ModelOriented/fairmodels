@@ -1,3 +1,13 @@
+  <!-- badges: start -->
+  [![Codecov test coverage](https://codecov.io/gh/jakwisn/FairModels/branch/master/graph/badge.svg)](https://codecov.io/gh/jakwisn/FairModels?branch=master)
+  <!-- badges: end -->
+  
+  <!-- badges: start -->
+  [![R build status](https://github.com/jakwisn/FairModels/workflows/R-CMD-check/badge.svg)](https://github.com/jakwisn/FairModels/actions)
+  <!-- badges: end -->
+  
+  
+
 # FairModels [Name can change]
 ## Mi^2 Data Lab
 
