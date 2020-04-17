@@ -10,13 +10,21 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- dalexverse --><link href="../dalexverse.css" rel="stylesheet">
+<link href="../dalexverse-2.css" rel="stylesheet">
+<!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="tutorial">
 <meta property="og:description" content="FairModels">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<![endif]--><!-- google analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-5650686-14"></script><script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
+
+ gtag('config', 'UA-5650686-14');
+</script>
 </head>
 <body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
@@ -29,14 +37,18 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">FairModels</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
-      </span>
-    </div>
 
+      <div class="navbar-brand-container">
+        <a class="navbar-brand" href="../index.html">FairModels</a>
+        <div class="info">
+          <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
+           developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
+          <span class="version version-default">0.1.0</span>
+        </div>
+      </div>
+    </div>
     <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="../index.html">
     <span class="fas fa fas fa-home fa-lg"></span>
@@ -58,8 +70,8 @@
     </li>
   </ul>
 </li>
+        
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -127,9 +139,9 @@
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( [33m default [39m ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( [33m default [39m )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1372661 , mean =  0.4550752 , max =  0.851893  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1416477 , mean =  0.5454972 , max =  0.8670898  
 #&gt;   -&gt; residual function :  difference between y and yhat ( [33m default [39m )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7863995 , mean =  4.465655e-05 , max =  0.8403672  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8431245 , mean =  -0.0006170654 , max =  0.7891836  
 #&gt;  [32m A new explainer has been created! [39m</code></pre>
 <p>Than we create <code>fairness_object</code> with <code><a href="../reference/create_fairness_object.html">create_fairness_object()</a></code></p>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">fobject</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_object.html">create_fairness_object</a></span>(<span class="no">rf_explainer</span>,
@@ -180,19 +192,19 @@
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">fobject</span>)</pre></body></html></div>
 <pre><code>#&gt; Fairness Matrics: 
 #&gt;   equal_odds pred_rate_parity acc_parity fnr_parity fpr_parity npv_parity
-#&gt; 1  0.3860846        0.5153328  0.4500568  1.2013032  1.7007271  0.7820673
-#&gt; 2  0.5333551        0.1655958  0.2037848  1.8593806  2.7201109  1.4264519
-#&gt; 3  0.3483848        0.5750418  0.5111515  1.4173104  1.8830200  0.6388394
-#&gt; 4  0.5965355        0.7206892  0.3320299  0.8397114  0.9987922  0.7617980
-#&gt; 5  0.4364146        0.3839622  0.3732516  1.7778982  1.9837027  1.0073363
-#&gt; 6  0.3687596        0.4800093  0.4127110  1.2317863  1.9813949  0.5644851
+#&gt; 1  1.5803060        0.7820673  0.4500568  1.7007271  1.2013032  0.5153328
+#&gt; 2  2.8289962        1.4264519  0.2037848  2.7201109  1.8593806  0.1655958
+#&gt; 3  1.8188817        0.6388394  0.5111515  1.8830200  1.4173104  0.5750418
+#&gt; 4  0.7290221        0.7617980  0.3320299  0.9987922  0.8397114  0.7206892
+#&gt; 5  2.2816360        1.0073363  0.3732516  1.9837027  1.7778982  0.3839622
+#&gt; 6  1.5807925        0.5644851  0.4127110  1.9813949  1.2317863  0.4800093
 #&gt;   spec_parity mcc_parity model labels
-#&gt; 1   1.5803060   1.979338       ranger
-#&gt; 2   2.8289962   2.575408           lm
-#&gt; 3   1.8188817   2.299768     ranger_2
-#&gt; 4   0.7290221   2.208520     ranger_3
-#&gt; 5   2.2816360   2.563100          gbm
-#&gt; 6   1.5807925   1.616572     ranger_4
+#&gt; 1   0.3860846   1.979338       ranger
+#&gt; 2   0.5333551   2.575408           lm
+#&gt; 3   0.3483848   2.299768     ranger_2
+#&gt; 4   0.5965355   2.208520     ranger_3
+#&gt; 5   0.4364146   2.563100          gbm
+#&gt; 6   0.3687596   1.616572     ranger_4
 #&gt; Models explained:
 #&gt; [1] "ranger"
 #&gt; [1] "lm"
@@ -206,15 +218,15 @@
 #&gt; 4                 0       -0.6843578                   no                   no
 #&gt; 5                 1        2.2668817                   no                   no
 #&gt;    Sex Misdemeanor Ethnicity probabilities
-#&gt; 4 Male         yes     Other     0.2187197
-#&gt; 5 Male          no Caucasian     0.6805686</code></pre>
+#&gt; 4 Male         yes     Other     0.7812803
+#&gt; 5 Male          no Caucasian     0.3194314</code></pre>
 <p>Fairness object gets metrics based on confussion matrix and checks them over the groups.</p>
 <div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="co"># for the first model</span>
 <span class="no">fobject</span>$<span class="no">groups_data</span><span class="kw">[[</span><span class="fl">1</span>]]$<span class="no">fpr_parity</span></pre></body></html></div>
 <pre><code>#&gt;        Caucasian African_American            Asian         Hispanic 
-#&gt;        1.0000000        1.7850275        0.7050083        0.8614320 
+#&gt;        1.0000000        0.5976741        1.1001071        1.0430645 
 #&gt;  Native_American            Other 
-#&gt;        0.9008439        0.6170164</code></pre>
+#&gt;        0.3520343        1.0078400</code></pre>
 <p>If we were going only to take score from certain metric (Let’s say fpr and 0.3) we wouldn’t know if it is good or bad. But we are aiming for <strong>equal treatment over all groups</strong> so if this metric score would be the same in all groups it would be very good. But the metrics wouldn’t be comparable between each others (fpr - 0.3 in all groups and acc_parity - 0.9 in all groups, both are good in terms of parity). That is wy we use <strong>base</strong> - to set benchmark. And for example Caucasian in fpr had score of 0.3 and African American 0.6. After setting <code>base = Caucasian</code> Caucasian would have score 1, and African American 2, because is two times higher score in fpr.</p>
 <p><em>Note: When dealing with aggregating plots we use formula sum(abs(1-score)) to represent aggregated score in metrics. In short is how much it differs from ideal scores.</em></p>
 </div>
@@ -238,13 +250,13 @@
 <div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">fair_pca</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_pca.html">create_fairness_pca</a></span>(<span class="no">fobject</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">fair_pca</span>)</pre></body></html></div>
 <pre><code>#&gt; Fairness PCA : 
-#&gt;             PC1        PC2         PC3         PC4         PC5           PC6
-#&gt; [1,]  1.0837140  0.5836255 -0.14905727 -0.41680780  0.08358422 -5.273559e-16
-#&gt; [2,] -3.9546156 -0.6791895 -0.48133463 -0.04708664 -0.14119289 -5.551115e-16
-#&gt; [3,]  0.8568839  1.2711879  0.95109734  0.06804739 -0.25553456 -1.047773e-15
-#&gt; [4,]  2.1863884 -2.5333952  0.08990424  0.05665421 -0.02606519  1.200971e-15
-#&gt; [5,] -1.4452542  0.2196268  0.82072568  0.12819031  0.29607245 -6.106227e-16
-#&gt; [6,]  1.2728834  1.1381446 -1.23133535  0.21100254  0.04313597 -8.326673e-16
+#&gt;             PC1        PC2         PC3         PC4         PC5          PC6
+#&gt; [1,]  1.0837140 -0.5836255  0.14905727 -0.41680780 -0.08358422 3.330669e-16
+#&gt; [2,] -3.9546156  0.6791895  0.48133463 -0.04708664  0.14119289 6.661338e-16
+#&gt; [3,]  0.8568839 -1.2711879 -0.95109734  0.06804739  0.25553456 2.775558e-17
+#&gt; [4,]  2.1863884  2.5333952 -0.08990424  0.05665421  0.02606519 1.162482e-15
+#&gt; [5,] -1.4452542 -0.2196268 -0.82072568  0.12819031 -0.29607245 1.110223e-16
+#&gt; [6,]  1.2728834 -1.1381446  1.23133535  0.21100254 -0.04313597 2.220446e-16
 #&gt; 
 #&gt; Created with: 
 #&gt; [1] "ranger"   "lm"       "ranger_2" "ranger_3" "gbm"      "ranger_4"
@@ -335,7 +347,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>

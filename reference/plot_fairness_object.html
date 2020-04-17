@@ -32,9 +32,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
+<!-- dalexverse -->
+<link href="../dalexverse.css" rel="stylesheet">
+<link href="../dalexverse-2.css" rel="stylesheet">
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script>
+
+
 
 
 
@@ -54,7 +60,15 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
+<!-- google analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-5650686-14""></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
 
+ gtag('config', 'UA-5650686-14');
+</script>
 
   </head>
 
@@ -70,14 +84,18 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">FairModels</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
-      </span>
-    </div>
 
+      <div class="navbar-brand-container">
+        <a class="navbar-brand" href="../index.html">FairModels</a>
+        <div class="info">
+          <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
+           developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
+          <span class="version version-default">0.1.0</span>
+        </div>
+      </div>
+    </div>
     <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="../index.html">
     <span class="fas fa fas fa-home fa-lg"></span>
@@ -99,8 +117,6 @@
     </li>
   </ul>
 </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
         
       </ul>
       
@@ -160,24 +176,20 @@
 #&gt;   -&gt; model label       :  ranger  ( <span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
 #&gt;   -&gt; target variable   :  6172  values 
-#&gt;   -&gt; data              :  A column identical to the target variable `y` has been found in the `data`.  ( </span><span style='color: #BB0000;'> WARNING </span><span> )
-#&gt;   -&gt; data              :  It is highly recommended to pass `data` without the target variable column
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1398748 , mean =  0.4555491 , max =  0.8531237  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1468763 , mean =  0.5444509 , max =  0.8601252  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7950232 , mean =  -0.0004292099 , max =  0.8448937  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8448937 , mean =  0.0004292099 , max =  0.7950232  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>glm_compas</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
 #&gt;   -&gt; target variable   :  6172  values 
-#&gt;   -&gt; data              :  A column identical to the target variable `y` has been found in the `data`.  ( </span><span style='color: #BB0000;'> WARNING </span><span> )
-#&gt;   -&gt; data              :  It is highly recommended to pass `data` without the target variable column
 #&gt;   -&gt; model_info        :  package stats , ver. 3.6.3 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1144574 , mean =  0.4551199 , max =  0.995477  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.004522979 , mean =  0.5448801 , max =  0.8855426  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.9767658 , mean =  5.050949e-13 , max =  0.8822826  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8822826 , mean =  -5.051352e-13 , max =  0.9767658  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='no'>fobject</span> <span class='kw'>&lt;-</span><span class='fu'><a href='create_fairness_object.html'>create_fairness_object</a></span>(<span class='no'>explainer_glm</span>, <span class='no'>explainer_rf</span>,
                              <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
@@ -199,7 +211,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
