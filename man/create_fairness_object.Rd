@@ -11,6 +11,7 @@ create_fairness_object(
   outcome,
   group,
   base = NULL,
+  outcome_base = NULL,
   cutoff = 0.5
 )
 }
@@ -26,6 +27,8 @@ create_fairness_object(
 \item{group}{protected group/variable that}
 
 \item{base}{in regard to what subgroup of group}
+
+\item{outcome_base}{outcome factor level to be considered as class \code{true}}
 
 \item{cutoff}{threshold for probability, deafult 0.5}
 }

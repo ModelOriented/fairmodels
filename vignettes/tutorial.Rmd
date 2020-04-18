@@ -67,7 +67,8 @@ fobject <- create_fairness_object(rf_explainer,
                                   data = compas, # it is important to specify all data if explainer doesn't have it
                                   outcome = "Two_yr_Recidivism", # target variable
                                   group  = "Ethnicity",          # protected group
-                                  base   = "Caucasian")          # to what subgroupwe want to compare
+                                  base   = "Caucasian",          # to what subgroupwe want to compare
+                                  outcome_base = "1")            # outcome_base - what we consider true case
                                                                  # cutoff - optional, deafult = 0.5
 ```
 
@@ -110,7 +111,8 @@ fobject <- create_fairness_object(explainer_1,explainer_2,explainer_3,explainer_
                                   data = compas, 
                                   outcome = "Two_yr_Recidivism",
                                   group  = "Ethnicity",
-                                  base   = "Caucasian") 
+                                  base   = "Caucasian", 
+                                  outcome_base = "1")
 ```
    
 As we can see there is some parameters in fobject such as:    
@@ -216,10 +218,15 @@ fobject2 <- create_fairness_object(explainer_1,explainer_3,
                                    data = compas, 
                                   outcome = "Two_yr_Recidivism",
                                   group  = "Ethnicity",
-                                  base   = "Caucasian")
+                                  base   = "Caucasian", 
+                                  outcome_base = "1")
 
-plot_two_models(fobject2, fairness_metric = "fpr_parity") # both fairness_metric and performance_metric have deafult values
+
+plot_two_models(fobject2, fairness_metric = "fpr_parity")
 ```
+
+
+
 
 We can also use simple `plot` when we have only few explainers.
 ```{r}

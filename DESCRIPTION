@@ -10,12 +10,13 @@ Encoding: UTF-8
 LazyData: true
 Imports: 
     DALEX, 
-    fairness, 
+    fairness,
     ggplot2,
     patchwork,
-    fmsb, 
     crayon, 
     ggdendro
+Remotes: 
+    kozodoi/fairness
 Suggests:
     mlr,
     ranger,

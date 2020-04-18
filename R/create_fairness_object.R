@@ -6,7 +6,9 @@
 #' @param outcome the target of classification
 #' @param group protected group/variable that
 #' @param base in regard to what subgroup of group
+#' @param outcome_base outcome factor level to be considered as class \code{true}
 #' @param cutoff threshold for probability, deafult 0.5
+#'
 #' @return An object of class \code{fairness object}
 #'
 #' It's a list with following fields:
@@ -44,6 +46,7 @@ create_fairness_object <- function(x,
                                    outcome,
                                    group,
                                    base = NULL,
+                                   outcome_base = NULL,
                                    cutoff = 0.5) {
 
   # check if data provided, if not get data from first explainer
@@ -59,7 +62,12 @@ create_fairness_object <- function(x,
   # if base = null take first from data
   if (is.null(base)) base <- data[1, group]
 
-  # checking if explainers
+  if (!is.factor(data[,outcome])){
+    cat("\nChanging outcome to factor\n")
+    data[,outcome] <- as.factor(data[,outcome])
+    }
+
+  if (is.null(outcome_base)) outcome_base <- levels(data[,outcome])[1]
 
   # explainers from function
   explainers <- c(list(x), list(...))
@@ -74,8 +82,15 @@ create_fairness_object <- function(x,
 
 
   # labels for future columns
-  fairness_labels <- c("equal_odds", "pred_rate_parity", "acc_parity", "fnr_parity",
-                       "fpr_parity", "npv_parity", "spec_parity", "mcc_parity", "model labels")
+  fairness_labels <- c("equal_odds",
+                       "pred_rate_parity",
+                       "acc_parity",
+                       "fnr_parity",
+                       "fpr_parity",
+                       "npv_parity",
+                       "spec_parity",
+                       "mcc_parity",
+                       "model labels")
 
   for (i in seq_along(explainers)) {
 
@@ -84,22 +99,74 @@ create_fairness_object <- function(x,
     label <- explainers[[i]]$label
 
 
-    eqo <- fairness::equal_odds(data = data, outcome = outcome, group = group, probs = "probabilities", base = base, cutoff = cutoff)
-    pr  <- fairness::pred_rate_parity(data = data, outcome = outcome, group = group, probs = "probabilities", base = base, cutoff = cutoff)
-    acc <- fairness::acc_parity(data = data, outcome = outcome, group = group, probs = "probabilities", base = base, cutoff = cutoff)
-    fnr <- fairness::fnr_parity(data = data, outcome = outcome, group = group, probs = "probabilities", base = base, cutoff = cutoff)
-    fpr <- fairness::fpr_parity(data = data, outcome = outcome, group = group, probs = "probabilities", base = base, cutoff = cutoff)
-    npv <- fairness::npv_parity(data = data, outcome = outcome, group = group, probs = "probabilities", base = base, cutoff = cutoff)
-    spc <- fairness::spec_parity(data = data, outcome = outcome, group = group, probs = "probabilities", base = base, cutoff = cutoff)
+    eqo <- fairness::equal_odds(data = data,
+                                outcome = outcome,
+                                group = group,
+                                probs = "probabilities",
+                                base = base,
+                                cutoff = cutoff,
+                                outcome_base = outcome_base)
+    pr  <- fairness::pred_rate_parity(data = data,
+                                      outcome = outcome,
+                                      group = group,
+                                      probs = "probabilities",
+                                      base = base,
+                                      cutoff = cutoff,
+                                      outcome_base = outcome_base)
+    acc <- fairness::acc_parity(data = data,
+                                outcome = outcome,
+                                group = group,
+                                probs = "probabilities",
+                                base = base,
+                                cutoff = cutoff,
+                                outcome_base = outcome_base)
+    fnr <- fairness::fnr_parity(data = data,
+                                outcome = outcome,
+                                group = group,
+                                probs = "probabilities",
+                                base = base,
+                                cutoff = cutoff,
+                                outcome_base = outcome_base)
+    fpr <- fairness::fpr_parity(data = data,
+                                outcome = outcome,
+                                group = group,
+                                probs = "probabilities",
+                                base = base,
+                                cutoff = cutoff,
+                                outcome_base = outcome_base)
+    npv <- fairness::npv_parity(data = data,
+                                outcome = outcome,
+                                group = group,
+                                probs = "probabilities",
+                                base = base,
+                                cutoff = cutoff,
+                                outcome_base = outcome_base)
+    spc <- fairness::spec_parity(data = data,
+                                 outcome = outcome,
+                                 group = group,
+                                 probs = "probabilities",
+                                 base = base,
+                                 cutoff = cutoff,
+                                 outcome_base = outcome_base)
     # necessary?
-    mcc <- fairness::mcc_parity(data = data, outcome = outcome, group = group, probs = "probabilities", base = base, cutoff = cutoff)
+    mcc <- fairness::mcc_parity(data = data,
+                                outcome = outcome,
+                                group = group,
+                                probs = "probabilities",
+                                base = base,
+                                cutoff = cutoff,
+                                outcome_base = outcome_base)
 
     # cummuleted metrics "how much to base level" over all groups, then summed
     cummulated_metrics <- lapply(list(eqo, pr, acc, fnr, fpr, npv, spc, mcc), absolute)
+    cummulated_metrics <- unlist(cummulated_metrics)
 
+    # checking if NaN's were created, changing them to NA
     if(NaN %in% cummulated_metrics){
-      cat(crayon::red("\nWARNING! NA's created, check fairness_object$groups_data \n\n"))
+      nans <- is.nan(cummulated_metrics)
+      cummulated_metrics[nans] <- NA
 
+      cat(crayon::red("\nWARNING! NA's created, check fairness_object$groups_data \n\n"))
     }
 
 
@@ -117,7 +184,7 @@ create_fairness_object <- function(x,
     # with label
     metrics <- c(metrics, label)
 
-    fairness_matrix[i, ] <- c(unlist(cummulated_metrics),label)
+    fairness_matrix[i, ] <- c(cummulated_metrics,label)
 
     # all information can be taken from here,
     # every group value for every metric for every explainer

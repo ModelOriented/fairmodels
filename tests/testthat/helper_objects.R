@@ -11,11 +11,11 @@ ranger_compas <- ranger(Two_yr_Recidivism~., data=compas, probability = TRUE)
 
 df <- compas
 df$Two_yr_Recidivism <- as.numeric(df$Two_yr_Recidivism) -1
-gbm_compas <- gbm(Two_yr_Recidivism~., data=df)
+gbm_compas <- gbm(Two_yr_Recidivism~., data=df , distribution = "bernoulli")
 
-explainer_glm    <- explain(glm_compas, data = compas[-1]  , y = y_numeric)
-explainer_ranger <- explain(ranger_compas,data = compas[-1], y = y_numeric)
-explainer_gbm <- explain(gbm_compas,data = compas[-1]   , y = y_numeric)
+explainer_glm    <- explain(glm_compas, data = compas[-1]  , y = y_numeric, verbose = FALSE)
+explainer_ranger <- explain(ranger_compas,data = compas[-1], y = y_numeric, verbose = FALSE)
+explainer_gbm    <- explain(gbm_compas,data = compas[-1]   , y = y_numeric, verbose = FALSE)
 
 fobject_compas_proba <- create_fairness_object(explainer_glm,explainer_ranger, explainer_gbm,
                                                data = compas,
