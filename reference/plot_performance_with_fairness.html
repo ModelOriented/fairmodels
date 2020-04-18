@@ -191,36 +191,36 @@
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.2141059 , mean =  0.5451697 , max =  0.7019599  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.2980401 , mean =  0.4548303 , max =  0.7858941  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7019599 , mean =  -0.0002895645 , max =  0.7627213  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7627213 , mean =  0.0002895645 , max =  0.7019599  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>lr_compas_1</span>,  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>[,-<span class='fl'>1</span>], <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  6  cols 
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package stats , ver. 3.6.3 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.004522979 , mean =  0.5448801 , max =  0.8855426  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1144574 , mean =  0.4551199 , max =  0.995477  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8822826 , mean =  -5.051352e-13 , max =  0.9767658  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.9767658 , mean =  5.050949e-13 , max =  0.8822826  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>rf_compas_2</span>,  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>[,-<span class='fl'>1</span>], <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"ranger_2"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger_2 
 #&gt;   -&gt; data              :  6172  rows  6  cols 
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1418326 , mean =  0.5447437 , max =  0.8636857  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1363143 , mean =  0.4552563 , max =  0.8581674  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8397475 , mean =  0.0001363626 , max =  0.7923823  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7923823 , mean =  -0.0001363626 , max =  0.8397475  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>rf_compas_3</span>,  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>[,-<span class='fl'>1</span>], <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"ranger_3"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger_3 
 #&gt;   -&gt; data              :  6172  rows  6  cols 
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.4871908 , mean =  0.5448659 , max =  0.6980261  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.3019739 , mean =  0.4551341 , max =  0.5128092  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.6980261 , mean =  1.419864e-05 , max =  0.5128092  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.5128092 , mean =  -1.419864e-05 , max =  0.6980261  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='no'>fobject</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_fairness_object.html'>create_fairness_object</a></span>(<span class='no'>explainer_1</span>,<span class='no'>explainer_2</span>,<span class='no'>explainer_3</span>,<span class='no'>explainer_4</span>,
                                     <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>,

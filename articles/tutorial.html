@@ -139,16 +139,17 @@
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( [33m default [39m ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( [33m default [39m )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1603076 , mean =  0.5448919 , max =  0.8609738  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1267594 , mean =  0.4546045 , max =  0.8414208  
 #&gt;   -&gt; residual function :  difference between y and yhat ( [33m default [39m )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8428607 , mean =  -1.178066e-05 , max =  0.7884089  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7826477 , mean =  0.0005153956 , max =  0.8422395  
 #&gt;  [32m A new explainer has been created! [39m</code></pre>
 <p>Than we create <code>fairness_object</code> with <code><a href="../reference/create_fairness_object.html">create_fairness_object()</a></code></p>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">fobject</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_object.html">create_fairness_object</a></span>(<span class="no">rf_explainer</span>,
                                   <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>, <span class="co"># it is important to specify all data if explainer doesn't have it</span>
                                   <span class="kw">outcome</span> <span class="kw">=</span> <span class="st">"Two_yr_Recidivism"</span>, <span class="co"># target variable</span>
                                   <span class="kw">group</span>  <span class="kw">=</span> <span class="st">"Ethnicity"</span>,          <span class="co"># protected group</span>
-                                  <span class="kw">base</span>   <span class="kw">=</span> <span class="st">"Caucasian"</span>)          <span class="co"># to what subgroupwe want to compare</span>
+                                  <span class="kw">base</span>   <span class="kw">=</span> <span class="st">"Caucasian"</span>,          <span class="co"># to what subgroupwe want to compare</span>
+                                  <span class="kw">outcome_base</span> <span class="kw">=</span> <span class="st">"1"</span>)            <span class="co"># outcome_base - what we consider true case</span>
                                                                  <span class="co"># cutoff - optional, deafult = 0.5</span></pre></body></html></div>
 <p>And we plot!</p>
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">fobject</span>)</pre></body></html></div>
@@ -181,7 +182,8 @@
                                   <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>,
                                   <span class="kw">outcome</span> <span class="kw">=</span> <span class="st">"Two_yr_Recidivism"</span>,
                                   <span class="kw">group</span>  <span class="kw">=</span> <span class="st">"Ethnicity"</span>,
-                                  <span class="kw">base</span>   <span class="kw">=</span> <span class="st">"Caucasian"</span>)</pre></body></html></div>
+                                  <span class="kw">base</span>   <span class="kw">=</span> <span class="st">"Caucasian"</span>,
+                                  <span class="kw">outcome_base</span> <span class="kw">=</span> <span class="st">"1"</span>)</pre></body></html></div>
 <p>As we can see there is some parameters in fobject such as:<br>
 1. DALEX Explainer or list of explainers<br>
 2. data - if first explainer was not provided with whole data frame, we should do it here<br>
@@ -192,12 +194,12 @@
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">fobject</span>)</pre></body></html></div>
 <pre><code>#&gt; Fairness Matrics: 
 #&gt;   equal_odds pred_rate_parity acc_parity fnr_parity fpr_parity npv_parity
-#&gt; 1  1.5803060        0.7820673  0.4500568  1.7007271  1.2013032  0.5153328
-#&gt; 2  2.8289962        1.4264519  0.2037848  2.7201109  1.8593806  0.1655958
-#&gt; 3  1.8188817        0.6388394  0.5111515  1.8830200  1.4173104  0.5750418
-#&gt; 4  0.7290221        0.7617980  0.3320299  0.9987922  0.8397114  0.7206892
-#&gt; 5  2.2816360        1.0073363  0.3732516  1.9837027  1.7778982  0.3839622
-#&gt; 6  1.5807925        0.5644851  0.4127110  1.9813949  1.2317863  0.4800093
+#&gt; 1  1.5803060        0.7820673  0.4500568  1.2013032  1.7007271  0.5153328
+#&gt; 2  2.8289962        1.4264519  0.2037848  1.8593806  2.7201109  0.1655958
+#&gt; 3  1.8188817        0.6388394  0.5111515  1.4173104  1.8830200  0.5750418
+#&gt; 4  0.7290221        0.7617980  0.3320299  0.8397114  0.9987922  0.7206892
+#&gt; 5  2.2816360        1.0073363  0.3732516  1.7778982  1.9837027  0.3839622
+#&gt; 6  1.5807925        0.5644851  0.4127110  1.2317863  1.9813949  0.4800093
 #&gt;   spec_parity mcc_parity model labels
 #&gt; 1   0.3860846   1.979338       ranger
 #&gt; 2   0.5333551   2.575408           lm
@@ -218,15 +220,15 @@
 #&gt; 4                 0       -0.6843578                   no                   no
 #&gt; 5                 1        2.2668817                   no                   no
 #&gt;    Sex Misdemeanor Ethnicity probabilities
-#&gt; 4 Male         yes     Other     0.7812803
-#&gt; 5 Male          no Caucasian     0.3194314</code></pre>
+#&gt; 4 Male         yes     Other     0.2187197
+#&gt; 5 Male          no Caucasian     0.6805686</code></pre>
 <p>Fairness object gets metrics based on confussion matrix and checks them over the groups.</p>
 <div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="co"># for the first model</span>
 <span class="no">fobject</span>$<span class="no">groups_data</span><span class="kw">[[</span><span class="fl">1</span>]]$<span class="no">fpr_parity</span></pre></body></html></div>
 <pre><code>#&gt;        Caucasian African_American            Asian         Hispanic 
-#&gt;        1.0000000        0.5976741        1.1001071        1.0430645 
+#&gt;        1.0000000        1.7850275        0.7050083        0.8614320 
 #&gt;  Native_American            Other 
-#&gt;        0.3520343        1.0078400</code></pre>
+#&gt;        0.9008439        0.6170164</code></pre>
 <p>If we were going only to take score from certain metric (Let’s say fpr and 0.3) we wouldn’t know if it is good or bad. But we are aiming for <strong>equal treatment over all groups</strong> so if this metric score would be the same in all groups it would be very good. But the metrics wouldn’t be comparable between each others (fpr - 0.3 in all groups and acc_parity - 0.9 in all groups, both are good in terms of parity). That is wy we use <strong>base</strong> - to set benchmark. And for example Caucasian in fpr had score of 0.3 and African American 0.6. After setting <code>base = Caucasian</code> Caucasian would have score 1, and African American 2, because is two times higher score in fpr.</p>
 <p><em>Note: When dealing with aggregating plots we use formula sum(abs(1-score)) to represent aggregated score in metrics. In short is how much it differs from ideal scores.</em></p>
 </div>
@@ -250,13 +252,13 @@
 <div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">fair_pca</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_pca.html">create_fairness_pca</a></span>(<span class="no">fobject</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">fair_pca</span>)</pre></body></html></div>
 <pre><code>#&gt; Fairness PCA : 
-#&gt;             PC1        PC2         PC3         PC4         PC5          PC6
-#&gt; [1,]  1.0837140 -0.5836255  0.14905727 -0.41680780 -0.08358422 3.330669e-16
-#&gt; [2,] -3.9546156  0.6791895  0.48133463 -0.04708664  0.14119289 6.661338e-16
-#&gt; [3,]  0.8568839 -1.2711879 -0.95109734  0.06804739  0.25553456 2.775558e-17
-#&gt; [4,]  2.1863884  2.5333952 -0.08990424  0.05665421  0.02606519 1.162482e-15
-#&gt; [5,] -1.4452542 -0.2196268 -0.82072568  0.12819031 -0.29607245 1.110223e-16
-#&gt; [6,]  1.2728834 -1.1381446  1.23133535  0.21100254 -0.04313597 2.220446e-16
+#&gt;             PC1        PC2         PC3         PC4         PC5           PC6
+#&gt; [1,]  1.0837140 -0.5836255  0.14905727 -0.41680780  0.08358422 -4.718448e-16
+#&gt; [2,] -3.9546156  0.6791895  0.48133463 -0.04708664 -0.14119289 -6.106227e-16
+#&gt; [3,]  0.8568839 -1.2711879 -0.95109734  0.06804739 -0.25553456 -4.024558e-16
+#&gt; [4,]  2.1863884  2.5333952 -0.08990424  0.05665421 -0.02606519 -5.880713e-16
+#&gt; [5,] -1.4452542 -0.2196268 -0.82072568  0.12819031  0.29607245 -1.942890e-16
+#&gt; [6,]  1.2728834 -1.1381446  1.23133535  0.21100254  0.04313597 -1.665335e-16
 #&gt; 
 #&gt; Created with: 
 #&gt; [1] "ranger"   "lm"       "ranger_2" "ranger_3" "gbm"      "ranger_4"
@@ -307,9 +309,11 @@
                                    <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>,
                                   <span class="kw">outcome</span> <span class="kw">=</span> <span class="st">"Two_yr_Recidivism"</span>,
                                   <span class="kw">group</span>  <span class="kw">=</span> <span class="st">"Ethnicity"</span>,
-                                  <span class="kw">base</span>   <span class="kw">=</span> <span class="st">"Caucasian"</span>)
+                                  <span class="kw">base</span>   <span class="kw">=</span> <span class="st">"Caucasian"</span>,
+                                  <span class="kw">outcome_base</span> <span class="kw">=</span> <span class="st">"1"</span>)
 
-<span class="fu"><a href="../reference/plot_two_models.html">plot_two_models</a></span>(<span class="no">fobject2</span>, <span class="kw">fairness_metric</span> <span class="kw">=</span> <span class="st">"fpr_parity"</span>) <span class="co"># both fairness_metric and performance_metric have deafult values</span></pre></body></html></div>
+
+<span class="fu"><a href="../reference/plot_two_models.html">plot_two_models</a></span>(<span class="no">fobject2</span>, <span class="kw">fairness_metric</span> <span class="kw">=</span> <span class="st">"fpr_parity"</span>)</pre></body></html></div>
 <pre><code>#&gt; Performace metric is NULL, setting deafult ( auc )  
 #&gt; 
 #&gt; Creating object with: 
