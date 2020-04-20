@@ -1,4 +1,3 @@
-
 test_that("PCA fairness", {
 
   n <- ncol(fobject_compas_proba$metric_data)
@@ -8,8 +7,4 @@ test_that("PCA fairness", {
 
   expect_equal(f_pca$x, true_pca$x)
 
-  })
-
-
-
-
+})

@@ -1,0 +1,45 @@
+#' Metrics for groups
+#'
+#' @param x object of class \code{group_matrices}
+#'
+#' @return
+#' @export
+#'
+
+create_group_metric_matrix <- function(x){
+  stopifnot( "group_matrices" %in% class(x) )
+
+  group_metric_matrix <- matrix(0, nrow = 11 , ncol = length(x))
+  colnames(group_metric_matrix) <- names(x)
+  rownames(group_metric_matrix) <- c("TPR","TNR","PPV","NPV","FNR","FPR","FDR","FOR","TS","ACC","F1")#MCC
+
+  for (i in seq_along(x)){
+    subgroup_cm <- x[[i]]
+
+    tp <- subgroup_cm$tp
+    tn <- subgroup_cm$tn
+    fp <- subgroup_cm$fp
+    fn <- subgroup_cm$fn
+
+    TPR <- tp/(tp + fn)
+    TNR <- tn/(tn + fp)
+    PPV <- tp/(tp + fp)
+    NPV <- tn/(tn + fn)
+    FNR <- fn/(fn + tp)
+    FPR <- fp/(fp + tn)
+    FDR <- fp/(fp + tp)
+    FOR <- fn/(fn+ tn)
+    TS  <- tp/(tp + fn + fp)
+
+    # cummulated metrics
+
+    ACC <- (tp + tn) / (tp + tn + fn + fp)
+    F1  <- 2 * PPV*TPR/(PPV + TPR)
+    #MCC <- (tp*tn - fp * fn) / sqrt((tp+fp)*(tp+fn)*(tn+fp)*(tn+fn))
+
+    group_metric_matrix[,i] <- c(TPR,TNR,PPV,NPV,FNR,FPR,FDR,FOR,TS,ACC,F1)
+  }
+
+  class(group_metric_matrix) <- "group_metric_matrix"
+  return(group_metric_matrix)
+}
