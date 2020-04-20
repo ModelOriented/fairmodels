@@ -9,9 +9,9 @@
 create_group_metric_matrix <- function(x){
   stopifnot( "group_matrices" %in% class(x) )
 
-  group_metric_matrix <- matrix(0, nrow = 11 , ncol = length(x))
+  group_metric_matrix <- matrix(0, nrow = 12 , ncol = length(x))
   colnames(group_metric_matrix) <- names(x)
-  rownames(group_metric_matrix) <- c("TPR","TNR","PPV","NPV","FNR","FPR","FDR","FOR","TS","ACC","F1")#MCC
+  rownames(group_metric_matrix) <- c("TPR","TNR","PPV","NPV","FNR","FPR","FDR","FOR","TS","ACC","F1", "MCC")
 
   for (i in seq_along(x)){
     subgroup_cm <- x[[i]]
@@ -35,9 +35,12 @@ create_group_metric_matrix <- function(x){
 
     ACC <- (tp + tn) / (tp + tn + fn + fp)
     F1  <- 2 * PPV*TPR/(PPV + TPR)
-    #MCC <- (tp*tn - fp * fn) / sqrt((tp+fp)*(tp+fn)*(tn+fp)*(tn+fn))
 
-    group_metric_matrix[,i] <- c(TPR,TNR,PPV,NPV,FNR,FPR,FDR,FOR,TS,ACC,F1)
+    m <- sqrt(tp+fp)*sqrt(tp+fn)*sqrt(tn+fp)*sqrt(tn+fn)
+    if (m != 0) MCC <- (tp*tn - fp * fn)/m
+    else MCC <- 0
+
+    group_metric_matrix[,i] <- c(TPR,TNR,PPV,NPV,FNR,FPR,FDR,FOR,TS,ACC,F1, MCC)
   }
 
   class(group_metric_matrix) <- "group_metric_matrix"

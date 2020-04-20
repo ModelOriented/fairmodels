@@ -77,21 +77,11 @@ create_fairness_object <- function(x,
   m <- ncol(data)
 
   # fairness matrix
-  fairness_matrix <- matrix(nrow = n, ncol = 12) # WARNING if number of metrics changed, change this
+  fairness_matrix <- matrix(nrow = n, ncol = 13) # WARNING if number of metrics changed, change this
 
   explainers_groups <- list(rep(0,n))
 
-
-  # labels for future columns
-  # fairness_labels <- c("equal_odds",
-  #                      "pred_rate_parity",
-  #                      "acc_parity",
-  #                      "fnr_parity",
-  #                      "fpr_parity",
-  #                      "npv_parity",
-  #                      "spec_parity",
-  #                      "mcc_parity",
-  #                      "model labels")
+  fairness_labels <- paste0(c("TPR","TNR","PPV","NPV","FNR","FPR","FDR","FOR","TS","ACC","F1", "MCC"),"_parity_loss")
 
   exp_labels <- rep(0,n)
 
@@ -111,7 +101,6 @@ create_fairness_object <- function(x,
                                      outcome_numeric = explainers[[i]]$y,
                                      cutoff = cutoff)
 
-    print(group_matrices)
     group_metric_matrix <- create_group_metric_matrix(group_matrices)
 
     # simple scalling and getting loss
@@ -141,6 +130,7 @@ create_fairness_object <- function(x,
     names(metric_list) <- rownames(gmm_based)
 
     explainers_groups[[i]] <- group_metric_matrix
+    names(explainers_groups)[i] <- label
 
     exp_labels[i] <- label
   }
@@ -151,7 +141,8 @@ create_fairness_object <- function(x,
   fairness_df        <- as.data.frame(fairness_matrix)
   n_col <- ncol(fairness_df)
   fairness_df[, 1:(n_col-1)] <- apply(fairness_df[, 1:(n_col-1)], 2, as.numeric)
-  #colnames(fairness_df) <- fairness_labels
+  colnames(fairness_df) <- fairness_labels
+  colnames(fairness_df)[n_col] <- "label"
 
   # S3 object
   fairness_object <- list(metric_data = fairness_df,
@@ -169,6 +160,3 @@ create_fairness_object <- function(x,
 
 
 
-absolute <- function(x){
-  return(sum(abs(1- x$Metric[2,])))
-}

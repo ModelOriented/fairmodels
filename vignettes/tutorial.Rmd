@@ -68,7 +68,7 @@ fobject <- create_fairness_object(rf_explainer,
                                   outcome = "Two_yr_Recidivism", # target variable
                                   group  = "Ethnicity",          # protected group
                                   base   = "Caucasian",          # to what subgroupwe want to compare
-                                  outcome_base = "1")            # outcome_base - what we consider true case
+                                  true_value = 1)            # outcome_base - what we consider true case
                                                                  # cutoff - optional, deafult = 0.5
 ```
 
@@ -111,8 +111,7 @@ fobject <- create_fairness_object(explainer_1,explainer_2,explainer_3,explainer_
                                   data = compas, 
                                   outcome = "Two_yr_Recidivism",
                                   group  = "Ethnicity",
-                                  base   = "Caucasian", 
-                                  outcome_base = "1")
+                                  base   = "Caucasian")
 ```
    
 As we can see there is some parameters in fobject such as:    
@@ -130,7 +129,7 @@ print(fobject)
 Fairness object gets metrics based on confussion matrix and checks them over the groups. 
 ```{r}
 # for the first model
-fobject$groups_data[[1]]$fpr_parity
+fobject$groups_data$ranger
 ```
 
 If we were going only to take score from certain metric (Let's say fpr and 0.3) we wouldn't know if it is good or bad. But we are aiming for **equal treatment over all groups** so if this metric score would be the same in all groups it would be very good. But the metrics wouldn't be comparable between each others (fpr - 0.3 in all groups and acc_parity - 0.9 in all groups, both are good in terms of parity). That is wy we use **base** - to set benchmark. And for example Caucasian in fpr had score of 0.3 and African American 0.6. After setting `base = Caucasian` Caucasian would have score 1, and African American 2, because is two times higher score in fpr.
