@@ -96,7 +96,7 @@ create_fairness_object <- function(x,
 
     group_matrices <- group_matrices(data,
                                      group = group,
-                                     true_value = 1,
+                                     true_value = true_value,
                                      outcome = outcome,
                                      outcome_numeric = explainers[[i]]$y,
                                      cutoff = cutoff)
@@ -104,33 +104,25 @@ create_fairness_object <- function(x,
     group_metric_matrix <- create_group_metric_matrix(group_matrices)
 
     # simple scalling and getting loss
-
     gmm_scaled <- abs(group_metric_matrix/group_metric_matrix[,base] -1)
 
     gmm_loss <- rowSums(gmm_scaled)
     names(gmm_loss) <- paste0(names(gmm_loss),"_parity_loss")
 
-    # cummuleted metrics "how much to base level" over all groups, then summed
-
-    # metrics over all groups
-    metrics <- as.list(gmm_loss)
-    metrics$label <- label
-
-    # with label
-    metrics <- c(metrics, label)
-
     fairness_matrix[i, ] <- c(gmm_loss,label)
+
+
 
     # all information can be taken from here,
     # every group value for every metric for every explainer
-
     gmm_based <- group_metric_matrix/group_metric_matrix[,base]
 
     metric_list <- lapply(seq_len(nrow(gmm_based)), function(j) gmm_based[j,])
     names(metric_list) <- rownames(gmm_based)
 
-    explainers_groups[[i]] <- group_metric_matrix
+    explainers_groups[[i]] <- metric_list
     names(explainers_groups)[i] <- label
+
 
     exp_labels[i] <- label
   }
@@ -138,9 +130,12 @@ create_fairness_object <- function(x,
   names(explainers_groups) <- exp_labels
 
   # as data frame and making numeric
+
   fairness_df        <- as.data.frame(fairness_matrix)
   n_col <- ncol(fairness_df)
+
   fairness_df[, 1:(n_col-1)] <- apply(fairness_df[, 1:(n_col-1)], 2, as.numeric)
+
   colnames(fairness_df) <- fairness_labels
   colnames(fairness_df)[n_col] <- "label"
 

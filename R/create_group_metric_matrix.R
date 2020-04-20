@@ -41,6 +41,12 @@ create_group_metric_matrix <- function(x){
     else MCC <- 0
 
     group_metric_matrix[,i] <- c(TPR,TNR,PPV,NPV,FNR,FPR,FDR,FOR,TS,ACC,F1, MCC)
+
+  }
+
+  if (sum(is.nan(group_metric_matrix))){
+    message("NA's created in metric's matrix ")
+    group_metric_matrix[is.nan(group_metric_matrix)] <- NA
   }
 
   class(group_metric_matrix) <- "group_metric_matrix"

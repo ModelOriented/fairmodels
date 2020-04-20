@@ -129,7 +129,7 @@ print(fobject)
 Fairness object gets metrics based on confussion matrix and checks them over the groups. 
 ```{r}
 # for the first model
-fobject$groups_data$ranger
+fobject$groups_data$ranger$TPR
 ```
 
 If we were going only to take score from certain metric (Let's say fpr and 0.3) we wouldn't know if it is good or bad. But we are aiming for **equal treatment over all groups** so if this metric score would be the same in all groups it would be very good. But the metrics wouldn't be comparable between each others (fpr - 0.3 in all groups and acc_parity - 0.9 in all groups, both are good in terms of parity). That is wy we use **base** - to set benchmark. And for example Caucasian in fpr had score of 0.3 and African American 0.6. After setting `base = Caucasian` Caucasian would have score 1, and African American 2, because is two times higher score in fpr.
@@ -153,6 +153,7 @@ At first we see that lm is the worst overall model. It does not give us informat
 ## Plot fairness PCA
 With this task we should use `PCA`. We call `create_fairness_pca()` to create fairness pca object. 
 ```{r}
+fobject$metric_data
 fair_pca <- create_fairness_pca(fobject)
 print(fair_pca)
 ```
@@ -217,11 +218,10 @@ fobject2 <- create_fairness_object(explainer_1,explainer_3,
                                    data = compas, 
                                   outcome = "Two_yr_Recidivism",
                                   group  = "Ethnicity",
-                                  base   = "Caucasian", 
-                                  outcome_base = "1")
+                                  base   = "Caucasian")
 
 
-plot_two_models(fobject2, fairness_metric = "fpr_parity")
+plot_two_models(fobject2, fairness_metric = "FPR")
 ```
 
 

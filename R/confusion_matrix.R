@@ -8,15 +8,13 @@
 #' @export
 #' @rdname confusion_matrx
 
-confusion_matrix <- function(predicted, observed , cutoff = 0.5, true_value){
-  stopifnot(sort(unique(predicted)) == sort(unique(observed)))
+confusion_matrix <- function(probs, observed , cutoff = 0.5){
+  stopifnot(length(probs) == length(observed))
 
-  confmat <- matrix(0,nrow = 2, ncol = 2 )
-
-  tp = sum((observed == true_value) * (predicted >= cutoff))
-  fp = sum((observed != true_value) * (predicted >= cutoff))
-  tn = sum((observed != true_value) * (predicted < cutoff))
-  fn = sum((observed == true_value) * (predicted < cutoff))
+  tp = sum((observed == 1)  * (probs >= cutoff))
+  fp = sum((observed == 0) * (probs >= cutoff))
+  tn = sum((observed == 0)  * (probs < cutoff))
+  fn = sum((observed == 1) * (probs < cutoff))
 
   confusion_matrix <- list(tp = tp, fp = fp, tn = tn, fn = fn)
   class(confusion_matrix) <- "confusion_matrix"

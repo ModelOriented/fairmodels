@@ -39,7 +39,7 @@ plot_stacked_barplot.deafult <- function(x){
     geom_bar(stat = "identity", position = "stack", alpha = 0.8) +
     coord_flip() +
     theme_drwhy_vertical() +
-    scale_fill_manual(values = DALEX::colors_discrete_drwhy(n=10)) +
+    scale_fill_manual(values = DALEX::colors_discrete_drwhy(n=12)) +
     xlab("Model Label") +
     ylab("Cummulated metric score") +
     labs(fill = "Model Label") +
