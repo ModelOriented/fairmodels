@@ -109,7 +109,7 @@ plot_heatmap <- function(x, midpoint = NULL, title = NULL, subtitle = NULL,   te
 
 
 
-  if (is.null(midpoint)) midpoint <- max(matrix_model)/2
+  if (is.null(midpoint)) midpoint <- max(matrix_model, na.rm = TRUE)/2
   if (scale) midpoint <- 0
   # ordering factors to fit dendogram branches
   model_levels <- levels(unlist(dendro_data1$labels['label']))
@@ -118,15 +118,17 @@ plot_heatmap <- function(x, midpoint = NULL, title = NULL, subtitle = NULL,   te
   # releveling
   heatmap_data$model  <- factor(heatmap_data$model,  levels = model_levels)
   heatmap_data$metric <- factor(heatmap_data$metric, levels = metric_levels)
+  heatmap_data$score  <- as.numeric(heatmap_data$score)
 
   # heatmap
   heatmap <-   ggplot(heatmap_data, aes(model, metric, fill = score))  +
-                      geom_tile(colour = "grey50") +
+                      geom_tile(colour = "grey50", na.rm = TRUE) +
     geom_text(aes(label = score), color = "white") +
                       scale_fill_gradient2(low="#c7f5bf",
                                            mid = "#46bac2",
                                            high="#371ea3",
-                                           midpoint = midpoint) +
+                                           midpoint = midpoint,
+                                           na.value = 'grey') +
                       theme_drwhy() +
                       theme(legend.position = "bottom",
                             axis.ticks = element_blank()

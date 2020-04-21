@@ -1,8 +1,7 @@
 #' Create Fairness PCA
 #'
 #' @param x fairness object
-#' @param data   numerical metric data from code{fairness_object}
-#' @param labels labels from metric data from code{fairnss_object}
+#' @param omit_models_with_NA if true omits rows in \code{metric_matrix}, else omits columns
 #'
 #' @return fairness pca object
 #'
@@ -49,27 +48,38 @@
 #' @export
 #' @rdname create_fairness_pca
 
-
-create_fairness_pca <- function(x)  UseMethod("create_fairness_pca")
-
-#' @export
-#' @rdname create_fairness_pca
-create_fairness_pca.fairness_object <- function(x) {
-  stopifnot(class(x) == "fairness_object")
+create_fairness_pca <- function(x, omit_models_with_NA = FALSE) {
+  stopifnot(is.logical(omit_models_with_NA))
 
   # extracting metric data from object
   metric_data <- x$metric_data
   n <- ncol(metric_data)
 
-  labs <- metric_data[,n]
+  labels <- metric_data[,n]
 
-  create_fairness_object.deafult(data = metric_data[,1:(n-1)], labels = labs)
-}
+  data <-  metric_data[,1:(n-1)]
 
+  if (any(is.na(data))){
 
-#' @export
-#' @rdname create_fairness_pca
-create_fairness_object.deafult <- function(data, labels){
+    if (omit_models_with_NA){
+      na_model_index = apply(data,1, function(x) any(is.na(x)))
+      models_with_missing <- as.character(labels)[na_model_index]
+      message(cat("Ommiting models with NA: ", models_with_missing))
+
+      data <- data[ , apply(data, 1, function(x) !any(is.na(x)))]
+
+    }else{
+      # omit metrics with NA
+      na_col_index = sapply(data, function(x) any(is.na(x)))
+      cols_with_missing <-  names(data)[na_col_index]
+      message(cat("Ommiting metrics with NA: ", cols_with_missing))
+
+      data <- data[ , apply(data, 2, function(x) !any(is.na(x)))]
+    }
+  }
+
+  if (nrow(data) < 2 | ncol(data) < 2) stop("Metrics data have to low dimensions")
+
 
   pca_fair <- stats::prcomp(data, scale = TRUE)
 

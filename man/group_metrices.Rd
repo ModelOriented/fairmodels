@@ -8,7 +8,6 @@ group_matrices(
   data,
   group,
   probs = "probabilities",
-  true_value = 1,
   outcome,
   outcome_numeric,
   cutoff
@@ -20,8 +19,6 @@ group_matrices(
 \item{group}{\code{character} name of column with group}
 
 \item{probs}{\code{character} name of column with probabilities}
-
-\item{true_value}{value to be considered as positive case}
 
 \item{outcome}{\code{character} name of column with outcome}
 

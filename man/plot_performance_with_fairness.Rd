@@ -50,6 +50,6 @@ fobject <- create_fairness_object(explainer_1,explainer_2,explainer_3,explainer_
                                     group  = "Ethnicity",
                                     base   = "Caucasian")
 
-plot_performance_with_fairness(fobject, "fpr_parity", "auc")
+plot_performance_with_fairness(fobject, "FPR_parity_loss", "auc")
 
 }

@@ -2,22 +2,14 @@
 % Please edit documentation in R/create_fairness_pca.R
 \name{create_fairness_pca}
 \alias{create_fairness_pca}
-\alias{create_fairness_pca.fairness_object}
-\alias{create_fairness_object.deafult}
 \title{Create Fairness PCA}
 \usage{
-create_fairness_pca(x)
-
-\method{create_fairness_pca}{fairness_object}(x)
-
-create_fairness_object.deafult(data, labels)
+create_fairness_pca(x, omit_models_with_NA = FALSE)
 }
 \arguments{
 \item{x}{fairness object}
 
-\item{data}{numerical metric data from code{fairness_object}}
-
-\item{labels}{labels from metric data from code{fairnss_object}}
+\item{omit_models_with_NA}{if true omits rows in \code{metric_matrix}, else omits columns}
 }
 \value{
 fairness pca object

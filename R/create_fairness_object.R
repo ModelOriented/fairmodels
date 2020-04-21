@@ -6,7 +6,6 @@
 #' @param outcome the target of classification
 #' @param group protected group/variable that
 #' @param base in regard to what subgroup of group
-#' @param outcome_base outcome factor level to be considered as class \code{true}
 #' @param cutoff threshold for probability, deafult 0.5
 #'
 #' @return An object of class \code{fairness object}
@@ -46,7 +45,6 @@ create_fairness_object <- function(x,
                                    outcome,
                                    group,
                                    base = NULL,
-                                   true_value = 1,
                                    cutoff = 0.5) {
 
   # check if data provided, if not get data from first explainer
@@ -96,12 +94,11 @@ create_fairness_object <- function(x,
 
     group_matrices <- group_matrices(data,
                                      group = group,
-                                     true_value = true_value,
                                      outcome = outcome,
                                      outcome_numeric = explainers[[i]]$y,
                                      cutoff = cutoff)
 
-    group_metric_matrix <- create_group_metric_matrix(group_matrices)
+    group_metric_matrix <- calculate_group_fairness_metrics(group_matrices)
 
     # simple scalling and getting loss
     gmm_scaled <- abs(group_metric_matrix/group_metric_matrix[,base] -1)

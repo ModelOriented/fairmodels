@@ -3,15 +3,18 @@
 #' @param fairness_object object of class \code{fairness_object}
 #' @param fairness_metric fairness metric name from
 #' \itemize{
-#' \item equal_odds
-#' \item pred_rate_parity
-#' \item acc_parity
-#' \item fnr_parity
-#' \item fpr_parity
-#' \item npv_parity
-#' \item spec_parity
-#' \item mcc_parity
-#' \item model labels
+#' \item TPR
+#' \item TNR
+#' \item PPV
+#' \item NPV
+#' \item FNR
+#' \item FPR
+#' \item FDR
+#' \item FOR
+#' \item TS
+#' \item ACC
+#' \item F1
+#' \item MCC
 #' }
 #' @param performance_metric performance metric name from
 #' \itemize{
@@ -23,7 +26,6 @@
 #' }
 #'
 #' @import DALEX
-#' @import fairness
 #' @import patchwork
 #'
 #' @examples
@@ -40,7 +42,7 @@
 #'
 #' fo <- create_fairness_object(explainer_1, explainer_2,  outcome = "Two_yr_Recidivism", group = "Ethnicity", base = "Caucasian"  )
 #'
-#' plot_two_models(fo, fairness_metric = "fnr_parity", performance_metric = "auc")
+#' plot_two_models(fo, fairness_metric = "FPR", performance_metric = "auc")
 #'
 #'
 #' @return
@@ -57,15 +59,15 @@ plot_two_models <- function(fairness_object , fairness_metric = NULL, performanc
   y <- fairness_object$explainers[[2]]
 
 
-  # extract base from data (from equal_odds)
-  tmp <- unlist(fairness_object$groups_data[[1]]$equal_odds)
+  # extract base from data (from TPR)
+  tmp <- unlist(fairness_object$groups_data[[1]]$TPR)
   base <- names(tmp[tmp == 1])
 
   # extract row labels
   row_names <- names(tmp)
 
   if (is.null(fairness_metric)) {
-    fairness_metric = "acc_parity"
+    fairness_metric = "ACC_parity_loss"
     cat("Fairness Metric is NULL, setting deafult (", crayon::green(fairness_metric),")  \n")
   }
 
@@ -125,9 +127,7 @@ plot_two_models <- function(fairness_object , fairness_metric = NULL, performanc
 
   labels <- c(x$label, y$label)
 
-  print(performance_metric)
-    # Don't touch order here!
-
+  # Don't touch order here!
   fairness_data$to_vjust <- rep(0,nrow(fairness_data))
   for (i in seq_along(fairness_data$group)){
     # if is lowest in it's group than 1, else 0

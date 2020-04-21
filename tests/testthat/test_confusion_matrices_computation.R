@@ -5,7 +5,7 @@ test_that("confusion_matrices_for_groups", {
                           probabilities = c(0.61,0.55,0.1,0.1,0.45,0.69,0.88,   0.4,0.9,0.8,0.13,0.98,0.1,0.7))
 
   # should give numeric true_level
-  expect_error(group_matrices(test_data, outcome = "target", group = "sex", probs = "probabilities", true_level = "1"))
+  expect_error(group_matrices(test_data, outcome = "target", group = "sex", probs = "probabilities"))
   gm <- group_matrices(test_data, outcome = "target", group = "sex", probs = "probabilities",
                        outcome_numeric = test_data$target, cutoff = 0.6)
 

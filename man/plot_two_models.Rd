@@ -15,15 +15,18 @@ plot_two_models(
 
 \item{fairness_metric}{fairness metric name from
 \itemize{
-\item equal_odds
-\item pred_rate_parity
-\item acc_parity
-\item fnr_parity
-\item fpr_parity
-\item npv_parity
-\item spec_parity
-\item mcc_parity
-\item model labels
+\item TPR
+\item TNR
+\item PPV
+\item NPV
+\item FNR
+\item FPR
+\item FDR
+\item FOR
+\item TS
+\item ACC
+\item F1
+\item MCC
 }}
 
 \item{performance_metric}{performance metric name from
@@ -55,7 +58,7 @@ explainer_2 <- explain(lr_1, data = compas, y = y_numeric)
 
 fo <- create_fairness_object(explainer_1, explainer_2,  outcome = "Two_yr_Recidivism", group = "Ethnicity", base = "Caucasian"  )
 
-plot_two_models(fo, fairness_metric = "fnr_parity", performance_metric = "auc")
+plot_two_models(fo, fairness_metric = "FPR", performance_metric = "auc")
 
 
 }

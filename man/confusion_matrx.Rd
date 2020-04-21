@@ -4,14 +4,14 @@
 \alias{confusion_matrix}
 \title{Confusion matrix}
 \usage{
-confusion_matrix(predicted, observed, true_value)
+confusion_matrix(probs, observed, cutoff = 0.5)
 }
 \arguments{
-\item{predicted}{predicted from probs}
+\item{probs}{probabilities given by model}
 
-\item{observed}{actual values}
+\item{observed}{actual values from outcome}
 
-\item{true_value}{true}
+\item{cutoff}{cutoff}
 }
 \description{
 Confusion matrix

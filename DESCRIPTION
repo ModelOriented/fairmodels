@@ -8,15 +8,13 @@ Description: Measure all fairness metrics in one place. Compare models, choose b
 License: GPL
 Encoding: UTF-8
 LazyData: true
+Depends: R (>= 3.5)
 Imports: 
     DALEX, 
-    fairness,
     ggplot2,
     patchwork,
     crayon, 
     ggdendro
-Remotes: 
-    kozodoi/fairness
 Suggests:
     mlr,
     ranger,

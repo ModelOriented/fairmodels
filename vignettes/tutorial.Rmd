@@ -67,9 +67,8 @@ fobject <- create_fairness_object(rf_explainer,
                                   data = compas, # it is important to specify all data if explainer doesn't have it
                                   outcome = "Two_yr_Recidivism", # target variable
                                   group  = "Ethnicity",          # protected group
-                                  base   = "Caucasian",          # to what subgroupwe want to compare
-                                  true_value = 1)            # outcome_base - what we consider true case
-                                                                 # cutoff - optional, deafult = 0.5
+                                  base   = "Caucasian",          # to what subgroup we want to compare
+                                  cutoff = 0.5)                  # cutoff - optional, deafult = 0.5
 ```
 
 And we plot!
@@ -188,7 +187,7 @@ Now we know what those scores are and how "similar" models are to each other
 Sometimes we would like to know how good are models in performance metrics and in fairness metrics at the same time, to see the tradeoff between them.
 
 ```{r}
-plot_performance_with_fairness(fobject, fairness_metric = "fpr_parity")
+plot_performance_with_fairness(fobject, fairness_metric = "FPR_parity_loss")
 ```
 
 We can add plots with help of `patchwork` 
@@ -197,10 +196,10 @@ We can add plots with help of `patchwork`
 library(patchwork)
 library(ggplot2)
 
-p1 <- plot_performance_with_fairness(fobject,  "equal_odds", "accuracy")
-p2 <- plot_performance_with_fairness(fobject,  "fpr_parity", "auc")     + ggtitle(" ") + theme(legend.position = "none")
-p3 <- plot_performance_with_fairness(fobject,  "npv_parity", "recall")  + ggtitle(" ") + theme(legend.position = "none")
-p4 <- plot_performance_with_fairness(fobject,  "pred_rate_parity", "f1")+ ggtitle(" ") + theme(legend.position = "none")
+p1 <- plot_performance_with_fairness(fobject,  "TPR_parity_loss", "accuracy")
+p2 <- plot_performance_with_fairness(fobject,  "FPR_parity_loss", "auc")     + ggtitle(" ") + theme(legend.position = "none")
+p3 <- plot_performance_with_fairness(fobject,  "NPV_parity_loss", "recall")  + ggtitle(" ") + theme(legend.position = "none")
+p4 <- plot_performance_with_fairness(fobject,  "TS_parity_loss", "f1")+ ggtitle(" ") + theme(legend.position = "none")
 
 ```
 ```{r}

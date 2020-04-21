@@ -17,10 +17,7 @@ group_matrices <- function(data, group, probs = "probabilities", outcome, outcom
   data$outcome_numeric = outcome_numeric
 
   if(!is.factor(data[,group])) stop("\ndata[,group] is not factor\n")
-  if(!true_value %in% data$outcome_numeric) stop("true_value not in outcome\n")
 
-  false_value <- unique(data$outcome_numeric)
-  false_value <- false_value[false_value != true_value]
 
   group_levels <- as.character(unique(data[,group]))
 
@@ -30,9 +27,9 @@ group_matrices <- function(data, group, probs = "probabilities", outcome, outcom
     subgroup <- group_levels[i]
     sub_data <- data[data[,group] == subgroup,]
 
-    true_values <- sub_data$outcome_numeric
+    observed <- sub_data$outcome_numeric
 
-    cm <- confusion_matrix(sub_data[,probs], true_values,cutoff = cutoff)
+    cm <- confusion_matrix(sub_data[,probs], observed, cutoff = cutoff)
 
     if (cm$tp == 0 | cm$fp == 0 | cm$tn == 0 | cm$fn == 0) message("\n0's appear in confusion matrix for group: ", subgroup )
 

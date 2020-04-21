@@ -37,13 +37,13 @@
 #'                                     group  = "Ethnicity",
 #'                                     base   = "Caucasian")
 #'
-#' plot_performance_with_fairness(fobject, "fpr_parity", "auc")
+#' plot_performance_with_fairness(fobject, "FPR_parity_loss", "auc")
 #'
 
 plot_performance_with_fairness <- function(x , fairness_metric = NULL, performance_metric = NULL){
 
   if (is.null(fairness_metric)) {
-    fairness_metric = "acc_parity"
+    fairness_metric = "ACC_parity_loss"
     cat("Fairness Metric is NULL, setting deafult (", crayon::green(fairness_metric),")  \n")
   }
 
