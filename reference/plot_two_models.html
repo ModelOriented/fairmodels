@@ -156,15 +156,18 @@
     <tr>
       <th>fairness_metric</th>
       <td><p>fairness metric name from</p><ul>
-<li><p>equal_odds</p></li>
-<li><p>pred_rate_parity</p></li>
-<li><p>acc_parity</p></li>
-<li><p>fnr_parity</p></li>
-<li><p>fpr_parity</p></li>
-<li><p>npv_parity</p></li>
-<li><p>spec_parity</p></li>
-<li><p>mcc_parity</p></li>
-<li><p>model labels</p></li>
+<li><p>TPR</p></li>
+<li><p>TNR</p></li>
+<li><p>PPV</p></li>
+<li><p>NPV</p></li>
+<li><p>FNR</p></li>
+<li><p>FPR</p></li>
+<li><p>FDR</p></li>
+<li><p>FOR</p></li>
+<li><p>TS</p></li>
+<li><p>ACC</p></li>
+<li><p>F1</p></li>
+<li><p>MCC</p></li>
 </ul></td>
     </tr>
     <tr>
@@ -217,12 +220,12 @@
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9767658 , mean =  5.050949e-13 , max =  0.8822826  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='no'>fo</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_fairness_object.html'>create_fairness_object</a></span>(<span class='no'>explainer_1</span>, <span class='no'>explainer_2</span>,  <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>, <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"Caucasian"</span>  )</div><div class='output co'>#&gt; Getting data from first ( </span><span style='color: #00BB00;'>ranger</span><span> )  explainer </div><div class='input'>
-<span class='fu'>plot_two_models</span>(<span class='no'>fo</span>, <span class='kw'>fairness_metric</span> <span class='kw'>=</span> <span class='st'>"fnr_parity"</span>, <span class='kw'>performance_metric</span> <span class='kw'>=</span> <span class='st'>"auc"</span>)</div><div class='output co'>#&gt; 
+<span class='no'>fo</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_fairness_object.html'>create_fairness_object</a></span>(<span class='no'>explainer_1</span>, <span class='no'>explainer_2</span>,  <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>, <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"Caucasian"</span>  )</div><div class='output co'>#&gt; Getting data from first ( </span><span style='color: #00BB00;'>ranger</span><span> )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='input'>
+<span class='fu'>plot_two_models</span>(<span class='no'>fo</span>, <span class='kw'>fairness_metric</span> <span class='kw'>=</span> <span class='st'>"FPR"</span>, <span class='kw'>performance_metric</span> <span class='kw'>=</span> <span class='st'>"auc"</span>)</div><div class='output co'>#&gt; 
 #&gt; Creating object with: 
-#&gt; Fairness metric </span><span style='color: #00BBBB;'>fnr_parity</span><span> 
-#&gt; Performance metric  </span><span style='color: #00BBBB;'>auc</span><span> 
-#&gt; [1] "auc"</div><div class='img'><img src='plot_two_models-1.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; Fairness metric </span><span style='color: #00BBBB;'>FPR</span><span> 
+#&gt; Performance metric  </span><span style='color: #00BBBB;'>auc</span><span> </div><div class='img'><img src='plot_two_models-1.png' alt='' width='700' height='433' /></div><div class='input'>
 
 </div></span></pre>
   </div>

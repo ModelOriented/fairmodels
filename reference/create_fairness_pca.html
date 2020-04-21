@@ -140,12 +140,7 @@
     <p>Create Fairness PCA</p>
     </div>
 
-    <pre class="usage"><span class='fu'>create_fairness_pca</span>(<span class='no'>x</span>)
-
-<span class='co'># S3 method for fairness_object</span>
-<span class='fu'>create_fairness_pca</span>(<span class='no'>x</span>)
-
-<span class='fu'>create_fairness_object.deafult</span>(<span class='no'>data</span>, <span class='no'>labels</span>)</pre>
+    <pre class="usage"><span class='fu'>create_fairness_pca</span>(<span class='no'>x</span>, <span class='kw'>omit_models_with_NA</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -155,12 +150,8 @@
       <td><p>fairness object</p></td>
     </tr>
     <tr>
-      <th>data</th>
-      <td><p>numerical metric data from codefairness_object</p></td>
-    </tr>
-    <tr>
-      <th>labels</th>
-      <td><p>labels from metric data from codefairnss_object</p></td>
+      <th>omit_models_with_NA</th>
+      <td><p>if true omits rows in <code>metric_matrix</code>, else omits columns</p></td>
     </tr>
     </table>
 
@@ -264,15 +255,17 @@
 <span class='no'>fobject</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_fairness_object.html'>create_fairness_object</a></span>(<span class='no'>explainer_1</span>,<span class='no'>explainer_3</span>,<span class='no'>explainer_4</span>,<span class='no'>explainer_5</span>,<span class='no'>explainer_6</span>,<span class='no'>explainer_7</span>,
                                   <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
                                   <span class='kw'>group</span>  <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>,
-                                  <span class='kw'>base</span>   <span class='kw'>=</span> <span class='st'>"Caucasian"</span>)</div><div class='output co'>#&gt; Getting data from first ( </span><span style='color: #00BB00;'>ranger</span><span> )  explainer </div><div class='input'>
-<span class='fu'>create_fairness_pca</span>(<span class='no'>fobject</span>)</div><div class='output co'>#&gt; Fairness PCA : 
-#&gt;             PC1         PC2         PC3          PC4          PC5           PC6
-#&gt; [1,]  1.0124475 -0.33446494 -0.05250145  0.217611438 -0.034886703  0.000000e+00
-#&gt; [2,] -4.3223441 -0.58792737 -0.04120812  0.002328107 -0.000526302 -2.220446e-16
-#&gt; [3,]  0.1600167  3.12790944  0.56667297 -0.024576608  0.003935527  2.498002e-16
-#&gt; [4,]  0.9472894  0.07742366 -0.74714204 -0.099546814 -0.108829088 -5.551115e-16
-#&gt; [5,]  1.2327334 -2.13914352  0.86051051 -0.072646410 -0.002161965 -8.326673e-17
-#&gt; [6,]  0.9698571 -0.14379728 -0.58633187 -0.023169714  0.142468531  1.387779e-15
+                                  <span class='kw'>base</span>   <span class='kw'>=</span> <span class='st'>"Caucasian"</span>)</div><div class='output co'>#&gt; Getting data from first ( </span><span style='color: #00BB00;'>ranger</span><span> )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>0's appear in confusion matrix for group: Native_American</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='input'>
+<span class='fu'>create_fairness_pca</span>(<span class='no'>fobject</span>)</div><div class='output co'>#&gt; Ommiting metrics with NA:  F1_parity_loss</div><div class='output co'>#&gt; </div><div class='output co'>#&gt; Fairness PCA : 
+#&gt;             PC1        PC2         PC3          PC4           PC5           PC6
+#&gt; [1,] -0.6085440 -0.8939324 -0.06654287  0.381117033 -0.0310979844  1.942890e-16
+#&gt; [2,]  3.9341561  2.6367398 -0.01737582  0.007126078 -0.0003008231 -3.330669e-16
+#&gt; [3,] -3.2675991  2.7054527  0.54437120 -0.059652190  0.0022635722 -6.938894e-17
+#&gt; [4,] -0.6173364 -0.7549819 -0.79368490 -0.166708586 -0.1131150470  3.053113e-16
+#&gt; [5,]  1.0723495 -2.7992321  0.93835061 -0.111641168 -0.0045392994  4.996004e-16
+#&gt; [6,] -0.5130261 -0.8940461 -0.60511822 -0.050241167  0.1467895817  3.608225e-16
 #&gt; 
 #&gt; Created with: 
 #&gt; [1] "ranger" "rf3"    "glm"    "rf5"    "rf6"    "rf7"   

@@ -147,7 +147,6 @@
   <span class='no'>outcome</span>,
   <span class='no'>group</span>,
   <span class='kw'>base</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>outcome_base</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>0.5</span>
 )</pre>
 
@@ -177,10 +176,6 @@
     <tr>
       <th>base</th>
       <td><p>in regard to what subgroup of group</p></td>
-    </tr>
-    <tr>
-      <th>outcome_base</th>
-      <td><p>outcome factor level to be considered as class <code>true</code></p></td>
     </tr>
     <tr>
       <th>cutoff</th>
@@ -233,7 +228,8 @@
                              <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
                              <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>,
                              <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"Caucasian"</span>,
-                             <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; Getting data from first ( </span><span style='color: #00BB00;'>lm</span><span> )  explainer </div><div class='input'>
+                             <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; Getting data from first ( </span><span style='color: #00BB00;'>lm</span><span> )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='input'>
 
 </div></span></pre>
   </div>

@@ -265,8 +265,9 @@
 <span class='no'>fobject</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_fairness_object.html'>create_fairness_object</a></span>(<span class='no'>explainer_1</span>,<span class='no'>explainer_4</span>,<span class='no'>explainer_5</span>,<span class='no'>explainer_6</span>,<span class='no'>explainer_7</span>,
                                   <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
                                   <span class='kw'>group</span>  <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>,
-                                  <span class='kw'>base</span>   <span class='kw'>=</span> <span class='st'>"Caucasian"</span>)</div><div class='output co'>#&gt; Getting data from first ( </span><span style='color: #00BB00;'>ranger</span><span> )  explainer </div><div class='input'>
-<span class='fu'>plot_heatmap</span>(<span class='no'>fobject</span>)</div><div class='img'><img src='plot_heatmap-1.png' alt='' width='700' height='433' /></div><div class='input'>
+                                  <span class='kw'>base</span>   <span class='kw'>=</span> <span class='st'>"Caucasian"</span>)</div><div class='output co'>#&gt; Getting data from first ( </span><span style='color: #00BB00;'>ranger</span><span> )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='input'>
+<span class='fu'>plot_heatmap</span>(<span class='no'>fobject</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_text).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_text).</span></div><div class='img'><img src='plot_heatmap-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
