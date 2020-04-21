@@ -84,18 +84,53 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-<p><!-- badges: start --> <a href="https://codecov.io/gh/jakwisn/FairModels?branch=master"><img src="https://codecov.io/gh/jakwisn/FairModels/branch/master/graph/badge.svg" alt="Codecov test coverage"></a> <!-- badges: end --></p>
-<p><!-- badges: start --> <a href="https://github.com/jakwisn/FairModels/actions"><img src="https://github.com/jakwisn/FairModels/workflows/R-CMD-check/badge.svg" alt="R build status"></a> <!-- badges: end --></p>
-<div id="fairmodels-name-can-change" class="section level1">
+
+<p><a href="https://github.com/jakwisn/FairModels/actions"><img src="https://github.com/jakwisn/FairModels/workflows/R-CMD-check/badge.svg" alt="R build status"></a> <!-- badges: end --></p>
+<div id="fairmodels" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#fairmodels-name-can-change" class="anchor"></a>FairModels [Name can change]</h1></div>
-<div id="mi2-data-lab" class="section level2">
+<a href="#fairmodels" class="anchor"></a>FairModels</h1></div>
+<div id="overwiew" class="section level2">
 <h2 class="hasAnchor">
-<a href="#mi2-data-lab" class="anchor"></a>Mi^2 Data Lab</h2>
-<p>Package for fairness audit and visualization. Make sure your models are classifying protected groups similarly.</p>
-<p><img src="https://uploads.yields.io/a01e2f/bias.png" alt="Image description"></p>
-<p>BEWARE! Work in progres ;)</p>
-<p>ps. not my photo origin: yields.io/fairness-and-AI</p>
+<a href="#overwiew" class="anchor"></a>Overwiew</h2>
+<p><code>FairModels</code> is package for fairness audit and visualization. Uses models explained with <a href="https://modeloriented.github.io/DALEX">DALEX</a> and calculates fairness metrics based on confusion matrix for protected group. Allows to compare and gain information about various machine learning models. <em>Make sure your models are classifying protected groups similarly</em>.</p>
+</div>
+<div id="preview" class="section level2">
+<h2 class="hasAnchor">
+<a href="#preview" class="anchor"></a>Preview</h2>
+<center>
+<img src="reference/figures/heatmap.png">
+</center>
+<div id="used-metrics" class="section level3">
+<h3 class="hasAnchor">
+<a href="#used-metrics" class="anchor"></a>Used metrics</h3>
+<ul>
+<li>
+<strong>TPR</strong> - True Positive Rate (Sensitivity, Recall)</li>
+<li>
+<strong>TNR</strong> - True Negative Rate (Specificity)</li>
+<li>
+<strong>PPV</strong> - Positive Predictive Value (Precision)</li>
+<li>
+<strong>NPV</strong> - Negative Predictive Value</li>
+<li>
+<strong>FNR</strong> - False Negative Rate</li>
+<li>
+<strong>FPR</strong> - False Positive Rate</li>
+<li>
+<strong>FDR</strong> - False Discovery Rate</li>
+<li>
+<strong>FOR</strong> - False Omision Rate</li>
+<li>
+<strong>TS</strong> - Threat Score</li>
+<li>
+<strong>ACC</strong> - Accuracy</li>
+<li>
+<strong>F1</strong> - F1 Score</li>
+<li>
+<strong>MCC</strong> - Matthews correlation coefficient</li>
+</ul>
+<p>more on those metrics : <a href="https://en.wikipedia.org/wiki/Confusion_matrix">Confusion Matrix</a> `</p>
+</div>
 </div>
 </div>
 
@@ -115,7 +150,13 @@
 </ul>
 </div>
 
-  </div>
+  <div class="dev-status">
+<h2>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://codecov.io/gh/jakwisn/FairModels?branch=master"><img src="https://codecov.io/gh/jakwisn/FairModels/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
+</ul>
+</div>
+</div>
 </div>
 
 
