@@ -20,40 +20,44 @@ test_that("fairness objects metrics calculations", {
   true01_C <- relevel(data_C$Two_yr_Recidivism, "0")
   true10_C <- relevel(data_C$Two_yr_Recidivism, "1")
 
-  c01_C <- caret::confusionMatrix(preds01_C, true01_C, positive = "0")
-  c10_C <- caret::confusionMatrix(preds10_C, true10_C)
+  tp_C <- sum(true10_C == preds10_C & true10_C == 1)
+  tn_C <- sum(true10_C == preds10_C & true10_C == 0)
+  fp_C <- sum(true10_C != preds10_C & true10_C == 0)
+  fn_C <- sum(true10_C != preds10_C & true10_C == 1)
+
 
   gm <- group_matrices(data,group = "Ethnicity", outcome = "Two_yr_Recidivism", outcome_numeric = explainer_ranger$y, cutoff = 0.5)
 
-  expect_equal(gm$Caucasian$tp, c10_C$table[1,1])
-  expect_equal(gm$Caucasian$fp, c10_C$table[1,2])
-  expect_equal(gm$Caucasian$tn, c10_C$table[2,2])
-  expect_equal(gm$Caucasian$fn, c10_C$table[2,1])
+  expect_equal(gm$Caucasian$tp, tp_C)
+  expect_equal(gm$Caucasian$fp, fp_C)
+  expect_equal(gm$Caucasian$tn, tn_C)
+  expect_equal(gm$Caucasian$fn, fn_C)
 
-  table01_C <- c01_C$table
-  table10_C <- c10_C$table
 
   data_A <- data[data$Ethnicity == "African_American",]
   preds01_A <- as.factor(round(data_A$probabilities))
   preds10_A <- relevel(preds01_A, "1")
 
   true10_A <- relevel(data_A$Two_yr_Recidivism, "1")
-  c10_A <- caret::confusionMatrix(preds10_A, true10_A)
 
-  table10_A <- c10_A$table
+  tp_A <- sum(true10_A == preds10_A & true10_A == 1)
+  tn_A <- sum(true10_A == preds10_A & true10_A == 0)
+  fp_A <- sum(true10_A != preds10_A & true10_A == 0)
+  fn_A <- sum(true10_A != preds10_A & true10_A == 1)
 
-  expect_equal(gm$African_American$tp, table10_A[1,1])
-  expect_equal(gm$African_American$fp, table10_A[1,2])
-  expect_equal(gm$African_American$tn, table10_A[2,2])
-  expect_equal(gm$African_American$fn, table10_A[2,1])
+
+  expect_equal(gm$African_American$tp, tp_A)
+  expect_equal(gm$African_American$fp, fp_A)
+  expect_equal(gm$African_American$tn, tn_A)
+  expect_equal(gm$African_American$fn, fn_A)
 
   # now checking if values in groups are scaled properly
-  tpr10_C <- table10_C[1,1]/(table10_C[1,1] + table10_C[2,1])
-  tpr10_A <- table10_A[1,1]/(table10_A[1,1] + table10_A[2,1])
+  tpr_C <- tp_C/(tp_C + fn_C)
+  tpr_A <- tp_A/(tp_A + fn_A)
 
   fobject_value <- round(fobject10$groups_data$ranger$TPR[3],3)
   names(fobject_value) <- NULL
-  expect_equal(fobject_value, round(tpr10_A/tpr10_C,3))
+  expect_equal(fobject_value, round(tpr_A/tpr_C,3))
 
 
 })

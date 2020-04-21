@@ -16,7 +16,6 @@ Imports:
     crayon, 
     ggdendro
 Suggests:
-    e1071,
     ranger,
     gbm,
     knitr,

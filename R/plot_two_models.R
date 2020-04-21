@@ -67,7 +67,7 @@ plot_two_models <- function(fairness_object , fairness_metric = NULL, performanc
   row_names <- names(tmp)
 
   if (is.null(fairness_metric)) {
-    fairness_metric = "ACC_parity_loss"
+    fairness_metric = "ACC"
     cat("Fairness Metric is NULL, setting deafult (", crayon::green(fairness_metric),")  \n")
   }
 
