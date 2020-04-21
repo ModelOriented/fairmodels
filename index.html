@@ -129,7 +129,51 @@
 <li>
 <strong>MCC</strong> - Matthews correlation coefficient</li>
 </ul>
-<p>more on those metrics : <a href="https://en.wikipedia.org/wiki/Confusion_matrix">Confusion Matrix</a> `</p>
+<p>more on those metrics : <a href="https://en.wikipedia.org/wiki/Confusion_matrix">Confusion Matrix</a></p>
+</div>
+<div id="how-to-use-it" class="section level3">
+<h3 class="hasAnchor">
+<a href="#how-to-use-it" class="anchor"></a>How to use it</h3>
+<pre><code><a href="https://rdrr.io/pkg/DALEX/man">library(DALEX)
+
+# load data
+data(compas)
+
+# making classifiers
+rf_compas &lt;- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
+lr_compas &lt;- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
+rf_compas_2 &lt;- ranger(Two_yr_Recidivism ~ Age_Above_FourtyFive+Misdemeanor, data = compas, probability = TRUE)
+
+# numeric target values
+y_numeric &lt;- as.numeric(compas$Two_yr_Recidivism)-1
+
+# explaining with dalex
+rf_explainer_1 &lt;- explain(rf_compas, data = compas[,-1], y = y_numeric, label = "ranger")
+lr_explainer_1 &lt;- explain(lr_compas, data = compas[,-1], y = y_numeric, label = "logistic_regresion")
+
+# creating fairness object
+fobject &lt;- create_fairness_object(rf_explainer_1, lr_explainer_1, 
+                                  data = compas, 
+                                  outcome = "Two_yr_Recidivism", 
+                                  group = "Ethnicity",
+                                  base = "Caucasian")
+
+# what to do with fairness object:
+plot(fobject)
+plot_heatmap(fobject)
+plot(create_fairness_pca(fobject))
+plot_performance_with_fairness(fobject)
+plot_stacked_barplot(fobject)
+plot_two_models(fobject, fairness_metric = "FNR")</a></code></pre>
+<p><code>fairness object</code> consists of</p>
+<ul>
+<li>x, … - explainer or list of explainers</li>
+<li>data - full data (diffrent explainers can be trained on diffrent data)</li>
+<li>outcome - target variable</li>
+<li>group - protected variable, usually race, sex, etc…</li>
+<li>base - subgroup, base on which to calculate metrics. Metric on base subgroup is always 1. Usually specific race, sex etc…</li>
+</ul>
+<p>early version of tutorial: <a href="https://modeloriented.github.io/FairModels/articles/tutorial.html">Tutorial</a></p>
 </div>
 </div>
 </div>
