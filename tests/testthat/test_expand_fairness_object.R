@@ -1,7 +1,7 @@
 test_that("expand_fairness_object values check", {
 
-  efo <- expand_fairness_object(fobject_compas_proba)
-  metric_data <- fobject_compas_proba$metric_data
+  efo <- expand_fairness_object(fobject)
+  metric_data <- fobject$metric_data
 
   metrics <- unique(efo$metric)
   models <- unique(efo$model)
