@@ -55,6 +55,7 @@ fobject <- create_fairness_object(explainer_1,explainer_3,explainer_4,explainer_
                                   group  = "Ethnicity",
                                   base   = "Caucasian")
 
-create_fairness_pca(fobject)
+cfo <- create_fairness_pca(fobject)
+cfo
 
 }

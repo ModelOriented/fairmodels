@@ -7,6 +7,7 @@
 #'
 #' @import ggplot2
 #' @import DALEX
+#' @import ggrepel
 #'
 #'
 #' @return
@@ -45,23 +46,24 @@ plot.fairness_pca <- function(x, scale = 0.5,  ...){
             # hline covers lines from theme
             geom_hline(yintercept = 0, color = "white", linetype = "dashed") +
             geom_vline(xintercept = 0, color = "lightgrey", linetype = "dashed" ) +
-            geom_label(data = pca_data,
-                       aes(PC1, PC2, fill = labels, label = labels),
+            geom_text_repel(data = pca_data,
+                       aes(PC1, PC2, label = labels),
                        size = 3,
                        color = "black") +
-            scale_fill_manual(values = DALEX::colors_discrete_drwhy(n = n)) +
+            geom_point(data = pca_data, aes(PC1, PC2)) +
             geom_segment(data = pca_feature,
                          aes(x=rep(0,n),
                              y =rep(0,n),
                              xend = PC1,
                              yend = PC2 ),
-                         color = "grey",
+                         color = "red",
+                         alpha = 0.5,
                          arrow = arrow(length = unit(0.2, "cm"))) +
-            geom_text(data = pca_feature,
-                      aes(  x = PC1,
-                            y = PC2,
-                            label = labels),
-                            color = "red") +
+            geom_text_repel(data = pca_feature,
+                        aes(  x = PC1,
+                              y = PC2,
+                              label = labels),
+                              color = "red") +
               theme_drwhy() +
               theme(legend.position = "none") + #without legend
               xlab(lab_x) +

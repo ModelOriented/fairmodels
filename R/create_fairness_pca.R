@@ -43,7 +43,8 @@
 #'                                   group  = "Ethnicity",
 #'                                   base   = "Caucasian")
 #'
-#' create_fairness_pca(fobject)
+#' cfo <- create_fairness_pca(fobject)
+#' cfo
 #'
 #' @export
 #' @rdname create_fairness_pca

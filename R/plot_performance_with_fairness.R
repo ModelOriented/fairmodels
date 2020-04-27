@@ -9,6 +9,7 @@
 #' @export
 #'
 #' @import DALEX
+#' @import ggrepel
 #'
 #' @examples
 #'
@@ -69,10 +70,14 @@ plot_performance_with_fairness <- function(x , fairness_metric = NULL, performan
   out$labels <- as.factor(out$labels)
 
 
-  ggplot(out, aes(x = performance_metric, y = fairness_metric,  fill = labels)) +
-    geom_label(aes(label = labels)) +
+  ggplot(out, aes(x = performance_metric, y = fairness_metric)) +
+    geom_text_repel(aes(label = labels),
+                    segment.size  = 0.2,
+                    segment.color = "grey50",
+                    direction     = "x") +
+    geom_point(aes(color = labels)) +
     theme_drwhy() +
-    scale_fill_manual(values = DALEX::colors_discrete_drwhy(n = length(x$explainers)) ) +
+    scale_color_manual(values = DALEX::colors_discrete_drwhy(n = length(x$explainers)) ) +
     ggtitle("Fairness and performance plot") +
     xlab(performance_metric) +
     ylab(fairness_metric)

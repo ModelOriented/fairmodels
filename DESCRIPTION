@@ -14,7 +14,8 @@ Imports:
     ggplot2,
     patchwork,
     crayon, 
-    ggdendro
+    ggdendro, 
+    ggrepel
 Suggests:
     ranger,
     gbm,
