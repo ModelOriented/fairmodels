@@ -1,7 +1,7 @@
 #' Plot fairness PCA
 #'
 #' @param x fairness_pca object
-#' @param scale tbd- za mało wiem jak na razie
+#' @param scale scaling loadings plot, from 0 to 1
 #' @param ... other parameters
 #'
 #'
