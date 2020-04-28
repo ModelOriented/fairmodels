@@ -97,21 +97,17 @@ plot_two_models <- function(fairness_object , fairness_metric = NULL, performanc
   fairness_data <- data.frame(group = rep(row_names,2), value = c(from_x,from_y ))
   rownames(fairness_data) <- NULL
 
-
   fairness_data <- cbind(fairness_data,
                      c( rep(x$label, length(from_x)), # x labels
                         rep(y$label, length(from_y)))) # y labesl
 
   colnames(fairness_data)[3] <-"order"
 
-
   levels(fairness_data$order) <- c(levels(fairness_data$order), "base") # adding base
   fairness_data <- fairness_data[2:nrow(fairness_data),]
   fairness_data <- fairness_data[order(-fairness_data$value),]
 
-
   fairness_data[fairness_data$group == base,]$order <- "base"
-
 
   cutoff <- fairness_object$cutoff
   perf_val_1 <- model_performance(x, cutoff = cutoff)$measures[performance_metric]
@@ -134,8 +130,6 @@ plot_two_models <- function(fairness_object , fairness_metric = NULL, performanc
     fairness_data$to_vjust[i] <- ifelse(fairness_data[i,"value"] == min(fairness_data[fairness_data$group == fairness_data$group[i],"value"]), 1.5, -0.5)
   }
 
-
-
   plot1 <- ggplot(fairness_data, aes(group, value, fill = order)) +
     geom_bar(stat="identity", position = "identity")  +
     geom_text(aes(label=round(value,2)),
@@ -149,7 +143,7 @@ plot_two_models <- function(fairness_object , fairness_metric = NULL, performanc
     ylab(fairness_metric) +
     xlab("Models metrics in groups") +
     scale_fill_manual(values=c("#8bdcbe", "#4378bf", "#ceced9")) +
-    ggtitle("2 models plot", subtitle = paste("Created with",x$labels[1],"and", x$labels[2]))
+    ggtitle("2 models plot", subtitle = paste("Created with",x$label,"and", y$label))
 
   plot2 <- ggplot(performance_data, aes(x,y, fill = x)) +
     geom_bar(stat = "identity", width = 0.4) +

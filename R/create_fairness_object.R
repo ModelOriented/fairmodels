@@ -1,17 +1,40 @@
 #' Create Fairness Object
 #'
+#' @description Create fairness object which measures different fairness metrics and wraps data, explainers and parameters in useful object.
+#'
 #' @param data Data frame to be used
 #' @param x DALEX explainer
-#' @param ... more dalex explainers
+#' @param ... possibly more DALEX explainers
 #' @param outcome the target of classification
 #' @param group protected group/variable that
 #' @param base in regard to what subgroup of group
 #' @param cutoff threshold for probability, deafult 0.5
 #'
-#' @return An object of class \code{fairness object}
+#' @return An object of class \code{fairness object} which is a list with elements:
 #'
-#' It's a list with following fields:
+#' metric_data
+#' \itemize{
+#' \item TPR - True Positive Rate (Sensitivity, Recall)
+#' \item TNR - True Negative Rate (Specificity)
+#' \item PPV - Positive Predictive Value (Precision)
+#' \item NPV - Negative Predictive Value
+#' \item FNR - False Negative Rate
+#' \item FPR - False Positive Rate
+#' \item FDR - False Discovery Rate
+#' \item FOR - False Omision Rate
+#' \item TS - Threat Score
+#' \item ACC - Accuracy
+#' \item F1 - F1 Score
+#' \item MCC - Matthews correlation coefficient
+#' }
 #'
+#' groups_data - metrics across groups, with base but not summarised for explainer
+#'
+#' explainers  - list of DALEX explainers
+#'
+#' data - data
+#'
+#' ...         - other parameters
 #'
 #' @examples
 #' library(DALEX)
@@ -36,6 +59,11 @@
 #'
 #' @export
 #' @rdname create_fairness_object
+#'
+#' @references
+#' Fairness object took inspiration from R package \code{fairness} by kozodoi. Some parameters where designed to show resemblance.
+#'
+#'
 
 
 
@@ -108,9 +136,6 @@ create_fairness_object <- function(x,
 
     fairness_matrix[i, ] <- c(gmm_loss,label)
 
-
-
-    # all information can be taken from here,
     # every group value for every metric for every explainer
     gmm_based <- group_metric_matrix/group_metric_matrix[,base]
 

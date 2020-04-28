@@ -17,7 +17,7 @@ create_fairness_object(
 \arguments{
 \item{x}{DALEX explainer}
 
-\item{...}{more dalex explainers}
+\item{...}{possibly more DALEX explainers}
 
 \item{data}{Data frame to be used}
 
@@ -30,12 +30,34 @@ create_fairness_object(
 \item{cutoff}{threshold for probability, deafult 0.5}
 }
 \value{
-An object of class \code{fairness object}
+An object of class \code{fairness object} which is a list with elements:
 
-It's a list with following fields:
+metric_data
+\itemize{
+\item TPR - True Positive Rate (Sensitivity, Recall)
+\item TNR - True Negative Rate (Specificity)
+\item PPV - Positive Predictive Value (Precision)
+\item NPV - Negative Predictive Value
+\item FNR - False Negative Rate
+\item FPR - False Positive Rate
+\item FDR - False Discovery Rate
+\item FOR - False Omision Rate
+\item TS - Threat Score
+\item ACC - Accuracy
+\item F1 - F1 Score
+\item MCC - Matthews correlation coefficient
+}
+
+groups_data - metrics across groups, with base but not summarised for explainer
+
+explainers  - list of DALEX explainers
+
+data - data
+
+...         - other parameters
 }
 \description{
-Create Fairness Object
+Create fairness object which measures different fairness metrics and wraps data, explainers and parameters in useful object.
 }
 \examples{
 library(DALEX)
@@ -58,4 +80,7 @@ cfo <-create_fairness_object(explainer_glm, explainer_rf,
                              cutoff = 0.5)
 
 
+}
+\references{
+Fairness object took inspiration from R package \code{fairness} by kozodoi. Some parameters where designed to show resemblance.
 }
