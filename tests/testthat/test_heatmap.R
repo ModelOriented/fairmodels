@@ -10,8 +10,8 @@ test_that("Test heatmap",{
   # scaling
   plt <- plot_heatmap(fobject, scale = TRUE)[[3]]
 
-  expected_val_hat <- mean(plt$data[plt$data$metric == "TPR_parity_loss",]$score)
-  S_hat     <- (sd(plt$data[plt$data$metric == "TPR_parity_loss",]$score))^2
+  expected_val_hat <- mean(na.omit(plt$data[plt$data$metric == "TPR_parity_loss",]$score))
+  S_hat     <- (sd(na.omit(plt$data[plt$data$metric == "TPR_parity_loss",]$score)))^2
 
   expect_lt(abs(expected_val_hat) , 0.001)
   expect_lt(abs(S_hat-1) , 0.001)
