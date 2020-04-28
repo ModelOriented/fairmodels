@@ -46,6 +46,15 @@ data("compas")
 
 head(compas)
 ```
+## Demographic parity
+
+As our protected group is Ethnicity, we can plot amount of observations in particular class.   
+
+```{r}
+demographic_parity(compas, outcome = "Two_yr_Recidivism", group  = "Ethnicity" )
+```
+
+
 
 We train and explain our model with `DALEX`
 ```{r}
@@ -147,7 +156,15 @@ Let's see how they perform in diffrent metrics.
 plot_stacked_barplot(fobject)
 ```
    
-At first we see that lm is the worst overall model. It does not give us information if plots are similar to each other. 
+At first we see that lm is the worst overall model. It does not give us information if plots are similar to each other. For now only plots basic metrics.
+
+## Plot metric
+
+```{r}
+cm <- choose_metric(fobject)
+plot(cm)
+```
+
 
 ## Plot fairness PCA
 With this task we should use `PCA`. We call `create_fairness_pca()` to create fairness pca object. 

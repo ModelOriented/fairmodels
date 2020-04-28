@@ -44,13 +44,8 @@ plot.fairness_pca <- function(x, scale = 0.5,  ...){
 
   ggplot() +
             # hline covers lines from theme
-            geom_hline(yintercept = 0, color = "white", linetype = "dashed") +
+            geom_hline(yintercept = 0, color = "white",     linetype = "dashed") +
             geom_vline(xintercept = 0, color = "lightgrey", linetype = "dashed" ) +
-            geom_text_repel(data = pca_data,
-                       aes(PC1, PC2, label = labels),
-                       size = 3,
-                       color = "black") +
-            geom_point(data = pca_data, aes(PC1, PC2)) +
             geom_segment(data = pca_feature,
                          aes(x=rep(0,n),
                              y =rep(0,n),
@@ -63,7 +58,12 @@ plot.fairness_pca <- function(x, scale = 0.5,  ...){
                         aes(  x = PC1,
                               y = PC2,
                               label = labels),
-                              color = "red") +
+                              color = "red", alpha = 0.5, size = 4) +
+            geom_text_repel(data = pca_data,
+                            aes(PC1, PC2, label = labels),
+                            size = 5,
+                            color = "black") +
+            geom_point(data = pca_data, aes(PC1, PC2)) +
               theme_drwhy() +
               theme(legend.position = "none") + #without legend
               xlab(lab_x) +

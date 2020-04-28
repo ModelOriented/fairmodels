@@ -40,9 +40,8 @@ plot.choosen_metric <- function(x, ...){
   fairness_metric <- x$metric
   data <- x$data
 
-  ggplot(data, aes(x = label, y = metric, fill = label)) +
-    geom_bar(stat = "identity") +
-    scale_fill_manual(values = DALEX::colors_discrete_drwhy(nrow(data))) +
+  ggplot(data, aes(x = label, y = metric)) +
+    geom_bar(stat = "identity", fill = "#46bac2", alpha = 0.8) +
     coord_flip()+
     theme_drwhy_vertical()+
     ggtitle(paste(fairness_metric, "in all models")) +

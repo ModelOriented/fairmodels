@@ -27,6 +27,10 @@ plot_stacked_barplot.fairness_object <- function(x){
   expanded_data$model <- as.factor(expanded_data$model)
   expanded_data$score <- round(as.numeric(expanded_data$score),3)
 
+
+  expanded_data <- expanded_data[expanded_data$metric %in% paste0(c("TPR", 'TNR', 'PPV', 'NPV', 'FNR', 'FPR','FDR','FOR'), "_parity_loss"),]
+
+
   plot_stacked_barplot.deafult(expanded_data)
 }
 

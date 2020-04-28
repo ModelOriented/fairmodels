@@ -51,7 +51,8 @@ plot.performance_with_fairness <- function(x , ...){
     geom_text_repel(aes(label = labels),
                     segment.size  = 0.2,
                     segment.color = "grey50",
-                    direction     = "x") +
+                    direction     = "x",
+                    size = 4) +
     geom_point(aes(color = labels)) +
     theme_drwhy() +
     scale_color_manual(values = DALEX::colors_discrete_drwhy(n = length(x$explainers)) ) +
