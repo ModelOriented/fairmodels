@@ -1,8 +1,7 @@
 #' Plot fairness and performance
 #'
 #' @param x fairness object
-#' @param fairness_metric name of fairness metric
-#' @param performance_metric name of DALEX performance metric
+#' @param ... other plot parameters
 #'
 #'
 #' @return
@@ -38,39 +37,17 @@
 #'                                     group  = "Ethnicity",
 #'                                     base   = "Caucasian")
 #'
-#' plot_performance_with_fairness(fobject, "FPR_parity_loss", "auc")
 #'
+#' plot(performance_with_fairness(fobject))
 
-plot_performance_with_fairness <- function(x , fairness_metric = NULL, performance_metric = NULL){
+plot.performance_with_fairness <- function(x , ...){
 
-  if (is.null(fairness_metric)) {
-    fairness_metric = "ACC_parity_loss"
-    cat("Fairness Metric is NULL, setting deafult (", crayon::green(fairness_metric),")  \n")
-  }
-
-  if (is.null(performance_metric)) {
-    performance_metric = "auc"
-    cat("Performace metric is NULL, setting deafult (", crayon::green(performance_metric),")  \n")
-  }
-
-  # output for creating object
-  cat("\nCreating object with: \nFairness metric", crayon::cyan(fairness_metric),
-      "\nPerformance metric ", crayon::cyan(performance_metric), "\n")
-
-  mod_perf <- rep(0, length(x$explainers))
-
-  for(i in seq_along(x$explainers)){
-    x$explainers[[i]]$model_info$type <- "classification" # temporary?
-    mod_perf[i] <- model_performance(x$explainers[[i]], cutoff = x$cutoff)$measures[performance_metric][[1]]
-
-  }
-
-  out <- as.data.frame(cbind(x$metric_data[fairness_metric],mod_perf,  x$metric_data[,ncol(x$metric_data)]))
-  colnames(out) <- c("fairness_metric", "performance_metric", "labels")
-  out$labels <- as.factor(out$labels)
+  data <- x$data
+  performance_metric <- x$performance_metric
+  fairness_metric <- x$fairness_metric
 
 
-  ggplot(out, aes(x = performance_metric, y = fairness_metric)) +
+  ggplot(data, aes(x = performance_metric, y = fairness_metric)) +
     geom_text_repel(aes(label = labels),
                     segment.size  = 0.2,
                     segment.color = "grey50",
@@ -78,6 +55,7 @@ plot_performance_with_fairness <- function(x , fairness_metric = NULL, performan
     geom_point(aes(color = labels)) +
     theme_drwhy() +
     scale_color_manual(values = DALEX::colors_discrete_drwhy(n = length(x$explainers)) ) +
+    scale_y_reverse() +
     ggtitle("Fairness and performance plot") +
     xlab(performance_metric) +
     ylab(fairness_metric)

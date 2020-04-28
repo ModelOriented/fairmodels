@@ -33,6 +33,7 @@
 
 
 choose_metric <- function(x, fairness_metric = "FPR_parity_loss"){
+  stopifnot(class(x) == "fairness_object")
 
   av_metrics <- colnames(x$metric_data[,1:(ncol(x$metric_data)-1)])
   if(! fairness_metric %in%  av_metrics){

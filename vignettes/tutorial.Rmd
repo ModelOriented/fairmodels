@@ -187,7 +187,7 @@ Now we know what those scores are and how "similar" models are to each other
 Sometimes we would like to know how good are models in performance metrics and in fairness metrics at the same time, to see the tradeoff between them.
 
 ```{r}
-plot_performance_with_fairness(fobject, fairness_metric = "FPR_parity_loss")
+plot(performance_with_fairness(fobject, fairness_metric = "FPR_parity_loss"))
 ```
 
 We can add plots with help of `patchwork` 
@@ -196,10 +196,10 @@ We can add plots with help of `patchwork`
 library(patchwork)
 library(ggplot2)
 
-p1 <- plot_performance_with_fairness(fobject,  "TPR_parity_loss", "accuracy")
-p2 <- plot_performance_with_fairness(fobject,  "FPR_parity_loss", "auc")     + ggtitle(" ") + theme(legend.position = "none")
-p3 <- plot_performance_with_fairness(fobject,  "NPV_parity_loss", "recall")  + ggtitle(" ") + theme(legend.position = "none")
-p4 <- plot_performance_with_fairness(fobject,  "TS_parity_loss", "f1")+ ggtitle(" ") + theme(legend.position = "none")
+p1 <- plot(performance_with_fairness(fobject,  "TPR_parity_loss", "accuracy"))
+p2 <- plot(performance_with_fairness(fobject,  "FPR_parity_loss", "auc"))     + ggtitle(" ") + theme(legend.position = "none")
+p3 <- plot(performance_with_fairness(fobject,  "NPV_parity_loss", "recall"))  + ggtitle(" ") + theme(legend.position = "none")
+p4 <- plot(performance_with_fairness(fobject,  "TS_parity_loss", "f1"))+ ggtitle(" ") + theme(legend.position = "none")
 
 ```
 ```{r}

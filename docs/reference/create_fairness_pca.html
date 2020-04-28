@@ -140,12 +140,7 @@
     <p>Create Fairness PCA</p>
     </div>
 
-    <pre class="usage"><span class='fu'>create_fairness_pca</span>(<span class='no'>x</span>)
-
-<span class='co'># S3 method for fairness_object</span>
-<span class='fu'>create_fairness_pca</span>(<span class='no'>x</span>)
-
-<span class='fu'>create_fairness_object.deafult</span>(<span class='no'>data</span>, <span class='no'>labels</span>)</pre>
+    <pre class="usage"><span class='fu'>create_fairness_pca</span>(<span class='no'>x</span>, <span class='kw'>omit_models_with_NA</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -155,12 +150,8 @@
       <td><p>fairness object</p></td>
     </tr>
     <tr>
-      <th>data</th>
-      <td><p>numerical metric data from codefairness_object</p></td>
-    </tr>
-    <tr>
-      <th>labels</th>
-      <td><p>labels from metric data from codefairnss_object</p></td>
+      <th>omit_models_with_NA</th>
+      <td><p>if true omits rows in <code>metric_matrix</code>, else omits columns</p></td>
     </tr>
     </table>
 
@@ -190,56 +181,68 @@
 #&gt;   -&gt; model label       :  ranger  ( <span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
 #&gt;   -&gt; target variable   :  6172  values 
+#&gt;   -&gt; data              :  A column identical to the target variable `y` has been found in the `data`.  ( </span><span style='color: #BB0000;'> WARNING </span><span> )
+#&gt;   -&gt; data              :  It is highly recommended to pass `data` without the target variable column
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.2127007 , mean =  0.5450774 , max =  0.7043296  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.2995269 , mean =  0.4549737 , max =  0.7740167  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7043296 , mean =  -0.0001972578 , max =  0.7572097  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7523101 , mean =  0.0001461551 , max =  0.7004731  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>rf_compas_3</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
 #&gt;   -&gt; target variable   :  6172  values 
+#&gt;   -&gt; data              :  A column identical to the target variable `y` has been found in the `data`.  ( </span><span style='color: #BB0000;'> WARNING </span><span> )
+#&gt;   -&gt; data              :  It is highly recommended to pass `data` without the target variable column
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.4992112 , mean =  0.5452295 , max =  0.7098363  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.2875993 , mean =  0.4553275 , max =  0.5015042  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7098363 , mean =  -0.0003493768 , max =  0.5007888  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.5015042 , mean =  -0.0002076373 , max =  0.7124007  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>model_compas_lr</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
 #&gt;   -&gt; target variable   :  6172  values 
+#&gt;   -&gt; data              :  A column identical to the target variable `y` has been found in the `data`.  ( </span><span style='color: #BB0000;'> WARNING </span><span> )
+#&gt;   -&gt; data              :  It is highly recommended to pass `data` without the target variable column
 #&gt;   -&gt; model_info        :  package stats , ver. 3.6.3 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.004522979 , mean =  0.5448801 , max =  0.8855426  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1144574 , mean =  0.4551199 , max =  0.995477  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8822826 , mean =  -5.051528e-13 , max =  0.9767658  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.9767658 , mean =  5.050975e-13 , max =  0.8822826  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_5</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>rf_compas_5</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
 #&gt;   -&gt; target variable   :  6172  values 
+#&gt;   -&gt; data              :  A column identical to the target variable `y` has been found in the `data`.  ( </span><span style='color: #BB0000;'> WARNING </span><span> )
+#&gt;   -&gt; data              :  It is highly recommended to pass `data` without the target variable column
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1462734 , mean =  0.5448186 , max =  0.8675112  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1358176 , mean =  0.4553033 , max =  0.8493887  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.839331 , mean =  6.14984e-05 , max =  0.7959124  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7838568 , mean =  -0.0001834276 , max =  0.8419795  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_6</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>rf_compas_6</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
 #&gt;   -&gt; target variable   :  6172  values 
+#&gt;   -&gt; data              :  A column identical to the target variable `y` has been found in the `data`.  ( </span><span style='color: #BB0000;'> WARNING </span><span> )
+#&gt;   -&gt; data              :  It is highly recommended to pass `data` without the target variable column
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.4862664 , mean =  0.5449708 , max =  0.694664  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.2998524 , mean =  0.455082 , max =  0.5126159  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.694664 , mean =  -9.069981e-05 , max =  0.5137336  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.5126159 , mean =  3.787124e-05 , max =  0.7001476  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_7</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>rf_compas_7</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
 #&gt;   -&gt; target variable   :  6172  values 
+#&gt;   -&gt; data              :  A column identical to the target variable `y` has been found in the `data`.  ( </span><span style='color: #BB0000;'> WARNING </span><span> )
+#&gt;   -&gt; data              :  It is highly recommended to pass `data` without the target variable column
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1417958 , mean =  0.5447058 , max =  0.8690476  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1375432 , mean =  0.4551381 , max =  0.8400433  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8448936 , mean =  0.0001743214 , max =  0.7998841  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7852203 , mean =  -1.816448e-05 , max =  0.843278  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='co'># diffrent labels</span>
 <span class='no'>explainer_3</span>$<span class='no'>label</span> <span class='kw'>&lt;-</span> <span class='st'>"rf3"</span>
@@ -252,20 +255,22 @@
 <span class='no'>fobject</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_fairness_object.html'>create_fairness_object</a></span>(<span class='no'>explainer_1</span>,<span class='no'>explainer_3</span>,<span class='no'>explainer_4</span>,<span class='no'>explainer_5</span>,<span class='no'>explainer_6</span>,<span class='no'>explainer_7</span>,
                                   <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
                                   <span class='kw'>group</span>  <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>,
-                                  <span class='kw'>base</span>   <span class='kw'>=</span> <span class='st'>"Caucasian"</span>)</div><div class='output co'>#&gt; Getting data from first ( </span><span style='color: #00BB00;'>ranger</span><span> )  explainer </div><div class='input'>
-<span class='fu'>create_fairness_pca</span>(<span class='no'>fobject</span>)</div><div class='output co'>#&gt; Fairness PCA : 
-#&gt;              PC1        PC2         PC3         PC4          PC5           PC6
-#&gt; [1,] -0.94009313 -0.2454429  0.03077012 -0.20231005 -0.201016314  5.551115e-17
-#&gt; [2,]  4.31915244 -0.6574826  0.06712189 -0.01691734  0.008321644 -1.110223e-16
-#&gt; [3,] -0.04707917  3.1422403 -0.50366350  0.01448771  0.032210574  3.330669e-16
-#&gt; [4,] -1.31024074 -0.4237699  0.48875758 -0.20938812  0.163869737  1.082467e-15
-#&gt; [5,] -1.17879273 -1.9988756 -0.85081329  0.12416655  0.034376359  2.498002e-16
-#&gt; [6,] -0.84294667  0.1833308  0.76782721  0.28996125 -0.037761999 -8.326673e-17
+                                  <span class='kw'>base</span>   <span class='kw'>=</span> <span class='st'>"Caucasian"</span>)</div><div class='output co'>#&gt; Getting data from first ( </span><span style='color: #00BB00;'>ranger</span><span> )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>0's appear in confusion matrix for group: Native_American</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='input'>
+<span class='no'>cfo</span> <span class='kw'>&lt;-</span> <span class='fu'>create_fairness_pca</span>(<span class='no'>fobject</span>)</div><div class='output co'>#&gt; Ommiting metrics with NA:  F1_parity_loss</div><div class='output co'>#&gt; </div><div class='input'><span class='no'>cfo</span></div><div class='output co'>#&gt; Fairness PCA : 
+#&gt;             PC1        PC2        PC3          PC4          PC5           PC6
+#&gt; [1,] -0.6653664 -0.6522618 -0.2149850 -0.427966790  0.128950259 -2.775558e-17
+#&gt; [2,]  4.3364650  1.9020710  0.1128537 -0.005797775 -0.009881837  2.220446e-16
+#&gt; [3,] -2.6048846  3.1614625 -0.6366845  0.102281488 -0.024354930  1.040834e-16
+#&gt; [4,] -0.7934807 -1.0953421  0.6343233 -0.086266141 -0.260743748  9.992007e-16
+#&gt; [5,]  0.6514860 -2.7802097 -1.0731844  0.205914103  0.007465147 -2.775558e-16
+#&gt; [6,] -0.9242193 -0.5357197  1.1776770  0.211835115  0.158565110 -6.106227e-16
 #&gt; 
 #&gt; Created with: 
 #&gt; [1] "ranger" "rf3"    "glm"    "rf5"    "rf6"    "rf7"   
 #&gt; 
-#&gt; First two components explained 94 % of variance.</div><div class='input'>
+#&gt; First two components explained 93 % of variance.</div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

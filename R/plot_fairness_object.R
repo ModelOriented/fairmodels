@@ -54,7 +54,7 @@ plot.fairness_object <- function(x, ...){
   p <- ggplot(data_combined, aes(probability, group)) +
         geom_violin(color = "#ceced9", fill = "#ceced9" , alpha = 0.5) +
         geom_vline(xintercept = x$cutoff, linetype = "dashed") +
-        geom_boxplot(aes(fill = group) ,width = 0.3, alpha = 0.5, outlier.alpha = 0.6) +
+        geom_boxplot(aes(fill = group) ,width = 0.3, alpha = 0.5, outlier.alpha = 0) +
         scale_x_continuous(limits = c(0,1)) +
         theme_drwhy_vertical() +
         scale_fill_manual(values = DALEX::colors_discrete_drwhy(n = n)) +
