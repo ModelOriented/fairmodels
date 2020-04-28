@@ -1,5 +1,10 @@
 #' Plot Heatmap
 #'
+#' @description
+#' Heatmap shows all metrics across all models while displaying similarity between variables (in form of dendograms).
+#' Heatmap is flexible and is always longer than wider for esthetic reasons. It flips axis while number of explainers exceeds
+#' number of metrics. NA's in metrics are gray.
+#'
 #' @param x fairness object
 #' @param scale whether metrics should be normalised
 #' @param midpoint midpoint on gradient scale
@@ -57,6 +62,7 @@
 plot_heatmap <- function(x, midpoint = NULL, title = NULL, subtitle = NULL,   text = TRUE, scale = FALSE){
 
     m <- ncol(x$metric_data)
+    n <- nrow(x$metric_data)
 
     heatmap_data <- expand_fairness_object(x, scale = scale)
     heatmap_data <- as.data.frame(heatmap_data)
@@ -80,15 +86,14 @@ plot_heatmap <- function(x, midpoint = NULL, title = NULL, subtitle = NULL,   te
     if (is.null(subtitle)) subtitle <- "With dendograms"
 
     dendro_data1 <- dendro_data(dhc1, type = "rectangle")
-    dendogram_top <-   ggplot(segment(dendro_data1)) +
+    dendogram_model <-   ggplot(segment(dendro_data1)) +
                         geom_segment(aes(x = x, y = y, xend = xend, yend = yend),
                                      color = "#371ea3") +
                         # theme = nothing
                         theme_drwhy() +
                         theme(panel.grid= element_blank(),
                               axis.text = element_blank(),
-                              axis.title = element_blank()) +
-                        ggtitle(title, subtitle = subtitle)
+                              axis.title = element_blank())
 
 
     # right dendogram
@@ -96,15 +101,14 @@ plot_heatmap <- function(x, midpoint = NULL, title = NULL, subtitle = NULL,   te
     dhc2 <- as.dendrogram(model2)
 
     dendro_data2 <- dendro_data(dhc2, type = "rectangle")
-    dendogram_right <-   ggplot(segment(dendro_data2)) +
+    dendogram_metric <-   ggplot(segment(dendro_data2)) +
       geom_segment(aes(x = x, y = y, xend = xend, yend = yend),
                    color = "#371ea3") +
       # theme = nothing
       theme_minimal() +
       theme(panel.grid= element_blank(),
             axis.text = element_blank(),
-            axis.title = element_blank()) +
-      coord_flip()
+            axis.title = element_blank())
 
 
 
@@ -121,7 +125,11 @@ plot_heatmap <- function(x, midpoint = NULL, title = NULL, subtitle = NULL,   te
   heatmap_data$score  <- as.numeric(heatmap_data$score)
 
   # heatmap
-  heatmap <-   ggplot(heatmap_data, aes(model, metric, fill = score))  +
+    ifelse(n>=(m-1),
+           p <- ggplot(heatmap_data, aes(metric, model, fill = score)),
+           p <- ggplot(heatmap_data, aes(model, metric, fill = score)))
+
+    heatmap <- p +
                       geom_tile(colour = "grey50", na.rm = TRUE) +
     geom_text(aes(label = score), color = "white") +
                       scale_fill_gradient2(low="#c7f5bf",
@@ -131,11 +139,26 @@ plot_heatmap <- function(x, midpoint = NULL, title = NULL, subtitle = NULL,   te
                                            na.value = 'grey') +
                       theme_drwhy() +
                       theme(legend.position = "bottom",
-                            axis.ticks = element_blank()
+                            axis.ticks = element_blank(),
+                            axis.text.x = element_text(angle = 90)
                             )
+
 
   # if text true add text
   if (text) heatmap <- heatmap + geom_text(aes(label = score), color = "white")
+
+  ifelse(n>=(m-1),
+         dendogram_right <- dendogram_model + coord_flip(),
+         dendogram_right <- dendogram_metric+ coord_flip()
+         )
+
+  ifelse(n>=(m-1),
+         dendogram_top <- dendogram_metric  +
+           ggtitle(title, subtitle = subtitle),
+         dendogram_top <- dendogram_model +
+           ggtitle(title, subtitle = subtitle)
+  )
+
 
   # Plot layout
   dendogram_top + plot_spacer() +

@@ -93,11 +93,16 @@ create_fairness_object <- function(x,
     data[,outcome] <- as.factor(data[,outcome])
     }
 
-  #if (is.null(outcome_base)) outcome_base <- levels(data[,outcome])[1]
-
-
   # explainers from function
   explainers <- c(list(x), list(...))
+
+  labels <- rep(0, length(explainers))
+  for (i in seq_along(explainers)){
+    labels[i] <- explainers[[i]]$label
+  }
+
+  if (length(unique(labels)) != length(labels) ) stop("Explainers don't have unique labels (use 'label' parameter while creating dalex explainer)")
+
 
   n <- length(explainers)
   m <- ncol(data)

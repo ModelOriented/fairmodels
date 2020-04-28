@@ -30,7 +30,9 @@ plot_heatmap(
 ggplot object
 }
 \description{
-Plot Heatmap
+Heatmap shows all metrics across all models while displaying similarity between variables (in form of dendograms).
+Heatmap is flexible and is always longer than wider for esthetic reasons. It flips axis while number of explainers exceeds
+number of metrics. NA's in metrics are gray.
 }
 \examples{
 
