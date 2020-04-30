@@ -1,6 +1,5 @@
   <!-- badges: start -->
   [![Codecov test coverage](https://codecov.io/gh/ModelOriented/FairModels/branch/master/graph/badge.svg)](https://codecov.io/gh/ModelOriented/FairModels?branch=master)
-
   [![R build status](https://github.com/ModelOriented/FairModels/workflows/R-CMD-check/badge.svg)](https://github.com/ModelOriented/FairModels/actions)
   <!-- badges: end -->
   
