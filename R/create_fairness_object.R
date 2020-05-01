@@ -7,14 +7,16 @@
 #' @param ... possibly more DALEX explainers
 #' @param outcome the target of classification
 #' @param group protected group/variable that
-#' @param base in regard to what subgroup of group
-#' @param cutoff threshold for probability, deafult 0.5
+#' @param base in regard to what subgroup parity loss is calculated
+#' @param cutoff threshold for probability, can be vector of thresholds with diferent value for each level of group, deafult 0.5
 #'
 #' @return An object of class \code{fairness object} which is a list with elements:
 #'
-#' metric_data
+#'\itemize{
+#' \item metric_data data frame created with following metrics:
 #' \itemize{
-#' \item TPR - True Positive Rate (Sensitivity, Recall)
+#'
+#' \item TPR - True Positive Rate (Sensitivity, Recall, Equal Odds)
 #' \item TNR - True Negative Rate (Specificity)
 #' \item PPV - Positive Predictive Value (Precision)
 #' \item NPV - Negative Predictive Value
@@ -28,13 +30,24 @@
 #' \item MCC - Matthews correlation coefficient
 #' }
 #'
-#' groups_data - metrics across groups, with base but not summarised for explainer
+#' M_parity_loss = sum(abs(metric - base_metric))
 #'
-#' explainers  - list of DALEX explainers
+#' where:
 #'
-#' data - data
+#' M - some metric mentioned above
 #'
-#' ...         - other parameters
+#' metric - vector of metrics from each subgroup
+#'
+#' base_metric - scalar, value of metric for base subgroup
+#'
+#' \item groups_data - metrics across groups, with base but not summarised for explainer
+#'
+#' \item explainers  - list of DALEX explainers
+#'
+#' \item data - data
+#'
+#' \item ...         - other parameters passed to function
+#' }
 #'
 #' @examples
 #' library(DALEX)
@@ -73,7 +86,9 @@ create_fairness_object <- function(x,
                                    outcome,
                                    group,
                                    base = NULL,
-                                   cutoff = 0.5) {
+                                   cutoff = NULL) {
+
+  # Error handling
 
   # check if data provided, if not get data from first explainer
   if (is.null(data)) {
@@ -91,18 +106,30 @@ create_fairness_object <- function(x,
   if (!is.factor(data[,outcome])){
     cat("\nChanging outcome to factor\n")
     data[,outcome] <- as.factor(data[,outcome])
-    }
+  }
+
+  # cutoff handling
+  num_levels <- length(levels(data[,group]))
+  if (is.null(cutoff)) cutoff <- rep(0.5, num_levels)
+  if (! is.numeric(cutoff)) stop("cutoff must be numeric scalar/ vector")
+  if ( any(cutoff > 1) | any(cutoff < 0)) stop("cutoff must have values between 0 and 1")
+  if (length(cutoff) == 1) cutoff <- rep(cutoff, num_levels)
+
+  # cutoff should be now lenght of group's levels
+  if (length(cutoff) != num_levels) stop("cutoff must be either lenght 1 or length of group's levels")
 
   # explainers from function
   explainers <- c(list(x), list(...))
 
+  # from explainers
   labels <- rep(0, length(explainers))
+
   for (i in seq_along(explainers)){
     labels[i] <- explainers[[i]]$label
   }
 
+  # explainers must have unique labels
   if (length(unique(labels)) != length(labels) ) stop("Explainers don't have unique labels (use 'label' parameter while creating dalex explainer)")
-
 
   n <- length(explainers)
   m <- ncol(data)
@@ -120,8 +147,6 @@ create_fairness_object <- function(x,
 
     data$probabilities <- explainers[[i]]$y_hat
 
-    if (cutoff > max(data$probabilities)) stop("Cutoff greater than maximal probability")
-
     #colnames(data)[m + 1] <- "probabilities"
     label <- explainers[[i]]$label
 
@@ -133,8 +158,11 @@ create_fairness_object <- function(x,
 
     group_metric_matrix <- calculate_group_fairness_metrics(group_matrices)
 
-    # simple scalling and getting loss
-    gmm_scaled <- abs(group_metric_matrix/group_metric_matrix[,base] -1)
+    # from every column in matrix subtract base column, then get abs value
+    # in other words we measure distance between base group metric's score and other
+    # groups metric scores
+
+    gmm_scaled <- abs(apply(group_metric_matrix, 2 , function(x) x  - group_metric_matrix[,base]))
 
     gmm_loss <- rowSums(gmm_scaled)
     names(gmm_loss) <- paste0(names(gmm_loss),"_parity_loss")

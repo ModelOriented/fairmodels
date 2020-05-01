@@ -7,7 +7,7 @@
 #' @export
 #' @rdname confusion_matrx
 
-confusion_matrix <- function(probs, observed , cutoff = 0.5){
+confusion_matrix <- function(probs, observed , cutoff){
   stopifnot(length(probs) == length(observed))
   stopifnot(is.numeric(probs) & is.numeric(observed))
   stopifnot(is.numeric(cutoff))

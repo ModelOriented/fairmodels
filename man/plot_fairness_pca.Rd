@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{fairness_pca object}
 
-\item{scale}{tbd- za mało wiem jak na razie}
+\item{scale}{scaling loadings plot, from 0 to 1}
 
 \item{...}{other parameters}
 }

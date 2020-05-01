@@ -4,7 +4,7 @@
 \alias{confusion_matrix}
 \title{Confusion matrix}
 \usage{
-confusion_matrix(probs, observed, cutoff = 0.5)
+confusion_matrix(probs, observed, cutoff)
 }
 \arguments{
 \item{probs}{probabilities given by model}

@@ -26,7 +26,7 @@ test_that("fairness objects metrics calculations", {
   fn_C <- sum(true10_C != preds10_C & true10_C == 1)
 
 
-  gm <- group_matrices(data,group = "Ethnicity", outcome = "Two_yr_Recidivism", outcome_numeric = explainer_ranger$y, cutoff = 0.5)
+  gm <- group_matrices(data,group = "Ethnicity", outcome = "Two_yr_Recidivism", outcome_numeric = explainer_ranger$y, cutoff = rep(0.5,6))
 
   expect_equal(gm$Caucasian$tp, tp_C)
   expect_equal(gm$Caucasian$fp, fp_C)

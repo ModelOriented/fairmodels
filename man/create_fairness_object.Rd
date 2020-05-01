@@ -11,7 +11,7 @@ create_fairness_object(
   outcome,
   group,
   base = NULL,
-  cutoff = 0.5
+  cutoff = NULL
 )
 }
 \arguments{
@@ -25,16 +25,18 @@ create_fairness_object(
 
 \item{group}{protected group/variable that}
 
-\item{base}{in regard to what subgroup of group}
+\item{base}{in regard to what subgroup parity loss is calculated}
 
-\item{cutoff}{threshold for probability, deafult 0.5}
+\item{cutoff}{threshold for probability, can be vector of thresholds with diferent value for each level of group, deafult 0.5}
 }
 \value{
 An object of class \code{fairness object} which is a list with elements:
 
-metric_data
 \itemize{
-\item TPR - True Positive Rate (Sensitivity, Recall)
+\item metric_data data frame created with following metrics:
+\itemize{
+
+\item TPR - True Positive Rate (Sensitivity, Recall, Equal Odds)
 \item TNR - True Negative Rate (Specificity)
 \item PPV - Positive Predictive Value (Precision)
 \item NPV - Negative Predictive Value
@@ -48,13 +50,24 @@ metric_data
 \item MCC - Matthews correlation coefficient
 }
 
-groups_data - metrics across groups, with base but not summarised for explainer
+M_parity_loss = sum(abs(metric - base_metric))
 
-explainers  - list of DALEX explainers
+where:
 
-data - data
+M - some metric mentioned above
 
-...         - other parameters
+metric - vector of metrics from each subgroup
+
+base_metric - scalar, value of metric for base subgroup
+
+\item groups_data - metrics across groups, with base but not summarised for explainer
+
+\item explainers  - list of DALEX explainers
+
+\item data - data
+
+\item ...         - other parameters passed to function
+}
 }
 \description{
 Create fairness object which measures different fairness metrics and wraps data, explainers and parameters in useful object.
