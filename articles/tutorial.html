@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>tutorial • FairModels</title>
+<title>tutorial • fairmodels</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
@@ -14,7 +14,7 @@
 <link href="../dalexverse-2.css" rel="stylesheet">
 <!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="tutorial">
-<meta property="og:description" content="FairModels">
+<meta property="og:description" content="fairmodels">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -39,7 +39,7 @@
       </button>
 
       <div class="navbar-brand-container">
-        <a class="navbar-brand" href="../index.html">FairModels</a>
+        <a class="navbar-brand" href="../index.html">fairmodels</a>
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
@@ -146,9 +146,9 @@
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( [33m default [39m ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( [33m default [39m )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1309288 , mean =  0.4552417 , max =  0.8440747  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1377284 , mean =  0.4547903 , max =  0.8586175  
 #&gt;   -&gt; residual function :  difference between y and yhat ( [33m default [39m )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7893848 , mean =  -0.0001218051 , max =  0.839898  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7978598 , mean =  0.0003296021 , max =  0.8441467  
 #&gt;  [32m A new explainer has been created! [39m</code></pre>
 <p>Than we create <code>fairness_object</code> with <code><a href="../reference/create_fairness_object.html">create_fairness_object()</a></code></p>
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">fobject</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_object.html">create_fairness_object</a></span>(<span class="no">rf_explainer</span>,
@@ -158,7 +158,7 @@
                                   <span class="kw">base</span>   <span class="kw">=</span> <span class="st">"Caucasian"</span>,          <span class="co"># to what subgroup we want to compare</span>
                                   <span class="kw">cutoff</span> <span class="kw">=</span> <span class="fl">0.5</span>)                  <span class="co"># cutoff - optional, deafult = 0.5</span></pre></body></html></div>
 <p>And we plot!</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">fobject</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fobject</span>)</pre></body></html></div>
 <p><img src="tutorial_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>As we can see it is more likely that model will categorise African Americans as future recidivists than for example Asians. But mabey some groups are statisticaly more likely to go do crimes in the future. It is possible, but there are more ways that the model can discriminate people.</p>
 </div>
@@ -261,7 +261,7 @@
 <h2 class="hasAnchor">
 <a href="#plot-metric" class="anchor"></a>Plot metric</h2>
 <div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">cm</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/choose_metric.html">choose_metric</a></span>(<span class="no">fobject</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">cm</span>)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">cm</span>)</pre></body></html></div>
 <p><img src="tutorial_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
 </div>
 <div id="plot-fairness-pca" class="section level2">
@@ -307,10 +307,10 @@
 #&gt; 
 #&gt; First two components explained 93 % of variance.</code></pre>
 <p>Let’s plot!</p>
-<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">fair_pca</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fair_pca</span>)</pre></body></html></div>
 <p><img src="tutorial_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 <p>It is done with loadings plot, which can be customised.</p>
-<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">fair_pca</span>, <span class="kw">scale</span> <span class="kw">=</span> <span class="fl">0</span>) <span class="co"># deafult = 0.5</span></pre></body></html></div>
+<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fair_pca</span>, <span class="kw">scale</span> <span class="kw">=</span> <span class="fl">0</span>) <span class="co"># deafult = 0.5</span></pre></body></html></div>
 <p><img src="tutorial_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
 </div>
 <div id="plot-heatmap" class="section level2">
@@ -325,7 +325,7 @@
 <p><img src="tutorial_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
 <p>Now we know what those scores are and how “similar” models are to each other ## Metric and Performance Plot</p>
 <p>Sometimes we would like to know how good are models in performance metrics and in fairness metrics at the same time, to see the tradeoff between them.</p>
-<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="fu"><a href="../reference/performance_with_fairness.html">performance_with_fairness</a></span>(<span class="no">fobject</span>, <span class="kw">fairness_metric</span> <span class="kw">=</span> <span class="st">"FPR_parity_loss"</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="fu"><a href="../reference/performance_with_fairness.html">performance_with_fairness</a></span>(<span class="no">fobject</span>, <span class="kw">fairness_metric</span> <span class="kw">=</span> <span class="st">"FPR_parity_loss"</span>))</pre></body></html></div>
 <pre><code>#&gt; Performace metric is NULL, setting deafult ( auc )  
 #&gt; 
 #&gt; Creating object with: 
@@ -336,10 +336,10 @@
 <div class="sourceCode" id="cb28"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">patchwork</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
 
-<span class="no">p1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="fu"><a href="../reference/performance_with_fairness.html">performance_with_fairness</a></span>(<span class="no">fobject</span>,  <span class="st">"TPR_parity_loss"</span>, <span class="st">"accuracy"</span>))
-<span class="no">p2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="fu"><a href="../reference/performance_with_fairness.html">performance_with_fairness</a></span>(<span class="no">fobject</span>,  <span class="st">"FPR_parity_loss"</span>, <span class="st">"auc"</span>))     + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">" "</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="kw">legend.position</span> <span class="kw">=</span> <span class="st">"none"</span>)
-<span class="no">p3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="fu"><a href="../reference/performance_with_fairness.html">performance_with_fairness</a></span>(<span class="no">fobject</span>,  <span class="st">"NPV_parity_loss"</span>, <span class="st">"recall"</span>))  + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">" "</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="kw">legend.position</span> <span class="kw">=</span> <span class="st">"none"</span>)
-<span class="no">p4</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="fu"><a href="../reference/performance_with_fairness.html">performance_with_fairness</a></span>(<span class="no">fobject</span>,  <span class="st">"TS_parity_loss"</span>, <span class="st">"f1"</span>))+ <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">" "</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="kw">legend.position</span> <span class="kw">=</span> <span class="st">"none"</span>)</pre></body></html></div>
+<span class="no">p1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="fu"><a href="../reference/performance_with_fairness.html">performance_with_fairness</a></span>(<span class="no">fobject</span>,  <span class="st">"TPR_parity_loss"</span>, <span class="st">"accuracy"</span>))
+<span class="no">p2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="fu"><a href="../reference/performance_with_fairness.html">performance_with_fairness</a></span>(<span class="no">fobject</span>,  <span class="st">"FPR_parity_loss"</span>, <span class="st">"auc"</span>))     + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">" "</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="kw">legend.position</span> <span class="kw">=</span> <span class="st">"none"</span>)
+<span class="no">p3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="fu"><a href="../reference/performance_with_fairness.html">performance_with_fairness</a></span>(<span class="no">fobject</span>,  <span class="st">"NPV_parity_loss"</span>, <span class="st">"recall"</span>))  + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">" "</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="kw">legend.position</span> <span class="kw">=</span> <span class="st">"none"</span>)
+<span class="no">p4</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="fu"><a href="../reference/performance_with_fairness.html">performance_with_fairness</a></span>(<span class="no">fobject</span>,  <span class="st">"TS_parity_loss"</span>, <span class="st">"f1"</span>))+ <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">" "</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="kw">legend.position</span> <span class="kw">=</span> <span class="st">"none"</span>)</pre></body></html></div>
 <div class="sourceCode" id="cb29"><html><body><pre class="r">(<span class="no">p1</span> + <span class="no">p2</span>)/(<span class="no">p3</span>+<span class="no">p4</span>)</pre></body></html></div>
 <p><img src="tutorial_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
 </div>
@@ -362,7 +362,7 @@
 #&gt; Performance metric  auc</code></pre>
 <p><img src="tutorial_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
 <p>We can also use simple <code>plot</code> when we have only few explainers.</p>
-<div class="sourceCode" id="cb32"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">fobject2</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb32"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fobject2</span>)</pre></body></html></div>
 <p><img src="tutorial_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
 <p>Of course the protected group can be changed.</p>
 <div class="sourceCode" id="cb33"><html><body><pre class="r"><span class="no">fobject3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_object.html">create_fairness_object</a></span>(<span class="no">explainer_2</span>,<span class="no">explainer_5</span>,
@@ -370,7 +370,7 @@
                                   <span class="kw">outcome</span> <span class="kw">=</span> <span class="st">"Two_yr_Recidivism"</span>,
                                   <span class="kw">group</span>  <span class="kw">=</span> <span class="st">"Sex"</span>,
                                   <span class="kw">base</span> <span class="kw">=</span> <span class="st">"Female"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">fobject3</span>)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fobject3</span>)</pre></body></html></div>
 <p><img src="tutorial_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
 </div>
 </div>
