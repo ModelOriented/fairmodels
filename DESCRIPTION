@@ -1,6 +1,6 @@
-Package: FairModels
+Package: fairmodels
 Type: Package
-Title: Fairness measure for Models
+Title: Fairness measures for Models
 Version: 0.1.0
 Author: Jakub Wiśniewski
 Maintainer: The package maintainer <jakwisn@gmail.com>
