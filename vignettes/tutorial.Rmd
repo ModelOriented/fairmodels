@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup, include=FALSE}
-library(FairModels)
+library(fairmodels)
 
 library(DALEX)
 library(ranger)

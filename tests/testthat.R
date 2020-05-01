@@ -1,4 +1,4 @@
 library(testthat)
-library(FairModels)
+library(fairmodels)
 
-test_check("FairModels")
+test_check("fairmodels")
