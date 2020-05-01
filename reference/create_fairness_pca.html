@@ -165,16 +165,16 @@
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ranger</span>)
 
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"compas"</span>)
-<span class='no'>y_numeric</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='no'>compas</span>$<span class='no'>Two_yr_Recidivism</span>)-<span class='fl'>1</span>
+<span class='no'>y_numeric</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='no'>compas</span>$<span class='no'>Two_yr_Recidivism</span>) - <span class='fl'>1</span>
 <span class='co'># models</span>
 
-<span class='no'>rf_compas_1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>Two_yr_Recidivism</span> ~<span class='no'>Number_of_Priors</span>+<span class='no'>Age_Below_TwentyFive</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='co'># Wszystko</span>
-<span class='no'>rf_compas_3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>Two_yr_Recidivism</span> ~ <span class='no'>Sex</span>+<span class='no'>Age_Above_FourtyFive</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='co'># dziwny model</span>
-<span class='no'>model_compas_lr</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='no'>Two_yr_Recidivism</span>~<span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>compas</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(<span class='kw'>link</span><span class='kw'>=</span><span class='st'>"logit"</span>))
-<span class='no'>rf_compas_5</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>Two_yr_Recidivism</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='co'># Wszystko</span>
-<span class='no'>rf_compas_6</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>Two_yr_Recidivism</span> ~ <span class='no'>Age_Above_FourtyFive</span>+<span class='no'>Misdemeanor</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='co'># dziwny model</span>
-<span class='no'>rf_compas_7</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>Two_yr_Recidivism</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='co'># Wszystko</span>
-<span class='no'>rf_compas_8</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>Two_yr_Recidivism</span> ~ <span class='no'>Sex</span>+<span class='no'>Age_Above_FourtyFive</span>+<span class='no'>Misdemeanor</span>+<span class='no'>Ethnicity</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='co'># dziwny model</span>
+<span class='no'>rf_compas_1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>Two_yr_Recidivism</span> ~ <span class='no'>Number_of_Priors</span> + <span class='no'>Age_Below_TwentyFive</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='co'># Wszystko</span>
+<span class='no'>rf_compas_3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>Two_yr_Recidivism</span> ~ <span class='no'>Sex</span> + <span class='no'>Age_Above_FourtyFive</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='co'># dziwny model</span>
+<span class='no'>model_compas_lr</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='no'>Two_yr_Recidivism</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(<span class='kw'>link</span> <span class='kw'>=</span> <span class='st'>"logit"</span>))
+<span class='no'>rf_compas_5</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>Two_yr_Recidivism</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='co'># Wszystko</span>
+<span class='no'>rf_compas_6</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>Two_yr_Recidivism</span> ~ <span class='no'>Age_Above_FourtyFive</span> + <span class='no'>Misdemeanor</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='co'># dziwny model</span>
+<span class='no'>rf_compas_7</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>Two_yr_Recidivism</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='co'># Wszystko</span>
+<span class='no'>rf_compas_8</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>Two_yr_Recidivism</span> ~ <span class='no'>Sex</span> + <span class='no'>Age_Above_FourtyFive</span> + <span class='no'>Misdemeanor</span> + <span class='no'>Ethnicity</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='co'># dziwny model</span>
 
 <span class='co'># explainers</span>
 <span class='no'>explainer_1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>rf_compas_1</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
@@ -238,28 +238,28 @@
 <span class='no'>explainer_5</span>$<span class='no'>label</span> <span class='kw'>&lt;-</span> <span class='st'>"rf5"</span>
 <span class='no'>explainer_6</span>$<span class='no'>label</span> <span class='kw'>&lt;-</span> <span class='st'>"rf6"</span>
 <span class='no'>explainer_7</span>$<span class='no'>label</span> <span class='kw'>&lt;-</span> <span class='st'>"rf7"</span>
-<span class='no'>explainers</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>explainer_1</span>, <span class='no'>explainer_3</span> , <span class='no'>explainer_4</span>, <span class='no'>explainer_5</span>,<span class='no'>explainer_6</span>,<span class='no'>explainer_7</span>)
+<span class='no'>explainers</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>explainer_1</span>, <span class='no'>explainer_3</span>, <span class='no'>explainer_4</span>, <span class='no'>explainer_5</span>, <span class='no'>explainer_6</span>, <span class='no'>explainer_7</span>)
 
-<span class='no'>fobject</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_fairness_object.html'>create_fairness_object</a></span>(<span class='no'>explainer_1</span>,<span class='no'>explainer_3</span>,<span class='no'>explainer_4</span>,<span class='no'>explainer_5</span>,<span class='no'>explainer_6</span>,<span class='no'>explainer_7</span>,
-                                  <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
-                                  <span class='kw'>group</span>  <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>,
-                                  <span class='kw'>base</span>   <span class='kw'>=</span> <span class='st'>"Caucasian"</span>)</div><div class='output co'>#&gt; Getting data from first ( </span><span style='color: #00BB00;'>ranger</span><span> )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
+<span class='no'>fobject</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_fairness_object.html'>create_fairness_object</a></span>(<span class='no'>explainer_1</span>, <span class='no'>explainer_3</span>, <span class='no'>explainer_4</span>, <span class='no'>explainer_5</span>, <span class='no'>explainer_6</span>, <span class='no'>explainer_7</span>,
+  <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
+  <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>,
+  <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"Caucasian"</span>
+)</div><div class='output co'>#&gt; Getting data from first ( </span><span style='color: #00BB00;'>ranger</span><span> )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>0's appear in confusion matrix for group: Native_American</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='input'>
 <span class='no'>cfo</span> <span class='kw'>&lt;-</span> <span class='fu'>create_fairness_pca</span>(<span class='no'>fobject</span>)</div><div class='output co'>#&gt; Ommiting metrics with NA:  F1_parity_loss</div><div class='output co'>#&gt; </div><div class='input'><span class='no'>cfo</span></div><div class='output co'>#&gt; Fairness PCA : 
-#&gt;             PC1        PC2          PC3         PC4          PC5          PC6
-#&gt; [1,] -0.6571883 -0.7483842 -0.002510751 -0.39485095  0.015064126 1.595946e-16
-#&gt; [2,]  4.1511662  2.2798011  0.058042250  0.00209755  0.012665573 4.996004e-16
-#&gt; [3,] -2.9523550  3.0014236 -0.541392832  0.07338835  0.006311512 3.087808e-16
-#&gt; [4,] -0.6416629 -0.4791167  0.773848190  0.07008754 -0.143797286 2.498002e-16
-#&gt; [5,]  0.8399768 -2.7858014 -0.985825681  0.11259597 -0.022216369 1.040834e-16
-#&gt; [6,] -0.7399367 -1.2679225  0.697838824  0.13668155  0.131972443 5.551115e-17
+#&gt;             PC1        PC2         PC3         PC4          PC5           PC6
+#&gt; [1,] -0.8858791 -0.2647750 -0.10883558  0.41222498  0.025225187  2.081668e-16
+#&gt; [2,]  4.7158244 -0.1703085 -0.02857315 -0.01152158  0.018406128  4.996004e-16
+#&gt; [3,] -0.7893557  4.0665587  0.60816018 -0.06814955  0.005002573 -2.393918e-16
+#&gt; [4,] -0.7234098 -0.1221507 -0.93055041 -0.07877860 -0.176469566  2.038300e-16
+#&gt; [5,] -0.9607449 -2.7041044  1.18502763 -0.08971109 -0.037311629  1.665335e-16
+#&gt; [6,] -1.3564349 -0.8052202 -0.72522867 -0.16406416  0.165147307  4.024558e-16
 #&gt; 
 #&gt; Created with: 
 #&gt; [1] "ranger" "rf3"    "glm"    "rf5"    "rf6"    "rf7"   
 #&gt; 
-#&gt; First two components explained 95 % of variance.</div><div class='input'>
-</div></span></pre>
+#&gt; First two components explained 94 % of variance.</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

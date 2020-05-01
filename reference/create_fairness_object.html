@@ -147,7 +147,7 @@
   <span class='no'>outcome</span>,
   <span class='no'>group</span>,
   <span class='kw'>base</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>0.5</span>
+  <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -175,19 +175,20 @@
     </tr>
     <tr>
       <th>base</th>
-      <td><p>in regard to what subgroup of group</p></td>
+      <td><p>in regard to what subgroup parity loss is calculated</p></td>
     </tr>
     <tr>
       <th>cutoff</th>
-      <td><p>threshold for probability, deafult 0.5</p></td>
+      <td><p>threshold for probability, can be vector of thresholds with diferent value for each level of group, deafult 0.5</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An object of class <code>fairness object</code> which is a list with elements:</p>
-<p>metric_data</p><ul>
-<li><p>TPR - True Positive Rate (Sensitivity, Recall)</p></li>
+<ul>
+<li><p>metric_data data frame created with following metrics:</p><ul>
+<li><p>TPR - True Positive Rate (Sensitivity, Recall, Equal Odds)</p></li>
 <li><p>TNR - True Negative Rate (Specificity)</p></li>
 <li><p>PPV - Positive Predictive Value (Precision)</p></li>
 <li><p>NPV - Negative Predictive Value</p></li>
@@ -201,10 +202,17 @@
 <li><p>MCC - Matthews correlation coefficient</p></li>
 </ul>
 
-<p>groups_data - metrics across groups, with base but not summarised for explainer</p>
-<p>explainers  - list of DALEX explainers</p>
-<p>data - data</p>
-<p>...         - other parameters</p>
+<p>M_parity_loss = sum(abs(metric - base_metric))</p>
+<p>where:</p>
+<p>M - some metric mentioned above</p>
+<p>metric - vector of metrics from each subgroup</p>
+<p>base_metric - scalar, value of metric for base subgroup</p></li>
+<li><p>groups_data - metrics across groups, with base but not summarised for explainer</p></li>
+<li><p>explainers  - list of DALEX explainers</p></li>
+<li><p>data - data</p></li>
+<li><p>...         - other parameters passed to function</p></li>
+</ul>
+
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Fairness object took inspiration from R package <code>fairness</code> by kozodoi. Some parameters where designed to show resemblance.</p>
