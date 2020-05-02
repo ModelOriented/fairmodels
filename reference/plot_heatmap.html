@@ -195,12 +195,12 @@ number of metrics. NA's in metrics are gray.</p>
 <span class='co'># models</span>
 <span class='no'>y_numeric</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='no'>compas</span>$<span class='no'>Two_yr_Recidivism</span>)-<span class='fl'>1</span>
 
-<span class='no'>rf_compas_1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>Two_yr_Recidivism</span> ~<span class='no'>Number_of_Priors</span>+<span class='no'>Age_Below_TwentyFive</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='co'># Wszystko</span>
+<span class='no'>rf_compas_1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>Two_yr_Recidivism</span> ~<span class='no'>Number_of_Priors</span>+<span class='no'>Age_Below_TwentyFive</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>model_compas_lr</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='no'>Two_yr_Recidivism</span>~<span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>compas</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(<span class='kw'>link</span><span class='kw'>=</span><span class='st'>"logit"</span>))
-<span class='no'>rf_compas_5</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>Two_yr_Recidivism</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='co'># Wszystko</span>
-<span class='no'>rf_compas_6</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>Two_yr_Recidivism</span> ~ <span class='no'>Age_Above_FourtyFive</span>+<span class='no'>Misdemeanor</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='co'># dziwny model</span>
-<span class='no'>rf_compas_7</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>Two_yr_Recidivism</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='co'># Wszystko</span>
-<span class='no'>rf_compas_8</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>Two_yr_Recidivism</span> ~ <span class='no'>Sex</span>+<span class='no'>Age_Above_FourtyFive</span>+<span class='no'>Misdemeanor</span>+<span class='no'>Ethnicity</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='co'># dziwny model</span>
+<span class='no'>rf_compas_5</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>Two_yr_Recidivism</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>rf_compas_6</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>Two_yr_Recidivism</span> ~ <span class='no'>Age_Above_FourtyFive</span>+<span class='no'>Misdemeanor</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>rf_compas_7</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>Two_yr_Recidivism</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>rf_compas_8</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>Two_yr_Recidivism</span> ~ <span class='no'>Sex</span>+<span class='no'>Age_Above_FourtyFive</span>+<span class='no'>Misdemeanor</span>+<span class='no'>Ethnicity</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='co'># explainers</span>
 <span class='no'>explainer_1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>rf_compas_1</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
@@ -209,9 +209,9 @@ number of metrics. NA's in metrics are gray.</p>
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.3003219 , mean =  0.4548541 , max =  0.7758249  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.2981777 , mean =  0.4550056 , max =  0.7850457  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7514519 , mean =  0.0002658152 , max =  0.6996781  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.752065 , mean =  0.0001143431 , max =  0.7018223  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>model_compas_lr</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
@@ -227,27 +227,27 @@ number of metrics. NA's in metrics are gray.</p>
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1313515 , mean =  0.4552226 , max =  0.8376351  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.128482 , mean =  0.4550772 , max =  0.857933  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7812408 , mean =  -0.0001026537 , max =  0.8453514  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.79745 , mean =  4.273032e-05 , max =  0.8391233  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_6</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>rf_compas_6</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.3011046 , mean =  0.4549904 , max =  0.5116149  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.3032113 , mean =  0.4553215 , max =  0.5132858  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.5116149 , mean =  0.000129496 , max =  0.6988954  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.5132858 , mean =  -0.0002015741 , max =  0.6967887  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_7</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>rf_compas_7</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.139512 , mean =  0.4549217 , max =  0.8506955  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1342532 , mean =  0.4549074 , max =  0.8491687  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7882623 , mean =  0.0001981485 , max =  0.8428258  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7831083 , mean =  0.0002124494 , max =  0.8449776  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='co'># diffrent labels</span>
 <span class='no'>explainer_4</span>$<span class='no'>label</span> <span class='kw'>&lt;-</span> <span class='st'>"glm"</span>
@@ -259,9 +259,70 @@ number of metrics. NA's in metrics are gray.</p>
 <span class='no'>fobject</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_fairness_object.html'>create_fairness_object</a></span>(<span class='no'>explainer_1</span>,<span class='no'>explainer_4</span>,<span class='no'>explainer_5</span>,<span class='no'>explainer_6</span>,<span class='no'>explainer_7</span>,
                                   <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
                                   <span class='kw'>group</span>  <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>,
-                                  <span class='kw'>base</span>   <span class='kw'>=</span> <span class='st'>"Caucasian"</span>)</div><div class='output co'>#&gt; Getting data from first ( </span><span style='color: #00BB00;'>ranger</span><span> )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
+                                  <span class='kw'>base</span>   <span class='kw'>=</span> <span class='st'>"Caucasian"</span>,
+                                  <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; Getting data from first ( </span><span style='color: #00BB00;'>ranger</span><span> )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='input'>
-<span class='fu'>plot_heatmap</span>(<span class='no'>fobject</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_text).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_text).</span></div><div class='img'><img src='plot_heatmap-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot_heatmap</span>(<span class='no'>fobject</span>)</div><div class='output co'>#&gt;             metric  model score
+#&gt; 1  TPR_parity_loss ranger 0.682
+#&gt; 2  TPR_parity_loss    glm 1.122
+#&gt; 3  TPR_parity_loss    rf5 0.695
+#&gt; 4  TPR_parity_loss    rf6 0.390
+#&gt; 5  TPR_parity_loss    rf7 0.828
+#&gt; 6  TNR_parity_loss ranger 0.315
+#&gt; 7  TNR_parity_loss    glm 0.446
+#&gt; 8  TNR_parity_loss    rf5 0.350
+#&gt; 9  TNR_parity_loss    rf6 0.373
+#&gt; 10 TNR_parity_loss    rf7 0.317
+#&gt; 11 PPV_parity_loss ranger 0.469
+#&gt; 12 PPV_parity_loss    glm 0.868
+#&gt; 13 PPV_parity_loss    rf5 0.423
+#&gt; 14 PPV_parity_loss    rf6 0.365
+#&gt; 15 PPV_parity_loss    rf7 0.343
+#&gt; 16 NPV_parity_loss ranger 0.356
+#&gt; 17 NPV_parity_loss    glm 0.113
+#&gt; 18 NPV_parity_loss    rf5 0.345
+#&gt; 19 NPV_parity_loss    rf6 0.488
+#&gt; 20 NPV_parity_loss    rf7 0.376
+#&gt; 21 FNR_parity_loss ranger 0.682
+#&gt; 22 FNR_parity_loss    glm 1.122
+#&gt; 23 FNR_parity_loss    rf5 0.695
+#&gt; 24 FNR_parity_loss    rf6 0.390
+#&gt; 25 FNR_parity_loss    rf7 0.828
+#&gt; 26 FPR_parity_loss ranger 0.315
+#&gt; 27 FPR_parity_loss    glm 0.446
+#&gt; 28 FPR_parity_loss    rf5 0.350
+#&gt; 29 FPR_parity_loss    rf6 0.373
+#&gt; 30 FPR_parity_loss    rf7 0.317
+#&gt; 31 FDR_parity_loss ranger 0.469
+#&gt; 32 FDR_parity_loss    glm 0.868
+#&gt; 33 FDR_parity_loss    rf5 0.423
+#&gt; 34 FDR_parity_loss    rf6 0.365
+#&gt; 35 FDR_parity_loss    rf7 0.343
+#&gt; 36 FOR_parity_loss ranger 0.356
+#&gt; 37 FOR_parity_loss    glm 0.113
+#&gt; 38 FOR_parity_loss    rf5 0.345
+#&gt; 39 FOR_parity_loss    rf6 0.488
+#&gt; 40 FOR_parity_loss    rf7 0.376
+#&gt; 41  TS_parity_loss ranger 0.601
+#&gt; 42  TS_parity_loss    glm 0.855
+#&gt; 43  TS_parity_loss    rf5 0.541
+#&gt; 44  TS_parity_loss    rf6 0.291
+#&gt; 45  TS_parity_loss    rf7 0.605
+#&gt; 46 ACC_parity_loss ranger 0.299
+#&gt; 47 ACC_parity_loss    glm 0.135
+#&gt; 48 ACC_parity_loss    rf5 0.315
+#&gt; 49 ACC_parity_loss    rf6 0.196
+#&gt; 50 ACC_parity_loss    rf7 0.313
+#&gt; 51  F1_parity_loss ranger 0.582
+#&gt; 52  F1_parity_loss    glm    NA
+#&gt; 53  F1_parity_loss    rf5 0.504
+#&gt; 54  F1_parity_loss    rf6 0.330
+#&gt; 55  F1_parity_loss    rf7 0.571
+#&gt; 56 MCC_parity_loss ranger 0.530
+#&gt; 57 MCC_parity_loss    glm 0.671
+#&gt; 58 MCC_parity_loss    rf5 0.592
+#&gt; 59 MCC_parity_loss    rf6 0.351
+#&gt; 60 MCC_parity_loss    rf7 0.605</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_text).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_text).</span></div><div class='img'><img src='plot_heatmap-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
