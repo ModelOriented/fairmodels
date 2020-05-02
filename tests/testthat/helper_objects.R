@@ -22,9 +22,10 @@ fobject <- create_fairness_object(explainer_gbm, explainer_glm, explainer_ranger
                                   data = compas,
                                   outcome = "Two_yr_Recidivism",
                                   base = "Caucasian",
-                                  group = "Ethnicity")
+                                  group = "Ethnicity",
+                                  cutoff = c(0.5,0.5,0.45,0.5,0.5,0.5))
 
-
+fobject$groups_data$gbm$TPR
 
 
 explainer_gbm1 <- explainer_gbm
@@ -61,7 +62,8 @@ fobject_big <- create_fairness_object(explainer_gbm, explainer_glm, explainer_ra
                                   data = compas,
                                   outcome = "Two_yr_Recidivism",
                                   base = "Caucasian",
-                                  group = "Ethnicity")
+                                  group = "Ethnicity",
+                                  cutoff = c(0.5,0.5,0.45,0.5,0.5,0.5))
 
 
 # testthat ----------------------------------------------------------------

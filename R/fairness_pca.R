@@ -1,4 +1,6 @@
-#' Create Fairness PCA
+#' Fairness PCA
+#'
+#' @description Calculate PC for metric_matrix to see similarities between models and metrics
 #'
 #' @param x fairness object
 #' @param omit_models_with_NA if true omits rows in \code{metric_matrix}, else omits columns
@@ -14,13 +16,13 @@
 #' y_numeric <- as.numeric(compas$Two_yr_Recidivism) - 1
 #' # models
 #'
-#' rf_compas_1 <- ranger(Two_yr_Recidivism ~ Number_of_Priors + Age_Below_TwentyFive, data = compas, probability = TRUE) # Wszystko
-#' rf_compas_3 <- ranger(Two_yr_Recidivism ~ Sex + Age_Above_FourtyFive, data = compas, probability = TRUE) # dziwny model
+#' rf_compas_1 <- ranger(Two_yr_Recidivism ~ Number_of_Priors + Age_Below_TwentyFive, data = compas, probability = TRUE)
+#' rf_compas_3 <- ranger(Two_yr_Recidivism ~ Sex + Age_Above_FourtyFive, data = compas, probability = TRUE)
 #' model_compas_lr <- glm(Two_yr_Recidivism ~ ., data = compas, family = binomial(link = "logit"))
-#' rf_compas_5 <- ranger(Two_yr_Recidivism ~ ., data = compas, probability = TRUE) # Wszystko
-#' rf_compas_6 <- ranger(Two_yr_Recidivism ~ Age_Above_FourtyFive + Misdemeanor, data = compas, probability = TRUE) # dziwny model
-#' rf_compas_7 <- ranger(Two_yr_Recidivism ~ ., data = compas, probability = TRUE) # Wszystko
-#' rf_compas_8 <- ranger(Two_yr_Recidivism ~ Sex + Age_Above_FourtyFive + Misdemeanor + Ethnicity, data = compas, probability = TRUE) # dziwny model
+#' rf_compas_5 <- ranger(Two_yr_Recidivism ~ ., data = compas, probability = TRUE)
+#' rf_compas_6 <- ranger(Two_yr_Recidivism ~ Age_Above_FourtyFive + Misdemeanor, data = compas, probability = TRUE)
+#' rf_compas_7 <- ranger(Two_yr_Recidivism ~ ., data = compas, probability = TRUE)
+#' rf_compas_8 <- ranger(Two_yr_Recidivism ~ Sex + Age_Above_FourtyFive + Misdemeanor + Ethnicity, data = compas, probability = TRUE)
 #'
 #' # explainers
 #' explainer_1 <- explain(rf_compas_1, data = compas, y = y_numeric)
@@ -30,7 +32,7 @@
 #' explainer_6 <- explain(rf_compas_6, data = compas, y = y_numeric)
 #' explainer_7 <- explain(rf_compas_7, data = compas, y = y_numeric)
 #'
-#' # diffrent labels
+#' # different labels
 #' explainer_3$label <- "rf3"
 #' explainer_4$label <- "glm"
 #' explainer_5$label <- "rf5"
@@ -44,13 +46,17 @@
 #'   base = "Caucasian"
 #' )
 #'
-#' cfo <- create_fairness_pca(fobject)
-#' cfo
+#' fpca <- pca(fobject)
+#' plot(fpca)
+#'
+#'
 #' @export
-#' @rdname create_fairness_pca
+#' @rdname fairness_pca
 
-create_fairness_pca <- function(x, omit_models_with_NA = FALSE) {
+pca <- function(x, omit_models_with_NA = FALSE) {
+
   stopifnot(is.logical(omit_models_with_NA))
+  stopifnot(class(x) == "fairness_object")
 
   # extracting metric data from object
   metric_data <- x$metric_data
@@ -93,3 +99,9 @@ create_fairness_pca <- function(x, omit_models_with_NA = FALSE) {
   class(fairness_pca) <- "fairness_pca"
   return(fairness_pca)
 }
+
+
+
+
+
+

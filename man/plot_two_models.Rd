@@ -4,14 +4,10 @@
 \alias{plot_two_models}
 \title{Plot two models}
 \usage{
-plot_two_models(
-  fairness_object,
-  fairness_metric = NULL,
-  performance_metric = NULL
-)
+plot_two_models(x, fairness_metric = NULL, performance_metric = NULL)
 }
 \arguments{
-\item{fairness_object}{object of class \code{fairness_object}}
+\item{x}{object of class \code{fairness_object}}
 
 \item{fairness_metric}{fairness metric name from
 \itemize{
@@ -45,6 +41,7 @@ plot_two_models(
 Plot two models
 }
 \examples{
+
 library(DALEX)
 library(ranger)
 data("compas")

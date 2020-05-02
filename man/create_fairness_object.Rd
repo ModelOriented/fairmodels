@@ -86,12 +86,12 @@ y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
 explainer_rf  <- explain(rf_compas, data = compas, y = y_numeric)
 explainer_glm <- explain(glm_compas, data = compas, y = y_numeric)
 
-cfo <-create_fairness_object(explainer_glm, explainer_rf,
+fobject <-create_fairness_object(explainer_glm, explainer_rf,
                              outcome = "Two_yr_Recidivism",
                              group = "Ethnicity",
                              base = "Caucasian",
                              cutoff = 0.5)
-
+plot(fobject)
 
 }
 \references{

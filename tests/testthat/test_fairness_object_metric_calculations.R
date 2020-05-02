@@ -55,9 +55,14 @@ test_that("fairness objects metrics calculations", {
   tpr_C <- tp_C/(tp_C + fn_C)
   tpr_A <- tp_A/(tp_A + fn_A)
 
-  fobject_value <- round(fobject10$groups_data$ranger$TPR[3],3)
+  fobject_value <- round(fobject10$groups_data$ranger$TPR[1],3)
   names(fobject_value) <- NULL
-  expect_equal(fobject_value, round(tpr_A/tpr_C,3))
+  expect_equal(fobject_value, round(tpr_C,3))
+
+  fobject_value <- round(fobject10$groups_data$ranger$TPR[2],3)
+  names(fobject_value) <- NULL
+  expect_equal(fobject_value, round(tpr_A,3))
+
 
 
 })

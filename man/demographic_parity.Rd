@@ -2,15 +2,15 @@
 % Please edit documentation in R/demographic_parity.R
 \name{demographic_parity}
 \alias{demographic_parity}
-\alias{demographic_parity.default}
 \alias{demographic_parity.fairness_object}
+\alias{demographic_parity.default}
 \title{Demographic parity}
 \usage{
 demographic_parity(x, ...)
 
-\method{demographic_parity}{default}(x, ..., outcome, group)
-
 \method{demographic_parity}{fairness_object}(x, ...)
+
+\method{demographic_parity}{default}(x, ..., outcome, group)
 }
 \arguments{
 \item{x}{data.frame/ fairness_object}

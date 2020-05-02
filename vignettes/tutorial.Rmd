@@ -170,7 +170,7 @@ plot(cm)
 With this task we should use `PCA`. We call `create_fairness_pca()` to create fairness pca object. 
 ```{r}
 fobject$metric_data
-fair_pca <- create_fairness_pca(fobject)
+fair_pca <- pca(fobject)
 print(fair_pca)
 ```
 
@@ -204,7 +204,8 @@ Now we know what those scores are and how "similar" models are to each other
 Sometimes we would like to know how good are models in performance metrics and in fairness metrics at the same time, to see the tradeoff between them.
 
 ```{r}
-plot(performance_with_fairness(fobject, fairness_metric = "FPR_parity_loss"))
+fap <- performance_with_fairness(fobject, fairness_metric = "FPR_parity_loss")
+plot(fap)
 ```
 
 We can add plots with help of `patchwork` 

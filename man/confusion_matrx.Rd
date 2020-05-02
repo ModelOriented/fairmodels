@@ -13,6 +13,17 @@ confusion_matrix(probs, observed, cutoff)
 
 \item{cutoff}{cutoff}
 }
+\value{
+list that creates confusion matrix, of class \code{confussion_matrix}
+}
 \description{
-Confusion matrix
+Calculates confusion matrix for given cutoff
+}
+\examples{
+
+probs    <- rnorm(20, 0.4,0.1)
+observed <- round(runif(20))
+
+confusion_matrix(probs, observed, 0.5)
+
 }

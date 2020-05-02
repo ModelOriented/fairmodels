@@ -27,8 +27,36 @@ group_matrices(
 \item{cutoff}{\code{numeric} cutoff for probabilities, deafult = 0.5}
 }
 \value{
-
+list with values:
+\itemize{
+\item subgroup
+\itemize{
+\item tp - true positive values
+\item fp - false positive values
+\item tn - true negative values
+\item fn - false negative values
+}}
 }
 \description{
-Group confusion matrices
+Calculates coufusion matrices for each subgroup
+}
+\examples{
+data("compas")
+
+glm_compas <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
+y_prob <- glm_compas$fitted.values
+
+data <- compas
+data$probabilities <- y_prob
+
+y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
+
+group_matrices(data,
+               "Ethnicity",
+                outcome = "Two_yr_Recidivism",
+                 outcome_numeric = y_numeric,
+                 cutoff = rep(0.45,6))
+
+
+
 }

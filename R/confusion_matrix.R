@@ -1,11 +1,24 @@
 #' Confusion matrix
 #'
+#' @description Calculates confusion matrix for given cutoff
+#'
 #' @param probs probabilities given by model
 #' @param observed actual values from outcome
 #' @param cutoff cutoff
 #'
+#' @return list that creates confusion matrix, of class \code{confussion_matrix}
+#'
 #' @export
 #' @rdname confusion_matrx
+#'
+#'
+#' @examples
+#'
+#' probs    <- rnorm(20, 0.4,0.1)
+#' observed <- round(runif(20))
+#'
+#' confusion_matrix(probs, observed, 0.5)
+#'
 
 confusion_matrix <- function(probs, observed , cutoff){
   stopifnot(length(probs) == length(observed))

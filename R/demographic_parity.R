@@ -21,11 +21,25 @@
 demographic_parity <- function(x,...) UseMethod("demographic_parity")
 
 
+
+#' @rdname demographic_parity
+#' @export
+
+demographic_parity.fairness_object <- function(x, ...){
+  data    <- x$data
+  outcome <- x$outcome
+  group   <- x$group
+
+  demographic_parity.default(x = data, outcome = outcome, group = group)
+}
+
 #' @rdname demographic_parity
 #' @export
 
 demographic_parity.default <- function(x,..., outcome, group){
+
   data <-x
+
   if (! outcome %in% colnames(data)) stop(cat("\nColumn", outcome, "not in data.frame\n"))
   if (! group %in% colnames(data)) stop(cat("\nColumn", group, "not in data.frame\n"))
 
@@ -51,17 +65,6 @@ demographic_parity.default <- function(x,..., outcome, group){
 
 }
 
-
-#' @rdname demographic_parity
-#' @export
-
-demographic_parity.fairness_object <- function(x, ...){
-  data <- x$data
-  outcome <- x$outcome
-  group <- x$group
-
-  demographic_parity.default(x = data, outcome = outcome, group = group)
-}
 
 
 

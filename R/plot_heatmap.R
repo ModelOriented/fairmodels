@@ -27,12 +27,12 @@
 #' # models
 #' y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
 #'
-#' rf_compas_1 <- ranger(Two_yr_Recidivism ~Number_of_Priors+Age_Below_TwentyFive, data = compas, probability = TRUE) # Wszystko
+#' rf_compas_1 <- ranger(Two_yr_Recidivism ~Number_of_Priors+Age_Below_TwentyFive, data = compas, probability = TRUE)
 #' model_compas_lr <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
-#' rf_compas_5 <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE) # Wszystko
-#' rf_compas_6 <- ranger(Two_yr_Recidivism ~ Age_Above_FourtyFive+Misdemeanor, data = compas, probability = TRUE) # dziwny model
-#' rf_compas_7 <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE) # Wszystko
-#' rf_compas_8 <- ranger(Two_yr_Recidivism ~ Sex+Age_Above_FourtyFive+Misdemeanor+Ethnicity, data = compas, probability = TRUE) # dziwny model
+#' rf_compas_5 <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
+#' rf_compas_6 <- ranger(Two_yr_Recidivism ~ Age_Above_FourtyFive+Misdemeanor, data = compas, probability = TRUE)
+#' rf_compas_7 <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
+#' rf_compas_8 <- ranger(Two_yr_Recidivism ~ Sex+Age_Above_FourtyFive+Misdemeanor+Ethnicity, data = compas, probability = TRUE)
 #'
 #' # explainers
 #' explainer_1 <- explain(rf_compas_1, data = compas, y = y_numeric)
@@ -51,7 +51,8 @@
 #' fobject <- create_fairness_object(explainer_1,explainer_4,explainer_5,explainer_6,explainer_7,
 #'                                   outcome = "Two_yr_Recidivism",
 #'                                   group  = "Ethnicity",
-#'                                   base   = "Caucasian")
+#'                                   base   = "Caucasian",
+#'                                   cutoff = 0.5)
 #'
 #' plot_heatmap(fobject)
 #'
@@ -64,6 +65,7 @@ plot_heatmap <- function(x, midpoint = NULL, title = NULL, subtitle = NULL,   te
     m <- ncol(x$metric_data)
     n <- nrow(x$metric_data)
 
+    # expanding data to fir geom_tile convention
     heatmap_data <- expand_fairness_object(x, scale = scale)
     heatmap_data <- as.data.frame(heatmap_data)
     colnames(heatmap_data) <- c("metric","model","score")
@@ -79,59 +81,75 @@ plot_heatmap <- function(x, midpoint = NULL, title = NULL, subtitle = NULL,   te
 
     # making top dendogram
     model1 <- hclust(dist(matrix_model))
-    dhc1 <- as.dendrogram(model1)
+    dhc1   <- as.dendrogram(model1)
 
     # title and subtitle
     if (is.null(title))    title    <- "Heatmap"
     if (is.null(subtitle)) subtitle <- "With dendograms"
 
-    dendro_data1 <- dendro_data(dhc1, type = "rectangle")
-    dendogram_model <-   ggplot(segment(dendro_data1)) +
-                        geom_segment(aes(x = x, y = y, xend = xend, yend = yend),
-                                     color = "#371ea3") +
-                        # theme = nothing
-                        theme_drwhy() +
-                        theme(panel.grid= element_blank(),
-                              axis.text = element_blank(),
-                              axis.title = element_blank())
+    # Dendograms -----------------------------------------
+
+    # dendogram for models
+    dendro_data1    <-  dendro_data(dhc1, type = "rectangle")
+    dendogram_model <-  ggplot(segment(dendro_data1)) +
+                          geom_segment(aes(x = x,
+                                           y = y,
+                                           xend = xend,
+                                           yend = yend),
+
+                                       color = "#371ea3") +
+                          # theme = nothing
+                          theme_drwhy() +
+                          theme(panel.grid= element_blank(),
+                                axis.text = element_blank(),
+                                axis.title = element_blank())
 
 
-    # right dendogram
+    # dendogram for metrics
     model2 <- hclust(dist(t(as.matrix(matrix_model))))
-    dhc2 <- as.dendrogram(model2)
+    dhc2   <- as.dendrogram(model2)
 
-    dendro_data2 <- dendro_data(dhc2, type = "rectangle")
-    dendogram_metric <-   ggplot(segment(dendro_data2)) +
-      geom_segment(aes(x = x, y = y, xend = xend, yend = yend),
-                   color = "#371ea3") +
-      # theme = nothing
-      theme_minimal() +
-      theme(panel.grid= element_blank(),
-            axis.text = element_blank(),
-            axis.title = element_blank())
+    dendro_data2     <- dendro_data(dhc2, type = "rectangle")
+    dendogram_metric <- ggplot(segment(dendro_data2)) +
+                          geom_segment(aes(x = x,
+                                           y = y,
+                                           xend = xend,
+                                           yend = yend),
 
+                                        color = "#371ea3") +
+                          # theme = nothing
+                          theme_minimal() +
+                          theme(panel.grid= element_blank(),
+                                axis.text = element_blank(),
+                                axis.title = element_blank())
 
-
+  # Heatmap ----------------------------------------
 
   if (is.null(midpoint)) midpoint <- max(matrix_model, na.rm = TRUE)/2
   if (scale) midpoint <- 0
+
   # ordering factors to fit dendogram branches
-  model_levels <- levels(unlist(dendro_data1$labels['label']))
-  metric_levels <- levels(unlist(dendro_data2$labels['label']))
+  model_levels  <- unlist(dendro_data1$labels['label'])
+  metric_levels <- unlist(dendro_data2$labels['label'])
+
+  names(model_levels) <- NULL
+  names(metric_levels) <- NULL
 
   # releveling
   heatmap_data$model  <- factor(heatmap_data$model,  levels = model_levels)
   heatmap_data$metric <- factor(heatmap_data$metric, levels = metric_levels)
   heatmap_data$score  <- as.numeric(heatmap_data$score)
 
+  print(heatmap_data)
   # heatmap
     ifelse(n>=(m-1),
            p <- ggplot(heatmap_data, aes(metric, model, fill = score)),
            p <- ggplot(heatmap_data, aes(model, metric, fill = score)))
 
-    heatmap <- p +
-                      geom_tile(colour = "grey50", na.rm = TRUE) +
-    geom_text(aes(label = score), color = "white") +
+    heatmap <- p +    geom_tile(colour = "grey50",
+                                na.rm = TRUE) +
+                      geom_text(aes(label = score),
+                                color = "white") +
                       scale_fill_gradient2(low="#c7f5bf",
                                            mid = "#46bac2",
                                            high="#371ea3",
@@ -145,20 +163,23 @@ plot_heatmap <- function(x, midpoint = NULL, title = NULL, subtitle = NULL,   te
 
 
   # if text true add text
-  if (text) heatmap <- heatmap + geom_text(aes(label = score), color = "white")
+  if (text) heatmap <- heatmap + geom_text(aes(label = score),
+                                           color = "white")
 
   ifelse(n>=(m-1),
-         dendogram_right <- dendogram_model + coord_flip(),
-         dendogram_right <- dendogram_metric+ coord_flip()
+         dendogram_right <- dendogram_model  + coord_flip(),
+         dendogram_right <- dendogram_metric + coord_flip()
          )
 
   ifelse(n>=(m-1),
-         dendogram_top <- dendogram_metric  +
-           ggtitle(title, subtitle = subtitle),
-         dendogram_top <- dendogram_model +
-           ggtitle(title, subtitle = subtitle)
+         dendogram_top <- dendogram_metric,
+         dendogram_top <- dendogram_model
   )
 
+  # adding title
+  dendogram_top <-   dendogram_top +
+                        ggtitle(title,
+                                subtitle = subtitle)
 
   # Plot layout
   dendogram_top + plot_spacer() +

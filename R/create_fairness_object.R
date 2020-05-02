@@ -63,12 +63,12 @@
 #' explainer_rf  <- explain(rf_compas, data = compas, y = y_numeric)
 #' explainer_glm <- explain(glm_compas, data = compas, y = y_numeric)
 #'
-#' cfo <-create_fairness_object(explainer_glm, explainer_rf,
+#' fobject <-create_fairness_object(explainer_glm, explainer_rf,
 #'                              outcome = "Two_yr_Recidivism",
 #'                              group = "Ethnicity",
 #'                              base = "Caucasian",
 #'                              cutoff = 0.5)
-#'
+#' plot(fobject)
 #'
 #' @export
 #' @rdname create_fairness_object
@@ -88,7 +88,7 @@ create_fairness_object <- function(x,
                                    base = NULL,
                                    cutoff = NULL) {
 
-  # Error handling
+# Error handling
 
   # check if data provided, if not get data from first explainer
   if (is.null(data)) {
@@ -118,6 +118,8 @@ create_fairness_object <- function(x,
   # cutoff should be now lenght of group's levels
   if (length(cutoff) != num_levels) stop("cutoff must be either lenght 1 or length of group's levels")
 
+# Data extraction
+
   # explainers from function
   explainers <- c(list(x), list(...))
 
@@ -135,11 +137,23 @@ create_fairness_object <- function(x,
   m <- ncol(data)
 
   # fairness matrix
-  fairness_matrix <- matrix(nrow = n, ncol = 13) # WARNING if number of metrics changed, change this
+  fairness_matrix   <- matrix(nrow = n, ncol = 13) # WARNING if number of metrics changed, change this
 
   explainers_groups <- list(rep(0,n))
 
-  fairness_labels <- paste0(c("TPR","TNR","PPV","NPV","FNR","FPR","FDR","FOR","TS","ACC","F1", "MCC"),"_parity_loss")
+  fairness_labels   <- paste0(c("TPR",
+                                "TNR",
+                                "PPV",
+                                "NPV",
+                                "FNR",
+                                "FPR",
+                                "FDR",
+                                "FOR",
+                                "TS",
+                                "ACC",
+                                "F1",
+                                "MCC"),
+                                "_parity_loss")
 
   exp_labels <- rep(0,n)
 
@@ -156,28 +170,25 @@ create_fairness_object <- function(x,
                                      outcome_numeric = explainers[[i]]$y,
                                      cutoff = cutoff)
 
-    group_metric_matrix <- calculate_group_fairness_metrics(group_matrices)
+    # group metric matrix
+    gmm <- calculate_group_fairness_metrics(group_matrices)
 
     # from every column in matrix subtract base column, then get abs value
     # in other words we measure distance between base group metric's score and other
     # groups metric scores
 
-    gmm_scaled <- abs(apply(group_metric_matrix, 2 , function(x) x  - group_metric_matrix[,base]))
-
-    gmm_loss <- rowSums(gmm_scaled)
+    gmm_scaled      <- abs(apply(gmm, 2 , function(x) x  - gmm[,base]))
+    gmm_loss        <- rowSums(gmm_scaled)
     names(gmm_loss) <- paste0(names(gmm_loss),"_parity_loss")
 
     fairness_matrix[i, ] <- c(gmm_loss,label)
 
     # every group value for every metric for every explainer
-    gmm_based <- group_metric_matrix/group_metric_matrix[,base]
+    metric_list        <- lapply(seq_len(nrow(gmm)), function(j) gmm[j,])
+    names(metric_list) <- rownames(gmm)
 
-    metric_list <- lapply(seq_len(nrow(gmm_based)), function(j) gmm_based[j,])
-    names(metric_list) <- rownames(gmm_based)
-
-    explainers_groups[[i]] <- metric_list
+    explainers_groups[[i]]      <- metric_list
     names(explainers_groups)[i] <- label
-
 
     exp_labels[i] <- label
   }
@@ -186,23 +197,24 @@ create_fairness_object <- function(x,
 
   # as data frame and making numeric
 
-  fairness_df        <- as.data.frame(fairness_matrix)
-  n_col <- ncol(fairness_df)
+  fairness_df   <- as.data.frame(fairness_matrix)
+  n_col         <- ncol(fairness_df)
 
-  fairness_df[, 1:(n_col-1)] <- apply(fairness_df[, 1:(n_col-1)], 2, as.numeric)
+  fairness_df[, 1:(n_col-1)]   <- apply(fairness_df[, 1:(n_col-1)], 2, as.numeric)
 
-  colnames(fairness_df) <- fairness_labels
+  colnames(fairness_df)        <- fairness_labels
   colnames(fairness_df)[n_col] <- "label"
 
   # S3 object
   fairness_object <- list(metric_data = fairness_df,
                           groups_data = explainers_groups,
-                          explainers = explainers,
-                          data = data,
-                          cutoff = cutoff,
-                          outcome = outcome,
-                          group = group,
-                          base = base)
+                          explainers  = explainers,
+                          data        = data,
+                          cutoff      = cutoff,
+                          outcome     = outcome,
+                          group       = group,
+                          base        = base)
+
   class(fairness_object) <- "fairness_object"
 
   return(fairness_object)

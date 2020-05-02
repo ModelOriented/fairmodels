@@ -56,7 +56,7 @@ performance_with_fairness <- function(x, fairness_metric = NULL, performance_met
 
   for(i in seq_along(x$explainers)){
     x$explainers[[i]]$model_info$type <- "classification" # temporary?
-    mod_perf[i] <- model_performance(x$explainers[[i]], cutoff = x$cutoff)$measures[performance_metric][[1]]
+    mod_perf[i] <- model_performance(x$explainers[[i]], cutoff = x$cutoff[i])$measures[performance_metric][[1]]
 
   }
 
