@@ -12,7 +12,11 @@ test_that("PCA fairness", {
   f_pca2 <- pca(fobject, omit_models_with_NA = TRUE)
   data_r <- data[apply(data, 1, function(x) !any(is.na(x))), ]
   true_pca2 <- stats::prcomp(data_r, scale = TRUE)
+  a <- as.data.frame(true_pca2$x)
+  b <- as.data.frame(f_pca2$x)
+  rownames(a) <- NULL
+  rownames(b) <- NULL
 
-  expect_equal(f_pca2$x, true_pca2$x)
+  expect_equal(a,b )
 
 })
