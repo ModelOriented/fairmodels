@@ -5,7 +5,7 @@ Version: 0.1.0
 Authors@R:
     c(person("Jakub", "Wiśniewski", role = c("aut", "cre"),
              email = "jakwisn@gmail.com"),
-      person("Przemyslaw", "Biecek", role = c("aut"), 
+      person("Przemysław", "Biecek", role = c("aut"), 
              comment = c(ORCID = "0000-0001-8423-1823")))
 Maintainer: The package maintainer <jakwisn@gmail.com>
 Description: Measure all fairness metrics in one place. Compare models, choose best.  
