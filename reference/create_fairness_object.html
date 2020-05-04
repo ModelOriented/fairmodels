@@ -46,7 +46,9 @@
 
 
 <meta property="og:title" content="Create Fairness Object — create_fairness_object" />
-<meta property="og:description" content="Create fairness object which measures different fairness metrics and wraps data, explainers and parameters in useful object." />
+<meta property="og:description" content="Create fairness object which measures different fairness metrics and wraps data, explainers and parameters in useful object. This is fundamental object in this package
+It allows to visualize fairness metrics in many ways and compare models on both fairness and performance level. Enables user to handle many models at once, to choose best by having in mind different
+aspects and metrics. Some plots are more useful when many models are given and some when 2-3 are passed." />
 
 
 
@@ -137,7 +139,9 @@
     </div>
 
     <div class="ref-description">
-    <p>Create fairness object which measures different fairness metrics and wraps data, explainers and parameters in useful object.</p>
+    <p>Create fairness object which measures different fairness metrics and wraps data, explainers and parameters in useful object. This is fundamental object in this package
+It allows to visualize fairness metrics in many ways and compare models on both fairness and performance level. Enables user to handle many models at once, to choose best by having in mind different
+aspects and metrics. Some plots are more useful when many models are given and some when 2-3 are passed.</p>
     </div>
 
     <pre class="usage"><span class='fu'>create_fairness_object</span>(
@@ -185,9 +189,8 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of class <code>fairness object</code> which is a list with elements:</p>
-<ul>
-<li><p>metric_data data frame created with following metrics:</p><ul>
+    <p>An object of class <code>fairness object</code> which is a list with elements:</p><ul>
+<li><p>metric_data - data.frame containing parity loss for various fairness metrics. Created with following metrics:</p><ul>
 <li><p>TPR - True Positive Rate (Sensitivity, Recall, Equal Odds)</p></li>
 <li><p>TNR - True Negative Rate (Specificity)</p></li>
 <li><p>PPV - Positive Predictive Value (Precision)</p></li>
@@ -215,7 +218,7 @@
 
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Fairness object took inspiration from R package <code>fairness</code> by kozodoi. Some parameters where designed to show resemblance.</p>
+    <p>Fairness object took inspiration from R package <code>fairness</code> by kozodoi <a href='https://github.com/kozodoi/fairness'>https://github.com/kozodoi/fairness</a>. Some parameters where designed to show resemblance.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>DALEX</span>)
@@ -265,7 +268,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by The package maintainer.</p>
+  <p>Developed by Jakub Wiśniewski, Przemyslaw Biecek.</p>
 </div>
 
 <div class="pkgdown">

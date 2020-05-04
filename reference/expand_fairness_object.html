@@ -46,7 +46,7 @@
 
 
 <meta property="og:title" content="Expand Fairness Object — expand_fairness_object" />
-<meta property="og:description" content="Expand Fairness Object" />
+<meta property="og:description" content="Unfold fairness object to 3 columns (metrics, label, score) to construct better base for visualization." />
 
 
 
@@ -137,10 +137,10 @@
     </div>
 
     <div class="ref-description">
-    <p>Expand Fairness Object</p>
+    <p>Unfold fairness object to 3 columns (metrics, label, score) to construct better base for visualization.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>expand_fairness_object</span>(<span class='no'>x</span>, <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>expand_fairness_object</span>(<span class='no'>x</span>, <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>drop_metrics_with_na</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -153,6 +153,10 @@
       <th>scale</th>
       <td><p>if true normalises metric data</p></td>
     </tr>
+    <tr>
+      <th>drop_metrics_with_na</th>
+      <td><p>logical, if TRUE metrics with NA will be ommited</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -162,7 +166,8 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>DALEX</span>)
+    <pre class="examples"><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>DALEX</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ranger</span>)
 
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"compas"</span>)
@@ -197,7 +202,7 @@
                              <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"Caucasian"</span>,
                              <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; Getting data from first ( </span><span style='color: #00BB00;'>lm</span><span> )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='input'>
-<span class='fu'>expand_fairness_object</span>(<span class='no'>fobject</span>)</div><div class='output co'>#&gt;             metric  model     score
+<span class='fu'>expand_fairness_object</span>(<span class='no'>fobject</span>, <span class='kw'>drop_metrics_with_na</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Found metric with NA: F1_parity_loss, ommiting it</span></div><div class='output co'>#&gt;             metric  model     score
 #&gt; 1  TPR_parity_loss     lm 1.1219620
 #&gt; 2  TPR_parity_loss ranger 0.7841474
 #&gt; 3  TNR_parity_loss     lm 0.4459198
@@ -218,10 +223,8 @@
 #&gt; 18  TS_parity_loss ranger 0.5885406
 #&gt; 19 ACC_parity_loss     lm 0.1353720
 #&gt; 20 ACC_parity_loss ranger 0.3203662
-#&gt; 21  F1_parity_loss     lm        NA
-#&gt; 22  F1_parity_loss ranger 0.5524326
-#&gt; 23 MCC_parity_loss     lm 0.6709033
-#&gt; 24 MCC_parity_loss ranger 0.6100263</div><div class='input'>
+#&gt; 21 MCC_parity_loss     lm 0.6709033
+#&gt; 22 MCC_parity_loss ranger 0.6100263</div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -234,7 +237,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by The package maintainer.</p>
+  <p>Developed by Jakub Wiśniewski, Przemyslaw Biecek.</p>
 </div>
 
 <div class="pkgdown">
