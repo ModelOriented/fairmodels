@@ -25,7 +25,8 @@ demographic_parity(x, ...)
 
 }
 \description{
-Demographic parity
+Demographic parity is popular choice to visualize parity on dataset level. In perfect dataset classes should be evenly distributed across subgroups. Plot allows
+user to see not only how classes are distributed but also the size of subgroups. Plot allows to localize problems in dataset level. Function can recieve data frame or fairness object.
 }
 \examples{
 

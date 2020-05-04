@@ -1,5 +1,7 @@
 #' Plot fairness object
 #'
+#' @description Plot distribution for models output probabilities. See how being in particular subgroup affects models decision.
+#'
 #' @param x fairness_object
 #' @param ... other parameters
 #'
@@ -32,9 +34,9 @@
 plot.fairness_object <- function(x, ...){
 
   explainers <- x$explainers
-  data <- x$data
-  n <- nrow(data)
-  l <- length(explainers)
+  data       <- x$data
+  n          <- nrow(data)
+  l          <- length(explainers)
 
   data_combined <- data.frame()
 

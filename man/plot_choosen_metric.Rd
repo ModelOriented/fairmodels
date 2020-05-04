@@ -15,7 +15,7 @@
 \code{ggplot2} object
 }
 \description{
-Plot choosen metric
+Choose metric and than plot it for every model.
 }
 \examples{
 

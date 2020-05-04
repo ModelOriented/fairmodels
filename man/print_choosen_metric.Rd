@@ -18,6 +18,7 @@
 Print choosen metric
 }
 \examples{
+
 library(DALEX)
 library(ranger)
 

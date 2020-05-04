@@ -31,9 +31,8 @@ create_fairness_object(
 }
 \value{
 An object of class \code{fairness object} which is a list with elements:
-
 \itemize{
-\item metric_data data frame created with following metrics:
+\item metric_data - data.frame containing parity loss for various fairness metrics. Created with following metrics:
 \itemize{
 
 \item TPR - True Positive Rate (Sensitivity, Recall, Equal Odds)
@@ -70,7 +69,9 @@ base_metric - scalar, value of metric for base subgroup
 }
 }
 \description{
-Create fairness object which measures different fairness metrics and wraps data, explainers and parameters in useful object.
+Create fairness object which measures different fairness metrics and wraps data, explainers and parameters in useful object. This is fundamental object in this package
+It allows to visualize fairness metrics in many ways and compare models on both fairness and performance level. Enables user to handle many models at once, to choose best by having in mind different
+aspects and metrics. Some plots are more useful when many models are given and some when 2-3 are passed.
 }
 \examples{
 library(DALEX)
@@ -95,5 +96,5 @@ plot(fobject)
 
 }
 \references{
-Fairness object took inspiration from R package \code{fairness} by kozodoi. Some parameters where designed to show resemblance.
+Fairness object took inspiration from R package \code{fairness} by kozodoi \url{https://github.com/kozodoi/fairness}. Some parameters where designed to show resemblance.
 }

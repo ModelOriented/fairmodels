@@ -153,7 +153,8 @@ Let's see how they perform in diffrent metrics.
 
 ## Stacked Barplot
 ```{r}
-plot_stacked_barplot(fobject)
+sm <- stack_metrics(fobject)
+plot(sm)
 ```
    
 At first we see that lm is the worst overall model. It does not give us information if plots are similar to each other. For now only plots basic metrics.
@@ -170,7 +171,7 @@ plot(cm)
 With this task we should use `PCA`. We call `create_fairness_pca()` to create fairness pca object. 
 ```{r}
 fobject$metric_data
-fair_pca <- pca(fobject)
+fair_pca <- fairness_pca(fobject)
 print(fair_pca)
 ```
 
@@ -188,23 +189,29 @@ plot(fair_pca, scale = 0) # deafult = 0.5
 Another way to deal with grouped data is using heatmap.
 
 ```{r}
-plot_heatmap(fobject, subtitle = "With cool colors and dendograms")
+fheatmap <- fairness_heatmap(fobject)
+plot(fheatmap)
 ```
    
 For both models and metrics dendograms are created. This way through hierarchical clustering we can look on similarities between models/metrics. It should give similar but more detailed information than PCA
    
 It can be normalised among metrics.
 ```{r}
-plot_heatmap(fobject, scale = TRUE, title = "Title can be changed") # we can turn values off via text= FALSE
+fheatmap <- fairness_heatmap(fobject, scale = TRUE)
+plot(fheatmap, , title = "Title can be changed", subtitle = "subtitle too!") # we can turn values off via text= FALSE
 ```
 
 Now we know what those scores are and how "similar" models are to each other
+
+
+
+
 ## Metric and Performance Plot
 
 Sometimes we would like to know how good are models in performance metrics and in fairness metrics at the same time, to see the tradeoff between them.
 
 ```{r}
-fap <- performance_with_fairness(fobject, fairness_metric = "FPR_parity_loss")
+fap <- performance_and_fairness(fobject, fairness_metric = "FPR_parity_loss")
 plot(fap)
 ```
 
@@ -214,10 +221,10 @@ We can add plots with help of `patchwork`
 library(patchwork)
 library(ggplot2)
 
-p1 <- plot(performance_with_fairness(fobject,  "TPR_parity_loss", "accuracy"))
-p2 <- plot(performance_with_fairness(fobject,  "FPR_parity_loss", "auc"))     + ggtitle(" ") + theme(legend.position = "none")
-p3 <- plot(performance_with_fairness(fobject,  "NPV_parity_loss", "recall"))  + ggtitle(" ") + theme(legend.position = "none")
-p4 <- plot(performance_with_fairness(fobject,  "TS_parity_loss", "f1"))+ ggtitle(" ") + theme(legend.position = "none")
+p1 <- plot(performance_and_fairness(fobject,  "TPR_parity_loss", "accuracy"))
+p2 <- plot(performance_and_fairness(fobject,  "FPR_parity_loss", "auc"))     + ggtitle(" ") + theme(legend.position = "none")
+p3 <- plot(performance_and_fairness(fobject,  "NPV_parity_loss", "recall"))  + ggtitle(" ") + theme(legend.position = "none")
+p4 <- plot(performance_and_fairness(fobject,  "TS_parity_loss", "f1"))+ ggtitle(" ") + theme(legend.position = "none")
 
 ```
 ```{r}
@@ -238,10 +245,17 @@ fobject2 <- create_fairness_object(explainer_1,explainer_3,
                                   base   = "Caucasian")
 
 
-plot_two_models(fobject2, fairness_metric = "FPR")
+gm <- group_metric(fobject2, fairness_metric = "FPR")
+plot(gm)
 ```
 
 
+## Radar plot
+
+```{r}
+fradar <- fairness_radar(fobject2)
+plot(fradar)
+```
 
 
 We can also use simple `plot` when we have only few explainers.

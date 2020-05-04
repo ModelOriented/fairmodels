@@ -2,7 +2,11 @@ Package: fairmodels
 Type: Package
 Title: Fairness measures for Models
 Version: 0.1.0
-Author: Jakub Wiśniewski
+Authors@R:
+    c(person("Jakub", "Wiśniewski", role = c("aut", "cre"),
+             email = "jakwisn@gmail.com"),
+      person("Przemyslaw", "Biecek", role = c("aut"), 
+             comment = c(ORCID = "0000-0001-8423-1823")))
 Maintainer: The package maintainer <jakwisn@gmail.com>
 Description: Measure all fairness metrics in one place. Compare models, choose best.  
 License: GPL
@@ -15,7 +19,8 @@ Imports:
     patchwork,
     crayon, 
     ggdendro, 
-    ggrepel
+    ggrepel, 
+    scales
 Suggests:
     ranger,
     gbm,
@@ -23,6 +28,5 @@ Suggests:
     rmarkdown,
     covr,
     testthat, 
-    caret,
 RoxygenNote: 7.1.0.9000
 VignetteBuilder: knitr

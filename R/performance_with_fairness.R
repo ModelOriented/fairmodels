@@ -1,13 +1,19 @@
-#' Performance with fairness
+#' Performance and fairness
+#'
+#' @description measure model performance and model fairness metric at the same time. Choose best model according to bot metrics.
+#'
+#' @description Measure performance in both fairness metric and
 #'
 #' @param x \code{fairness_object}
 #' @param fairness_metric fairness metric, one of those in fairness_object
 #' @param performance_metric performance metric, one of
 #'
-#' @return
+#' @return \code{performance_and_fairness} object
 #' @export
 #' @rdname performance_with_fairness
+#'
 #' @examples
+#'
 #' library(DALEX)
 #' library(ranger)
 #'
@@ -32,25 +38,27 @@
 #'                                     outcome = "Two_yr_Recidivism",
 #'                                     group  = "Ethnicity",
 #'                                     base   = "Caucasian")
-#' performance_with_fairness(fobject)
+#' paf <- performance_and_fairness(fobject)
+#' plot(paf)
+#'
 
 
-performance_with_fairness <- function(x, fairness_metric = NULL, performance_metric = NULL){
+performance_and_fairness <- function(x, fairness_metric = NULL, performance_metric = NULL){
   stopifnot(class(x) == "fairness_object")
 
   if (is.null(fairness_metric)) {
     fairness_metric = "ACC_parity_loss"
-    cat("Fairness Metric is NULL, setting deafult (", crayon::green(fairness_metric),")  \n")
+    cat("Fairness Metric is NULL, setting deafult (", fairness_metric,")  \n")
   }
 
   if (is.null(performance_metric)) {
     performance_metric = "auc"
-    cat("Performace metric is NULL, setting deafult (", crayon::green(performance_metric),")  \n")
+    cat("Performace metric is NULL, setting deafult (", performance_metric,")  \n")
   }
 
   # output for creating object
-  cat("\nCreating object with: \nFairness metric", crayon::cyan(fairness_metric),
-      "\nPerformance metric ", crayon::cyan(performance_metric), "\n")
+  cat("\nCreating object with: \nFairness metric", fairness_metric,
+      "\nPerformance metric ", performance_metric, "\n")
 
   mod_perf <- rep(0, length(x$explainers))
 
@@ -64,8 +72,12 @@ performance_with_fairness <- function(x, fairness_metric = NULL, performance_met
   colnames(out) <- c("fairness_metric", "performance_metric", "labels")
   out$labels <- as.factor(out$labels)
 
-  performance_with_fairness <- list(data = out, fairness_metric = fairness_metric, performance_metric = performance_metric, explainers = x$explainers)
-  class(performance_with_fairness) <-  "performance_with_fairness"
+  performance_and_fairness <- list(data = out,
+                                    fairness_metric = fairness_metric,
+                                    performance_metric = performance_metric,
+                                    explainers = x$explainers)
 
-  return(performance_with_fairness)
+  class(performance_and_fairness) <-  "performance_and_fairness"
+
+  return(performance_and_fairness)
 }

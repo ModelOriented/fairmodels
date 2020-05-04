@@ -52,7 +52,7 @@
 #'   base = "Caucasian"
 #' )
 #'
-#' fpca <- pca(fobject)
+#' fpca <- fairness_pca(fobject)
 #' print(fpca)
 
 
@@ -64,6 +64,6 @@ print.fairness_pca <- function(x, ...){
   cat("\nCreated with: \n")
   print(as.character(x$labels))
 
-  cat("\nFirst two components explained", sum(x$pc_1_2)*100, "% of variance.")
+  cat("\nFirst two components explained", sum(x$pc_1_2)*100, "% of variance.\n")
 }
 

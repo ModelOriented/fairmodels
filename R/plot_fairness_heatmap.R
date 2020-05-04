@@ -6,6 +6,7 @@
 #' number of metrics. NA's in metrics are gray.
 #'
 #' @param x fairness object
+#' @param ... other plot parameters
 #' @param scale whether metrics should be normalised
 #' @param midpoint midpoint on gradient scale
 #' @param text deafult \code{TRUE} means it shows values on tiles
@@ -41,7 +42,7 @@
 #' explainer_6 <- explain(rf_compas_6, data = compas, y = y_numeric)
 #' explainer_7 <- explain(rf_compas_7, data = compas, y = y_numeric)
 #'
-#' # diffrent labels
+#' # different labels
 #' explainer_4$label <- "glm"
 #' explainer_5$label <- "rf5"
 #' explainer_6$label <- "rf6"
@@ -54,40 +55,43 @@
 #'                                   base   = "Caucasian",
 #'                                   cutoff = 0.5)
 #'
-#' plot_heatmap(fobject)
+#' fheatmap <- fairness_heatmap(fobject)
+#' plot(fheatmap)
 #'
 #' @export
-#' @rdname plot_heatmap
+#' @rdname plot_fairness_heatmap
 
 
-plot_heatmap <- function(x, midpoint = NULL, title = NULL, subtitle = NULL,   text = TRUE, scale = FALSE){
+plot.fairness_heatmap <- function(x, ..., midpoint = NULL, title = NULL, subtitle = NULL,   text = TRUE, scale = FALSE){
 
-    m <- ncol(x$metric_data)
-    n <- nrow(x$metric_data)
+    heatmap_data <- x$heatmap_data
+    matrix_model <- x$matrix_model
+    scale        <- x$scale
+    m <- x$m
+    n <- x$n
 
-    # expanding data to fir geom_tile convention
-    heatmap_data <- expand_fairness_object(x, scale = scale)
-    heatmap_data <- as.data.frame(heatmap_data)
-    colnames(heatmap_data) <- c("metric","model","score")
-    heatmap_data$metric <- as.factor(heatmap_data$metric)
-    heatmap_data$model <- as.factor(heatmap_data$model)
-    heatmap_data$score <- round(as.numeric(heatmap_data$score),3)
+    if (is.null(midpoint)) midpoint <- max(matrix_model, na.rm = TRUE)/2
+    if (scale) midpoint <- 0
+    if (!is.numeric(midpoint)) stop("Midpoint must be numeric")
+    if (length(midpoint) != 1) stop("Midpoint has lenght > 1")
 
-    # getting numerical data and if scale, normalising it
-    matrix_model <- as.matrix(x$metric_data[,1:(m-1)])
-    if (scale) matrix_model <- scale(matrix_model)
+    # logicals
+    stopifnot(is.logical(scale))
+    stopifnot(is.logical(text))
 
-    rownames(matrix_model) <- x$metric_data[,m]
+    # title and subtitle
+    if (is.null(title))    title    <- "Heatmap"
+    if (is.null(subtitle)) subtitle <- "With dendograms"
+    stopifnot(is.character(title))
+    stopifnot(is.character(subtitle))
+
+
+    # Dendograms -----------------------------------------
 
     # making top dendogram
     model1 <- hclust(dist(matrix_model))
     dhc1   <- as.dendrogram(model1)
 
-    # title and subtitle
-    if (is.null(title))    title    <- "Heatmap"
-    if (is.null(subtitle)) subtitle <- "With dendograms"
-
-    # Dendograms -----------------------------------------
 
     # dendogram for models
     dendro_data1    <-  dendro_data(dhc1, type = "rectangle")
@@ -125,9 +129,6 @@ plot_heatmap <- function(x, midpoint = NULL, title = NULL, subtitle = NULL,   te
 
   # Heatmap ----------------------------------------
 
-  if (is.null(midpoint)) midpoint <- max(matrix_model, na.rm = TRUE)/2
-  if (scale) midpoint <- 0
-
   # ordering factors to fit dendogram branches
   model_levels  <- unlist(dendro_data1$labels['label'])
   metric_levels <- unlist(dendro_data2$labels['label'])
@@ -140,7 +141,6 @@ plot_heatmap <- function(x, midpoint = NULL, title = NULL, subtitle = NULL,   te
   heatmap_data$metric <- factor(heatmap_data$metric, levels = metric_levels)
   heatmap_data$score  <- as.numeric(heatmap_data$score)
 
-  print(heatmap_data)
   # heatmap
     ifelse(n>=(m-1),
            p <- ggplot(heatmap_data, aes(metric, model, fill = score)),

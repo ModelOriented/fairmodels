@@ -2,7 +2,7 @@
 
 #' Plot fairness PCA
 #'
-#' @description Plot pca calculated on fainress_object
+#' @description Plot pca calculated on fainress_object metrics. Similar models and metrics should be close to each other.
 #'
 #'
 #' @param x fairness_pca object
@@ -56,7 +56,7 @@
 #'   base = "Caucasian"
 #' )
 #'
-#' fpca <- pca(fobject)
+#' fpca <- fairness_pca(fobject)
 #' plot(fpca)
 
 plot.fairness_pca <- function(x, scale = 0.5,  ...){

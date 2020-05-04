@@ -1,8 +1,10 @@
-#' Title
+#' Stack metrics
 #'
-#' @param x fairness object
+#' @description Stacked metrics is like plot for \code{choosen_metric} but with all unique metrics stacked on top of each other. Metrics containing NA's will be dropped to enable fair comparison.
 #'
-#' @return ggplot object
+#' @param x \code{fairness_object}
+#'
+#' @return \code{stacked_metrics} object
 #' @export
 #'
 #' @import ggplot2
@@ -31,37 +33,38 @@
 #'                              base = "Caucasian",
 #'                              cutoff = 0.5)
 #'
-#' plot_stacked_barplot(fobject)
-#'
+#' sm <- stack_metrics(fobject)
+#' plot(sm)
 
 
 
-plot_stacked_barplot <- function(x) UseMethod("plot_stacked_barplot")
+stack_metrics <- function(x){
 
-#' @export
-#' @rdname plot_stacked_barplot
+  stopifnot(class(x) == "fairness_object")
 
-plot_stacked_barplot.fairness_object <- function(x){
+  expanded_data <- expand_fairness_object(x,  drop_metrics_with_na = TRUE)
 
-  expanded_data <- expand_fairness_object(x)
-
-  expanded_data <- as.data.frame(expanded_data)
+  expanded_data           <- as.data.frame(expanded_data)
   colnames(expanded_data) <- c("metric","model","score")
-  expanded_data$metric <- as.factor(expanded_data$metric)
-  expanded_data$model <- as.factor(expanded_data$model)
-  expanded_data$score <- round(as.numeric(expanded_data$score),3)
+  expanded_data$metric    <- as.factor(expanded_data$metric)
+  expanded_data$model     <- as.factor(expanded_data$model)
+  expanded_data$score     <- round(as.numeric(expanded_data$score),3)
 
   # other metric scores are the same, example ( TPR  = 1 - FNR ) and their parity loss is the same
-  expanded_data <- expanded_data[expanded_data$metric %in% paste0(c("TPR", 'TNR', 'PPV', 'NPV','TS','ACC','F1','MCC'), "_parity_loss"),]
+  expanded_data <- expanded_data[expanded_data$metric %in% unique_metrics(),]
 
 
-  plot_stacked_barplot.deafult(expanded_data)
+  stacked_metrics <- list(expanded_data = expanded_data, l = FALSE)
+  class(stacked_metrics) <- "stacked_metrics"
+
+  return(stacked_metrics)
 }
 
 #' @export
-#' @rdname plot_stacked_barplot
+#' @rdname plot_stacked_metrics
 
-plot_stacked_barplot.deafult <- function(x){
+plot.stacked_metrics <- function(x, ...){
+  x <- x$expanded_data
 
   ggplot(x, aes(x = reorder(model, -score), y = score, fill = reorder(metric, score))) +
     geom_bar(stat = "identity", position = "stack", alpha = 0.8) +

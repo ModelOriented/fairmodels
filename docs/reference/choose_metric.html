@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Choose metric — choose_metric • FairModels</title>
+<title>Choose metric — choose_metric • fairmodels</title>
 
 
 <!-- jquery -->
@@ -46,7 +46,7 @@
 
 
 <meta property="og:title" content="Choose metric — choose_metric" />
-<meta property="og:description" content="Choose metric" />
+<meta property="og:description" content="choose metric and compare it's values across all models" />
 
 
 
@@ -86,7 +86,7 @@
       </button>
 
       <div class="navbar-brand-container">
-        <a class="navbar-brand" href="../index.html">FairModels</a>
+        <a class="navbar-brand" href="../index.html">fairmodels</a>
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
@@ -137,7 +137,7 @@
     </div>
 
     <div class="ref-description">
-    <p>Choose metric</p>
+    <p>choose metric and compare it's values across all models</p>
     </div>
 
     <pre class="usage"><span class='fu'>choose_metric</span>(<span class='no'>x</span>, <span class='kw'>fairness_metric</span> <span class='kw'>=</span> <span class='st'>"FPR_parity_loss"</span>)</pre>
@@ -151,19 +151,36 @@
     </tr>
     <tr>
       <th>fairness_metric</th>
-      <td><p><code>char</code>, name of fairness metric, one of metric data in fairness object</p></td>
+      <td><p><code>char</code>, name of fairness metric, one of metrics:</p>
+<ul>
+<li><p>TPR_parity_loss - parity loss of True Positive Rate (Sensitivity, Recall, Equal Odds)</p></li>
+<li><p>TNR_parity_loss - parity loss of True Negative Rate (Specificity)</p></li>
+<li><p>PPV_parity_loss - parity loss of Positive Predictive Value (Precision)</p></li>
+<li><p>NPV_parity_loss - parity loss of Negative Predictive Value</p></li>
+<li><p>FNR_parity_loss - parity loss of False Negative Rate</p></li>
+<li><p>FPR_parity_loss - parity loss of False Positive Rate</p></li>
+<li><p>FDR_parity_loss - parity loss of False Discovery Rate</p></li>
+<li><p>FOR_parity_loss - parity loss of False Omision Rate</p></li>
+<li><p>TS_parity_loss  - parity loss of Threat Score</p></li>
+<li><p>ACC_parity_loss - parity loss of Accuracy</p></li>
+<li><p>F1_parity_loss  - parity loss of F1 Score</p></li>
+<li><p>MCC_parity_loss - parity loss of Matthews correlation coefficient</p></li>
+</ul></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>choose_metric object</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>some of metrics give same parity loss as others (for example TPR and FNR and that is because TPR = 1 - FNR)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>DALEX</span>)</div><div class='output co'>#&gt; <span class='message'>Welcome to DALEX (version: 1.0.1).</span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>DALEX</span>)</div><div class='output co'>#&gt; <span class='message'>Welcome to DALEX (version: 1.2.1).</span>
 #&gt; <span class='message'>Find examples and detailed introduction at: https://pbiecek.github.io/ema/</span>
-#&gt; <span class='message'>Additional features will be available after installation of: ingredients, iBreakDown, ggpubr.</span>
+#&gt; <span class='message'>Additional features will be available after installation of: ggpubr.</span>
 #&gt; <span class='message'>Use 'install_dependencies()' to get all suggested dependencies</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ranger</span>)
 
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>compas</span>)
@@ -187,7 +204,7 @@
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  6  cols 
 #&gt;   -&gt; target variable   :  6172  values 
-#&gt;   -&gt; model_info        :  package stats , ver. 3.6.3 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; model_info        :  package stats , ver. 4.0.0 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  0.1144574 , mean =  0.4551199 , max =  0.995477  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
@@ -205,8 +222,8 @@
 #&gt;  TPR_parity_loss
 #&gt; data:
 #&gt;     metric  label
-#&gt; 1 1.694269 ranger
-#&gt; 2 2.732832     lm</div></span></pre>
+#&gt; 1 1.162833 ranger
+#&gt; 2 1.878925     lm</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -218,7 +235,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by The package maintainer.</p>
+  <p>Developed by Jakub Wiśniewski, Przemyslaw Biecek.</p>
 </div>
 
 <div class="pkgdown">

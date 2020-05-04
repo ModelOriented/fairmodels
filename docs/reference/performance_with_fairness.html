@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Performance with fairness — performance_with_fairness • FairModels</title>
+<title>Performance and fairness — performance_and_fairness • fairmodels</title>
 
 
 <!-- jquery -->
@@ -45,8 +45,9 @@
 
 
 
-<meta property="og:title" content="Performance with fairness — performance_with_fairness" />
-<meta property="og:description" content="Performance with fairness" />
+<meta property="og:title" content="Performance and fairness — performance_and_fairness" />
+<meta property="og:description" content="measure model performance and model fairness metric at the same time. Choose best model according to bot metrics.
+Measure performance in both fairness metric and" />
 
 
 
@@ -86,7 +87,7 @@
       </button>
 
       <div class="navbar-brand-container">
-        <a class="navbar-brand" href="../index.html">FairModels</a>
+        <a class="navbar-brand" href="../index.html">fairmodels</a>
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
@@ -131,16 +132,17 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Performance with fairness</h1>
+    <h1>Performance and fairness</h1>
     
     <div class="hidden name"><code>performance_with_fairness.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Performance with fairness</p>
+    <p>measure model performance and model fairness metric at the same time. Choose best model according to bot metrics.</p>
+<p>Measure performance in both fairness metric and</p>
     </div>
 
-    <pre class="usage"><span class='fu'>performance_with_fairness</span>(<span class='no'>x</span>, <span class='kw'>fairness_metric</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>performance_metric</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>performance_and_fairness</span>(<span class='no'>x</span>, <span class='kw'>fairness_metric</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>performance_metric</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -161,12 +163,11 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
-
-
+    <p><code>performance_and_fairness</code> object</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>DALEX</span>)
+    <pre class="examples"><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>DALEX</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ranger</span>)
 
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"compas"</span>)
@@ -186,14 +187,14 @@
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.2981681 , mean =  0.4553803 , max =  0.7849138  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.2970982 , mean =  0.4551926 , max =  0.7800449  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7561919 , mean =  -0.0002603582 , max =  0.7018319  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7574063 , mean =  -7.275191e-05 , max =  0.7029018  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>lr_compas_1</span>,  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>[,-<span class='fl'>1</span>], <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  6  cols 
 #&gt;   -&gt; target variable   :  6172  values 
-#&gt;   -&gt; model_info        :  package stats , ver. 3.6.3 , task regression ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; model_info        :  package stats , ver. 4.0.0 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  0.1144574 , mean =  0.4551199 , max =  0.995477  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
@@ -204,90 +205,31 @@
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1350585 , mean =  0.4545835 , max =  0.853144  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1265299 , mean =  0.4552243 , max =  0.8415851  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7900123 , mean =  0.0005364061 , max =  0.8405583  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7787248 , mean =  -0.000104444 , max =  0.8490475  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>rf_compas_3</span>,  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>[,-<span class='fl'>1</span>], <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"ranger_3"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger_3 
 #&gt;   -&gt; data              :  6172  rows  6  cols 
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.298677 , mean =  0.4546495 , max =  0.5136162  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.3053118 , mean =  0.4552414 , max =  0.5133245  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.5136162 , mean =  0.0004703763 , max =  0.701323  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.5133245 , mean =  -0.0001214926 , max =  0.6946882  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='no'>fobject</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_fairness_object.html'>create_fairness_object</a></span>(<span class='no'>explainer_1</span>,<span class='no'>explainer_2</span>,<span class='no'>explainer_3</span>,<span class='no'>explainer_4</span>,
                                     <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>,
                                     <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
                                     <span class='kw'>group</span>  <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>,
                                     <span class='kw'>base</span>   <span class='kw'>=</span> <span class='st'>"Caucasian"</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='input'><span class='fu'>performance_with_fairness</span>(<span class='no'>fobject</span>)</div><div class='output co'>#&gt; Fairness Metric is NULL, setting deafult ( </span><span style='color: #00BB00;'>ACC_parity_loss</span><span> )  
-#&gt; Performace metric is NULL, setting deafult ( </span><span style='color: #00BB00;'>auc</span><span> )  
+#&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='input'><span class='no'>paf</span> <span class='kw'>&lt;-</span> <span class='fu'>performance_and_fairness</span>(<span class='no'>fobject</span>)</div><div class='output co'>#&gt; Fairness Metric is NULL, setting deafult ( ACC_parity_loss )  
+#&gt; Performace metric is NULL, setting deafult ( auc )  
 #&gt; 
 #&gt; Creating object with: 
-#&gt; Fairness metric </span><span style='color: #00BBBB;'>ACC_parity_loss</span><span> 
-#&gt; Performance metric  </span><span style='color: #00BBBB;'>auc</span><span> </div><div class='output co'>#&gt; $data
-#&gt;   fairness_metric performance_metric   labels
-#&gt; 1       0.4500568          0.7171310   ranger
-#&gt; 2       0.2037848          0.7221915       lm
-#&gt; 3       0.4470479          0.7479551 ranger_2
-#&gt; 4       0.3320299          0.5916560 ranger_3
-#&gt; 
-#&gt; $fairness_metric
-#&gt; [1] "ACC_parity_loss"
-#&gt; 
-#&gt; $performance_metric
-#&gt; [1] "auc"
-#&gt; 
-#&gt; $explainers
-#&gt; $explainers[[1]]
-#&gt; Model label:  ranger 
-#&gt; Model class:  ranger 
-#&gt; Data head  :
-#&gt;   Number_of_Priors Age_Above_FourtyFive Age_Below_TwentyFive  Sex Misdemeanor
-#&gt; 4       -0.6843578                   no                   no Male         yes
-#&gt; 5        2.2668817                   no                   no Male          no
-#&gt;   Ethnicity
-#&gt; 4     Other
-#&gt; 5 Caucasian
-#&gt; 
-#&gt; $explainers[[2]]
-#&gt; Model label:  lm 
-#&gt; Model class:  glm,lm 
-#&gt; Data head  :
-#&gt;   Number_of_Priors Age_Above_FourtyFive Age_Below_TwentyFive  Sex Misdemeanor
-#&gt; 4       -0.6843578                   no                   no Male         yes
-#&gt; 5        2.2668817                   no                   no Male          no
-#&gt;   Ethnicity
-#&gt; 4     Other
-#&gt; 5 Caucasian
-#&gt; 
-#&gt; $explainers[[3]]
-#&gt; Model label:  ranger_2 
-#&gt; Model class:  ranger 
-#&gt; Data head  :
-#&gt;   Number_of_Priors Age_Above_FourtyFive Age_Below_TwentyFive  Sex Misdemeanor
-#&gt; 4       -0.6843578                   no                   no Male         yes
-#&gt; 5        2.2668817                   no                   no Male          no
-#&gt;   Ethnicity
-#&gt; 4     Other
-#&gt; 5 Caucasian
-#&gt; 
-#&gt; $explainers[[4]]
-#&gt; Model label:  ranger_3 
-#&gt; Model class:  ranger 
-#&gt; Data head  :
-#&gt;   Number_of_Priors Age_Above_FourtyFive Age_Below_TwentyFive  Sex Misdemeanor
-#&gt; 4       -0.6843578                   no                   no Male         yes
-#&gt; 5        2.2668817                   no                   no Male          no
-#&gt;   Ethnicity
-#&gt; 4     Other
-#&gt; 5 Caucasian
-#&gt; 
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "performance_with_fairness"</div></span></pre>
+#&gt; Fairness metric ACC_parity_loss 
+#&gt; Performance metric  auc </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>paf</span>)</div><div class='img'><img src='performance_with_fairness-1.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -299,7 +241,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by The package maintainer.</p>
+  <p>Developed by Jakub Wiśniewski, Przemyslaw Biecek.</p>
 </div>
 
 <div class="pkgdown">

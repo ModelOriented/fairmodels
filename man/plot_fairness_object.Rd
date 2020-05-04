@@ -15,7 +15,7 @@
 \code{ggplot} object
 }
 \description{
-Plot fairness object
+Plot distribution for models output probabilities. See how being in particular subgroup affects models decision.
 }
 \examples{
 

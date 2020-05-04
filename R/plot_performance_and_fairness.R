@@ -1,5 +1,7 @@
 #' Plot fairness and performance
 #'
+#' @description visualise fairness and model metric at the same time. Note that fairness metric parity scale is reversed so that the best models are in top right corner.
+#'
 #' @param x fairness object
 #' @param ... other plot parameters
 #'
@@ -9,6 +11,8 @@
 #'
 #' @import DALEX
 #' @import ggrepel
+#'
+#' @rdname plot_fairness_and_performance
 #'
 #' @examples
 #'
@@ -38,9 +42,10 @@
 #'                                     base   = "Caucasian")
 #'
 #'
-#' plot(performance_with_fairness(fobject))
+#' paf <- performance_and_fairness(fobject)
+#' plot(paf)
 
-plot.performance_with_fairness <- function(x , ...){
+plot.performance_and_fairness <- function(x , ...){
 
   data <- x$data
   performance_metric <- x$performance_metric

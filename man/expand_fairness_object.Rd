@@ -4,20 +4,23 @@
 \alias{expand_fairness_object}
 \title{Expand Fairness Object}
 \usage{
-expand_fairness_object(x, scale = FALSE)
+expand_fairness_object(x, scale = FALSE, drop_metrics_with_na = FALSE)
 }
 \arguments{
 \item{x}{fairness_object}
 
 \item{scale}{if true normalises metric data}
+
+\item{drop_metrics_with_na}{logical, if TRUE metrics with NA will be ommited}
 }
 \value{
 
 }
 \description{
-Expand Fairness Object
+Unfold fairness object to 3 columns (metrics, label, score) to construct better base for visualization.
 }
 \examples{
+
 library(DALEX)
 library(ranger)
 
@@ -37,6 +40,6 @@ fobject <-create_fairness_object(explainer_glm, explainer_rf,
                              base = "Caucasian",
                              cutoff = 0.5)
 
-expand_fairness_object(fobject)
+expand_fairness_object(fobject, drop_metrics_with_na = TRUE)
 
 }

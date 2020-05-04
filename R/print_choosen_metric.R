@@ -7,6 +7,7 @@
 #' @export
 #' @rdname print_choosen_metric
 #' @examples
+#'
 #' library(DALEX)
 #' library(ranger)
 #'

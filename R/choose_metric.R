@@ -1,7 +1,27 @@
 #' Choose metric
 #'
+#' @description choose metric and compare it's values across all models
+#'
 #' @param x fairness object
-#' @param fairness_metric \code{char}, name of fairness metric, one of metric data in fairness object
+#' @param fairness_metric \code{char}, name of fairness metric, one of metrics:
+#'
+#' \itemize{
+#'
+#' \item TPR_parity_loss - parity loss of True Positive Rate (Sensitivity, Recall, Equal Odds)
+#' \item TNR_parity_loss - parity loss of True Negative Rate (Specificity)
+#' \item PPV_parity_loss - parity loss of Positive Predictive Value (Precision)
+#' \item NPV_parity_loss - parity loss of Negative Predictive Value
+#' \item FNR_parity_loss - parity loss of False Negative Rate
+#' \item FPR_parity_loss - parity loss of False Positive Rate
+#' \item FDR_parity_loss - parity loss of False Discovery Rate
+#' \item FOR_parity_loss - parity loss of False Omision Rate
+#' \item TS_parity_loss  - parity loss of Threat Score
+#' \item ACC_parity_loss - parity loss of Accuracy
+#' \item F1_parity_loss  - parity loss of F1 Score
+#' \item MCC_parity_loss - parity loss of Matthews correlation coefficient
+#' }
+#'
+#' @details some of metrics give same parity loss as others (for example TPR and FNR and that is because TPR = 1 - FNR)
 #'
 #' @return choose_metric object
 #' @export choose_metric
@@ -34,12 +54,7 @@
 
 choose_metric <- function(x, fairness_metric = "FPR_parity_loss"){
   stopifnot(class(x) == "fairness_object")
-
-  av_metrics <- colnames(x$metric_data[,1:(ncol(x$metric_data)-1)])
-  if(! fairness_metric %in%  av_metrics){
-    stop("\nfairness_metric not in metrics! Check fairness_object")
-  }
-
+  assert_parity_metrics(fairness_metric)
   data <- x$metric_data[c(fairness_metric,"label")]
   colnames(data) <- c("metric", "label")
 
@@ -48,7 +63,6 @@ choose_metric <- function(x, fairness_metric = "FPR_parity_loss"){
 
   return(choosen_metric)
 }
-
 
 
 

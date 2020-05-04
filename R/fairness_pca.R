@@ -1,11 +1,11 @@
 #' Fairness PCA
 #'
-#' @description Calculate PC for metric_matrix to see similarities between models and metrics
+#' @description Calculate PC for metric_matrix to see similarities between models and metrics.
 #'
 #' @param x fairness object
 #' @param omit_models_with_NA if true omits rows in \code{metric_matrix}, else omits columns
 #'
-#' @return fairness pca object
+#' @return \code{fairness_pca} object
 #'
 #' @examples
 #'
@@ -46,45 +46,41 @@
 #'   base = "Caucasian"
 #' )
 #'
-#' fpca <- pca(fobject)
+#' fpca <- fairness_pca(fobject)
 #' plot(fpca)
 #'
 #'
 #' @export
 #' @rdname fairness_pca
 
-pca <- function(x, omit_models_with_NA = FALSE) {
+fairness_pca <- function(x, omit_models_with_NA = FALSE) {
 
   stopifnot(is.logical(omit_models_with_NA))
   stopifnot(class(x) == "fairness_object")
 
   # extracting metric data from object
   metric_data <- x$metric_data
-  n <- ncol(metric_data)
-  labels <- metric_data[, n]
-  data <- metric_data[, 1:(n - 1)]
+  m <- ncol(metric_data)
+  labels <- metric_data[, m]
+  data <- metric_data[, 1:(m - 1)]
 
   # NA handling
   if (any(is.na(data))) {
 
     if (omit_models_with_NA) {
       # omit models with NA
-      na_model_index <- apply(data, 1, function(x) any(is.na(x)))
+      na_model_index      <- apply(data, 1, function(x) any(is.na(x)))
       models_with_missing <- as.character(labels)[na_model_index]
-      message(cat("Ommiting models with NA: ", models_with_missing))
-
-      data <- data[, apply(data, 1, function(x) !any(is.na(x)))]
+      warning("Found models with NA: ", models_with_missing, ", ommiting it\n")
+      data               <- data[!na_model_index, ]
     } else {
       # omit metrics with NA
-      na_col_index <- sapply(data, function(x) any(is.na(x)))
-      cols_with_missing <- names(data)[na_col_index]
-      message(cat("Ommiting metrics with NA: ", cols_with_missing))
-
-      data <- data[, apply(data, 2, function(x) !any(is.na(x)))]
+     data <- drop_metrics_with_na(data)
     }
   }
+
   # throw error if after NA ommitint dimensions are to low
-  if (nrow(data) < 2 | ncol(data) < 2) stop("Metrics data have to low dimensions")
+  if (nrow(data) < 2 | ncol(data) < 2) stop("Metrics data have to low dimensions\n")
 
 
   # PCA calculating

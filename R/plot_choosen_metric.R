@@ -1,5 +1,7 @@
 #' Plot choosen metric
 #'
+#' @description Choose metric and than plot it for every model.
+#'
 #' @param x object of class \code{choosen_metric}
 #' @param ... other plot parameters
 #'

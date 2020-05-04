@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>tutorial • FairModels</title>
+<title>tutorial • fairmodels</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
@@ -14,7 +14,7 @@
 <link href="../dalexverse-2.css" rel="stylesheet">
 <!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="tutorial">
-<meta property="og:description" content="FairModels">
+<meta property="og:description" content="fairmodels">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -39,7 +39,7 @@
       </button>
 
       <div class="navbar-brand-container">
-        <a class="navbar-brand" href="../index.html">FairModels</a>
+        <a class="navbar-brand" href="../index.html">fairmodels</a>
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
@@ -146,9 +146,9 @@
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( [33m default [39m ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( [33m default [39m )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1328721 , mean =  0.454818 , max =  0.8513998  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1235118 , mean =  0.454839 , max =  0.8575573  
 #&gt;   -&gt; residual function :  difference between y and yhat ( [33m default [39m )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7815913 , mean =  0.0003019287 , max =  0.8431142  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7924502 , mean =  0.0002808535 , max =  0.8460769  
 #&gt;  [32m A new explainer has been created! [39m</code></pre>
 <p>Than we create <code>fairness_object</code> with <code><a href="../reference/create_fairness_object.html">create_fairness_object()</a></code></p>
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">fobject</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_object.html">create_fairness_object</a></span>(<span class="no">rf_explainer</span>,
@@ -158,7 +158,7 @@
                                   <span class="kw">base</span>   <span class="kw">=</span> <span class="st">"Caucasian"</span>,          <span class="co"># to what subgroup we want to compare</span>
                                   <span class="kw">cutoff</span> <span class="kw">=</span> <span class="fl">0.5</span>)                  <span class="co"># cutoff - optional, deafult = 0.5</span></pre></body></html></div>
 <p>And we plot!</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">fobject</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fobject</span>)</pre></body></html></div>
 <p><img src="tutorial_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>As we can see it is more likely that model will categorise African Americans as future recidivists than for example Asians. But mabey some groups are statisticaly more likely to go do crimes in the future. It is possible, but there are more ways that the model can discriminate people.</p>
 </div>
@@ -199,26 +199,26 @@
 <div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">fobject</span>)</pre></body></html></div>
 <pre><code>#&gt; Fairness Matrics: 
 #&gt;   TPR_parity_loss TNR_parity_loss PPV_parity_loss NPV_parity_loss
-#&gt; 1       1.1537921       0.6473150       0.5303997       0.4587633
-#&gt; 2       2.8289962       0.5333551       1.4264519       0.1655958
-#&gt; 3       1.6656774       0.4304766       0.6699489       0.5038655
-#&gt; 4       0.7290221       0.5965355       0.7617980       0.7206892
-#&gt; 5       2.2816360       0.4364146       1.0073363       0.3839622
-#&gt; 6       1.7054448       0.4377685       0.5790816       0.4742514
+#&gt; 1       0.5782997       0.4876338       0.3001712       0.3219684
+#&gt; 2       1.1219620       0.4459198       0.8675808       0.1131800
+#&gt; 3       0.7173355       0.3649473       0.4319889       0.3521222
+#&gt; 4       0.3902308       0.3734750       0.3647346       0.4881695
+#&gt; 5       0.9992566       0.3577169       0.6136059       0.2666404
+#&gt; 6       0.7821809       0.3632692       0.3669139       0.3343032
 #&gt;   FNR_parity_loss FPR_parity_loss FDR_parity_loss FOR_parity_loss
-#&gt; 1       1.1594203       1.9767689       0.6915337       1.0797722
-#&gt; 2       1.8593806       2.7201109       2.2143968       0.3575667
-#&gt; 3       1.2599355       2.3974233       1.2162149       1.1692263
-#&gt; 4       0.8397114       0.9987922       0.6997727       1.5130700
-#&gt; 5       1.7778982       1.9837027       1.5698747       0.8726414
-#&gt; 6       1.4448375       2.1346233       1.0014392       1.1328746
+#&gt; 1       0.5782997       0.4876338       0.3001712       0.3219684
+#&gt; 2       1.1219620       0.4459198       0.8675808       0.1131800
+#&gt; 3       0.7173355       0.3649473       0.4319889       0.3521222
+#&gt; 4       0.3902308       0.3734750       0.3647346       0.4881695
+#&gt; 5       0.9992566       0.3577169       0.6136059       0.2666404
+#&gt; 6       0.7821809       0.3632692       0.3669139       0.3343032
 #&gt;   TS_parity_loss ACC_parity_loss F1_parity_loss MCC_parity_loss    label
-#&gt; 1      1.0542227       0.4380118      0.6796358        1.976073   ranger
-#&gt; 2      2.7081511       0.2037848             NA        2.575408       lm
-#&gt; 3      1.6013562       0.4692567      1.0100207        1.966867 ranger_2
-#&gt; 4      0.8590139       0.3320299      0.6536574        2.208520 ranger_3
-#&gt; 5      2.2886443       0.3732516      1.6330192        2.563100      gbm
-#&gt; 6      1.5935670       0.4621125      1.0088619        1.859230 ranger_4
+#&gt; 1      0.3816694       0.2868008      0.3613032       0.5158728   ranger
+#&gt; 2      0.8554819       0.1353720             NA       0.6709033       lm
+#&gt; 3      0.5574042       0.3213170      0.5215862       0.6084055 ranger_2
+#&gt; 4      0.2905197       0.1960918      0.3303955       0.3505547 ranger_3
+#&gt; 5      0.7824425       0.2502543      0.8321117       0.7168035      gbm
+#&gt; 6      0.5776680       0.3164251      0.5368256       0.5809875 ranger_4
 #&gt; Models explained:
 #&gt; [1] "ranger"
 #&gt; [1] "lm"
@@ -237,10 +237,10 @@
 <p>Fairness object gets metrics based on confussion matrix and checks them over the groups.</p>
 <div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="co"># for the first model</span>
 <span class="no">fobject</span>$<span class="no">groups_data</span>$<span class="no">ranger</span>$<span class="no">TPR</span></pre></body></html></div>
-<pre><code>#&gt;            Other        Caucasian African_American         Hispanic 
-#&gt;        0.9171234        1.0000000        1.4329974        0.9606257 
-#&gt;  Native_American            Asian 
-#&gt;        1.5961165        0.9975728</code></pre>
+<pre><code>#&gt;        Caucasian African_American            Asian         Hispanic 
+#&gt;        0.5012165        0.7182420        0.5000000        0.4814815 
+#&gt;  Native_American            Other 
+#&gt;        0.8000000        0.4596774</code></pre>
 <p>If we were going only to take score from certain metric (Let’s say fpr and 0.3) we wouldn’t know if it is good or bad. But we are aiming for <strong>equal treatment over all groups</strong> so if this metric score would be the same in all groups it would be very good. But the metrics wouldn’t be comparable between each others (fpr - 0.3 in all groups and acc_parity - 0.9 in all groups, both are good in terms of parity). That is wy we use <strong>base</strong> - to set benchmark. And for example Caucasian in fpr had score of 0.3 and African American 0.6. After setting <code>base = Caucasian</code> Caucasian would have score 1, and African American 2, because is two times higher score in fpr.</p>
 <p><em>Note: When dealing with aggregating plots we use formula sum(abs(1-score)) to represent aggregated score in metrics. In short is how much it differs from ideal scores.</em></p>
 </div>
@@ -253,7 +253,8 @@
 <div id="stacked-barplot" class="section level2">
 <h2 class="hasAnchor">
 <a href="#stacked-barplot" class="anchor"></a>Stacked Barplot</h2>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="../reference/plot_stacked_barplot.html">plot_stacked_barplot</a></span>(<span class="no">fobject</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">sm</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/plot_stacked_barplot.html">stack_metrics</a></span>(<span class="no">fobject</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">sm</span>)</pre></body></html></div>
 <p><img src="tutorial_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 <p>At first we see that lm is the worst overall model. It does not give us information if plots are similar to each other. For now only plots basic metrics.</p>
 </div>
@@ -261,117 +262,131 @@
 <h2 class="hasAnchor">
 <a href="#plot-metric" class="anchor"></a>Plot metric</h2>
 <div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">cm</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/choose_metric.html">choose_metric</a></span>(<span class="no">fobject</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">cm</span>)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">cm</span>)</pre></body></html></div>
 <p><img src="tutorial_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
 </div>
 <div id="plot-fairness-pca" class="section level2">
 <h2 class="hasAnchor">
 <a href="#plot-fairness-pca" class="anchor"></a>Plot fairness PCA</h2>
-<p>With this task we should use <code>PCA</code>. We call <code><a href="../reference/create_fairness_pca.html">create_fairness_pca()</a></code> to create fairness pca object.</p>
+<p>With this task we should use <code>PCA</code>. We call <code>create_fairness_pca()</code> to create fairness pca object.</p>
 <div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">fobject</span>$<span class="no">metric_data</span></pre></body></html></div>
 <pre><code>#&gt;   TPR_parity_loss TNR_parity_loss PPV_parity_loss NPV_parity_loss
-#&gt; 1       1.1537921       0.6473150       0.5303997       0.4587633
-#&gt; 2       2.8289962       0.5333551       1.4264519       0.1655958
-#&gt; 3       1.6656774       0.4304766       0.6699489       0.5038655
-#&gt; 4       0.7290221       0.5965355       0.7617980       0.7206892
-#&gt; 5       2.2816360       0.4364146       1.0073363       0.3839622
-#&gt; 6       1.7054448       0.4377685       0.5790816       0.4742514
+#&gt; 1       0.5782997       0.4876338       0.3001712       0.3219684
+#&gt; 2       1.1219620       0.4459198       0.8675808       0.1131800
+#&gt; 3       0.7173355       0.3649473       0.4319889       0.3521222
+#&gt; 4       0.3902308       0.3734750       0.3647346       0.4881695
+#&gt; 5       0.9992566       0.3577169       0.6136059       0.2666404
+#&gt; 6       0.7821809       0.3632692       0.3669139       0.3343032
 #&gt;   FNR_parity_loss FPR_parity_loss FDR_parity_loss FOR_parity_loss
-#&gt; 1       1.1594203       1.9767689       0.6915337       1.0797722
-#&gt; 2       1.8593806       2.7201109       2.2143968       0.3575667
-#&gt; 3       1.2599355       2.3974233       1.2162149       1.1692263
-#&gt; 4       0.8397114       0.9987922       0.6997727       1.5130700
-#&gt; 5       1.7778982       1.9837027       1.5698747       0.8726414
-#&gt; 6       1.4448375       2.1346233       1.0014392       1.1328746
+#&gt; 1       0.5782997       0.4876338       0.3001712       0.3219684
+#&gt; 2       1.1219620       0.4459198       0.8675808       0.1131800
+#&gt; 3       0.7173355       0.3649473       0.4319889       0.3521222
+#&gt; 4       0.3902308       0.3734750       0.3647346       0.4881695
+#&gt; 5       0.9992566       0.3577169       0.6136059       0.2666404
+#&gt; 6       0.7821809       0.3632692       0.3669139       0.3343032
 #&gt;   TS_parity_loss ACC_parity_loss F1_parity_loss MCC_parity_loss    label
-#&gt; 1      1.0542227       0.4380118      0.6796358        1.976073   ranger
-#&gt; 2      2.7081511       0.2037848             NA        2.575408       lm
-#&gt; 3      1.6013562       0.4692567      1.0100207        1.966867 ranger_2
-#&gt; 4      0.8590139       0.3320299      0.6536574        2.208520 ranger_3
-#&gt; 5      2.2886443       0.3732516      1.6330192        2.563100      gbm
-#&gt; 6      1.5935670       0.4621125      1.0088619        1.859230 ranger_4</code></pre>
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">fair_pca</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_pca.html">create_fairness_pca</a></span>(<span class="no">fobject</span>)</pre></body></html></div>
-<pre><code>#&gt; Ommiting metrics with NA:  F1_parity_loss</code></pre>
-<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">fair_pca</span>)</pre></body></html></div>
+#&gt; 1      0.3816694       0.2868008      0.3613032       0.5158728   ranger
+#&gt; 2      0.8554819       0.1353720             NA       0.6709033       lm
+#&gt; 3      0.5574042       0.3213170      0.5215862       0.6084055 ranger_2
+#&gt; 4      0.2905197       0.1960918      0.3303955       0.3505547 ranger_3
+#&gt; 5      0.7824425       0.2502543      0.8321117       0.7168035      gbm
+#&gt; 6      0.5776680       0.3164251      0.5368256       0.5809875 ranger_4</code></pre>
+<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">fair_pca</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/fairness_pca.html">fairness_pca</a></span>(<span class="no">fobject</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">fair_pca</span>)</pre></body></html></div>
 <pre><code>#&gt; Fairness PCA : 
-#&gt;             PC1        PC2         PC3         PC4         PC5           PC6
-#&gt; [1,] -1.9489648 -0.2070521 -1.48325826  0.43619637 -0.09646991 -1.110223e-16
-#&gt; [2,]  4.6613646 -0.9509637 -0.55377063 -0.34111378  0.06417834  6.106227e-16
-#&gt; [3,] -0.6851121  1.4808145  0.19970238 -0.49991012 -0.32777288 -1.887379e-15
-#&gt; [4,] -3.0949501 -1.9865249  0.69012080 -0.24557059  0.05284156  3.087808e-16
-#&gt; [5,]  1.9078604  0.1067805  1.06515078  0.68562116 -0.10555317  1.110223e-16
-#&gt; [6,] -0.8401979  1.5569457  0.08205492 -0.03522303  0.41277605  2.609024e-15
+#&gt;             PC1       PC2         PC3          PC4         PC5           PC6
+#&gt; [1,] -1.4811263 -2.337868 -1.19295477  0.051644130 -0.07992238 -4.163336e-16
+#&gt; [2,]  4.3872842 -1.186862  0.77505772 -0.057414646  0.09610786 -4.440892e-16
+#&gt; [3,] -0.7374329  1.106176 -0.56633423  0.232600688  0.21730935 -5.967449e-16
+#&gt; [4,] -3.3356161 -0.179074  1.78200016 -0.003749543 -0.02479929 -3.330669e-16
+#&gt; [5,]  1.8628962  1.473600 -0.07664671  0.129798283 -0.23750454 -4.440892e-16
+#&gt; [6,] -0.6960050  1.124028 -0.72112216 -0.352878912  0.02880900 -5.689893e-16
 #&gt; 
 #&gt; Created with: 
 #&gt; [1] "ranger"   "lm"       "ranger_2" "ranger_3" "gbm"      "ranger_4"
 #&gt; 
-#&gt; First two components explained 90 % of variance.</code></pre>
+#&gt; First two components explained 88 % of variance.</code></pre>
 <p>Let’s plot!</p>
-<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">fair_pca</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fair_pca</span>)</pre></body></html></div>
 <p><img src="tutorial_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 <p>It is done with loadings plot, which can be customised.</p>
-<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">fair_pca</span>, <span class="kw">scale</span> <span class="kw">=</span> <span class="fl">0</span>) <span class="co"># deafult = 0.5</span></pre></body></html></div>
+<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fair_pca</span>, <span class="kw">scale</span> <span class="kw">=</span> <span class="fl">0</span>) <span class="co"># deafult = 0.5</span></pre></body></html></div>
 <p><img src="tutorial_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
 </div>
 <div id="plot-heatmap" class="section level2">
 <h2 class="hasAnchor">
 <a href="#plot-heatmap" class="anchor"></a>Plot Heatmap</h2>
 <p>Another way to deal with grouped data is using heatmap.</p>
-<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="fu"><a href="../reference/plot_heatmap.html">plot_heatmap</a></span>(<span class="no">fobject</span>, <span class="kw">subtitle</span> <span class="kw">=</span> <span class="st">"With cool colors and dendograms"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="no">fheatmap</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/fairness_heatmap.html">fairness_heatmap</a></span>(<span class="no">fobject</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fheatmap</span>)</pre></body></html></div>
 <p><img src="tutorial_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
 <p>For both models and metrics dendograms are created. This way through hierarchical clustering we can look on similarities between models/metrics. It should give similar but more detailed information than PCA</p>
 <p>It can be normalised among metrics.</p>
-<div class="sourceCode" id="cb25"><html><body><pre class="r"><span class="fu"><a href="../reference/plot_heatmap.html">plot_heatmap</a></span>(<span class="no">fobject</span>, <span class="kw">scale</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">title</span> <span class="kw">=</span> <span class="st">"Title can be changed"</span>) <span class="co"># we can turn values off via text= FALSE</span></pre></body></html></div>
+<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="no">fheatmap</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/fairness_heatmap.html">fairness_heatmap</a></span>(<span class="no">fobject</span>, <span class="kw">scale</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fheatmap</span>, , <span class="kw">title</span> <span class="kw">=</span> <span class="st">"Title can be changed"</span>, <span class="kw">subtitle</span> <span class="kw">=</span> <span class="st">"subtitle too!"</span>) <span class="co"># we can turn values off via text= FALSE</span></pre></body></html></div>
 <p><img src="tutorial_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
-<p>Now we know what those scores are and how “similar” models are to each other ## Metric and Performance Plot</p>
+<p>Now we know what those scores are and how “similar” models are to each other</p>
+</div>
+<div id="metric-and-performance-plot" class="section level2">
+<h2 class="hasAnchor">
+<a href="#metric-and-performance-plot" class="anchor"></a>Metric and Performance Plot</h2>
 <p>Sometimes we would like to know how good are models in performance metrics and in fairness metrics at the same time, to see the tradeoff between them.</p>
-<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="fu"><a href="../reference/performance_with_fairness.html">performance_with_fairness</a></span>(<span class="no">fobject</span>, <span class="kw">fairness_metric</span> <span class="kw">=</span> <span class="st">"FPR_parity_loss"</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="no">fap</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/performance_with_fairness.html">performance_and_fairness</a></span>(<span class="no">fobject</span>, <span class="kw">fairness_metric</span> <span class="kw">=</span> <span class="st">"FPR_parity_loss"</span>)</pre></body></html></div>
 <pre><code>#&gt; Performace metric is NULL, setting deafult ( auc )  
 #&gt; 
 #&gt; Creating object with: 
 #&gt; Fairness metric FPR_parity_loss 
 #&gt; Performance metric  auc</code></pre>
+<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fap</span>)</pre></body></html></div>
 <p><img src="tutorial_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
 <p>We can add plots with help of <code>patchwork</code></p>
-<div class="sourceCode" id="cb28"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">patchwork</span>)
+<div class="sourceCode" id="cb27"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">patchwork</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
 
-<span class="no">p1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="fu"><a href="../reference/performance_with_fairness.html">performance_with_fairness</a></span>(<span class="no">fobject</span>,  <span class="st">"TPR_parity_loss"</span>, <span class="st">"accuracy"</span>))
-<span class="no">p2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="fu"><a href="../reference/performance_with_fairness.html">performance_with_fairness</a></span>(<span class="no">fobject</span>,  <span class="st">"FPR_parity_loss"</span>, <span class="st">"auc"</span>))     + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">" "</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="kw">legend.position</span> <span class="kw">=</span> <span class="st">"none"</span>)
-<span class="no">p3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="fu"><a href="../reference/performance_with_fairness.html">performance_with_fairness</a></span>(<span class="no">fobject</span>,  <span class="st">"NPV_parity_loss"</span>, <span class="st">"recall"</span>))  + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">" "</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="kw">legend.position</span> <span class="kw">=</span> <span class="st">"none"</span>)
-<span class="no">p4</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="fu"><a href="../reference/performance_with_fairness.html">performance_with_fairness</a></span>(<span class="no">fobject</span>,  <span class="st">"TS_parity_loss"</span>, <span class="st">"f1"</span>))+ <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">" "</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="kw">legend.position</span> <span class="kw">=</span> <span class="st">"none"</span>)</pre></body></html></div>
-<div class="sourceCode" id="cb29"><html><body><pre class="r">(<span class="no">p1</span> + <span class="no">p2</span>)/(<span class="no">p3</span>+<span class="no">p4</span>)</pre></body></html></div>
+<span class="no">p1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="fu"><a href="../reference/performance_with_fairness.html">performance_and_fairness</a></span>(<span class="no">fobject</span>,  <span class="st">"TPR_parity_loss"</span>, <span class="st">"accuracy"</span>))
+<span class="no">p2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="fu"><a href="../reference/performance_with_fairness.html">performance_and_fairness</a></span>(<span class="no">fobject</span>,  <span class="st">"FPR_parity_loss"</span>, <span class="st">"auc"</span>))     + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">" "</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="kw">legend.position</span> <span class="kw">=</span> <span class="st">"none"</span>)
+<span class="no">p3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="fu"><a href="../reference/performance_with_fairness.html">performance_and_fairness</a></span>(<span class="no">fobject</span>,  <span class="st">"NPV_parity_loss"</span>, <span class="st">"recall"</span>))  + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">" "</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="kw">legend.position</span> <span class="kw">=</span> <span class="st">"none"</span>)
+<span class="no">p4</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="fu"><a href="../reference/performance_with_fairness.html">performance_and_fairness</a></span>(<span class="no">fobject</span>,  <span class="st">"TS_parity_loss"</span>, <span class="st">"f1"</span>))+ <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">" "</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="kw">legend.position</span> <span class="kw">=</span> <span class="st">"none"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb28"><html><body><pre class="r">(<span class="no">p1</span> + <span class="no">p2</span>)/(<span class="no">p3</span>+<span class="no">p4</span>)</pre></body></html></div>
 <p><img src="tutorial_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
 </div>
 <div id="back-to-detail" class="section level2">
 <h2 class="hasAnchor">
 <a href="#back-to-detail" class="anchor"></a>Back to detail</h2>
 <p>When we have narrowed down our search for the best model we can use <code>two_models_plot</code> to check once again metrics within groups and decide which model to use.</p>
-<div class="sourceCode" id="cb30"><html><body><pre class="r"><span class="no">fobject2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_object.html">create_fairness_object</a></span>(<span class="no">explainer_1</span>,<span class="no">explainer_3</span>,
+<div class="sourceCode" id="cb29"><html><body><pre class="r"><span class="no">fobject2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_object.html">create_fairness_object</a></span>(<span class="no">explainer_1</span>,<span class="no">explainer_3</span>,
                                    <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>,
                                   <span class="kw">outcome</span> <span class="kw">=</span> <span class="st">"Two_yr_Recidivism"</span>,
                                   <span class="kw">group</span>  <span class="kw">=</span> <span class="st">"Ethnicity"</span>,
                                   <span class="kw">base</span>   <span class="kw">=</span> <span class="st">"Caucasian"</span>)
 
 
-<span class="fu"><a href="../reference/plot_two_models.html">plot_two_models</a></span>(<span class="no">fobject2</span>, <span class="kw">fairness_metric</span> <span class="kw">=</span> <span class="st">"FPR"</span>)</pre></body></html></div>
-<pre><code>#&gt; Performace metric is NULL, setting deafult ( auc )  
+<span class="no">gm</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/group_metric.html">group_metric</a></span>(<span class="no">fobject2</span>, <span class="kw">fairness_metric</span> <span class="kw">=</span> <span class="st">"FPR"</span>)</pre></body></html></div>
+<pre><code>#&gt; Performace metric not given, setting deafult ( auc )  
 #&gt; 
 #&gt; Creating object with: 
 #&gt; Fairness metric FPR 
 #&gt; Performance metric  auc</code></pre>
+<div class="sourceCode" id="cb31"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">gm</span>)</pre></body></html></div>
 <p><img src="tutorial_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
-<p>We can also use simple <code>plot</code> when we have only few explainers.</p>
-<div class="sourceCode" id="cb32"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">fobject2</span>)</pre></body></html></div>
+</div>
+<div id="radar-plot" class="section level2">
+<h2 class="hasAnchor">
+<a href="#radar-plot" class="anchor"></a>Radar plot</h2>
+<div class="sourceCode" id="cb32"><html><body><pre class="r"><span class="no">fradar</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/fairness_radar.html">fairness_radar</a></span>(<span class="no">fobject2</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fradar</span>)</pre></body></html></div>
 <p><img src="tutorial_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
+<p>We can also use simple <code>plot</code> when we have only few explainers.</p>
+<div class="sourceCode" id="cb33"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fobject2</span>)</pre></body></html></div>
+<p><img src="tutorial_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
 <p>Of course the protected group can be changed.</p>
-<div class="sourceCode" id="cb33"><html><body><pre class="r"><span class="no">fobject3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_object.html">create_fairness_object</a></span>(<span class="no">explainer_2</span>,<span class="no">explainer_5</span>,
+<div class="sourceCode" id="cb34"><html><body><pre class="r"><span class="no">fobject3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_object.html">create_fairness_object</a></span>(<span class="no">explainer_2</span>,<span class="no">explainer_5</span>,
                                    <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>,
                                   <span class="kw">outcome</span> <span class="kw">=</span> <span class="st">"Two_yr_Recidivism"</span>,
                                   <span class="kw">group</span>  <span class="kw">=</span> <span class="st">"Sex"</span>,
                                   <span class="kw">base</span> <span class="kw">=</span> <span class="st">"Female"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="no">fobject3</span>)</pre></body></html></div>
-<p><img src="tutorial_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
+<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fobject3</span>)</pre></body></html></div>
+<p><img src="tutorial_files/figure-html/unnamed-chunk-24-1.png" width="700"></p>
 </div>
 </div>
   </div>
@@ -387,7 +402,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by The package maintainer.</p>
+  <p>Developed by Jakub Wiśniewski, Przemyslaw Biecek.</p>
 </div>
 
 <div class="pkgdown">

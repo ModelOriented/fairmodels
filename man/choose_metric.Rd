@@ -9,13 +9,32 @@ choose_metric(x, fairness_metric = "FPR_parity_loss")
 \arguments{
 \item{x}{fairness object}
 
-\item{fairness_metric}{\code{char}, name of fairness metric, one of metric data in fairness object}
+\item{fairness_metric}{\code{char}, name of fairness metric, one of metrics:
+
+\itemize{
+
+\item TPR_parity_loss - parity loss of True Positive Rate (Sensitivity, Recall, Equal Odds)
+\item TNR_parity_loss - parity loss of True Negative Rate (Specificity)
+\item PPV_parity_loss - parity loss of Positive Predictive Value (Precision)
+\item NPV_parity_loss - parity loss of Negative Predictive Value
+\item FNR_parity_loss - parity loss of False Negative Rate
+\item FPR_parity_loss - parity loss of False Positive Rate
+\item FDR_parity_loss - parity loss of False Discovery Rate
+\item FOR_parity_loss - parity loss of False Omision Rate
+\item TS_parity_loss  - parity loss of Threat Score
+\item ACC_parity_loss - parity loss of Accuracy
+\item F1_parity_loss  - parity loss of F1 Score
+\item MCC_parity_loss - parity loss of Matthews correlation coefficient
+}}
 }
 \value{
 choose_metric object
 }
 \description{
-Choose metric
+choose metric and compare it's values across all models
+}
+\details{
+some of metrics give same parity loss as others (for example TPR and FNR and that is because TPR = 1 - FNR)
 }
 \examples{
 
