@@ -17,7 +17,6 @@ Imports:
     DALEX, 
     ggplot2,
     patchwork,
-    crayon, 
     ggdendro, 
     ggrepel, 
     scales

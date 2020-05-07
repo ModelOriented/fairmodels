@@ -94,7 +94,7 @@ create_fairness_object <- function(x,
   # check if data provided, if not get data from first explainer
   if (is.null(data)) {
     data = x$data
-    cat("Getting data from first (", crayon::green(x$label),")  explainer \n")
+    cat("Getting data from first (", x$label,")  explainer \n")
   }
 
   # if columns not in data
