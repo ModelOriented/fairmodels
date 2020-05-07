@@ -6,7 +6,6 @@ test_that("test stack metric and plot",{
 
   expect_equal(sm$expanded_data,  df[df$metric %in% unique_metrics(),] )
 
-
   plt <- plot(sm)
 
   expect_class(plt, "ggplot")
@@ -15,8 +14,5 @@ test_that("test stack metric and plot",{
   expect_equal(plt$labels$title, "Stacked Metric Chart")
   expect_equal(plt$labels$x, "Model Label")
   expect_equal(plt$labels$y, "Cummulated metric score")
-
-
-
 
 })
