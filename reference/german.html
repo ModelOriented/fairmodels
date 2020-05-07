@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot stacked Metrics — plot.stacked_metrics • fairmodels</title>
+<title>Modified German Credit data dataset — german • fairmodels</title>
 
 
 <!-- jquery -->
@@ -45,8 +45,8 @@
 
 
 
-<meta property="og:title" content="Plot stacked Metrics — plot.stacked_metrics" />
-<meta property="og:description" content="Plot stacked Metrics" />
+<meta property="og:title" content="Modified German Credit data dataset — german" />
+<meta property="og:description" content="german" />
 
 
 
@@ -131,31 +131,37 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plot stacked Metrics</h1>
+    <h1>Modified German Credit data dataset</h1>
     
-    <div class="hidden name"><code>plot_stacked_metrics.Rd</code></div>
+    <div class="hidden name"><code>german.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Plot stacked Metrics</p>
+    <p><code>german</code></p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for stacked_metrics</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>german</span>)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p><code>stacked_metrics</code> object</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>other plot parameters</p></td>
-    </tr>
-    </table>
 
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>A data frame with 1000 rows and 10 variables:</p><dl>
+  <dt>Risk</dt><dd><p>factor, good/bad risk connected with giving the credit. Models should predict this values</p></dd>
+  <dt>Sex</dt><dd><p>factor, male/female , considered to be protected group</p></dd>
+  <dt>Job</dt><dd><p>numeric, job titles converted to integers where 0- unemployed/unskilled, 3- management/ self-employed/highly qualified employee/ officer</p></dd>
+  <dt>Housing</dt><dd><p>factor, rent/own/free where this person lives</p></dd>
+  <dt>Saving.accounts</dt><dd><p>factor, little/moderate/quite rich/rich/not_known, where not_known indicates NA</p></dd>
+  <dt>Checking.account</dt><dd><p>factor, little/moderate/rich/not_known, where not_known indicates NA</p></dd>
+  <dt>Credit.amount</dt><dd><p>numeric, amount of money in credit</p></dd>
+  <dt>Duration</dt><dd><p>numeric, duration of credit</p></dd>
+  <dt>Purpose</dt><dd><p>factor, purpose of credit</p></dd>
+  <dt>Age</dt><dd><p>numeric, age of person that applied for credit</p></dd>
+
+</dl>
+
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p>Data from kaggle <a href='https://www.kaggle.com/kabure/german-credit-data-with-risk'>https://www.kaggle.com/kabure/german-credit-data-with-risk</a>. The original source is UCL <a href='https://archive.ics.uci.edu/ml/datasets/Statlog+(German+Credit+Data)'>https://archive.ics.uci.edu/ml/datasets/Statlog+(German+Credit+Data)</a>.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
