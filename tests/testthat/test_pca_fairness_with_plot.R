@@ -1,4 +1,4 @@
-test_that("PCA fairness", {
+test_that("PCA fairness and plot", {
 
   n <- ncol(fobject$metric_data)
   data <- fobject$metric_data[,1:(n-1)]
@@ -18,6 +18,22 @@ test_that("PCA fairness", {
   rownames(b) <- NULL
 
   expect_equal(a,b )
+
+  dummy_fobject <- fobject
+  dummy_fobject$metric_data[2,3] <- NA
+
+  expect_warning(fairness_pca(dummy_fobject), "Found metric with NA: PPV_parity_loss, ommiting it")
+  expect_warning(fairness_pca(dummy_fobject,omit_models_with_NA = TRUE ), "Found models with NA: lm, ommiting it")
+
+  ########################################## PLOT #########################################
+
+  fp <- fairness_pca(fobject_big)
+  plt <- plot(fp)
+
+  expect_class(plt, "ggplot")
+
+  expect_equal(plt$labels$title, "Fairness Metric PCA plot")
+
 
 })
 

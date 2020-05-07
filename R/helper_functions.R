@@ -11,7 +11,7 @@ drop_metrics_with_na <- function(data){
 na_col_index <- apply(data, 2,  function(x) any(is.na(x)))
 cols_with_missing <- names(data)[na_col_index]
 
-if (any(na_col_index)) warning("Found metric with NA: ", cols_with_missing, ", ommiting it\n")
+if (any(na_col_index)) warning("Found metric with NA: ", paste(cols_with_missing, collapse = ", "), ", ommiting it\n")
 
 data <- data[, !na_col_index]
 return(data)

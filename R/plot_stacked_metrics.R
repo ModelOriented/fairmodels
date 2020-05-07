@@ -16,7 +16,7 @@ plot.stacked_metrics <- function(x, ...){
     scale_fill_manual(values = DALEX::colors_discrete_drwhy(n=12)) +
     xlab("Model Label") +
     ylab("Cummulated metric score") +
-    labs(fill = "Model Label") +
+    labs(fill = "Metric") +
     ggtitle("Stacked Metric Chart")
 
 }
