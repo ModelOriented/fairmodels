@@ -61,6 +61,10 @@ performance_and_fairness <- function(x, fairness_metric = NULL, performance_metr
   cat("\nCreating object with: \nFairness metric", fairness_metric,
       "\nPerformance metric ", performance_metric, "\n")
 
+
+  assert_parity_metrics(fairness_metric)
+  assert_performance_metrics(performance_metric)
+
   mod_perf <- rep(0, length(x$explainers))
 
   for(i in seq_along(x$explainers)){
