@@ -106,7 +106,7 @@
 <div id="data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data" class="anchor"></a>Data</h2>
-<p>We will use modified ProPublica’s compass data to represent our problem.</p>
+<p>We will use modified ProPublica’s compas data to represent our problem.</p>
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"compas"</span>)
 
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">compas</span>)</pre></body></html></div>
@@ -146,9 +146,9 @@
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( [33m default [39m ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( [33m default [39m )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1376987 , mean =  0.4552565 , max =  0.8506907  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1337492 , mean =  0.454866 , max =  0.8627133  
 #&gt;   -&gt; residual function :  difference between y and yhat ( [33m default [39m )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7883219 , mean =  -0.0001366436 , max =  0.8356823  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7929314 , mean =  0.0002539071 , max =  0.8396044  
 #&gt;  [32m A new explainer has been created! [39m</code></pre>
 <p>Than we create <code>fairness_object</code> with <code><a href="../reference/create_fairness_object.html">create_fairness_object()</a></code></p>
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">fobject</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_object.html">create_fairness_object</a></span>(<span class="no">rf_explainer</span>,
@@ -402,7 +402,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Jakub Wiśniewski, Przemyslaw Biecek.</p>
+  <p>Developed by Jakub Wiśniewski, Przemysław Biecek.</p>
 </div>
 
 <div class="pkgdown">

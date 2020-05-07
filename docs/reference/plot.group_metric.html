@@ -189,7 +189,7 @@
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9767658 , mean =  5.050975e-13 , max =  0.8822826  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='no'>fo</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_fairness_object.html'>create_fairness_object</a></span>(<span class='no'>explainer_1</span>, <span class='no'>explainer_2</span>,  <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>, <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"Caucasian"</span>  )</div><div class='output co'>#&gt; Getting data from first ( </span><span style='color: #00BB00;'>ranger</span><span> )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
+<span class='no'>fo</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_fairness_object.html'>create_fairness_object</a></span>(<span class='no'>explainer_1</span>, <span class='no'>explainer_2</span>,  <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>, <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"Caucasian"</span>  )</div><div class='output co'>#&gt; Getting data from first ( ranger )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='input'>
 <span class='no'>gm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='group_metric.html'>group_metric</a></span>(<span class='no'>fo</span>, <span class='kw'>fairness_metric</span> <span class='kw'>=</span> <span class='st'>"FPR"</span>, <span class='kw'>performance_metric</span> <span class='kw'>=</span> <span class='st'>"auc"</span>)</div><div class='output co'>#&gt; 
 #&gt; Creating object with: 
@@ -207,7 +207,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jakub Wiśniewski, Przemyslaw Biecek.</p>
+  <p>Developed by Jakub Wiśniewski, Przemysław Biecek.</p>
 </div>
 
 <div class="pkgdown">
