@@ -9,6 +9,7 @@
 #' @param group protected group (column) in data
 #'
 #'
+#' @import ggplot2
 #' @return
 #'
 #' @rdname demographic_parity
@@ -54,20 +55,20 @@ demographic_parity.default <- function(x,..., outcome, group){
 
   sorted_lvls <-  names(sort(table(df$group),decreasing = TRUE))
 
-  df$group <- factor(df$group, levels = sorted_lvls)
+  df$group      <- factor(df$group, levels = c(sorted_lvls))
+  df$first_fill <- factor(df$first_fill, levels = c(levels(df$outcome), "first"))
+
 
   ggplot(data = df) +
-    geom_bar(aes(group, fill = first_fill), stat = "count", alpha = 0.5) +
+    geom_bar(aes(group), stat = "count", alpha = 0.5, fill = "#ceced9") +
     geom_bar(aes(group, fill = outcome), stat = "count", position = "dodge") +
-    scale_fill_manual(name ="observation type", label = c(paste("observations with label", levels(df$outcome),sep = " "),"all observations" ), values = c(DALEX::colors_discrete_drwhy(2), "#ceced9")) +
+    scale_fill_manual(name ="observation type", label = c(levels(df$outcome),"all observations" ), values = c(DALEX::colors_discrete_drwhy(2))) +
     theme_drwhy() +
     xlab(group) +
     ylab("Number of observations") +
     ggtitle("Demographic parity plot")
 
 }
-
-
 
 
 

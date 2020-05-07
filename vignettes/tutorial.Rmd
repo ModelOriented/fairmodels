@@ -39,7 +39,7 @@ then you build a model and predict outcomes. You get accuracy score of 90%. It i
 
 ## Data
 
-We will use modified ProPublica's compass data to represent our problem. 
+We will use modified ProPublica's compas data to represent our problem. 
 
 ```{r}
 data("compas")

@@ -35,6 +35,8 @@ plot.group_metric <- function(x, ...){
   y_label            <- x$y_label
   performance_metric <- x$performance_metric
 
+  n <- length(unique(fairness_data$label))
+
   plot1 <- ggplot(fairness_data, aes(group, value, fill = label)) +
     geom_bar(stat="identity",
              position = "dodge")  +
@@ -43,7 +45,7 @@ plot.group_metric <- function(x, ...){
           legend.position = "none") +
     ylab(y_label) +
     xlab("Models metrics in groups") +
-    scale_fill_manual(values=c("#8bdcbe", "#4378bf")) +
+    scale_fill_manual(values = DALEX::colors_discrete_drwhy(n = n)) +
     ggtitle("Group metric plot")
 
   plot2 <- ggplot(performance_data, aes(x,y, fill = x)) +
@@ -54,7 +56,7 @@ plot.group_metric <- function(x, ...){
     theme_drwhy() +
     theme(legend.title = element_blank(),
           axis.text.x=element_text(angle=0, hjust=0.3)) +
-    scale_fill_manual(values=c("#8bdcbe", "#4378bf")) +
+    scale_fill_manual(values = DALEX::colors_discrete_drwhy(n = n)) +
     scale_y_continuous(limits = c(0,1))+
     xlab("Models") +
     ylab(performance_metric)

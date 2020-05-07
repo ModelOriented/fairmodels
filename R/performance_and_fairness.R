@@ -43,6 +43,7 @@
 #'
 
 
+
 performance_and_fairness <- function(x, fairness_metric = NULL, performance_metric = NULL){
   stopifnot(class(x) == "fairness_object")
 
@@ -63,7 +64,8 @@ performance_and_fairness <- function(x, fairness_metric = NULL, performance_metr
   mod_perf <- rep(0, length(x$explainers))
 
   for(i in seq_along(x$explainers)){
-    x$explainers[[i]]$model_info$type <- "classification" # temporary?
+    x$explainers[[i]]$model_info$type
+    # TODO: bug here - for custom cutoff must use different metrics than dalex'es
     mod_perf[i] <- model_performance(x$explainers[[i]], cutoff = x$cutoff[i])$measures[performance_metric][[1]]
 
   }
