@@ -103,6 +103,7 @@ coord_radar <- function(names_n = 2) {
     ggname <- get("ggname", envir = asNamespace("ggplot2"), inherits = FALSE)
     element_render <- get("element_render", envir = asNamespace("ggplot2"), inherits = FALSE)
 
+
     ggname("grill", grid::grobTree(
       element_render(theme, "panel.background"),
       if (length(theta) > 0) element_render(
