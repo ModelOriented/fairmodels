@@ -38,7 +38,7 @@
 #'                                     outcome = "Two_yr_Recidivism",
 #'                                     group  = "Ethnicity",
 #'                                     base   = "Caucasian")
-#' paf <- performance_and_fairness(fobject)
+#' paf <- performance_and_fairness(fobject, performance_metric = "f1")
 #' plot(paf)
 #'
 
@@ -68,10 +68,21 @@ performance_and_fairness <- function(x, fairness_metric = NULL, performance_metr
   mod_perf <- rep(0, length(x$explainers))
 
   for(i in seq_along(x$explainers)){
-    x$explainers[[i]]$model_info$type
-    # TODO: bug here - for custom cutoff must use different metrics than dalex'es
-    mod_perf[i] <- model_performance(x$explainers[[i]], cutoff = x$cutoff[i])$measures[performance_metric][[1]]
 
+    # for auc get it from DALEX
+    if (performance_metric == "auc"){
+      mod_perf[i]  <- model_performance(x$explainers[[i]])$measures[performance_metric][[1]]
+
+    } else {
+      # if else use custom cutoff function implemented in fairmodels
+
+      mod_perf[i] <- group_model_performance(x$explainers[[i]],
+                                             data = x$data,
+                                             group = x$group,
+                                             outcome = x$outcome,
+                                             cutoff = x$cutoff,
+                                             performance_metric = performance_metric)
+    }
   }
 
   out <- as.data.frame(cbind(x$metric_data[fairness_metric],mod_perf,  x$metric_data[,ncol(x$metric_data)]))
