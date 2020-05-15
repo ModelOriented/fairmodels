@@ -113,7 +113,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/tutorial.html">tutorial</a>
+      <a href="../articles/Basic_tutorial.html">Basic Tutorial</a>
     </li>
   </ul>
 </li>
@@ -173,9 +173,9 @@
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1416059 , mean =  0.4552379 , max =  0.865029  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1377307 , mean =  0.4546035 , max =  0.8391593  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7903663 , mean =  -0.0001179882 , max =  0.836636  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7792569 , mean =  0.0005164292 , max =  0.8429651  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>lr_1</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
@@ -186,22 +186,22 @@
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9767658 , mean =  5.050949e-13 , max =  0.8822826  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='no'>fo</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_fairness_object.html'>create_fairness_object</a></span>(<span class='no'>explainer_1</span>, <span class='no'>explainer_2</span>,  <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>, <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"Caucasian"</span>  )</div><div class='output co'>#&gt; Getting data from first ( ranger )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
+<span class='no'>fo</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_fairness_object.html'>create_fairness_object</a></span>(<span class='no'>explainer_1</span>, <span class='no'>explainer_2</span>,  <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>, <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"Caucasian"</span>  )</div><div class='output co'>#&gt; Getting data from first ( )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='input'>
 <span class='fu'><a href='group_metric.html'>group_metric</a></span>(<span class='no'>fo</span>, <span class='kw'>fairness_metric</span> <span class='kw'>=</span> <span class='st'>"FPR"</span>, <span class='kw'>performance_metric</span> <span class='kw'>=</span> <span class='st'>"auc"</span>)</div><div class='output co'>#&gt; 
 #&gt; Creating object with: 
 #&gt; Fairness metric FPR 
 #&gt; Performance metric  auc </div><div class='output co'>#&gt; Fairness data top rows for FPR 
 #&gt;              group      value  label
-#&gt; 1        Caucasian 0.15690867 ranger
-#&gt; 2 African_American 0.31836196 ranger
+#&gt; 1        Caucasian 0.15612802 ranger
+#&gt; 2 African_American 0.31968296 ranger
 #&gt; 3            Asian 0.04347826 ranger
 #&gt; 4         Hispanic 0.16562500 ranger
 #&gt; 5  Native_American 0.16666667 ranger
-#&gt; 6            Other 0.09132420 ranger
+#&gt; 6            Other 0.14155251 ranger
 #&gt; 
 #&gt; Performance data for auc :                  
-#&gt; 1 ranger 0.7480634
+#&gt; 1 ranger 0.7477039
 #&gt; 2     lm 0.7221915</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
