@@ -44,7 +44,7 @@ plot.group_metric <- function(x, ...){
     theme(axis.text.x=element_text(angle=90, hjust=1),
           legend.position = "none") +
     ylab(y_label) +
-    xlab("Models metrics in groups") +
+    xlab("Models metrics in subgroups") +
     scale_fill_manual(values = DALEX::colors_discrete_drwhy(n = n)) +
     ggtitle("Group metric plot")
 
@@ -52,10 +52,9 @@ plot.group_metric <- function(x, ...){
     geom_bar(stat = "identity",
              width = 0.4) +
     geom_text(aes(label=round(y,3)), vjust=-1, color="black", size=3, fontface = "bold") +
-    ylab("Accuracy") +
     theme_drwhy() +
     theme(legend.title = element_blank(),
-          axis.text.x=element_text(angle=0, hjust=0.3)) +
+          axis.text.x=element_text(angle=90, hjust=0.3)) +
     scale_fill_manual(values = DALEX::colors_discrete_drwhy(n = n)) +
     scale_y_continuous(limits = c(0,1))+
     xlab("Models") +

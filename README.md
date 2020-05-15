@@ -14,9 +14,8 @@
 
 ## Preview
 
-<center>
-<img src="man/figures/heatmap.png">
-</center>
+![preview](man/figures/preview.gif)
+
 
 ### Used metrics
 
@@ -35,10 +34,18 @@
 
 more on those metrics : [Confusion Matrix](https://en.wikipedia.org/wiki/Confusion_matrix)
 
-### How to use it
+### Installation
+
+```
+devtools::install_github("ModelOriented/fairmodels")
+```
+
+### Example
 
 ```
 library(DALEX)
+library(ranger)
+
 
 # load data
 data(compas)
@@ -54,22 +61,29 @@ y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
 # explaining with dalex
 rf_explainer_1 <- explain(rf_compas, data = compas[,-1], y = y_numeric, label = "ranger")
 lr_explainer_1 <- explain(lr_compas, data = compas[,-1], y = y_numeric, label = "logistic_regresion")
+rf_explainer_2 <- explain(rf_compas_2, data = compas[,-1], y = y_numeric, label = "ranger2")
+
 
 # creating fairness object
-fobject <- create_fairness_object(rf_explainer_1, lr_explainer_1, 
+fobject <- create_fairness_object(rf_explainer_1, lr_explainer_1, rf_explainer_2,
                                   data = compas, 
                                   outcome = "Two_yr_Recidivism", 
                                   group = "Ethnicity",
                                   base = "Caucasian")
 
-# what to do with fairness object:
-plot(fobject)
-plot_heatmap(fobject)
-plot(create_fairness_pca(fobject))
-plot_performance_with_fairness(fobject)
-plot_stacked_barplot(fobject)
-plot_two_models(fobject, fairness_metric = "FNR")
+library(dplyr)
+
+fobject %>% fairness_heatmap() %>% plot() 
+fobject %>% fairness_radar() %>% plot() 
+fobject %>% stack_metrics() %>% plot() 
+fobject %>% group_metric() %>% plot() 
+fobject %>% choose_metric() %>% plot() 
+fobject %>% performance_and_fairness() %>% plot() 
+
 ```
+
+
+#### Fairness object
 
 `fairness object` consists of 
 * x, ...  - explainer or list of explainers
@@ -77,8 +91,9 @@ plot_two_models(fobject, fairness_metric = "FNR")
 * outcome - target variable
 * group   - protected variable, usually race, sex, etc...
 * base    - subgroup, base on which to calculate metrics. Metric on base subgroup is always 1. Usually specific race, sex etc...
+* cutoff  - custom cutoff, might be single value - cutoff same for all subgroups or vector - for each subgroup individually
 
 
-early version of tutorial: [Tutorial](https://modeloriented.github.io/FairModels/articles/tutorial.html)
+early version of tutorial: [Tutorial](https://modeloriented.github.io/FairModels/articles/Basic_tutorial.html)
 
 

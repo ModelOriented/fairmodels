@@ -66,7 +66,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/tutorial.html">tutorial</a>
+      <a href="articles/Basic_tutorial.html">Basic Tutorial</a>
     </li>
   </ul>
 </li>
@@ -96,9 +96,7 @@
 <div id="preview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#preview" class="anchor"></a>Preview</h2>
-<center>
-<img src="reference/figures/heatmap.png">
-</center>
+<p><img src="reference/figures/preview.gif" alt="preview"></p>
 <div id="used-metrics" class="section level3">
 <h3 class="hasAnchor">
 <a href="#used-metrics" class="anchor"></a>Used metrics</h3>
@@ -130,10 +128,17 @@
 </ul>
 <p>more on those metrics : <a href="https://en.wikipedia.org/wiki/Confusion_matrix">Confusion Matrix</a></p>
 </div>
-<div id="how-to-use-it" class="section level3">
+<div id="installation" class="section level3">
 <h3 class="hasAnchor">
-<a href="#how-to-use-it" class="anchor"></a>How to use it</h3>
+<a href="#installation" class="anchor"></a>Installation</h3>
+<pre><code><a href="https://devtools.r-lib.org//reference/remote-reexports.html">devtools::install_github("ModelOriented/fairmodels")</a></code></pre>
+</div>
+<div id="example" class="section level3">
+<h3 class="hasAnchor">
+<a href="#example" class="anchor"></a>Example</h3>
 <pre><code><a href="https://rdrr.io/pkg/DALEX/man">library(DALEX)
+library(ranger)
+
 
 # load data
 data(compas)
@@ -149,21 +154,28 @@ y_numeric &lt;- as.numeric(compas$Two_yr_Recidivism)-1
 # explaining with dalex
 rf_explainer_1 &lt;- explain(rf_compas, data = compas[,-1], y = y_numeric, label = "ranger")
 lr_explainer_1 &lt;- explain(lr_compas, data = compas[,-1], y = y_numeric, label = "logistic_regresion")
+rf_explainer_2 &lt;- explain(rf_compas_2, data = compas[,-1], y = y_numeric, label = "ranger2")
+
 
 # creating fairness object
-fobject &lt;- create_fairness_object(rf_explainer_1, lr_explainer_1, 
+fobject &lt;- create_fairness_object(rf_explainer_1, lr_explainer_1, rf_explainer_2,
                                   data = compas, 
                                   outcome = "Two_yr_Recidivism", 
                                   group = "Ethnicity",
                                   base = "Caucasian")
 
-# what to do with fairness object:
-plot(fobject)
-plot_heatmap(fobject)
-plot(create_fairness_pca(fobject))
-plot_performance_with_fairness(fobject)
-plot_stacked_barplot(fobject)
-plot_two_models(fobject, fairness_metric = "FNR")</a></code></pre>
+library(dplyr)
+
+fobject %&gt;% fairness_heatmap() %&gt;% plot() 
+fobject %&gt;% fairness_radar() %&gt;% plot() 
+fobject %&gt;% stack_metrics() %&gt;% plot() 
+fobject %&gt;% group_metric() %&gt;% plot() 
+fobject %&gt;% choose_metric() %&gt;% plot() 
+fobject %&gt;% performance_and_fairness() %&gt;% plot() 
+</a></code></pre>
+<div id="fairness-object" class="section level4">
+<h4 class="hasAnchor">
+<a href="#fairness-object" class="anchor"></a>Fairness object</h4>
 <p><code>fairness object</code> consists of</p>
 <ul>
 <li>x, … - explainer or list of explainers</li>
@@ -171,8 +183,10 @@ plot_two_models(fobject, fairness_metric = "FNR")</a></code></pre>
 <li>outcome - target variable</li>
 <li>group - protected variable, usually race, sex, etc…</li>
 <li>base - subgroup, base on which to calculate metrics. Metric on base subgroup is always 1. Usually specific race, sex etc…</li>
+<li>cutoff - custom cutoff, might be single value - cutoff same for all subgroups or vector - for each subgroup individually</li>
 </ul>
-<p>early version of tutorial: <a href="https://modeloriented.github.io/FairModels/articles/tutorial.html">Tutorial</a></p>
+<p>early version of tutorial: <a href="https://modeloriented.github.io/FairModels/articles/Basic_tutorial.html">Tutorial</a></p>
+</div>
 </div>
 </div>
 </div>

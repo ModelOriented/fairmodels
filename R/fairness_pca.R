@@ -64,6 +64,8 @@ fairness_pca <- function(x, omit_models_with_NA = FALSE) {
   labels <- metric_data[, m]
   data <- metric_data[, 1:(m - 1)]
 
+  data <- data[, colnames(metric_data) %in% unique_metrics()]
+
   # NA handling
   if (any(is.na(data))) {
 

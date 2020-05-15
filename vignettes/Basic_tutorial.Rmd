@@ -1,5 +1,5 @@
 ---
-title: "tutorial"
+title: "Basic Tutorial"
 author: "Jakub Wiśniewski"
 output: 
   html_document: 
@@ -8,12 +8,15 @@ output:
     toc_float: true
     number_sections: true      
 vignette: >
-  %\VignetteIndexEntry{tutorial}
+  %\VignetteIndexEntry{Basic tutorial}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
   
 ---
 # Objects and Structure
+
+For this tutorial we will use `compas` data to see if someone will become recidivist in next 2 years.
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = FALSE,
@@ -48,7 +51,7 @@ head(compas)
 ```
 ## Demographic parity
 
-As our protected group is Ethnicity, we can plot amount of observations in particular class.   
+As our protected group is Ethnicity, we can plot amount of observations in particular class. Perfect data should have same number of observations in both classes per subgroup. This is just indicator of possible problem.  
 
 ```{r}
 demographic_parity(compas, outcome = "Two_yr_Recidivism", group  = "Ethnicity" )
@@ -59,13 +62,13 @@ demographic_parity(compas, outcome = "Two_yr_Recidivism", group  = "Ethnicity" )
 We train and explain our model with `DALEX`
 ```{r}
 # Train
-rf_compas <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE) # Wszystko
+rf_compas <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
 
 # numeric target values
 y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
 
 # explainer
-rf_explainer <- explain(rf_compas, data = compas[,-1], y = y_numeric)
+rf_explainer <- DALEX::explain(rf_compas, data = compas[,-1], y = y_numeric)
 ```
 
 Than we create `fairness_object` with `create_fairness_object()`
@@ -104,12 +107,12 @@ df <- compas
 df$Two_yr_Recidivism <- as.numeric(compas$Two_yr_Recidivism)-1
 gbm_compas_1<- gbm(Two_yr_Recidivism~., data = df) 
 
-explainer_1 <- explain(rf_compas_1,  data = compas[,-1], y = y_numeric)
-explainer_2 <- explain(lr_compas_1,  data = compas[,-1], y = y_numeric)
-explainer_3 <- explain(rf_compas_2,  data = compas[,-1], y = y_numeric, label = "ranger_2")
-explainer_4 <- explain(rf_compas_3,  data = compas[,-1], y = y_numeric, label = "ranger_3")
-explainer_5 <- explain(gbm_compas_1, data = compas[,-1], y = y_numeric)
-explainer_6 <- explain(rf_compas_4,  data = compas[,-1], y = y_numeric, label = "ranger_4")
+explainer_1 <- DALEX::explain(rf_compas_1,  data = compas[,-1], y = y_numeric)
+explainer_2 <- DALEX::explain(lr_compas_1,  data = compas[,-1], y = y_numeric)
+explainer_3 <- DALEX::explain(rf_compas_2,  data = compas[,-1], y = y_numeric, label = "ranger_2")
+explainer_4 <- DALEX::explain(rf_compas_3,  data = compas[,-1], y = y_numeric, label = "ranger_3")
+explainer_5 <- DALEX::explain(gbm_compas_1, data = compas[,-1], y = y_numeric)
+explainer_6 <- DALEX::explain(rf_compas_4,  data = compas[,-1], y = y_numeric, label = "ranger_4")
 
 ```
    
@@ -269,8 +272,42 @@ fobject3 <- create_fairness_object(explainer_2,explainer_5,
                                    data = compas, 
                                   outcome = "Two_yr_Recidivism",
                                   group  = "Sex",
-                                  base = "Female")  
+                                  base = "Female")   
 plot(fobject3)
 ```
 
+## Custom cutoff
+
+In `fairmodels` we can specify cutoff (threshold) for each subgroup, so if subgroups are: 
+```{r}
+levels(compas$Sex)
+```
+
+```{r}
+
+fobject_without_cutoff <- create_fairness_object(explainer_2,explainer_5, explainer_4,
+                                   data = compas, 
+                                  outcome = "Two_yr_Recidivism",
+                                  group  = "Sex",
+                                  base = "Female")  
+
+
+
+fobject_with_cutoff <- create_fairness_object(explainer_2,explainer_5, explainer_4,
+                                   data = compas, 
+                                  outcome = "Two_yr_Recidivism",
+                                  group  = "Sex",
+                                  base = "Female", 
+                                  cutoff = c(0.5,0.4))  
+
+
+p1 <- plot(performance_and_fairness(fobject_without_cutoff, fairness_metric = "TPR_parity_loss"))
+p2 <- plot(performance_and_fairness(fobject_with_cutoff, fairness_metric = "TPR_parity_loss"))
+
+
+p1 / p2
+
+```
+
+In term of TPR we achieved less parity loss with similar auc. 
 

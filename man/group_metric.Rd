@@ -21,7 +21,7 @@ group_metric(
 \item{parity_loss}{logical, if TRUE parity loss will supersede normal metirc}
 }
 \value{
-\code{groum_metric} object
+\code{group_metric} object
 }
 \description{
 Group metric enables to extract data from metrics generated for each group, and prepare it for visualization.

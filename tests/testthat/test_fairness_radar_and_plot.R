@@ -18,8 +18,12 @@ test_that("Test_fairness_radar_and_plot", {
 
   plt <- plot(fradar)
 
+  crd_radar <- coord_radar()
+
   # checking if plot data is equal to df scaled by max val
   expect_equal(plt$data$score, fradar$df$score/max(fradar$df$score))
+  expect_class(crd_radar, "CordRadar")
+
 
   expect_class(plt, "ggplot")
 

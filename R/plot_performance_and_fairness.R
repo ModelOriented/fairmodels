@@ -50,7 +50,7 @@ plot.performance_and_fairness <- function(x , ...){
   data <- x$data
   performance_metric <- x$performance_metric
   fairness_metric <- x$fairness_metric
-
+  inversed_fairness_metric <- paste("inversed", fairness_metric, collapse = " " )
 
   ggplot(data, aes(x = performance_metric, y = fairness_metric)) +
     geom_text_repel(aes(label = labels),
@@ -64,6 +64,6 @@ plot.performance_and_fairness <- function(x , ...){
     scale_y_reverse() +
     ggtitle("Fairness and performance plot") +
     xlab(performance_metric) +
-    ylab(fairness_metric)
+    ylab(inversed_fairness_metric)
 
 }

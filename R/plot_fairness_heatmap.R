@@ -12,6 +12,7 @@
 #' @param text deafult \code{TRUE} means it shows values on tiles
 #' @param title title of the plot
 #' @param subtitle subtitle of the plot
+#' @param flip_axis logical, whether to change axis with metrics on axis with models
 #'
 #' @return ggplot object
 #'
@@ -62,7 +63,7 @@
 #' @rdname plot_fairness_heatmap
 
 
-plot.fairness_heatmap <- function(x, ..., midpoint = NULL, title = NULL, subtitle = NULL,   text = TRUE, scale = FALSE){
+plot.fairness_heatmap <- function(x, ..., midpoint = NULL, title = NULL, subtitle = NULL,   text = TRUE, scale = FALSE, flip_axis = FALSE){
 
     heatmap_data <- x$heatmap_data
     matrix_model <- x$matrix_model
@@ -109,6 +110,7 @@ plot.fairness_heatmap <- function(x, ..., midpoint = NULL, title = NULL, subtitl
                                 axis.title = element_blank())
 
 
+
     # dendogram for metrics
     model2 <- hclust(dist(t(as.matrix(matrix_model))))
     dhc2   <- as.dendrogram(model2)
@@ -122,10 +124,11 @@ plot.fairness_heatmap <- function(x, ..., midpoint = NULL, title = NULL, subtitl
 
                                         color = "#371ea3") +
                           # theme = nothing
-                          theme_minimal() +
+                          theme_drwhy() +
                           theme(panel.grid= element_blank(),
                                 axis.text = element_blank(),
                                 axis.title = element_blank())
+
 
   # Heatmap ----------------------------------------
 
@@ -142,11 +145,12 @@ plot.fairness_heatmap <- function(x, ..., midpoint = NULL, title = NULL, subtitl
   heatmap_data$score  <- as.numeric(heatmap_data$score)
 
   # heatmap
-    ifelse(n>=(m-1),
+    ifelse(!flip_axis,
            p <- ggplot(heatmap_data, aes(metric, model, fill = score)),
            p <- ggplot(heatmap_data, aes(model, metric, fill = score)))
 
-    heatmap <- p +    geom_tile(colour = "grey50",
+    heatmap <- p +    geom_tile(colour = "white",
+                                size = 2,
                                 na.rm = TRUE) +
                       geom_text(aes(label = score),
                                 color = "white") +
@@ -166,12 +170,12 @@ plot.fairness_heatmap <- function(x, ..., midpoint = NULL, title = NULL, subtitl
   if (text) heatmap <- heatmap + geom_text(aes(label = score),
                                            color = "white")
 
-  ifelse(n>=(m-1),
+  ifelse(!flip_axis,
          dendogram_right <- dendogram_model  + coord_flip(),
          dendogram_right <- dendogram_metric + coord_flip()
          )
 
-  ifelse(n>=(m-1),
+  ifelse(!flip_axis,
          dendogram_top <- dendogram_metric,
          dendogram_top <- dendogram_model
   )

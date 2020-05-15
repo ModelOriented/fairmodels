@@ -58,7 +58,7 @@
 #' gm <- group_metric(fo, fairness_metric = "FPR", performance_metric = "auc")
 #' plot(gm)
 #'
-#' @return \code{groum_metric} object
+#' @return \code{group_metric} object
 #' @export
 #' @rdname group_metric
 #'
@@ -116,17 +116,29 @@ group_metric <- function(x , fairness_metric = NULL, performance_metric = NULL, 
   fairness_data <- data.frame(group = row_names, value = unlisted_group_data, label = labels_rep)
 
   # performance metric
-  cutoff  <- fairness_object$cutoff
-  model_perf <- list()
+  cutoff   <- fairness_object$cutoff
+  mod_perf <- rep(0, length(x$explainers))
 
   for (i in seq_len(n_exp)){
-    exp <- fairness_object$explainers[[i]]
-    model_perf[[i]]   <- model_performance(exp, cutoff = cutoff[i])$measures[performance_metric][[1]]
+
+    if (performance_metric == "auc"){
+      mod_perf[i]  <- model_performance(x$explainers[[i]])$measures[performance_metric][[1]]
+
+    } else {
+      # if else use custom cutoff function implemented in fairmodels
+
+      mod_perf[i] <- group_model_performance(x$explainers[[i]],
+                                             data = x$data,
+                                             group = x$group,
+                                             outcome = x$outcome,
+                                             cutoff = x$cutoff,
+                                             performance_metric = performance_metric)
+    }
 
   }
 
-  model_perf       <- unlist(model_perf)
-  performance_data <- data.frame(x = labels, y = model_perf)
+
+  performance_data <- data.frame(x = labels, y = mod_perf)
 
   y_label <- fairness_metric
   if (parity_loss) y_label <- paste0(y_label, "_parity_loss")

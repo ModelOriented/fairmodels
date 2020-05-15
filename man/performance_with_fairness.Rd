@@ -47,7 +47,7 @@ fobject <- create_fairness_object(explainer_1,explainer_2,explainer_3,explainer_
                                     outcome = "Two_yr_Recidivism",
                                     group  = "Ethnicity",
                                     base   = "Caucasian")
-paf <- performance_and_fairness(fobject)
+paf <- performance_and_fairness(fobject, performance_metric = "f1")
 plot(paf)
 
 }

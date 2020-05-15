@@ -11,7 +11,8 @@
   title = NULL,
   subtitle = NULL,
   text = TRUE,
-  scale = FALSE
+  scale = FALSE,
+  flip_axis = FALSE
 )
 }
 \arguments{
@@ -28,6 +29,8 @@
 \item{text}{deafult \code{TRUE} means it shows values on tiles}
 
 \item{scale}{whether metrics should be normalised}
+
+\item{flip_axis}{logical, whether to change axis with metrics on axis with models}
 }
 \value{
 ggplot object
@@ -74,6 +77,6 @@ fobject <- create_fairness_object(explainer_1,explainer_4,explainer_5,explainer_
                                   cutoff = 0.5)
 
 fheatmap <- fairness_heatmap(fobject)
-plot(fheatmap)
+plot(fheatmap, flip_axis = TRUE)
 
 }

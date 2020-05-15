@@ -79,8 +79,6 @@
 #'
 #'
 
-
-
 create_fairness_object <- function(x,
                                    ...,
                                    data = NULL,
@@ -94,7 +92,7 @@ create_fairness_object <- function(x,
   # check if data provided, if not get data from first explainer
   if (is.null(data)) {
     data = x$data
-    cat("Getting data from first (", x$label,")  explainer \n")
+    cat("Getting data from first (", x$explainers[[1]]$label,")  explainer \n")
   }
 
   # if columns not in data
@@ -102,7 +100,7 @@ create_fairness_object <- function(x,
   if (! group %in% colnames(data))   stop(cat(group, "is not column name in data \n"))
 
   # if base = null take first from data
-  if (is.null(base)) base <- data[1, group]
+  if (is.null(base)) base <- as.character(data[1, group])
 
   if (!is.factor(data[,outcome])){
     cat("\nChanging outcome to factor\n")

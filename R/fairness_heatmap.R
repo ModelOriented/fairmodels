@@ -53,7 +53,9 @@
 
 fairness_heatmap <- function(x, scale = FALSE){
 
-stopifnot(class(x) == "fairness_object")
+  stopifnot(class(x) == "fairness_object")
+  if (length(x$explainers) < 2 ) stop("Number of explainers must be more than 1")
+
 
   m <- ncol(x$metric_data)
   n <- nrow(x$metric_data)
@@ -66,7 +68,7 @@ stopifnot(class(x) == "fairness_object")
 
   heatmap_data$metric <- as.factor(heatmap_data$metric)
   heatmap_data$model  <- as.factor(heatmap_data$model)
-  heatmap_data$score  <- round(as.numeric(heatmap_data$score),3)
+  heatmap_data$score  <- round(as.numeric(heatmap_data$score),2)
 
   # getting numerical data and if scale, normalising it
   matrix_model <- as.matrix(x$metric_data[,1:(m-1)])

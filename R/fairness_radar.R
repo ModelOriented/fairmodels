@@ -44,6 +44,7 @@ fairness_radar <- function(x, metrics = NULL){
   if (is.null(metrics)) metrics <- unique_metrics()
   if (! is.character(metrics) ) stop("metric argument must be character metric")
   if (! all(metrics %in% available_metrics)) stop("in metric argument there are metrics not in fairness_object")
+  if (length(metrics) < 3 ) stop("Number of metrics in radar plot must be at least 3")
 
   # NA handling
   if (any(is.na(data))){
@@ -56,15 +57,14 @@ fairness_radar <- function(x, metrics = NULL){
     metrics <- metrics[! metrics %in% cols_with_missing]
   }
 
-  # data
-  if (dim(data)[1] <= 0) stop("metric data has no rows")
-  if (dim(data)[2] <= 2) stop("metric data must have at least 2 columns")
-
-
   df <- expand_fairness_object(x)
 
   # taking only some metrics
   df <- df[df$metric %in% metrics,]
+
+  if (dim(df)[1] <= 0) stop("metric data has no rows")
+  if (dim(df)[2] <= 2) stop("metric data must have at least 3 columns")
+
   n  <- length(x$explainers)
 
   # ordering metrics

@@ -34,7 +34,6 @@
 #' plot(fradar)
 #'
 
-
 plot.fairness_radar <- function(x, ...) {
 
   df <- x$df
@@ -51,7 +50,7 @@ plot.fairness_radar <- function(x, ...) {
     geom_polygon(aes(group = model, color = model), fill = NA, show.legend = FALSE) +
     geom_point(aes(group = model, color = model)) +
     geom_text(data = df_text, aes(x = x, y = y, label = label), size = 3, fontface = "bold") +
-    scale_y_continuous(expand = c(0, 0), limits = c(0.01, max(df$score))) +
+    scale_y_continuous(expand = c(0, 0), limits = c(0, max(df$score))) +
     scale_color_manual(values = DALEX::colors_discrete_drwhy(n = n)) +
     xlab("") +
     ylab("") +

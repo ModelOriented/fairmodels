@@ -16,7 +16,6 @@ gbm_compas <- gbm(Two_yr_Recidivism~., data=df , distribution = "bernoulli")
 explainer_glm    <- explain(glm_compas, data = compas[-1]  , y = y_numeric, verbose = FALSE)
 explainer_ranger <- explain(ranger_compas,data = compas[-1], y = y_numeric, verbose = FALSE)
 explainer_gbm    <- explain(gbm_compas,data = compas[-1]   , y = y_numeric, verbose = FALSE)
-compas
 
 fobject <- create_fairness_object(explainer_gbm, explainer_glm, explainer_ranger,
                                   data = compas,
