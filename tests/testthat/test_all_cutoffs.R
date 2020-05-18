@@ -4,7 +4,11 @@ test_that("Test all_cutoffs with plot", {
 
   expect_equal(ac$explainer_label, "ranger")
 
-  expect_equal(ac$data[ac$data$cutoff == 0.5,]$metric, c("TPR_parity_loss", "ACC_parity_loss" ))
+  tmp <- ac$data[ac$data$cutoff == 0.5,]
+  tmp <- tmp["metric"]
+  tmp <- unlist(tmp)
+  names(tmp) <- NULL
+  expect_equal(tmp, c("TPR_parity_loss", "ACC_parity_loss" ))
 
 
   #################### plot #########################
