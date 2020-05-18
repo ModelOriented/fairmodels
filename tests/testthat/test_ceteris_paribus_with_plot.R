@@ -6,7 +6,7 @@ test_that("test ceteris_paribus_cutoff with plot", {
   expect_equal(cpc$subgroup, "African_American")
   expect_equal(cpc$cummulated, FALSE)
 
-  metrics_used <- unique(cpc$data$metric)
+  metrics_used <- (unique(as.character(cpc$data$metric)))
   expect_equal(metrics_used,  unique_metrics())
 
   cpc <- ceteris_paribus_cutoff(fobject, subgroup = "African_American", cummulated = TRUE)

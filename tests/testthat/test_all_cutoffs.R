@@ -6,7 +6,7 @@ test_that("Test all_cutoffs with plot", {
 
   tmp <- ac$data[ac$data$cutoff == 0.5,]
   tmp <- tmp["metric"]
-  tmp <- unlist(tmp)
+  tmp <- as.character(unlist(tmp))
   names(tmp) <- NULL
   expect_equal(tmp, c("TPR_parity_loss", "ACC_parity_loss" ))
 

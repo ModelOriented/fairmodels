@@ -62,7 +62,7 @@ plot.ceteris_paribus_cutoff <- function(x, ...){
 
 
   } else {
-    print(n_models)
+
     plt <- plt + geom_line( aes(cutoff, parity_loss, color = model)) +
                     theme_drwhy() +
                     ggtitle("Ceteris paribus cutoff plot",
