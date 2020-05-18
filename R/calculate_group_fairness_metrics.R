@@ -37,8 +37,7 @@ calculate_group_fairness_metrics <- function(x){
     F1  <- 2 * PPV*TPR/(PPV + TPR)
 
     m <- sqrt(tp+fp)*sqrt(tp+fn)*sqrt(tn+fp)*sqrt(tn+fn)
-    if (m != 0) MCC <- (tp*tn - fp * fn)/m
-    else MCC <- 0
+    MCC <- (tp*tn - fp * fn)/m
 
     group_metric_matrix[,i] <- c(TPR,TNR,PPV,NPV,FNR,FPR,FDR,FOR,TS,ACC,F1, MCC)
 

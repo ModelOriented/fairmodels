@@ -77,6 +77,6 @@ fobject <- create_fairness_object(explainer_1,explainer_4,explainer_5,explainer_
                                   cutoff = 0.5)
 
 fheatmap <- fairness_heatmap(fobject)
-plot(fheatmap, flip_axis = TRUE)
+plot(fheatmap)
 
 }

@@ -24,7 +24,6 @@ fobject <- create_fairness_object(explainer_gbm, explainer_glm, explainer_ranger
                                   group = "Ethnicity",
                                   cutoff = c(0.5,0.5,0.45,0.5,0.5,0.5))
 
-fobject$groups_data$gbm$TPR
 
 
 explainer_gbm1 <- explainer_gbm
