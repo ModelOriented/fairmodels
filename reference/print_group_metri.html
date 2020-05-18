@@ -173,9 +173,9 @@
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1377307 , mean =  0.4546035 , max =  0.8391593  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1358039 , mean =  0.4549802 , max =  0.8488507  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7792569 , mean =  0.0005164292 , max =  0.8429651  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7881548 , mean =  0.0001397001 , max =  0.8451786  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>lr_1</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
@@ -194,14 +194,14 @@
 #&gt; Performance metric  auc </div><div class='output co'>#&gt; Fairness data top rows for FPR 
 #&gt;              group      value  label
 #&gt; 1        Caucasian 0.15612802 ranger
-#&gt; 2 African_American 0.31968296 ranger
-#&gt; 3            Asian 0.04347826 ranger
-#&gt; 4         Hispanic 0.16562500 ranger
+#&gt; 2 African_American 0.31902246 ranger
+#&gt; 3            Asian 0.08695652 ranger
+#&gt; 4         Hispanic 0.16250000 ranger
 #&gt; 5  Native_American 0.16666667 ranger
-#&gt; 6            Other 0.14155251 ranger
+#&gt; 6            Other 0.10502283 ranger
 #&gt; 
 #&gt; Performance data for auc :                  
-#&gt; 1 ranger 0.7477039
+#&gt; 1 ranger 0.7481043
 #&gt; 2     lm 0.7221915</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

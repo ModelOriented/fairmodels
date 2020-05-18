@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Fairness radar — fairness_radar • fairmodels</title>
+<title>Plot all cutoffs — plot.all_cutoffs • fairmodels</title>
 
 
 <!-- jquery -->
@@ -45,8 +45,8 @@
 
 
 
-<meta property="og:title" content="Fairness radar — fairness_radar" />
-<meta property="og:description" content="Make fairness_radar object whith chosen metrics. Note that there must be at least three metrics that does not contain NA." />
+<meta property="og:title" content="Plot all cutoffs — plot.all_cutoffs" />
+<meta property="og:description" content="Plot all cutoffs" />
 
 
 
@@ -131,36 +131,38 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Fairness radar</h1>
+    <h1>Plot all cutoffs</h1>
     
-    <div class="hidden name"><code>fairness_radar.Rd</code></div>
+    <div class="hidden name"><code>plot_all_cutoffs.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Make fairness_radar object whith chosen metrics. Note that there must be at least three metrics that does not contain NA.</p>
+    <p>Plot all cutoffs</p>
     </div>
 
-    <pre class="usage"><span class='fu'>fairness_radar</span>(<span class='no'>x</span>, <span class='kw'>metrics</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for all_cutoffs</span>
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p><code>fairness_object</code></p></td>
+      <td><p>all_cutoffs object</p></td>
     </tr>
     <tr>
-      <th>metrics</th>
-      <td><p>vector of metric names, at least 3 metrics without NA needed. If <code>NULL</code> deafult metrics will be taken</p></td>
+      <th>...</th>
+      <td><p>other plot parameters</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>fairness_radar</code> object</p>
+    <p>ggplot object</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>DALEX</span>)
+    <pre class="examples"><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>DALEX</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ranger</span>)
 
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"compas"</span>)
@@ -176,9 +178,9 @@
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1288091 , mean =  0.4549056 , max =  0.8509901  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1377679 , mean =  0.454921 , max =  0.8495821  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7890256 , mean =  0.0002142478 , max =  0.8431629  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7814485 , mean =  0.0001989268 , max =  0.8464323  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>glm_compas</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
@@ -189,12 +191,16 @@
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9767658 , mean =  5.050949e-13 , max =  0.8822826  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='no'>fobject</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_fairness_object.html'>create_fairness_object</a></span>(<span class='no'>explainer_glm</span>, <span class='no'>explainer_rf</span>,
-                             <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
-                             <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>,
-                             <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"Caucasian"</span>,
-                             <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; Getting data from first ( )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='input'><span class='no'>fradar</span> <span class='kw'>&lt;-</span> <span class='fu'>fairness_radar</span>(<span class='no'>fobject</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Found metric with NA: F1_parity_loss, ommiting it</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>fradar</span>)</div><div class='img'><img src='fairness_radar-1.png' alt='' width='700' height='433' /></div></span></pre>
+<span class='no'>fobject</span> <span class='kw'>&lt;-</span><span class='fu'><a href='create_fairness_object.html'>create_fairness_object</a></span>(<span class='no'>explainer_glm</span>, <span class='no'>explainer_rf</span>,
+                                 <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
+                                 <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>,
+                                 <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"Caucasian"</span>,
+                                 <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; Getting data from first ( )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='input'>
+<span class='no'>ac</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='all_cutoffs.html'>all_cutoffs</a></span>(<span class='no'>fobject</span>, <span class='kw'>fairness_metrics</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"TPR_parity_loss"</span>, <span class='st'>"F1_parity_loss"</span>), <span class='kw'>explainer_label</span> <span class='kw'>=</span> <span class='st'>"ranger"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>ac</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 32 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='plot_all_cutoffs-1.png' alt='' width='700' height='433' /></div><div class='input'>
+
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
