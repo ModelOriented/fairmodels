@@ -184,9 +184,9 @@ If NA's appear heatmap will still plot, but with gray area where NA's were.</p>
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.2955743 , mean =  0.4552003 , max =  0.7782764  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.2987885 , mean =  0.4551196 , max =  0.781952  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7497952 , mean =  -8.039363e-05 , max =  0.7044257  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.753243 , mean =  3.030494e-07 , max =  0.7012115  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>model_compas_lr</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
@@ -202,27 +202,27 @@ If NA's appear heatmap will still plot, but with gray area where NA's were.</p>
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1302488 , mean =  0.4550261 , max =  0.8425653  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1422208 , mean =  0.4554201 , max =  0.8470575  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.776987 , mean =  9.38015e-05 , max =  0.8455891  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7878285 , mean =  -0.0003002417 , max =  0.8419448  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_6</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>rf_compas_6</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.2987671 , mean =  0.45538 , max =  0.5126065  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.3050233 , mean =  0.4551282 , max =  0.5134483  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.5126065 , mean =  -0.0002601513 , max =  0.7012329  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.5134483 , mean =  -8.334265e-06 , max =  0.6949767  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_7</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>rf_compas_7</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1341753 , mean =  0.4547463 , max =  0.8618671  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1344873 , mean =  0.4548683 , max =  0.8463609  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7945967 , mean =  0.0003736046 , max =  0.8377366  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7910974 , mean =  0.0002516058 , max =  0.8430333  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='co'># different labels</span>
 <span class='no'>explainer_4</span>$<span class='no'>label</span> <span class='kw'>&lt;-</span> <span class='st'>"glm"</span>
