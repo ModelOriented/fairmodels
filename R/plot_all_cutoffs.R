@@ -1,5 +1,7 @@
 #' Plot all cutoffs
 #'
+#'
+#'
 #' @param x all_cutoffs object
 #' @param ... other plot parameters
 #'

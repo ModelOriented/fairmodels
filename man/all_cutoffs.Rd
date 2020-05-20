@@ -25,7 +25,7 @@ all_cutoffs object
 }
 \description{
 Create all_cutoffs object and to show how with change of cutoffs parity metrics change for single model/explainer.
-It is highly suggested to pick small number of metrics.
+It is highly suggested to pick small number of metrics. With value of cutoff all subgroup cutoffs change.
 }
 \examples{
 
