@@ -1,7 +1,7 @@
 #' All cutoffs
 #'
 #' @description Create all_cutoffs object and to show how with change of cutoffs parity metrics change for single model/explainer.
-#' It is highly suggested to pick small number of metrics.
+#' It is highly suggested to pick small number of metrics. With value of cutoff all subgroup cutoffs change.
 #'
 #' @param x fairness_object
 #' @param grid_points numeric, grid for cutoffs to test. Number of points between 0 and 1 spread evenly.

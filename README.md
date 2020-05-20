@@ -94,6 +94,8 @@ fobject %>% performance_and_fairness() %>% plot()
 * cutoff  - custom cutoff, might be single value - cutoff same for all subgroups or vector - for each subgroup individually
 
 
-early version of tutorial: [Tutorial](https://modeloriented.github.io/FairModels/articles/Basic_tutorial.html)
+Tutorial: [Tutorial](https://modeloriented.github.io/FairModels/articles/Basic_tutorial.html)
 
+#### Related works
 
+Zafar,Valera, Rodriguez, Gummadi (2017)  https://arxiv.org/pdf/1610.08452.pdf
