@@ -147,9 +147,9 @@
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( [33m default [39m ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( [33m default [39m )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1278628 , mean =  0.4551884 , max =  0.855838  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1266547 , mean =  0.4550016 , max =  0.8591025  
 #&gt;   -&gt; residual function :  difference between y and yhat ( [33m default [39m )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7914023 , mean =  -6.854642e-05 , max =  0.8455595  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7947479 , mean =  0.000118342 , max =  0.8422764  
 #&gt;  [32m A new explainer has been created! [39m</code></pre>
 <p>Than we create <code>fairness_object</code> with <code><a href="../reference/create_fairness_object.html">create_fairness_object()</a></code></p>
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">fobject</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_object.html">create_fairness_object</a></span>(<span class="no">rf_explainer</span>,
@@ -213,13 +213,13 @@
 #&gt; 4       0.3902308       0.3734750       0.3647346       0.4881695
 #&gt; 5       0.9992566       0.3577169       0.6136059       0.2666404
 #&gt; 6       0.6923179       0.3108980       0.3622364       0.3361933
-#&gt;   TS_parity_loss ACC_parity_loss F1_parity_loss MCC_parity_loss    label
-#&gt; 1      0.6012242       0.2993959      0.5816743       0.5301407   ranger
-#&gt; 2      0.8554819       0.1353720             NA       0.6709033       lm
-#&gt; 3      0.6659075       0.3502469      0.6301738       0.7154872 ranger_2
-#&gt; 4      0.2905197       0.1960918      0.3303955       0.3505547 ranger_3
-#&gt; 5      0.7824425       0.2502543      0.8321117       0.7168035      gbm
-#&gt; 6      0.5702318       0.2825981      0.5378322       0.5012586 ranger_4
+#&gt;   TS_parity_loss ACC_parity_loss F1_parity_loss MCC_parity_loss
+#&gt; 1      0.6012242       0.2993959      0.5816743       0.5301407
+#&gt; 2      0.8554819       0.1353720             NA       0.6709033
+#&gt; 3      0.6659075       0.3502469      0.6301738       0.7154872
+#&gt; 4      0.2905197       0.1960918      0.3303955       0.3505547
+#&gt; 5      0.7824425       0.2502543      0.8321117       0.7168035
+#&gt; 6      0.5702318       0.2825981      0.5378322       0.5012586
 #&gt; Models explained:
 #&gt; [1] "ranger"
 #&gt; [1] "lm"
@@ -232,9 +232,9 @@
 #&gt;   Two_yr_Recidivism Number_of_Priors Age_Above_FourtyFive Age_Below_TwentyFive
 #&gt; 4                 0       -0.6843578                   no                   no
 #&gt; 5                 1        2.2668817                   no                   no
-#&gt;    Sex Misdemeanor Ethnicity probabilities
-#&gt; 4 Male         yes     Other     0.2187197
-#&gt; 5 Male          no Caucasian     0.6805686</code></pre>
+#&gt;    Sex Misdemeanor Ethnicity _probabilities_
+#&gt; 4 Male         yes     Other       0.2187197
+#&gt; 5 Male          no Caucasian       0.6805686</code></pre>
 <p>Fairness object gets metrics based on confussion matrix and checks them over the groups.</p>
 <div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="co"># for the first model</span>
 <span class="no">fobject</span>$<span class="no">groups_data</span>$<span class="no">ranger</span>$<span class="no">TPR</span></pre></body></html></div>
@@ -285,23 +285,23 @@
 #&gt; 4       0.3902308       0.3734750       0.3647346       0.4881695
 #&gt; 5       0.9992566       0.3577169       0.6136059       0.2666404
 #&gt; 6       0.6923179       0.3108980       0.3622364       0.3361933
-#&gt;   TS_parity_loss ACC_parity_loss F1_parity_loss MCC_parity_loss    label
-#&gt; 1      0.6012242       0.2993959      0.5816743       0.5301407   ranger
-#&gt; 2      0.8554819       0.1353720             NA       0.6709033       lm
-#&gt; 3      0.6659075       0.3502469      0.6301738       0.7154872 ranger_2
-#&gt; 4      0.2905197       0.1960918      0.3303955       0.3505547 ranger_3
-#&gt; 5      0.7824425       0.2502543      0.8321117       0.7168035      gbm
-#&gt; 6      0.5702318       0.2825981      0.5378322       0.5012586 ranger_4</code></pre>
+#&gt;   TS_parity_loss ACC_parity_loss F1_parity_loss MCC_parity_loss
+#&gt; 1      0.6012242       0.2993959      0.5816743       0.5301407
+#&gt; 2      0.8554819       0.1353720             NA       0.6709033
+#&gt; 3      0.6659075       0.3502469      0.6301738       0.7154872
+#&gt; 4      0.2905197       0.1960918      0.3303955       0.3505547
+#&gt; 5      0.7824425       0.2502543      0.8321117       0.7168035
+#&gt; 6      0.5702318       0.2825981      0.5378322       0.5012586</code></pre>
 <div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">fair_pca</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/fairness_pca.html">fairness_pca</a></span>(<span class="no">fobject</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">fair_pca</span>)</pre></body></html></div>
 <pre><code>#&gt; Fairness PCA : 
 #&gt;             PC1        PC2         PC3          PC4          PC5           PC6
-#&gt; [1,]  0.8699102  0.4358304 -0.32389390 -0.307131257  0.021049055 -3.885781e-16
-#&gt; [2,] -3.6651504 -1.1443181 -0.04638564 -0.037861700 -0.035775185 -1.249001e-16
-#&gt; [3,]  0.6980253  1.8574416  0.42412877 -0.003547011 -0.047887023 -1.179612e-16
-#&gt; [4,]  2.4449832 -2.1157105  0.32196903  0.018850841  0.003644337 -3.053113e-16
-#&gt; [5,] -1.4701751  0.6873419  0.21202505  0.110026067  0.073711543 -4.232725e-16
-#&gt; [6,]  1.1224067  0.2794146 -0.58784331  0.219663061 -0.014742726 -2.706169e-16
+#&gt; [1,]  0.8699102  0.4358304 -0.32389390 -0.307131257  0.021049055 -2.706169e-16
+#&gt; [2,] -3.6651504 -1.1443181 -0.04638564 -0.037861700 -0.035775185  2.636780e-16
+#&gt; [3,]  0.6980253  1.8574416  0.42412877 -0.003547011 -0.047887023 -3.330669e-16
+#&gt; [4,]  2.4449832 -2.1157105  0.32196903  0.018850841  0.003644337 -3.330669e-16
+#&gt; [5,] -1.4701751  0.6873419  0.21202505  0.110026067  0.073711543 -2.775558e-16
+#&gt; [6,]  1.1224067  0.2794146 -0.58784331  0.219663061 -0.014742726 -4.302114e-16
 #&gt; 
 #&gt; Created with: 
 #&gt; [1] "ranger"   "lm"       "ranger_2" "ranger_3" "gbm"      "ranger_4"
@@ -355,7 +355,7 @@
 <h2 class="hasAnchor">
 <a href="#back-to-detail" class="anchor"></a>Back to detail</h2>
 <p>When we have narrowed down our search for the best model we can use <code>two_models_plot</code> to check once again metrics within groups and decide which model to use.</p>
-<div class="sourceCode" id="cb29"><html><body><pre class="r"><span class="no">fobject2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_object.html">create_fairness_object</a></span>(<span class="no">explainer_1</span>,<span class="no">explainer_3</span>,
+<div class="sourceCode" id="cb29"><html><body><pre class="r"><span class="no">fobject2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_object.html">create_fairness_object</a></span>(<span class="no">explainer_1</span>,<span class="no">explainer_2</span>,
                                    <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>,
                                   <span class="kw">outcome</span> <span class="kw">=</span> <span class="st">"Two_yr_Recidivism"</span>,
                                   <span class="kw">group</span>  <span class="kw">=</span> <span class="st">"Ethnicity"</span>,
@@ -399,33 +399,46 @@
                                    <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>,
                                   <span class="kw">outcome</span> <span class="kw">=</span> <span class="st">"Two_yr_Recidivism"</span>,
                                   <span class="kw">group</span>  <span class="kw">=</span> <span class="st">"Sex"</span>,
-                                  <span class="kw">base</span> <span class="kw">=</span> <span class="st">"Female"</span>)
+                                  <span class="kw">base</span> <span class="kw">=</span> <span class="st">"Female"</span>)</pre></body></html></div>
+<div id="ceteris-paribus-cutoff" class="section level3">
+<h3 class="hasAnchor">
+<a href="#ceteris-paribus-cutoff" class="anchor"></a>Ceteris paribus cutoff</h3>
+<p>In this plot <code>NA</code> values are natural, so warnings are to be expected.</p>
+<div class="sourceCode" id="cb38"><html><body><pre class="r"><span class="no">cpc</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/ceteris_paribus_cutoff.html">ceteris_paribus_cutoff</a></span>(<span class="no">fobject_without_cutoff</span>, <span class="kw">subgroup</span> <span class="kw">=</span> <span class="st">"Male"</span>)
 
-
-
-<span class="no">fobject_with_cutoff</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_object.html">create_fairness_object</a></span>(<span class="no">explainer_2</span>,<span class="no">explainer_5</span>, <span class="no">explainer_4</span>,
+<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">cpc</span>)</pre></body></html></div>
+<p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-27-1.png" width="700"></p>
+<p>As we can see most optimal value for Male cutoff is at the rate of 0.6-0.65</p>
+<div class="sourceCode" id="cb39"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span>(<span class="no">compas</span>$<span class="no">Sex</span>)</pre></body></html></div>
+<pre><code>#&gt; [1] "Male"   "Female"</code></pre>
+<div class="sourceCode" id="cb41"><html><body><pre class="r"><span class="no">fobject_with_cutoff</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_object.html">create_fairness_object</a></span>(<span class="no">explainer_2</span>,<span class="no">explainer_5</span>, <span class="no">explainer_4</span>,
                                    <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>,
                                   <span class="kw">outcome</span> <span class="kw">=</span> <span class="st">"Two_yr_Recidivism"</span>,
                                   <span class="kw">group</span>  <span class="kw">=</span> <span class="st">"Sex"</span>,
                                   <span class="kw">base</span> <span class="kw">=</span> <span class="st">"Female"</span>,
-                                  <span class="kw">cutoff</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.5</span>,<span class="fl">0.4</span>))
+                                  <span class="kw">cutoff</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.63</span>,<span class="fl">0.5</span>))
 
 
-<span class="no">p1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="fu"><a href="../reference/performance_with_fairness.html">performance_and_fairness</a></span>(<span class="no">fobject_without_cutoff</span>, <span class="kw">fairness_metric</span> <span class="kw">=</span> <span class="st">"TPR_parity_loss"</span>))</pre></body></html></div>
-<pre><code>#&gt; Performace metric is NULL, setting deafult ( auc )  
-#&gt; 
+<span class="no">p1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="fu"><a href="../reference/performance_with_fairness.html">performance_and_fairness</a></span>(<span class="no">fobject_without_cutoff</span>,
+                                    <span class="kw">fairness_metric</span> <span class="kw">=</span> <span class="st">"TPR_parity_loss"</span>,
+                                    <span class="kw">performance_metric</span> <span class="kw">=</span> <span class="st">"accuracy"</span>)) +
+                                    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous</a></span>(<span class="kw">limits</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.63</span>,<span class="fl">0.699</span>))</pre></body></html></div>
+<pre><code>#&gt; 
 #&gt; Creating object with: 
 #&gt; Fairness metric TPR_parity_loss 
-#&gt; Performance metric  auc</code></pre>
-<div class="sourceCode" id="cb39"><html><body><pre class="r"><span class="no">p2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="fu"><a href="../reference/performance_with_fairness.html">performance_and_fairness</a></span>(<span class="no">fobject_with_cutoff</span>, <span class="kw">fairness_metric</span> <span class="kw">=</span> <span class="st">"TPR_parity_loss"</span>))</pre></body></html></div>
-<pre><code>#&gt; Performace metric is NULL, setting deafult ( auc )  
-#&gt; 
+#&gt; Performance metric  accuracy</code></pre>
+<div class="sourceCode" id="cb43"><html><body><pre class="r"><span class="no">p2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="fu"><a href="../reference/performance_with_fairness.html">performance_and_fairness</a></span>(<span class="no">fobject_with_cutoff</span>,
+                                    <span class="kw">fairness_metric</span> <span class="kw">=</span> <span class="st">"TPR_parity_loss"</span>,
+                                    <span class="kw">performance_metric</span> <span class="kw">=</span> <span class="st">"accuracy"</span>)) +
+                                    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous</a></span>(<span class="kw">limits</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.63</span>,<span class="fl">0.699</span>))</pre></body></html></div>
+<pre><code>#&gt; 
 #&gt; Creating object with: 
 #&gt; Fairness metric TPR_parity_loss 
-#&gt; Performance metric  auc</code></pre>
-<div class="sourceCode" id="cb41"><html><body><pre class="r"><span class="no">p1</span> / <span class="no">p2</span></pre></body></html></div>
-<p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-26-1.png" width="700"></p>
-<p>In term of TPR we achieved less parity loss with similar auc.</p>
+#&gt; Performance metric  accuracy</code></pre>
+<div class="sourceCode" id="cb45"><html><body><pre class="r"><span class="no">p1</span> / <span class="no">p2</span></pre></body></html></div>
+<p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-28-1.png" width="700"></p>
+<p>In term of TPR we achieved less parity loss with similar accuracy.</p>
+</div>
 </div>
 </div>
   </div>

@@ -46,7 +46,7 @@
 
 
 <meta property="og:title" content="Fairness radar — fairness_radar" />
-<meta property="og:description" content="Make fairness_radar object whith chosen metrics. Note that there must be at least three metrics that does not contain NA." />
+<meta property="og:description" content="Make fairness_radar object whith chosen fairness_metrics. Note that there must be at least three metrics that does not contain NA." />
 
 
 
@@ -137,10 +137,10 @@
     </div>
 
     <div class="ref-description">
-    <p>Make fairness_radar object whith chosen metrics. Note that there must be at least three metrics that does not contain NA.</p>
+    <p>Make fairness_radar object whith chosen fairness_metrics. Note that there must be at least three metrics that does not contain NA.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>fairness_radar</span>(<span class='no'>x</span>, <span class='kw'>metrics</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>fairness_radar</span>(<span class='no'>x</span>, <span class='kw'>fairness_metrics</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -150,8 +150,8 @@
       <td><p><code>fairness_object</code></p></td>
     </tr>
     <tr>
-      <th>metrics</th>
-      <td><p>vector of metric names, at least 3 metrics without NA needed. If <code>NULL</code> deafult metrics will be taken</p></td>
+      <th>fairness_metrics</th>
+      <td><p>character, vector of metric names, at least 3 metrics without NA needed. If <code>NULL</code> deafult metrics will be taken.</p></td>
     </tr>
     </table>
 
@@ -176,9 +176,9 @@
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1312275 , mean =  0.4553689 , max =  0.8667354  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1322391 , mean =  0.4551155 , max =  0.8439081  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7903828 , mean =  -0.0002489838 , max =  0.8435913  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7861802 , mean =  4.357549e-06 , max =  0.8413855  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>glm_compas</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
