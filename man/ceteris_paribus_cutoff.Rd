@@ -21,7 +21,7 @@ ceteris_paribus_cutoff(
 \item{new_cutoffs}{numeric, vector of new cutoffs, length should be equal to number of group levels.
 Position corresponding to subgroups in levels will be changed. Deafult NULL}
 
-\item{fairness_metrics}{character, name of metric or vector of metrics}
+\item{fairness_metrics}{character, name of metric or vector of multiple metrics}
 
 \item{grid_points}{numeric, grid for cutoffs to test. Number of points between 0 and 1 spread evenly.}
 

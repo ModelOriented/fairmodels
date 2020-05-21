@@ -56,10 +56,6 @@ fairness_heatmap <- function(x, scale = FALSE){
   stopifnot(class(x) == "fairness_object")
   if (length(x$explainers) < 2 ) stop("Number of explainers must be more than 1")
 
-
-  m <- ncol(x$metric_data)
-  n <- nrow(x$metric_data)
-
   # expanding data to fir geom_tile convention
   heatmap_data <- expand_fairness_object(x, scale = scale)
   heatmap_data <- as.data.frame(heatmap_data)
@@ -71,17 +67,14 @@ fairness_heatmap <- function(x, scale = FALSE){
   heatmap_data$score  <- round(as.numeric(heatmap_data$score),2)
 
   # getting numerical data and if scale, normalising it
-  matrix_model <- as.matrix(x$metric_data[,1:(m-1)])
-
+  matrix_model            <- as.matrix(x$metric_data)
   if (scale) matrix_model <- scale(matrix_model)
 
-  rownames(matrix_model) <- x$metric_data[,m]
+  rownames(matrix_model)  <- x$labels
 
   fairness_heatmap <- list(heatmap_data = heatmap_data,
                            matrix_model = matrix_model,
-                           scale = scale,
-                           m = m ,
-                           n = n )
+                           scale        = scale)
 
   class(fairness_heatmap) <- "fairness_heatmap"
   return(fairness_heatmap)

@@ -4,27 +4,20 @@
 \alias{group_matrices}
 \title{Group confusion matrices}
 \usage{
-group_matrices(
-  data,
-  group,
-  probs = "probabilities",
-  outcome,
-  outcome_numeric,
-  cutoff
-)
+group_matrices(data, group, outcome, outcome_numeric, cutoff, probs = NULL)
 }
 \arguments{
 \item{data}{data frame}
 
 \item{group}{\code{character} name of column with group}
 
-\item{probs}{\code{character} name of column with probabilities}
-
 \item{outcome}{\code{character} name of column with outcome}
 
 \item{outcome_numeric}{\code{numeric} vector of outcome}
 
 \item{cutoff}{\code{numeric} cutoff for probabilities, deafult = 0.5}
+
+\item{probs}{\code{character} name of column with probabilities}
 }
 \value{
 list with values:
@@ -54,8 +47,9 @@ y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
 group_matrices(data,
                "Ethnicity",
                 outcome = "Two_yr_Recidivism",
-                 outcome_numeric = y_numeric,
-                 cutoff = rep(0.45,6))
+                outcome_numeric = y_numeric,
+                cutoff = rep(0.45,6),
+                probs = "probabilities")
 
 
 

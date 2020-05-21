@@ -59,5 +59,7 @@ fobject <- create_fairness_object(rf_explainer, lr_explainer,
                                   group = "Ethnicity",
                                   base = "African_American")
 
-choose_metric(fobject, "TPR_parity_loss")
+cm <- choose_metric(fobject, "TPR_parity_loss")
+plot(cm)
+
 }

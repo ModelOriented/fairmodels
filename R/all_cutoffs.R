@@ -4,9 +4,9 @@
 #' It is highly suggested to pick small number of metrics. With value of cutoff all subgroup cutoffs change.
 #'
 #' @param x fairness_object
-#' @param grid_points numeric, grid for cutoffs to test. Number of points between 0 and 1 spread evenly.
-#' @param fairness_metrics character, name of metric or vector of metrics
 #' @param explainer_label character, single label of choosen explainer
+#' @param grid_points numeric, grid for cutoffs to test. Number of points between 0 and 1 spread evenly.
+#' @param fairness_metrics character, name of metric or vector of multiple metrics
 #'
 #' @return all_cutoffs object
 #' @export
@@ -37,7 +37,7 @@
 #'
 
 
-all_cutoffs <- function(x, grid_points = 101, fairness_metrics = unique_metrics(), explainer_label){
+all_cutoffs <- function(x, explainer_label, grid_points = 101, fairness_metrics = unique_metrics()){
 
   stopifnot(class(x) == "fairness_object")
 
@@ -49,6 +49,7 @@ all_cutoffs <- function(x, grid_points = 101, fairness_metrics = unique_metrics(
 
   labels <- sapply(x$explainers, function(x) x$label)
   if (! explainer_label %in% labels ) stop ("explainer_label not in provided labels")
+
 
   explainers <- x$explainers
   cutoffs    <- seq(0,1, length.out =  grid_points)
@@ -86,8 +87,8 @@ all_cutoffs <- function(x, grid_points = 101, fairness_metrics = unique_metrics(
       gmm_loss_unique <- gmm_loss[names(gmm_loss) %in% fairness_metrics]
 
       to_add <- data.frame(parity_loss = as.numeric(gmm_loss_unique),
-                           metric = names(gmm_loss_unique),
-                           cutoff = rep(custom_cutoff, length(gmm_loss_unique)))
+                           metric      = names(gmm_loss_unique),
+                           cutoff      = rep(custom_cutoff, length(gmm_loss_unique)))
 
       cutoff_data <- rbind(cutoff_data , to_add)
 

@@ -1,7 +1,7 @@
 test_that("PCA fairness and plot", {
 
   n <- ncol(fobject$metric_data)
-  data <- fobject$metric_data[,1:(n-1)]
+  data <- fobject$metric_data
 
   f_pca <- fairness_pca(fobject)
   data_c <- data[ , apply(data, 2, function(x) !any(is.na(x)))]

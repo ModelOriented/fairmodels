@@ -55,7 +55,7 @@
 #'
 #' fo <- create_fairness_object(explainer_1, explainer_2,  outcome = "Two_yr_Recidivism", group = "Ethnicity", base = "Caucasian"  )
 #'
-#' gm <- group_metric(fo, fairness_metric = "FPR", performance_metric = "auc")
+#' gm <- group_metric(fo, fairness_metric = "FPR", performance_metric = "f1")
 #' plot(gm)
 #'
 #' @return \code{group_metric} object
@@ -113,7 +113,9 @@ group_metric <- function(x , fairness_metric = NULL, performance_metric = NULL, 
   labels              <- unlist(labels)
   labels_rep          <- rep(labels, each = n)
 
-  fairness_data <- data.frame(group = row_names, value = unlisted_group_data, label = labels_rep)
+  fairness_data <- data.frame(group = row_names,
+                              value = unlisted_group_data,
+                              label = labels_rep)
 
   # performance metric
   cutoff   <- fairness_object$cutoff
@@ -126,28 +128,26 @@ group_metric <- function(x , fairness_metric = NULL, performance_metric = NULL, 
 
     } else {
       # if else use custom cutoff function implemented in fairmodels
-
       mod_perf[i] <- group_model_performance(x$explainers[[i]],
-                                             data = x$data,
-                                             group = x$group,
-                                             outcome = x$outcome,
-                                             cutoff = x$cutoff,
+                                             data               = x$data,
+                                             group              = x$group,
+                                             outcome            = x$outcome,
+                                             cutoff             = x$cutoff,
                                              performance_metric = performance_metric)
     }
 
   }
 
-
   performance_data <- data.frame(x = labels, y = mod_perf)
+  y_label          <- fairness_metric
 
-  y_label <- fairness_metric
   if (parity_loss) y_label <- paste0(y_label, "_parity_loss")
 
-
-  group_metric <-  list(fairness_data = fairness_data,
-                        performance_data = performance_data,
-                        y_label = y_label,
+  group_metric <-  list(fairness_data      = fairness_data,
+                        performance_data   = performance_data,
+                        y_label            = y_label,
                         performance_metric = performance_metric)
+
   class(group_metric) <- "group_metric"
   return(group_metric)
 }

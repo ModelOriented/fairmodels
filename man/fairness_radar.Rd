@@ -4,18 +4,18 @@
 \alias{fairness_radar}
 \title{Fairness radar}
 \usage{
-fairness_radar(x, metrics = NULL)
+fairness_radar(x, fairness_metrics = NULL)
 }
 \arguments{
 \item{x}{\code{fairness_object}}
 
-\item{metrics}{vector of metric names, at least 3 metrics without NA needed. If \code{NULL} deafult metrics will be taken}
+\item{fairness_metrics}{character, vector of metric names, at least 3 metrics without NA needed. If \code{NULL} deafult metrics will be taken.}
 }
 \value{
 \code{fairness_radar} object
 }
 \description{
-Make fairness_radar object whith chosen metrics. Note that there must be at least three metrics that does not contain NA.
+Make fairness_radar object whith chosen fairness_metrics. Note that there must be at least three metrics that does not contain NA.
 }
 \examples{
 library(DALEX)

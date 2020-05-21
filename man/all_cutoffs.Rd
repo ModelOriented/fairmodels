@@ -6,19 +6,19 @@
 \usage{
 all_cutoffs(
   x,
+  explainer_label,
   grid_points = 101,
-  fairness_metrics = unique_metrics(),
-  explainer_label
+  fairness_metrics = unique_metrics()
 )
 }
 \arguments{
 \item{x}{fairness_object}
 
+\item{explainer_label}{character, single label of choosen explainer}
+
 \item{grid_points}{numeric, grid for cutoffs to test. Number of points between 0 and 1 spread evenly.}
 
-\item{fairness_metrics}{character, name of metric or vector of metrics}
-
-\item{explainer_label}{character, single label of choosen explainer}
+\item{fairness_metrics}{character, name of metric or vector of multiple metrics}
 }
 \value{
 all_cutoffs object

@@ -10,7 +10,7 @@
 #' @param subgroup character, name of subgroup (level in group)
 #' @param new_cutoffs numeric, vector of new cutoffs, length should be equal to number of group levels.
 #' Position corresponding to subgroups in levels will be changed. Deafult NULL
-#' @param fairness_metrics character, name of metric or vector of metrics
+#' @param fairness_metrics character, name of metric or vector of multiple metrics
 #' @param grid_points numeric, grid for cutoffs to test. Number of points between 0 and 1 spread evenly.
 #' @param cummulated logical, if true facets will collapse to one plot and parity loss for each model will be summed. Deafult FALSE.
 #'
@@ -106,7 +106,7 @@ ceteris_paribus_cutoff <- function(x,
           custom_cutoff_vec[position_of_subgroup] <- custom_cutoff
         }
 
-        data$probabilities <- explainer$y_hat
+        data$`_probabilities_` <- explainer$y_hat
         label              <- explainer$label
 
         group_matrices <- group_matrices(data,

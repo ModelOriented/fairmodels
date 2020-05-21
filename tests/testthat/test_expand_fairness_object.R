@@ -1,10 +1,11 @@
 test_that("expand_fairness_object values check", {
 
-  efo <- expand_fairness_object(fobject)
-  metric_data <- fobject$metric_data
+  efo               <- expand_fairness_object(fobject)
+  metric_data       <- fobject$metric_data
+  metric_data$label <- fobject$labels
 
-  metrics <- unique(efo$metric)
-  models <- unique(efo$model)
+  metrics <- as.character(unique(efo$metric))
+  models  <- as.character(unique(efo$model))
 
   # for each value check if coresponds to equal value in metrisc_data
   for (model in models){

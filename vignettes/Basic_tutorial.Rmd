@@ -241,7 +241,7 @@ p4 <- plot(performance_and_fairness(fobject,  "TS_parity_loss", "f1"))+ ggtitle(
 When we have narrowed down our search for the best model we can use `two_models_plot` to check once again metrics within groups and decide which model to use.
 
 ```{r}
-fobject2 <- create_fairness_object(explainer_1,explainer_3, 
+fobject2 <- create_fairness_object(explainer_1,explainer_2, 
                                    data = compas, 
                                   outcome = "Two_yr_Recidivism",
                                   group  = "Ethnicity",
@@ -284,30 +284,50 @@ levels(compas$Sex)
 ```
 
 ```{r}
-
 fobject_without_cutoff <- create_fairness_object(explainer_2,explainer_5, explainer_4,
                                    data = compas, 
                                   outcome = "Two_yr_Recidivism",
                                   group  = "Sex",
-                                  base = "Female")  
+                                  base = "Female")
 
 
+```
+
+### Ceteris paribus cutoff
+
+In this plot `NA` values are natural, so warnings are to be expected. 
+```{r}
+cpc <- ceteris_paribus_cutoff(fobject_without_cutoff, subgroup = "Male")
+
+plot(cpc)
+```
+
+As we can see most optimal value for Male cutoff is at the rate of 0.6-0.65
+
+```{r}
+levels(compas$Sex)
 
 fobject_with_cutoff <- create_fairness_object(explainer_2,explainer_5, explainer_4,
                                    data = compas, 
                                   outcome = "Two_yr_Recidivism",
                                   group  = "Sex",
                                   base = "Female", 
-                                  cutoff = c(0.5,0.4))  
+                                  cutoff = c(0.63,0.5))  
 
 
-p1 <- plot(performance_and_fairness(fobject_without_cutoff, fairness_metric = "TPR_parity_loss"))
-p2 <- plot(performance_and_fairness(fobject_with_cutoff, fairness_metric = "TPR_parity_loss"))
+p1 <- plot(performance_and_fairness(fobject_without_cutoff,
+                                    fairness_metric = "TPR_parity_loss",
+                                    performance_metric = "accuracy")) + 
+                                    scale_x_continuous(limits = c(0.63,0.699))
+p2 <- plot(performance_and_fairness(fobject_with_cutoff,
+                                    fairness_metric = "TPR_parity_loss",
+                                    performance_metric = "accuracy")) + 
+                                    scale_x_continuous(limits = c(0.63,0.699))
 
 
 p1 / p2
 
 ```
 
-In term of TPR we achieved less parity loss with similar auc. 
+In term of TPR we achieved less parity loss with similar accuracy. 
 

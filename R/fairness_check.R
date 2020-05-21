@@ -60,15 +60,12 @@ fairness_check <- function(x, epsilon = 0.1){
 
   if(! is.numeric(epsilon) | length(epsilon) > 1) stop("Epsilon must be singlenumeric value")
 
-  base  <- x$base
-
-  explainer_labels <- sapply(x$explainers , function(x) x$label)
-
-
-  df<- data.frame()
+  base   <- x$base
+  labels <- x$labels
 
 
-  for (model in explainer_labels){
+  df <- data.frame()
+  for (model in labels){
   # get based metrics from all
   parity_loss_metrics <- lapply(x$groups_data[model][[1]], function(y) y - y[base])
 
@@ -83,8 +80,8 @@ fairness_check <- function(x, epsilon = 0.1){
                               outcome_numeric = explainer$y,
                               cutoff = x$cutoff)
 
+  # statistical parity - positive predictions / all
   statistical_parity <-  lapply(gm, function(x) (x$tp + x$fp) /(x$tp + x$fp + x$tn + x$fn))
-
   statistical_parity_difference <- lapply(statistical_parity, function(x) x - statistical_parity[base][[1]])
   statistical_parity_difference <- statistical_parity_difference[names(statistical_parity_difference) != base]
 
@@ -96,7 +93,7 @@ fairness_check <- function(x, epsilon = 0.1){
   FNR_loss               <- parity_loss_metrics$FNR
 
   n_sub <- length(levels(x$data[,x$group])) -1
-  n_exp <- length(explainer_labels)
+  n_exp <- length(x$explainers)
 
   # creating data frames
   statistical_parity_data <- data.frame(score    = unlist(statistical_parity_difference),

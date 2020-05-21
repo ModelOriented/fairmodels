@@ -70,7 +70,7 @@ explainer_2 <- explain(lr_1, data = compas, y = y_numeric)
 
 fo <- create_fairness_object(explainer_1, explainer_2,  outcome = "Two_yr_Recidivism", group = "Ethnicity", base = "Caucasian"  )
 
-gm <- group_metric(fo, fairness_metric = "FPR", performance_metric = "auc")
+gm <- group_metric(fo, fairness_metric = "FPR", performance_metric = "f1")
 plot(gm)
 
 }

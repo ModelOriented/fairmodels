@@ -36,13 +36,12 @@ plot.fairness_object <- function(x, ...){
   explainers <- x$explainers
   data       <- x$data
   n          <- nrow(data)
-  l          <- length(explainers)
 
   data_combined <- data.frame()
 
-  for (i in seq_len(l)){
-    data$probability <- explainers[[i]]$y_hat
-    data$label <- rep(explainers[[i]]$label, n )
+  for (i in seq_along(explainers)){
+    data$`_probability_` <- explainers[[i]]$y_hat
+    data$`_label_`       <- rep(explainers[[i]]$label, n )
 
     # bind with rest
     data_combined <- rbind(data_combined , data)
@@ -53,7 +52,7 @@ plot.fairness_object <- function(x, ...){
   colnames(data_combined)[to_change] <- "group"
 
 
-  p <- ggplot(data_combined, aes(probability, group)) +
+  p <- ggplot(data_combined, aes(`_probability_`, group)) +
         geom_violin(color = "#ceced9", fill = "#ceced9" , alpha = 0.5) +
         geom_boxplot(aes(fill = group) ,width = 0.3, alpha = 0.5, outlier.alpha = 0) +
         scale_x_continuous(limits = c(0,1)) +
@@ -61,10 +60,11 @@ plot.fairness_object <- function(x, ...){
         scale_fill_manual(values = DALEX::colors_discrete_drwhy(n = n)) +
         theme(legend.position = "none", # legend off
               strip.placement = "outside",
-              strip.text.y = element_text(hjust = 0.5, vjust = 1)) +
+              strip.text.y = element_text(hjust = 0.5, vjust = 1),
+              ) +
         ylab(x$group) +
         ggtitle("Probability plot")
-  p + facet_grid(rows = vars(label))
+  p + facet_grid(rows = vars(`_label_`))
 
 }
 

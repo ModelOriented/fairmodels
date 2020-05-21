@@ -21,13 +21,13 @@ create_fairness_object(
 
 \item{data}{Data frame to be used}
 
-\item{outcome}{the target of classification}
+\item{outcome}{character, the target of classification, column name in data}
 
-\item{group}{protected group/variable that}
+\item{group}{character, protected group/variable with subgroups visible as levels, column name in data}
 
-\item{base}{in regard to what subgroup parity loss is calculated}
+\item{base}{character, subgroup, one of levels of group. In regard to what subgroup parity loss is calculated.}
 
-\item{cutoff}{threshold for probability, can be vector of thresholds with diferent value for each level of group, deafult 0.5}
+\item{cutoff}{threshold for probability, can be vector of thresholds with diferent value for each level of group (subgroup), deafult 0.5}
 }
 \value{
 An object of class \code{fairness object} which is a list with elements:

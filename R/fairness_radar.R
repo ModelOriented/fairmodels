@@ -1,9 +1,9 @@
 #' Fairness radar
 #'
-#' @description Make fairness_radar object whith chosen metrics. Note that there must be at least three metrics that does not contain NA.
+#' @description Make fairness_radar object whith chosen fairness_metrics. Note that there must be at least three metrics that does not contain NA.
 #'
 #' @param x \code{fairness_object}
-#' @param metrics vector of metric names, at least 3 metrics without NA needed. If \code{NULL} deafult metrics will be taken
+#' @param fairness_metrics character, vector of metric names, at least 3 metrics without NA needed. If \code{NULL} deafult metrics will be taken.
 #'
 #' @return \code{fairness_radar} object
 #' @export
@@ -31,20 +31,20 @@
 #' plot(fradar)
 
 
-fairness_radar <- function(x, metrics = NULL){
+fairness_radar <- function(x, fairness_metrics = NULL){
 
   stopifnot(class(x) == "fairness_object")
 
   data <- x$metric_data
   m <- ncol(data)
 
-  available_metrics <- colnames(data[,1:(m-1)])
 
   # metrics
-  if (is.null(metrics)) metrics <- unique_metrics()
-  if (! is.character(metrics) ) stop("metric argument must be character metric")
-  if (! all(metrics %in% available_metrics)) stop("in metric argument there are metrics not in fairness_object")
-  if (length(metrics) < 3 ) stop("Number of metrics in radar plot must be at least 3")
+  if (is.null(fairness_metrics)) fairness_metrics <- unique_metrics()
+  if (! is.character(fairness_metrics) ) stop("metric argument must be character metric")
+  sapply(fairness_metrics,assert_parity_metrics)
+
+  if (length(fairness_metrics) < 3 ) stop("Number of metrics in radar plot must be at least 3")
 
   # NA handling
   if (any(is.na(data))){
@@ -54,27 +54,27 @@ fairness_radar <- function(x, metrics = NULL){
     warning("Found metric with NA: ", cols_with_missing, ", ommiting it")
 
 
-    metrics <- metrics[! metrics %in% cols_with_missing]
+    fairness_metrics <- fairness_metrics[! fairness_metrics %in% cols_with_missing]
   }
 
-  df <- expand_fairness_object(x)
+  expanded_data <- expand_fairness_object(x)
 
   # taking only some metrics
-  df <- df[df$metric %in% metrics,]
+  expanded_data <- expanded_data[expanded_data$metric %in% fairness_metrics,]
 
-  if (dim(df)[1] <= 0) stop("metric data has no rows")
-  if (dim(df)[2] <= 2) stop("metric data must have at least 3 columns")
+  if (dim(expanded_data)[1] <= 0) stop("metric data has no rows")
+  if (dim(expanded_data)[2] <= 2) stop("metric data must have at least 3 columns")
 
-  n  <- length(x$explainers)
+  n_exp  <- length(x$explainers)
 
   # ordering metrics
-  df            <- df[order(df$metric),]
-  rownames(df)  <- NULL
-  levels_sorted <- levels(sort(df$metric))
-  df$metric     <- factor(df$metric, levels = levels_sorted )
+  expanded_data            <- expanded_data[order(expanded_data$metric),]
+  rownames(expanded_data)  <- NULL
+  levels_sorted            <- levels(sort(expanded_data$metric))
+  expanded_data$metric     <- factor(expanded_data$metric, levels = levels_sorted )
 
-  fairness_radar <- list(df = df ,
-                         n = n)
+  fairness_radar <- list(df = expanded_data ,
+                         n = n_exp)
 
   class(fairness_radar) <- "fairness_radar"
   return(fairness_radar)

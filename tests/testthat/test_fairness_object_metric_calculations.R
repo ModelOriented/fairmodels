@@ -3,7 +3,7 @@ test_that("fairness objects metrics calculations", {
 
 
   data <- compas
-  data$probabilities <- explainer_ranger$y_hat
+  data$`_probabilities_` <- explainer_ranger$y_hat
 
 
 
@@ -14,7 +14,7 @@ test_that("fairness objects metrics calculations", {
                                       base = "Caucasian")
 
   data_C <- data[data$Ethnicity == "Caucasian",]
-  preds01_C <- factor(round(data_C$probabilities))
+  preds01_C <- factor(round(data_C$`_probabilities_`))
   preds10_C <- relevel(preds01_C, "1")
 
   true01_C <- relevel(data_C$Two_yr_Recidivism, "0")
@@ -26,7 +26,7 @@ test_that("fairness objects metrics calculations", {
   fn_C <- sum(true10_C != preds10_C & true10_C == 1)
 
 
-  gm <- group_matrices(data,group = "Ethnicity", outcome = "Two_yr_Recidivism", outcome_numeric = explainer_ranger$y, cutoff = rep(0.5,6))
+  gm <- group_matrices(data, group = "Ethnicity", outcome = "Two_yr_Recidivism", outcome_numeric = explainer_ranger$y, cutoff = rep(0.5,6))
 
   expect_equal(gm$Caucasian$tp, tp_C)
   expect_equal(gm$Caucasian$fp, fp_C)
@@ -35,7 +35,7 @@ test_that("fairness objects metrics calculations", {
 
 
   data_A <- data[data$Ethnicity == "African_American",]
-  preds01_A <- as.factor(round(data_A$probabilities))
+  preds01_A <- as.factor(round(data_A$`_probabilities_`))
   preds10_A <- relevel(preds01_A, "1")
 
   true10_A <- relevel(data_A$Two_yr_Recidivism, "1")

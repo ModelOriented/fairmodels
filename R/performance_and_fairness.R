@@ -85,14 +85,16 @@ performance_and_fairness <- function(x, fairness_metric = NULL, performance_metr
     }
   }
 
-  out <- as.data.frame(cbind(x$metric_data[fairness_metric],mod_perf,  x$metric_data[,ncol(x$metric_data)]))
+  out <- as.data.frame(cbind(x$metric_data[fairness_metric],
+                             mod_perf,
+                             x$labels))
   colnames(out) <- c("fairness_metric", "performance_metric", "labels")
   out$labels <- as.factor(out$labels)
 
-  performance_and_fairness <- list(data = out,
-                                    fairness_metric = fairness_metric,
+  performance_and_fairness <- list( data               = out,
+                                    fairness_metric    = fairness_metric,
                                     performance_metric = performance_metric,
-                                    explainers = x$explainers)
+                                    explainers         = x$explainers)
 
   class(performance_and_fairness) <-  "performance_and_fairness"
 

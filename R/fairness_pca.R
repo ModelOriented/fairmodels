@@ -59,12 +59,10 @@ fairness_pca <- function(x, omit_models_with_NA = FALSE) {
   stopifnot(class(x) == "fairness_object")
 
   # extracting metric data from object
-  metric_data <- x$metric_data
-  m <- ncol(metric_data)
-  labels <- metric_data[, m]
-  data <- metric_data[, 1:(m - 1)]
+  data        <- x$metric_data
+  labels      <- x$labels
 
-  data <- data[, colnames(metric_data) %in% unique_metrics()]
+  data <- data[, colnames(data) %in% unique_metrics()]
 
   # NA handling
   if (any(is.na(data))) {
@@ -92,7 +90,11 @@ fairness_pca <- function(x, omit_models_with_NA = FALSE) {
   pca_summary <- summary(pca_fair)
   pc_1_2 <- round(pca_summary$importance[2, ][1:2], 2)
 
-  fairness_pca <- list(pc_1_2 = pc_1_2, rotation = pca_fair$rotation, x = pca_fair$x, sdev = pca_fair$sdev, labels = labels)
+  fairness_pca <- list(pc_1_2   = pc_1_2,
+                       rotation = pca_fair$rotation,
+                       x        = pca_fair$x,
+                       sdev     = pca_fair$sdev,
+                       labels   = labels)
 
   class(fairness_pca) <- "fairness_pca"
   return(fairness_pca)

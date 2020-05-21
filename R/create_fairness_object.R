@@ -7,10 +7,10 @@
 #' @param data Data frame to be used
 #' @param x DALEX explainer
 #' @param ... possibly more DALEX explainers
-#' @param outcome the target of classification
-#' @param group protected group/variable that
-#' @param base in regard to what subgroup parity loss is calculated
-#' @param cutoff threshold for probability, can be vector of thresholds with diferent value for each level of group, deafult 0.5
+#' @param outcome character, the target of classification, column name in data
+#' @param group character, protected group/variable with subgroups visible as levels, column name in data
+#' @param base character, subgroup, one of levels of group. In regard to what subgroup parity loss is calculated.
+#' @param cutoff threshold for probability, can be vector of thresholds with diferent value for each level of group (subgroup), deafult 0.5
 #'
 #' @return An object of class \code{fairness object} which is a list with elements:
 #' \itemize{
@@ -102,28 +102,25 @@ create_fairness_object <- function(x,
   # if base = null take first from data
   if (is.null(base)) base <- as.character(data[1, group])
 
+  # outcome must be factor
   if (!is.factor(data[,outcome])){
     cat("\nChanging outcome to factor\n")
     data[,outcome] <- as.factor(data[,outcome])
   }
 
-  # cutoff handling
-  num_levels <- length(levels(data[,group]))
-  if (is.null(cutoff)) cutoff <- rep(0.5, num_levels)
-  if (! is.numeric(cutoff)) stop("cutoff must be numeric scalar/ vector")
+  # cutoff handling- if cutoff is null than 0.5 for all subgroups
+  group_levels <- length(levels(data[,group]))
+  if (is.null(cutoff))                    cutoff <- rep(0.5, group_levels)
+  if (! is.numeric(cutoff))               stop("cutoff must be numeric scalar/ vector")
   if ( any(cutoff > 1) | any(cutoff < 0)) stop("cutoff must have values between 0 and 1")
-  if (length(cutoff) == 1) cutoff <- rep(cutoff, num_levels)
+  if (length(cutoff) == 1)                cutoff <- rep(cutoff, group_levels)
 
   # cutoff should be now lenght of group's levels
-  if (length(cutoff) != num_levels) stop("cutoff must be either lenght 1 or length of group's levels")
+  if (length(cutoff) != group_levels) stop("cutoff must be either lenght 1 or length of group's levels")
 
-# Data extraction
-
-  # explainers from function
+  # Data extraction
   explainers <- c(list(x), list(...))
-
-  # from explainers
-  labels <- rep(0, length(explainers))
+  labels     <- rep(0, length(explainers))
 
   for (i in seq_along(explainers)){
     labels[i] <- explainers[[i]]$label
@@ -132,36 +129,20 @@ create_fairness_object <- function(x,
   # explainers must have unique labels
   if (length(unique(labels)) != length(labels) ) stop("Explainers don't have unique labels (use 'label' parameter while creating dalex explainer)")
 
-  n <- length(explainers)
+  n_exp <- length(explainers)
   m <- ncol(data)
 
   # fairness matrix
-  fairness_matrix   <- matrix(nrow = n, ncol = 13) # WARNING if number of metrics changed, change this
+  # WARNING if number of metrics changed, change ncol
+  # number of metrics must be fixed. If changed add metric to metric labels
+  metric_data   <- matrix(nrow = n_exp, ncol = 12)
 
-  explainers_groups <- list(rep(0,n))
-
-  fairness_labels   <- paste0(c("TPR",
-                                "TNR",
-                                "PPV",
-                                "NPV",
-                                "FNR",
-                                "FPR",
-                                "FDR",
-                                "FOR",
-                                "TS",
-                                "ACC",
-                                "F1",
-                                "MCC"),
-                                "_parity_loss")
-
-  exp_labels <- rep(0,n)
+  explainers_groups <- list(rep(0,n_exp))
+  exp_labels        <- rep(0,n_exp)
 
   for (i in seq_along(explainers)) {
 
-    data$probabilities <- explainers[[i]]$y_hat
-
-    #colnames(data)[m + 1] <- "probabilities"
-    label <- explainers[[i]]$label
+    data$`_probabilities_` <- explainers[[i]]$y_hat
 
     group_matrices <- group_matrices(data,
                                      group = group,
@@ -180,34 +161,47 @@ create_fairness_object <- function(x,
     gmm_loss        <- rowSums(gmm_scaled)
     names(gmm_loss) <- paste0(names(gmm_loss),"_parity_loss")
 
-    fairness_matrix[i, ] <- c(gmm_loss,label)
+    metric_data[i, ] <- gmm_loss
 
     # every group value for every metric for every explainer
     metric_list        <- lapply(seq_len(nrow(gmm)), function(j) gmm[j,])
     names(metric_list) <- rownames(gmm)
-
     explainers_groups[[i]]      <- metric_list
-    names(explainers_groups)[i] <- label
 
-    exp_labels[i] <- label
+    label                       <- explainers[[i]]$label
+    names(explainers_groups)[i] <- label
+    exp_labels[i]               <- label
   }
 
   names(explainers_groups) <- exp_labels
 
   # as data frame and making numeric
+  metric_data   <- as.data.frame(metric_data)
+  n_col         <- ncol(metric_data)
 
-  fairness_df   <- as.data.frame(fairness_matrix)
-  n_col         <- ncol(fairness_df)
+  metric_data[, 1:(n_col-1)]   <- apply(metric_data[, 1:(n_col-1)], 2, as.numeric)
 
-  fairness_df[, 1:(n_col-1)]   <- apply(fairness_df[, 1:(n_col-1)], 2, as.numeric)
+  metric_labels   <- paste0(c("TPR",
+                                "TNR",
+                                "PPV",
+                                "NPV",
+                                "FNR",
+                                "FPR",
+                                "FDR",
+                                "FOR",
+                                "TS",
+                                "ACC",
+                                "F1",
+                                "MCC"),
+                              "_parity_loss")
 
-  colnames(fairness_df)        <- fairness_labels
-  colnames(fairness_df)[n_col] <- "label"
+  colnames(metric_data) <- metric_labels
 
   # S3 object
-  fairness_object <- list(metric_data = fairness_df,
+  fairness_object <- list(metric_data = metric_data,
                           groups_data = explainers_groups,
                           explainers  = explainers,
+                          labels      = labels,
                           data        = data,
                           cutoff      = cutoff,
                           outcome     = outcome,
@@ -215,7 +209,6 @@ create_fairness_object <- function(x,
                           base        = base)
 
   class(fairness_object) <- "fairness_object"
-
   return(fairness_object)
 }
 

@@ -49,14 +49,20 @@
 #'                                   group = "Ethnicity",
 #'                                   base = "African_American")
 #'
-#' choose_metric(fobject, "TPR_parity_loss")
+#' cm <- choose_metric(fobject, "TPR_parity_loss")
+#' plot(cm)
+#'
 
 
 choose_metric <- function(x, fairness_metric = "FPR_parity_loss"){
   stopifnot(class(x) == "fairness_object")
   assert_parity_metrics(fairness_metric)
-  data <- x$metric_data[c(fairness_metric,"label")]
+
+  data           <- cbind(x$metric_data[,fairness_metric], x$labels)
+  data           <- as.data.frame(data)
   colnames(data) <- c("metric", "label")
+  data$metric    <- as.numeric(data$metric)
+
 
   choosen_metric <- list(data = data, metric = fairness_metric)
   class(choosen_metric) <- "choosen_metric"

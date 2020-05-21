@@ -34,35 +34,32 @@
 #' expand_fairness_object(fobject, drop_metrics_with_na = TRUE)
 #'
 
-expand_fairness_object <- function(x, scale =FALSE, drop_metrics_with_na = FALSE){
+expand_fairness_object <- function(x, scale = FALSE, drop_metrics_with_na = FALSE){
 
   stopifnot(is.logical(scale))
   stopifnot(is.logical(drop_metrics_with_na))
   stopifnot(class(x) == "fairness_object")
 
-  num_explainers <- length(x$explainers)
-  m              <- ncol(x$metric_data)
-  num_metrics    <- m-1
-
-  metric_data <- x$metric_data[,1:num_metrics]
+  n_exp          <- length(x$explainers)
+  metric_data    <- x$metric_data
+  labels         <- x$labels
 
   if (drop_metrics_with_na) {
     metric_data <- drop_metrics_with_na(metric_data)
-    num_metrics <- ncol(metric_data)
   }
 
   if (scale) metric_data <- as.data.frame(scale(as.matrix(metric_data)))
 
-  explainers_labels <- sapply(x$metric_data[,m], toString)
 
   # rows = metrics * explainers
   expanded_data <- data.frame()
-
   column_names <- colnames(metric_data)
 
-  for (i in seq_len(num_metrics)){
-    to_add <- data.frame(metric = rep(column_names[i], num_explainers),
-                         model  = explainers_labels,
+  n_metrics <- ncol(metric_data)
+
+  for (i in seq_len(n_metrics)){
+    to_add <- data.frame(metric = rep(column_names[i], n_exp),
+                         model  = labels,
                          score  = metric_data[,i])
     expanded_data <- rbind(expanded_data, to_add)
   }
