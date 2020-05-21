@@ -9,7 +9,9 @@ test_that("Test choose_metric", {
 
   expect_class(cm_plot, "ggplot")
 
-  expect_equal(cm$data$metric, fobject$metric_data$TPR_parity_loss)
+  a <- as.numeric(cm$data$metric)
+  b <- as.numeric(fobject$metric_data$TPR_parity_loss)
+  expect_equal(a,b)
 
 
 })
