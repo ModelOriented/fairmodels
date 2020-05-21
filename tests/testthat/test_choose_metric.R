@@ -1,6 +1,6 @@
 test_that("Test choose_metric", {
 
-  expect_equal(choose_metric(fobject)$metric, "FPR_parity_loss")
+  expect_equal(as.character(choose_metric(fobject)$metric), "FPR_parity_loss")
 
   expect_error(choose_metric(fobject, "I dont exist"))
 
