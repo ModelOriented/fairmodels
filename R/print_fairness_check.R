@@ -45,26 +45,32 @@
 #' fairness_check(fobject2)
 #'
 
-
 print.fairness_check <- function(x, ...){
 
-  models <- unique(x$data$model)
+  models  <- unique(x$data$model)
   epsilon <- x$epsilon
+  metrics <- unique(x$data$metric)
 
   cat("\nFairness check for models:", paste(models, collapse = ", "), "\n")
 
   for (model in models){
     model_data <- x$data[x$data$model == model,]
-    passed_metrics <- length(model_data[model_data$score >= -epsilon, "metric"])
+    failed_metrics <- unique(model_data[model_data$score < -epsilon, "metric"])
+    passed_metrics <-  length(metrics[! metrics %in% failed_metrics])
 
     if (passed_metrics < 4){
-      cat("\n", color_codes$red_start ,model, " passes ", passed_metrics, "/5 metrics\n", color_codes$red_end ,  sep = "")
-
-    } else {
+      cat("\n", color_codes$red_start ,model, " passes ", passed_metrics, "/5 metrics\n", color_codes$red_end ,  sep = "")}
+    if (passed_metrics == 4){
+      cat("\n", color_codes$yellow_start ,model, " passes ", passed_metrics, "/5 metrics\n", color_codes$yellow_end ,  sep = "")
+    }
+    if (passed_metrics == 5){
       cat("\n", color_codes$green_start ,model, " passes ", passed_metrics, "/5 metrics\n", color_codes$green_end ,  sep = "")}
+
     cat("Total loss: ", sum(x$data[x$data$score < 0 & x$data$model == model, "score" ])*-1, "\n")
   }
 
+  cat("\n")
+  return(invisible(NULL))
 }
 
 color_codes <- list(yellow_start = "\033[33m", yellow_end = "\033[39m",

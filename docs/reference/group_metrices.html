@@ -140,14 +140,7 @@
     <p>Calculates coufusion matrices for each subgroup</p>
     </div>
 
-    <pre class="usage"><span class='fu'>group_matrices</span>(
-  <span class='no'>data</span>,
-  <span class='no'>group</span>,
-  <span class='kw'>probs</span> <span class='kw'>=</span> <span class='st'>"probabilities"</span>,
-  <span class='no'>outcome</span>,
-  <span class='no'>outcome_numeric</span>,
-  <span class='no'>cutoff</span>
-)</pre>
+    <pre class="usage"><span class='fu'>group_matrices</span>(<span class='no'>data</span>, <span class='no'>group</span>, <span class='no'>outcome</span>, <span class='no'>outcome_numeric</span>, <span class='no'>cutoff</span>, <span class='kw'>probs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -161,10 +154,6 @@
       <td><p><code>character</code> name of column with group</p></td>
     </tr>
     <tr>
-      <th>probs</th>
-      <td><p><code>character</code> name of column with probabilities</p></td>
-    </tr>
-    <tr>
       <th>outcome</th>
       <td><p><code>character</code> name of column with outcome</p></td>
     </tr>
@@ -175,6 +164,10 @@
     <tr>
       <th>cutoff</th>
       <td><p><code>numeric</code> cutoff for probabilities, deafult = 0.5</p></td>
+    </tr>
+    <tr>
+      <th>probs</th>
+      <td><p><code>character</code> name of column with probabilities</p></td>
     </tr>
     </table>
 
@@ -204,8 +197,9 @@
 <span class='fu'>group_matrices</span>(<span class='no'>data</span>,
                <span class='st'>"Ethnicity"</span>,
                 <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
-                 <span class='kw'>outcome_numeric</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>,
-                 <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0.45</span>,<span class='fl'>6</span>))</div><div class='output co'>#&gt; $Caucasian
+                <span class='kw'>outcome_numeric</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>,
+                <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0.45</span>,<span class='fl'>6</span>),
+                <span class='kw'>probs</span> <span class='kw'>=</span> <span class='st'>"probabilities"</span>)</div><div class='output co'>#&gt; $Caucasian
 #&gt; $tp
 #&gt; [1] 392
 #&gt; 

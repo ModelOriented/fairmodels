@@ -63,11 +63,10 @@ fairness_check <- function(x, epsilon = 0.1){
   base   <- x$base
   labels <- x$labels
 
-
   df <- data.frame()
   for (model in labels){
   # get based metrics from all
-  parity_loss_metrics <- lapply(x$groups_data[model][[1]], function(y) y - y[base])
+  parity_loss_metrics <- lapply(x$groups_data[[model]], function(y) y - y[base])
 
   # omit base metric because it is always 0
   parity_loss_metrics <- lapply(parity_loss_metrics, function(x) x[names(x) != base])

@@ -65,5 +65,7 @@ print.fairness_pca <- function(x, ...){
   print(as.character(x$labels))
 
   cat("\nFirst two components explained", sum(x$pc_1_2)*100, "% of variance.\n")
+
+  return(invisible(NULL))
 }
 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create Fairness Object — create_fairness_object • fairmodels</title>
+<title>Print stacked metrics — print.stacked_metrics • fairmodels</title>
 
 
 <!-- jquery -->
@@ -45,10 +45,8 @@
 
 
 
-<meta property="og:title" content="Create Fairness Object — create_fairness_object" />
-<meta property="og:description" content="Create fairness object which measures different fairness metrics and wraps data, explainers and parameters in useful object. This is fundamental object in this package
-It allows to visualize fairness metrics in many ways and compare models on both fairness and performance level. Enables user to handle many models at once, to choose best by having in mind different
-aspects and metrics. Some plots are more useful when many models are given and some when 2-3 are passed." />
+<meta property="og:title" content="Print stacked metrics — print.stacked_metrics" />
+<meta property="og:description" content="Print stacked metrics" />
 
 
 
@@ -133,95 +131,40 @@ aspects and metrics. Some plots are more useful when many models are given and s
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create Fairness Object</h1>
+    <h1>Print stacked metrics</h1>
     
-    <div class="hidden name"><code>create_fairness_object.Rd</code></div>
+    <div class="hidden name"><code>print.stacked_metrics.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Create fairness object which measures different fairness metrics and wraps data, explainers and parameters in useful object. This is fundamental object in this package
-It allows to visualize fairness metrics in many ways and compare models on both fairness and performance level. Enables user to handle many models at once, to choose best by having in mind different
-aspects and metrics. Some plots are more useful when many models are given and some when 2-3 are passed.</p>
+    <p>Print stacked metrics</p>
     </div>
 
-    <pre class="usage"><span class='fu'>create_fairness_object</span>(
-  <span class='no'>x</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>outcome</span>,
-  <span class='no'>group</span>,
-  <span class='kw'>base</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='co'># S3 method for stacked_metrics</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>DALEX explainer</p></td>
+      <td><p>stacked_metrics object</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>possibly more DALEX explainers</p></td>
-    </tr>
-    <tr>
-      <th>data</th>
-      <td><p>Data frame to be used</p></td>
-    </tr>
-    <tr>
-      <th>outcome</th>
-      <td><p>character, the target of classification, column name in data</p></td>
-    </tr>
-    <tr>
-      <th>group</th>
-      <td><p>character, protected group/variable with subgroups visible as levels, column name in data</p></td>
-    </tr>
-    <tr>
-      <th>base</th>
-      <td><p>character, subgroup, one of levels of group. In regard to what subgroup parity loss is calculated.</p></td>
-    </tr>
-    <tr>
-      <th>cutoff</th>
-      <td><p>threshold for probability, can be vector of thresholds with diferent value for each level of group (subgroup), deafult 0.5</p></td>
+      <td><p>other print parameters</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of class <code>fairness object</code> which is a list with elements:</p><ul>
-<li><p>metric_data - data.frame containing parity loss for various fairness metrics. Created with following metrics:</p><ul>
-<li><p>TPR - True Positive Rate (Sensitivity, Recall, Equal Odds)</p></li>
-<li><p>TNR - True Negative Rate (Specificity)</p></li>
-<li><p>PPV - Positive Predictive Value (Precision)</p></li>
-<li><p>NPV - Negative Predictive Value</p></li>
-<li><p>FNR - False Negative Rate</p></li>
-<li><p>FPR - False Positive Rate</p></li>
-<li><p>FDR - False Discovery Rate</p></li>
-<li><p>FOR - False Omision Rate</p></li>
-<li><p>TS - Threat Score</p></li>
-<li><p>ACC - Accuracy</p></li>
-<li><p>F1 - F1 Score</p></li>
-<li><p>MCC - Matthews correlation coefficient</p></li>
-</ul>
+    
 
-<p>M_parity_loss = sum(abs(metric - base_metric))</p>
-<p>where:</p>
-<p>M - some metric mentioned above</p>
-<p>metric - vector of metrics from each subgroup</p>
-<p>base_metric - scalar, value of metric for base subgroup</p></li>
-<li><p>groups_data - metrics across groups, with base but not summarised for explainer</p></li>
-<li><p>explainers  - list of DALEX explainers</p></li>
-<li><p>data - data</p></li>
-<li><p>...         - other parameters passed to function</p></li>
-</ul>
 
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>Fairness object took inspiration from R package <code>fairness</code> by kozodoi <a href='https://github.com/kozodoi/fairness'>https://github.com/kozodoi/fairness</a>. Some parameters where designed to show resemblance.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>DALEX</span>)
+    <pre class="examples"><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>DALEX</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ranger</span>)
 
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"compas"</span>)
@@ -237,9 +180,9 @@ aspects and metrics. Some plots are more useful when many models are given and s
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1377883 , mean =  0.4552422 , max =  0.8583498  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1438246 , mean =  0.4551578 , max =  0.8433322  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7942777 , mean =  -0.0001222573 , max =  0.8466974  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7840245 , mean =  -3.789653e-05 , max =  0.8323885  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>glm_compas</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
@@ -250,13 +193,21 @@ aspects and metrics. Some plots are more useful when many models are given and s
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9767658 , mean =  5.050975e-13 , max =  0.8822826  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='no'>fobject</span> <span class='kw'>&lt;-</span><span class='fu'>create_fairness_object</span>(<span class='no'>explainer_glm</span>, <span class='no'>explainer_rf</span>,
-                             <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
-                             <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>,
-                             <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"Caucasian"</span>,
-                             <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; Getting data from first ( )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>fobject</span>)</div><div class='img'><img src='create_fairness_object-1.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></span></pre>
+<span class='no'>fobject</span> <span class='kw'>&lt;-</span><span class='fu'><a href='create_fairness_object.html'>create_fairness_object</a></span>(<span class='no'>explainer_glm</span>, <span class='no'>explainer_rf</span>,
+                                 <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
+                                 <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>,
+                                 <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"Caucasian"</span>,
+                                 <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; Getting data from first ( )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='input'><span class='fu'><a href='plot_stacked_barplot.html'>stack_metrics</a></span>(<span class='no'>fobject</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Found metric with NA: F1_parity_loss, ommiting it</span></div><div class='output co'>#&gt; 
+#&gt; First rows of stacked data: 
+#&gt;            metric  model score
+#&gt; 1 TPR_parity_loss     lm 1.122
+#&gt; 2 TPR_parity_loss ranger 0.818
+#&gt; 3 TNR_parity_loss     lm 0.446
+#&gt; 4 TNR_parity_loss ranger 0.328
+#&gt; 5 PPV_parity_loss     lm 0.868
+#&gt; 6 PPV_parity_loss ranger 0.352
+#&gt; </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -47,7 +47,7 @@
 
 <meta property="og:title" content="All cutoffs — all_cutoffs" />
 <meta property="og:description" content="Create all_cutoffs object and to show how with change of cutoffs parity metrics change for single model/explainer.
-It is highly suggested to pick small number of metrics." />
+It is highly suggested to pick small number of metrics. With value of cutoff all subgroup cutoffs change." />
 
 
 
@@ -139,14 +139,14 @@ It is highly suggested to pick small number of metrics." />
 
     <div class="ref-description">
     <p>Create all_cutoffs object and to show how with change of cutoffs parity metrics change for single model/explainer.
-It is highly suggested to pick small number of metrics.</p>
+It is highly suggested to pick small number of metrics. With value of cutoff all subgroup cutoffs change.</p>
     </div>
 
     <pre class="usage"><span class='fu'>all_cutoffs</span>(
   <span class='no'>x</span>,
+  <span class='no'>explainer_label</span>,
   <span class='kw'>grid_points</span> <span class='kw'>=</span> <span class='fl'>101</span>,
-  <span class='kw'>fairness_metrics</span> <span class='kw'>=</span> <span class='fu'>unique_metrics</span>(),
-  <span class='no'>explainer_label</span>
+  <span class='kw'>fairness_metrics</span> <span class='kw'>=</span> <span class='fu'>unique_metrics</span>()
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -157,16 +157,16 @@ It is highly suggested to pick small number of metrics.</p>
       <td><p>fairness_object</p></td>
     </tr>
     <tr>
+      <th>explainer_label</th>
+      <td><p>character, single label of choosen explainer</p></td>
+    </tr>
+    <tr>
       <th>grid_points</th>
       <td><p>numeric, grid for cutoffs to test. Number of points between 0 and 1 spread evenly.</p></td>
     </tr>
     <tr>
       <th>fairness_metrics</th>
-      <td><p>character, name of metric or vector of metrics</p></td>
-    </tr>
-    <tr>
-      <th>explainer_label</th>
-      <td><p>character, single label of choosen explainer</p></td>
+      <td><p>character, name of metric or vector of multiple metrics</p></td>
     </tr>
     </table>
 

@@ -120,11 +120,7 @@ create_fairness_object <- function(x,
 
   # Data extraction
   explainers <- c(list(x), list(...))
-  labels     <- rep(0, length(explainers))
-
-  for (i in seq_along(explainers)){
-    labels[i] <- explainers[[i]]$label
-  }
+  labels     <- sapply(explainers, function(x) x$label)
 
   # explainers must have unique labels
   if (length(unique(labels)) != length(labels) ) stop("Explainers don't have unique labels (use 'label' parameter while creating dalex explainer)")
@@ -164,8 +160,8 @@ create_fairness_object <- function(x,
     metric_data[i, ] <- gmm_loss
 
     # every group value for every metric for every explainer
-    metric_list        <- lapply(seq_len(nrow(gmm)), function(j) gmm[j,])
-    names(metric_list) <- rownames(gmm)
+    metric_list                 <- lapply(seq_len(nrow(gmm)), function(j) gmm[j,])
+    names(metric_list)          <- rownames(gmm)
     explainers_groups[[i]]      <- metric_list
 
     label                       <- explainers[[i]]$label
@@ -177,9 +173,6 @@ create_fairness_object <- function(x,
 
   # as data frame and making numeric
   metric_data   <- as.data.frame(metric_data)
-  n_col         <- ncol(metric_data)
-
-  metric_data[, 1:(n_col-1)]   <- apply(metric_data[, 1:(n_col-1)], 2, as.numeric)
 
   metric_labels   <- paste0(c("TPR",
                                 "TNR",

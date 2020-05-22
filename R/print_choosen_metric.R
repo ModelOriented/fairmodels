@@ -36,5 +36,8 @@ print.choosen_metric <- function(x,...){
   cat("\nchoosen metric:\n", x$metric)
   cat("\ndata:\n")
   print(head(x$data,nrow(x$data)))
+
+  cat("\n")
   return(invisible(NULL))
+
 }

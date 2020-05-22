@@ -50,7 +50,7 @@
 #' explainer_7$label <- "rf7"
 #'
 #'
-#' fobject <- create_fairness_object(explainer_1,explainer_4,explainer_5,explainer_6,explainer_7,
+#' fobject <- create_fairness_object(explainer_1, explainer_4, explainer_5, explainer_6, explainer_7,
 #'                                   outcome = "Two_yr_Recidivism",
 #'                                   group  = "Ethnicity",
 #'                                   base   = "Caucasian",
@@ -150,10 +150,8 @@ plot.fairness_heatmap <- function(x, ..., midpoint = NULL, title = NULL, subtitl
            p <- ggplot(heatmap_data, aes(model, metric, fill = score)))
 
     heatmap <- p +    geom_tile(colour = "white",
-                                size = 2,
+                                size = 0.2,
                                 na.rm = TRUE) +
-                      geom_text(aes(label = score),
-                                color = "white") +
                       scale_fill_gradient2(low="#c7f5bf",
                                            mid = "#46bac2",
                                            high="#371ea3",
@@ -168,7 +166,8 @@ plot.fairness_heatmap <- function(x, ..., midpoint = NULL, title = NULL, subtitl
 
   # if text true add text
   if (text) heatmap <- heatmap + geom_text(aes(label = score),
-                                           color = "white")
+                                           color = "white",
+                                           size = 3)
 
   ifelse(!flip_axis,
          dendogram_right <- dendogram_model  + coord_flip(),

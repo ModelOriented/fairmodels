@@ -215,13 +215,9 @@
                                   <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>,
                                   <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"African_American"</span>)</div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='input'>
-<span class='fu'>choose_metric</span>(<span class='no'>fobject</span>, <span class='st'>"TPR_parity_loss"</span>)</div><div class='output co'>#&gt; 
-#&gt; choosen metric:
-#&gt;  TPR_parity_loss
-#&gt; data:
-#&gt;     metric  label
-#&gt; 1 1.047413 ranger
-#&gt; 2 1.878925     lm</div></span></pre>
+<span class='no'>cm</span> <span class='kw'>&lt;-</span> <span class='fu'>choose_metric</span>(<span class='no'>fobject</span>, <span class='st'>"TPR_parity_loss"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>cm</span>)</div><div class='img'><img src='choose_metric-1.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

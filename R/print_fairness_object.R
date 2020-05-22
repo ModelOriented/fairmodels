@@ -18,4 +18,7 @@ print.fairness_object <- function(x, ...){
 
   cat("\nData: \n")
   print(head(x$data,2))
+
+  cat("\n")
+  return(invisible(NULL))
 }

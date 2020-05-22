@@ -38,7 +38,6 @@ fairness_radar <- function(x, fairness_metrics = NULL){
   data <- x$metric_data
   m <- ncol(data)
 
-
   # metrics
   if (is.null(fairness_metrics)) fairness_metrics <- unique_metrics()
   if (! is.character(fairness_metrics) ) stop("metric argument must be character metric")
@@ -62,8 +61,8 @@ fairness_radar <- function(x, fairness_metrics = NULL){
   # taking only some metrics
   expanded_data <- expanded_data[expanded_data$metric %in% fairness_metrics,]
 
-  if (dim(expanded_data)[1] <= 0) stop("metric data has no rows")
-  if (dim(expanded_data)[2] <= 2) stop("metric data must have at least 3 columns")
+
+  if (length(unique(expanded_data$metric)) <= 2) stop("metric data must have at least 3 columns without NA")
 
   n_exp  <- length(x$explainers)
 

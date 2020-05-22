@@ -70,7 +70,7 @@ explainer_6$label <- "rf6"
 explainer_7$label <- "rf7"
 
 
-fobject <- create_fairness_object(explainer_1,explainer_4,explainer_5,explainer_6,explainer_7,
+fobject <- create_fairness_object(explainer_1, explainer_4, explainer_5, explainer_6, explainer_7,
                                   outcome = "Two_yr_Recidivism",
                                   group  = "Ethnicity",
                                   base   = "Caucasian",

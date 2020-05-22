@@ -34,4 +34,7 @@ print.group_metric <- function(x, ...){
   perf_df <- x$performance_data
   colnames(perf_df) <- NULL
   print(perf_df)
+
+  cat("\n")
+  return(invisible(NULL))
 }

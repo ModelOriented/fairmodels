@@ -54,5 +54,7 @@ print.fairness_heatmap <- function(x, ...) {
   cat("matrix model", ifelse(scaled, "scaled", "not scaled"), ":\n")
   print(x$matrix_model)
 
+
+  cat("\n")
 }
 

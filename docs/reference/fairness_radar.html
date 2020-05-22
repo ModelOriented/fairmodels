@@ -46,7 +46,7 @@
 
 
 <meta property="og:title" content="Fairness radar — fairness_radar" />
-<meta property="og:description" content="Make fairness_radar object whith chosen metrics. Note that there must be at least three metrics that does not contain NA." />
+<meta property="og:description" content="Make fairness_radar object whith chosen fairness_metrics. Note that there must be at least three metrics that does not contain NA." />
 
 
 
@@ -137,10 +137,10 @@
     </div>
 
     <div class="ref-description">
-    <p>Make fairness_radar object whith chosen metrics. Note that there must be at least three metrics that does not contain NA.</p>
+    <p>Make fairness_radar object whith chosen fairness_metrics. Note that there must be at least three metrics that does not contain NA.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>fairness_radar</span>(<span class='no'>x</span>, <span class='kw'>metrics</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>fairness_radar</span>(<span class='no'>x</span>, <span class='kw'>fairness_metrics</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -150,8 +150,8 @@
       <td><p><code>fairness_object</code></p></td>
     </tr>
     <tr>
-      <th>metrics</th>
-      <td><p>vector of metric names, at least 3 metrics without NA needed. If <code>NULL</code> deafult metrics will be taken</p></td>
+      <th>fairness_metrics</th>
+      <td><p>character, vector of metric names, at least 3 metrics without NA needed. If <code>NULL</code> deafult metrics will be taken.</p></td>
     </tr>
     </table>
 
