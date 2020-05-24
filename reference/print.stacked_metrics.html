@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Print fairness check — print.fairness_check • fairmodels</title>
+<title>Print stacked metrics — print.stacked_metrics • fairmodels</title>
 
 
 <!-- jquery -->
@@ -45,8 +45,8 @@
 
 
 
-<meta property="og:title" content="Print fairness check — print.fairness_check" />
-<meta property="og:description" content="Print fairness check" />
+<meta property="og:title" content="Print stacked metrics — print.stacked_metrics" />
+<meta property="og:description" content="Print stacked metrics" />
 
 
 
@@ -131,16 +131,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Print fairness check</h1>
+    <h1>Print stacked metrics</h1>
     
-    <div class="hidden name"><code>print_fairness_check.Rd</code></div>
+    <div class="hidden name"><code>print.stacked_metrics.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Print fairness check</p>
+    <p>Print stacked metrics</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for fairness_check</span>
+    <pre class="usage"><span class='co'># S3 method for stacked_metrics</span>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -148,11 +148,11 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>fairness_check object</p></td>
+      <td><p>stacked_metrics object</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>other plot parameters</p></td>
+      <td><p>other print parameters</p></td>
     </tr>
     </table>
 
@@ -169,9 +169,6 @@
 
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"compas"</span>)
 
-<span class='co'># chaging levels - positive situation here is not becoming recidivist</span>
-<span class='no'>compas</span>$<span class='no'>Two_yr_Recidivism</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='no'>compas</span>$<span class='no'>Two_yr_Recidivism</span>, <span class='kw'>levels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>))
-
 <span class='no'>rf_compas</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>Two_yr_Recidivism</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>glm_compas</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='no'>Two_yr_Recidivism</span>~<span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>compas</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(<span class='kw'>link</span><span class='kw'>=</span><span class='st'>"logit"</span>))
 
@@ -183,51 +180,34 @@
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1381175 , mean =  0.5443915 , max =  0.8669172  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1309055 , mean =  0.4545938 , max =  0.8478598  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8488202 , mean =  0.000488565 , max =  0.7932196  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7828909 , mean =  0.0005261281 , max =  0.8447312  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>glm_compas</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package stats , ver. 4.0.0 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.004522979 , mean =  0.5448801 , max =  0.8855426  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1144574 , mean =  0.4551199 , max =  0.995477  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8822826 , mean =  -5.051352e-13 , max =  0.9767658  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.9767658 , mean =  5.050949e-13 , max =  0.8822826  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='no'>fobject</span> <span class='kw'>&lt;-</span><span class='fu'><a href='create_fairness_object.html'>create_fairness_object</a></span>(<span class='no'>explainer_glm</span>, <span class='no'>explainer_rf</span>,
                                  <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
-                                 <span class='kw'>data</span>  <span class='kw'>=</span> <span class='no'>compas</span>,
-                                 <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Sex"</span>,
-                                 <span class='kw'>base</span>  <span class='kw'>=</span> <span class='st'>"Female"</span>,
-                                <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)
-
-<span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='no'>fobject</span>)</div><div class='output co'>#&gt; 
-#&gt; Fairness check for models: lm, ranger 
-#&gt; 
-#&gt; </span><span style='color: #BB0000;'>lm passes 2/5 metrics
-#&gt; </span><span>Total loss:  0.7608068 
-#&gt; 
-#&gt; </span><span style='color: #BB0000;'>ranger passes 2/5 metrics
-#&gt; </span><span>Total loss:  0.4568568 
-#&gt; </div><div class='input'>
-<span class='no'>fobject2</span> <span class='kw'>&lt;-</span><span class='fu'><a href='create_fairness_object.html'>create_fairness_object</a></span>(<span class='no'>explainer_glm</span>, <span class='no'>explainer_rf</span>,
-                                 <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
-                                 <span class='kw'>data</span>  <span class='kw'>=</span> <span class='no'>compas</span>,
-                                 <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Sex"</span>,
-                                 <span class='kw'>base</span>  <span class='kw'>=</span> <span class='st'>"Female"</span>,
-                                 <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.5</span>,<span class='fl'>0.6</span>) )
-<span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='no'>fobject2</span>)</div><div class='output co'>#&gt; 
-#&gt; Fairness check for models: lm, ranger 
-#&gt; 
-#&gt; </span><span style='color: #BBBB00;'>lm passes 4/5 metrics
-#&gt; </span><span>Total loss:  0.23353 
-#&gt; 
-#&gt; </span><span style='color: #BBBB00;'>ranger passes 4/5 metrics
-#&gt; </span><span>Total loss:  0.2395896 
-#&gt; </div><div class='input'>
-</div></span></pre>
+                                 <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>,
+                                 <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"Caucasian"</span>,
+                                 <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; Getting data from first ( )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='input'><span class='fu'><a href='plot_stacked_barplot.html'>stack_metrics</a></span>(<span class='no'>fobject</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Found metric with NA: F1_parity_loss, ommiting it</span></div><div class='output co'>#&gt; 
+#&gt; First rows of stacked data: 
+#&gt;            metric  model score
+#&gt; 1 TPR_parity_loss     lm 1.122
+#&gt; 2 TPR_parity_loss ranger 0.717
+#&gt; 3 TNR_parity_loss     lm 0.446
+#&gt; 4 TNR_parity_loss ranger 0.295
+#&gt; 5 PPV_parity_loss     lm 0.868
+#&gt; 6 PPV_parity_loss ranger 0.321
+#&gt; </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

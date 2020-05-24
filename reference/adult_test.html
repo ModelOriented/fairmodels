@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Confusion matrix — confusion_matrix • fairmodels</title>
+<title>Adult test dataset — adult_test • fairmodels</title>
 
 
 <!-- jquery -->
@@ -45,8 +45,8 @@
 
 
 
-<meta property="og:title" content="Confusion matrix — confusion_matrix" />
-<meta property="og:description" content="Calculates confusion matrix for given cutoff" />
+<meta property="og:title" content="Adult test dataset — adult_test" />
+<meta property="og:description" content="adult_test" />
 
 
 
@@ -131,58 +131,43 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Confusion matrix</h1>
+    <h1>Adult test dataset</h1>
     
-    <div class="hidden name"><code>confusion_matrx.Rd</code></div>
+    <div class="hidden name"><code>adult_test.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Calculates confusion matrix for given cutoff</p>
+    <p><code>adult_test</code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>confusion_matrix</span>(<span class='no'>probs</span>, <span class='no'>observed</span>, <span class='no'>cutoff</span>)</pre>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>adult_test</span>)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>probs</th>
-      <td><p>probabilities given by model</p></td>
-    </tr>
-    <tr>
-      <th>observed</th>
-      <td><p>actual values from outcome</p></td>
-    </tr>
-    <tr>
-      <th>cutoff</th>
-      <td><p>cutoff</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>list that creates confusion matrix, of class <code>confussion_matrix</code></p>
+    <p>A data frame with 16281 rows and 15 variables:</p><dl>
+  <dt>salary</dt><dd><p>factor, &lt;=50K/&gt;50K whether a person salary exceeds 50K a year or not</p></dd>
+  <dt>age</dt><dd><p>integer, age of person</p></dd>
+  <dt>workclass</dt><dd><p>factor, field of work</p></dd>
+  <dt>fnlwgt</dt><dd><p>numeric</p></dd>
+  <dt>education</dt><dd><p>factor, completed education degree</p></dd>
+  <dt>education_num</dt><dd><p>numeric, education number in converted from education factor, the bigger the better</p></dd>
+  <dt>marital_status</dt><dd><p>factor</p></dd>
+  <dt>occupation</dt><dd><p>factor, where this person works</p></dd>
+  <dt>relationship</dt><dd><p>factor, relationship information</p></dd>
+  <dt>race</dt><dd><p>factor, ethnicity of a person</p></dd>
+  <dt>sex</dt><dd><p>factor, gender of a person</p></dd>
+  <dt>capital_gain</dt><dd><p>numeric</p></dd>
+  <dt>capital_loss</dt><dd><p>numeric</p></dd>
+  <dt>hours_per_week</dt><dd><p>numeric, how many hours per week does this person work</p></dd>
+  <dt>native_country</dt><dd><p>factor, in which country was this person born</p></dd>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='no'>probs</span>    <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>20</span>, <span class='fl'>0.4</span>,<span class='fl'>0.1</span>)
-<span class='no'>observed</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>20</span>))
+</dl>
 
-<span class='fu'>confusion_matrix</span>(<span class='no'>probs</span>, <span class='no'>observed</span>, <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; $tp
-#&gt; [1] 2
-#&gt; 
-#&gt; $fp
-#&gt; [1] 1
-#&gt; 
-#&gt; $tn
-#&gt; [1] 10
-#&gt; 
-#&gt; $fn
-#&gt; [1] 7
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "confusion_matrix"</div><div class='input'>
-</div></pre>
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p>Data from UCL <a href='https://archive.ics.uci.edu/ml/datasets/adult'>https://archive.ics.uci.edu/ml/datasets/adult</a></p>
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -178,9 +178,9 @@
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1312902 , mean =  0.4550085 , max =  0.8512065  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1353719 , mean =  0.4552451 , max =  0.8611974  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.787166 , mean =  0.0001113596 , max =  0.8437371  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7960439 , mean =  -0.0001251557 , max =  0.8423996  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>glm_compas</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
@@ -198,7 +198,7 @@
                                  <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; Getting data from first ( )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='input'>
 <span class='no'>ac</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='all_cutoffs.html'>all_cutoffs</a></span>(<span class='no'>fobject</span>, <span class='kw'>fairness_metrics</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"TPR_parity_loss"</span>, <span class='st'>"F1_parity_loss"</span>), <span class='kw'>explainer_label</span> <span class='kw'>=</span> <span class='st'>"ranger"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>ac</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 33 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='plot_all_cutoffs-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>ac</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 32 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='plot_all_cutoffs-1.png' alt='' width='700' height='433' /></div><div class='input'>
 
 </div></span></pre>
   </div>

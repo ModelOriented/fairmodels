@@ -183,9 +183,9 @@
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.129598 , mean =  0.4554469 , max =  0.8528578  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1287514 , mean =  0.4553258 , max =  0.8590029  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7895827 , mean =  -0.0003270231 , max =  0.8478809  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7927577 , mean =  -0.0002059502 , max =  0.8440074  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>glm_compas</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
@@ -204,27 +204,27 @@
 #&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='input'>
 <span class='fu'>expand_fairness_object</span>(<span class='no'>fobject</span>, <span class='kw'>drop_metrics_with_na</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Found metric with NA: F1_parity_loss, ommiting it</span></div><div class='output co'>#&gt;             metric  model     score
 #&gt; 1  TPR_parity_loss     lm 1.1219620
-#&gt; 2  TPR_parity_loss ranger 0.6780654
+#&gt; 2  TPR_parity_loss ranger 0.6954377
 #&gt; 3  TNR_parity_loss     lm 0.4459198
-#&gt; 4  TNR_parity_loss ranger 0.2920117
+#&gt; 4  TNR_parity_loss ranger 0.3076528
 #&gt; 5  PPV_parity_loss     lm 0.8675808
-#&gt; 6  PPV_parity_loss ranger 0.3389399
+#&gt; 6  PPV_parity_loss ranger 0.3556563
 #&gt; 7  NPV_parity_loss     lm 0.1131800
-#&gt; 8  NPV_parity_loss ranger 0.3360663
+#&gt; 8  NPV_parity_loss ranger 0.3384217
 #&gt; 9  FNR_parity_loss     lm 1.1219620
-#&gt; 10 FNR_parity_loss ranger 0.6780654
+#&gt; 10 FNR_parity_loss ranger 0.6954377
 #&gt; 11 FPR_parity_loss     lm 0.4459198
-#&gt; 12 FPR_parity_loss ranger 0.2920117
+#&gt; 12 FPR_parity_loss ranger 0.3076528
 #&gt; 13 FDR_parity_loss     lm 0.8675808
-#&gt; 14 FDR_parity_loss ranger 0.3389399
+#&gt; 14 FDR_parity_loss ranger 0.3556563
 #&gt; 15 FOR_parity_loss     lm 0.1131800
-#&gt; 16 FOR_parity_loss ranger 0.3360663
+#&gt; 16 FOR_parity_loss ranger 0.3384217
 #&gt; 17  TS_parity_loss     lm 0.8554819
-#&gt; 18  TS_parity_loss ranger 0.5658719
+#&gt; 18  TS_parity_loss ranger 0.5740348
 #&gt; 19 ACC_parity_loss     lm 0.1353720
-#&gt; 20 ACC_parity_loss ranger 0.2876637
+#&gt; 20 ACC_parity_loss ranger 0.2832281
 #&gt; 21 MCC_parity_loss     lm 0.6709033
-#&gt; 22 MCC_parity_loss ranger 0.5097957</div><div class='input'>
+#&gt; 22 MCC_parity_loss ranger 0.5002786</div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
