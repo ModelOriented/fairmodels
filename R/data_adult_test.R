@@ -1,0 +1,30 @@
+#' Adult test dataset
+#'
+#' @description
+#' \code{adult_test}
+#'
+#' @format A data frame with 16281 rows and 15 variables:
+#' \describe{
+#'   \item{salary}{factor, <=50K/>50K whether a person salary exceeds 50K a year or not}
+#'   \item{age}{integer, age of person}
+#'   \item{workclass}{factor, field of work}
+#'   \item{fnlwgt}{numeric}
+#'   \item{education}{factor, completed education degree}
+#'   \item{education_num}{numeric, education number in converted from education factor, the bigger the better}
+#'   \item{marital_status}{factor}
+#'   \item{occupation}{factor, where this person works}
+#'   \item{relationship}{factor, relationship information}
+#'   \item{race}{factor, ethnicity of a person}
+#'   \item{sex}{factor, gender of a person}
+#'   \item{capital_gain}{numeric}
+#'   \item{capital_loss}{numeric}
+#'   \item{hours_per_week}{numeric, how many hours per week does this person work}
+#'   \item{native_country}{factor, in which country was this person born}
+#' }
+#' @name adult_test
+#' @docType data
+#' @usage data(adult_test)
+#'
+#' @source Data from UCL \url{https://archive.ics.uci.edu/ml/datasets/adult}
+#'
+NULL
