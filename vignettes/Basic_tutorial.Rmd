@@ -27,14 +27,6 @@ knitr::opts_chunk$set(
 
 ```
 
-```{r setup, include=FALSE}
-library(fairmodels)
-
-library(DALEX)
-library(ranger)
-library(gbm)
-
-```
 ## Why? 
 
 Let's say you are building court system that predicts if someone will become recidivist in the futre. First you gather information
@@ -45,6 +37,7 @@ then you build a model and predict outcomes. You get accuracy score of 90%. It i
 We will use modified ProPublica's compas data to represent our problem. 
 
 ```{r}
+library(fairmodels)
 data("compas")
 
 head(compas)
@@ -59,16 +52,20 @@ demographic_parity(compas, outcome = "Two_yr_Recidivism", group  = "Ethnicity" )
 
 
 
-We train and explain our model with `DALEX`
+We train a `ranger` model and create an explainer with `DALEX`.
+
 ```{r}
-# Train
+library(DALEX)
+library(ranger)
+
+# train
 rf_compas <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
 
 # numeric target values
 y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
 
 # explainer
-rf_explainer <- DALEX::explain(rf_compas, data = compas[,-1], y = y_numeric)
+rf_explainer <- explain(rf_compas, data = compas[,-1], y = y_numeric)
 ```
 
 Than we create `fairness_object` with `create_fairness_object()`
@@ -96,6 +93,8 @@ But mabey some groups are statisticaly more likely to go do crimes in the future
 To really see what `fairness_object` is about, we need to make some more models and explainers. 
 
 ```{r, results= "hide"}
+library(gbm)
+
 set.seed(123)
 
 rf_compas_1 <- ranger(Two_yr_Recidivism ~Number_of_Priors+Age_Below_TwentyFive, data = compas, probability = TRUE)
