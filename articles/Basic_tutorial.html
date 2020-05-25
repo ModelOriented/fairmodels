@@ -108,7 +108,8 @@
 <h2 class="hasAnchor">
 <a href="#data" class="anchor"></a>Data</h2>
 <p>We will use modified ProPublica’s compas data to represent our problem.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"compas"</span>)
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">fairmodels</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"compas"</span>)
 
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">compas</span>)</pre></body></html></div>
 <pre><code>#&gt;    Two_yr_Recidivism Number_of_Priors Age_Above_FourtyFive Age_Below_TwentyFive
@@ -132,24 +133,27 @@
 <p>As our protected group is Ethnicity, we can plot amount of observations in particular class. Perfect data should have same number of observations in both classes per subgroup. This is just indicator of possible problem.</p>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="../reference/demographic_parity.html">demographic_parity</a></span>(<span class="no">compas</span>, <span class="kw">outcome</span> <span class="kw">=</span> <span class="st">"Two_yr_Recidivism"</span>, <span class="kw">group</span>  <span class="kw">=</span> <span class="st">"Ethnicity"</span> )</pre></body></html></div>
 <p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
-<p>We train and explain our model with <code>DALEX</code></p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="co"># Train</span>
-<span class="no">rf_compas</span> <span class="kw">&lt;-</span> <span class="fu">ranger</span>(<span class="no">Two_yr_Recidivism</span> ~<span class="no">.</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>, <span class="kw">probability</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<p>We train a <code>ranger</code> model and create an explainer with <code>DALEX</code>.</p>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">DALEX</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ranger</span>)
+
+<span class="co"># train</span>
+<span class="no">rf_compas</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html">ranger</a></span>(<span class="no">Two_yr_Recidivism</span> ~<span class="no">.</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>, <span class="kw">probability</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 
 <span class="co"># numeric target values</span>
 <span class="no">y_numeric</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="no">compas</span>$<span class="no">Two_yr_Recidivism</span>)-<span class="fl">1</span>
 
 <span class="co"># explainer</span>
-<span class="no">rf_explainer</span> <span class="kw">&lt;-</span> <span class="kw pkg">DALEX</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain</a></span>(<span class="no">rf_compas</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>[,-<span class="fl">1</span>], <span class="kw">y</span> <span class="kw">=</span> <span class="no">y_numeric</span>)</pre></body></html></div>
+<span class="no">rf_explainer</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain</a></span>(<span class="no">rf_compas</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>[,-<span class="fl">1</span>], <span class="kw">y</span> <span class="kw">=</span> <span class="no">y_numeric</span>)</pre></body></html></div>
 <pre><code>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( [33m default [39m )
 #&gt;   -&gt; data              :  6172  rows  6  cols 
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( [33m default [39m ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( [33m default [39m )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1324748 , mean =  0.4553405 , max =  0.8516722  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1422048 , mean =  0.4552587 , max =  0.8442178  
 #&gt;   -&gt; residual function :  difference between y and yhat ( [33m default [39m )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7894634 , mean =  -0.0002206245 , max =  0.8369049  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7764964 , mean =  -0.0001388444 , max =  0.836612  
 #&gt;  [32m A new explainer has been created! [39m</code></pre>
 <p>Than we create <code>fairness_object</code> with <code><a href="../reference/create_fairness_object.html">create_fairness_object()</a></code></p>
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">fobject</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_object.html">create_fairness_object</a></span>(<span class="no">rf_explainer</span>,
@@ -167,16 +171,18 @@
 <h2 class="hasAnchor">
 <a href="#fairness-object" class="anchor"></a>Fairness Object</h2>
 <p>To really see what <code>fairness_object</code> is about, we need to make some more models and explainers.</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">123</span>)
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">gbm</span>)
 
-<span class="no">rf_compas_1</span> <span class="kw">&lt;-</span> <span class="fu">ranger</span>(<span class="no">Two_yr_Recidivism</span> ~<span class="no">Number_of_Priors</span>+<span class="no">Age_Below_TwentyFive</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>, <span class="kw">probability</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">123</span>)
+
+<span class="no">rf_compas_1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html">ranger</a></span>(<span class="no">Two_yr_Recidivism</span> ~<span class="no">Number_of_Priors</span>+<span class="no">Age_Below_TwentyFive</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>, <span class="kw">probability</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 <span class="no">lr_compas_1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span>(<span class="no">Two_yr_Recidivism</span>~<span class="no">.</span>, <span class="kw">data</span><span class="kw">=</span><span class="no">compas</span>, <span class="kw">family</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span>(<span class="kw">link</span><span class="kw">=</span><span class="st">"logit"</span>))
-<span class="no">rf_compas_2</span> <span class="kw">&lt;-</span> <span class="fu">ranger</span>(<span class="no">Two_yr_Recidivism</span> ~<span class="no">.</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>, <span class="kw">probability</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="no">rf_compas_3</span> <span class="kw">&lt;-</span> <span class="fu">ranger</span>(<span class="no">Two_yr_Recidivism</span> ~ <span class="no">Age_Above_FourtyFive</span>+<span class="no">Misdemeanor</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>, <span class="kw">probability</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="no">rf_compas_4</span> <span class="kw">&lt;-</span> <span class="fu">ranger</span>(<span class="no">Two_yr_Recidivism</span> ~<span class="no">.</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>, <span class="kw">probability</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<span class="no">rf_compas_2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html">ranger</a></span>(<span class="no">Two_yr_Recidivism</span> ~<span class="no">.</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>, <span class="kw">probability</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<span class="no">rf_compas_3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html">ranger</a></span>(<span class="no">Two_yr_Recidivism</span> ~ <span class="no">Age_Above_FourtyFive</span>+<span class="no">Misdemeanor</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>, <span class="kw">probability</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<span class="no">rf_compas_4</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html">ranger</a></span>(<span class="no">Two_yr_Recidivism</span> ~<span class="no">.</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>, <span class="kw">probability</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 <span class="no">df</span> <span class="kw">&lt;-</span> <span class="no">compas</span>
 <span class="no">df</span>$<span class="no">Two_yr_Recidivism</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="no">compas</span>$<span class="no">Two_yr_Recidivism</span>)-<span class="fl">1</span>
-<span class="no">gbm_compas_1</span><span class="kw">&lt;-</span> <span class="fu">gbm</span>(<span class="no">Two_yr_Recidivism</span>~<span class="no">.</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">df</span>)
+<span class="no">gbm_compas_1</span><span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/gbm/man/gbm.html">gbm</a></span>(<span class="no">Two_yr_Recidivism</span>~<span class="no">.</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">df</span>)
 
 <span class="no">explainer_1</span> <span class="kw">&lt;-</span> <span class="kw pkg">DALEX</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain</a></span>(<span class="no">rf_compas_1</span>,  <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>[,-<span class="fl">1</span>], <span class="kw">y</span> <span class="kw">=</span> <span class="no">y_numeric</span>)
 <span class="no">explainer_2</span> <span class="kw">&lt;-</span> <span class="kw pkg">DALEX</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain</a></span>(<span class="no">lr_compas_1</span>,  <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>[,-<span class="fl">1</span>], <span class="kw">y</span> <span class="kw">=</span> <span class="no">y_numeric</span>)
