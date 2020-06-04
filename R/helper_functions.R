@@ -11,7 +11,7 @@ drop_metrics_with_na <- function(data){
 na_col_index <- apply(data, 2,  function(x) any(is.na(x)))
 cols_with_missing <- names(data)[na_col_index]
 
-if (any(na_col_index)) warning("Found metric with NA: ", paste(cols_with_missing, collapse = ", "), ", ommiting it\n")
+if (any(na_col_index)) warning("Found metric with NA: ", paste(cols_with_missing, collapse = ", "), ", omiting it\n")
 
 data <- data[, !na_col_index]
 return(data)
@@ -40,3 +40,14 @@ assert_parity_metrics <- function(metric){
 
   invisible(return())
 }
+
+assert_equal_parameters <- function(x, parameter) {
+  param_to_compare <- x[[1]][[parameter]]
+
+  for (obj in x){
+     if (obj[[parameter]] != param_to_compare) stop("Parameters have different values")
+  }
+}
+
+
+

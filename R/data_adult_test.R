@@ -1,6 +1,9 @@
 #' Adult test dataset
 #'
-#' @description
+#' @description Adult test dataset consists of many columns containig various information about relationship, hours worked per week, workclass etc... and about
+#' salary, whether more than 50K a year or not. Lot's of possible protected attributes such as sex, race age. Some columns contain
+#' NA in form of "?". They are not removed and removing them depends on user as they might contain some information.
+#' Data is designed for testing and ready to go.
 #' \code{adult_test}
 #'
 #' @format A data frame with 16281 rows and 15 variables:

@@ -10,7 +10,8 @@
 #' @param outcome character, the target of classification, column name in data
 #' @param group character, protected group/variable with subgroups visible as levels, column name in data
 #' @param base character, subgroup, one of levels of group. In regard to what subgroup parity loss is calculated.
-#' @param cutoff threshold for probability, can be vector of thresholds with diferent value for each level of group (subgroup), deafult 0.5
+#' @param cutoff numeric, threshold for probability, can be vector of thresholds with diferent value for each level of group (subgroup), deafult 0.5
+#' @param fairness_labels character, labels for models in fairness object, if \code{NULL} labels from explainers will be extracted
 #'
 #' @return An object of class \code{fairness object} which is a list with elements:
 #' \itemize{
@@ -85,14 +86,15 @@ create_fairness_object <- function(x,
                                    outcome,
                                    group,
                                    base = NULL,
-                                   cutoff = NULL) {
+                                   cutoff = NULL,
+                                   fairness_labels = NULL) {
 
 # Error handling
 
   # check if data provided, if not get data from first explainer
   if (is.null(data)) {
     data = x$data
-    cat("Getting data from first (", x$explainers[[1]]$label,")  explainer \n")
+    cat("Getting data from first (", color_codes$green_start,  x$label, color_codes$green_end, ")  explainer \n")
   }
 
   # if columns not in data
@@ -118,15 +120,20 @@ create_fairness_object <- function(x,
   # cutoff should be now lenght of group's levels
   if (length(cutoff) != group_levels) stop("cutoff must be either lenght 1 or length of group's levels")
 
+
   # Data extraction
   explainers <- c(list(x), list(...))
-  labels     <- sapply(explainers, function(x) x$label)
+
+  if (is.null(fairness_labels)){
+    fairness_labels     <- sapply(explainers, function(x) x$label)
+  } else {
+    if (length(fairness_labels) != length(explainers)) stop("Number of fairness labels must be equal to number of explainers")
+  }
 
   # explainers must have unique labels
-  if (length(unique(labels)) != length(labels) ) stop("Explainers don't have unique labels (use 'label' parameter while creating dalex explainer)")
+  if (length(unique(fairness_labels)) != length(fairness_labels) ) stop("Explainers don't have unique labels (use 'label' parameter while creating dalex explainer)")
 
   n_exp <- length(explainers)
-  m <- ncol(data)
 
   # fairness matrix
   # WARNING if number of metrics changed, change ncol
@@ -134,7 +141,6 @@ create_fairness_object <- function(x,
   metric_data   <- matrix(nrow = n_exp, ncol = 12)
 
   explainers_groups <- list(rep(0,n_exp))
-  exp_labels        <- rep(0,n_exp)
 
   for (i in seq_along(explainers)) {
 
@@ -163,13 +169,11 @@ create_fairness_object <- function(x,
     metric_list                 <- lapply(seq_len(nrow(gmm)), function(j) gmm[j,])
     names(metric_list)          <- rownames(gmm)
     explainers_groups[[i]]      <- metric_list
+    names(explainers_groups)[i] <- fairness_labels[i]
 
-    label                       <- explainers[[i]]$label
-    names(explainers_groups)[i] <- label
-    exp_labels[i]               <- label
   }
 
-  names(explainers_groups) <- exp_labels
+  names(explainers_groups) <- fairness_labels
 
   # as data frame and making numeric
   metric_data   <- as.data.frame(metric_data)
@@ -186,24 +190,26 @@ create_fairness_object <- function(x,
                                 "ACC",
                                 "F1",
                                 "MCC"),
-                              "_parity_loss")
+                                "_parity_loss")
 
   colnames(metric_data) <- metric_labels
 
   # S3 object
-  fairness_object <- list(metric_data = metric_data,
-                          groups_data = explainers_groups,
-                          explainers  = explainers,
-                          labels      = labels,
-                          data        = data,
-                          cutoff      = cutoff,
-                          outcome     = outcome,
-                          group       = group,
-                          base        = base)
+  fairness_object <- list(metric_data     = metric_data,
+                          groups_data     = explainers_groups,
+                          explainers      = explainers,
+                          fairness_labels = fairness_labels,
+                          data            = data,
+                          cutoff          = cutoff,
+                          outcome         = outcome,
+                          group           = group,
+                          base            = base)
 
   class(fairness_object) <- "fairness_object"
   return(fairness_object)
 }
 
 
-
+color_codes <- list(yellow_start = "\033[33m", yellow_end = "\033[39m",
+                    red_start = "\033[31m", red_end = "\033[39m",
+                    green_start = "\033[32m", green_end = "\033[39m")

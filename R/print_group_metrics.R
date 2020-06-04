@@ -25,13 +25,21 @@
 
 print.group_metric <- function(x, ...){
 
-  cat("Fairness data top rows for",x$y_label, "\n")
-  print(head(x$fairness_data))
+  list_of_objects    <- get_objects(list(x, ...), "group_metric")
+  data_list          <- lapply(list_of_objects, function(x) x$fairness_data)
+  fairness_data      <- do.call("rbind", data_list)
+  data_list          <- lapply(list_of_objects, function(x) x$performance_data)
+  performance_data   <- do.call("rbind", data_list)
+
+
+
+  cat("Fairness data top rows for", x$y_label, "\n")
+  print(head(fairness_data))
   cat("\n")
 
   cat("Performance data for", x$performance_metric, ":")
 
-  perf_df <- x$performance_data
+  perf_df <- performance_data
   colnames(perf_df) <- NULL
   print(perf_df)
 

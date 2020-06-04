@@ -39,11 +39,12 @@ plot.all_cutoffs <- function(x, ...){
 
   cutoff_data     <- x$data
   explainer_label <- x$explainer_label
+  n_exp           <-length(explainer_label)
 
   plt <- ggplot(cutoff_data, aes(cutoff, parity_loss, color = metric)) +
     geom_line() +
     theme_drwhy() +
-    scale_color_manual(values = DALEX::colors_discrete_drwhy(n = 7)) +
+    scale_color_manual(values = c(DALEX::colors_discrete_drwhy(n=7),"#c295f0")) +
     ggtitle("All cutoffs plot", subtitle = paste("created with", explainer_label, collapse = " ")) +
     xlab("value of cutoff") +
     ylab("Metric's parity loss")

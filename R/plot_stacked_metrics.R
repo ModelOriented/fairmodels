@@ -1,7 +1,7 @@
 #' Plot stacked Metrics
 #'
 #' @param x \code{stacked_metrics} object
-#' @param ... other plot parameters
+#' @param ... other \code{stacked_metrics} objects and other plot parameters
 #'
 #'
 #' @examples
@@ -34,15 +34,18 @@
 #'
 
 plot.stacked_metrics <- function(x, ...){
-  x <- x$expanded_data
+
+  objects   <- get_objects(list(x, ...), "stacked_metrics")
+  data_list <- lapply(objects, function(x) x$expanded_data)
+  data      <- do.call("rbind", data_list)
 
 
-  ggplot(x, aes(x = reorder(model, -score), y = score, fill = reorder(metric, score))) +
+  ggplot(data, aes(x = reorder(model, -score), y = score, fill = reorder(metric, score))) +
     geom_bar(stat = "identity", position = "stack", alpha = 0.8) +
     coord_flip() +
     theme_drwhy_vertical() +
     scale_fill_manual(values = c(DALEX::colors_discrete_drwhy(n=7),"#c295f0")) +
-    xlab("Model Label") +
+    xlab("Fairness Label") +
     ylab("Cummulated metric score") +
     labs(fill = "Metric") +
     ggtitle("Stacked Metric Chart")

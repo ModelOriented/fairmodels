@@ -11,7 +11,8 @@ create_fairness_object(
   outcome,
   group,
   base = NULL,
-  cutoff = NULL
+  cutoff = NULL,
+  fainress_labels = NULL
 )
 }
 \arguments{
@@ -27,7 +28,9 @@ create_fairness_object(
 
 \item{base}{character, subgroup, one of levels of group. In regard to what subgroup parity loss is calculated.}
 
-\item{cutoff}{threshold for probability, can be vector of thresholds with diferent value for each level of group (subgroup), deafult 0.5}
+\item{cutoff}{numeric, threshold for probability, can be vector of thresholds with diferent value for each level of group (subgroup), deafult 0.5}
+
+\item{fainress_labels}{character, labels for models in fairness object, if \code{NULL} labels from explainers will be extracted}
 }
 \value{
 An object of class \code{fairness object} which is a list with elements:

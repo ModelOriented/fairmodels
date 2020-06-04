@@ -62,18 +62,24 @@ fairness_check <- function(x, epsilon = 0.1){
 
   base   <- x$base
   labels <- x$labels
+  explainers <- x$explainers
 
   df <- data.frame()
-  for (model in labels){
+
+  for (explainer in explainers){
+
+
+  model  <- explainer$label
   # get based metrics from all
   parity_loss_metrics <- lapply(x$groups_data[[model]], function(y) y - y[base])
 
   # omit base metric because it is always 0
   parity_loss_metrics <- lapply(parity_loss_metrics, function(x) x[names(x) != base])
 
-  # calculating new metrics
-  explainer <- x$explainers[sapply(x$explainers , function(x) x$label) == model][[1]]
-  gm        <- group_matrices(x$data,
+  exp_data <- x$data
+  exp_data$`_probabilities_` <- explainer$y_hat
+
+  gm        <- group_matrices(exp_data,
                               x$group,
                               outcome = x$outcome,
                               outcome_numeric = explainer$y,

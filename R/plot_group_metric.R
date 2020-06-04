@@ -3,7 +3,7 @@
 #' @description Plot choosen metric in group. Notice how models are treatung different subgroups. Compare models both in fairness metrics and in performance.
 #'
 #' @param x object of class group_metric
-#' @param ... other params
+#' @param ... other group_metric objects and other parameters
 #'
 #' @return list of \code{ggplot} object
 #' @export
@@ -30,11 +30,19 @@
 
 plot.group_metric <- function(x, ...){
 
-  fairness_data      <- x$fairness_data
-  performance_data   <- x$performance_data
+  list_of_objects    <- get_objects(list(x, ...), "group_metric")
+  data_list          <- lapply(list_of_objects, function(x) x$fairness_data)
+  fairness_data      <- do.call("rbind", data_list)
+  data_list          <- lapply(list_of_objects, function(x) x$performance_data)
+  performance_data   <- do.call("rbind", data_list)
+
+  assert_equal_parameters(list_of_objects, "performance_metric")
+  assert_equal_parameters(list_of_objects, "y_label")
+
   y_label            <- x$y_label
   performance_metric <- x$performance_metric
 
+  # extracting number of fairness_labels
   n <- length(unique(fairness_data$label))
 
   plot1 <- ggplot(fairness_data, aes(group, value, fill = label)) +

@@ -105,7 +105,7 @@ group_metric <- function(x , fairness_metric = NULL, performance_metric = NULL, 
     # if parity loss, then scale
     if (parity_loss) group_data[[i]] <- abs(group_data[[i]] - group_data[[i]][base] )
 
-    labels[[i]]       <- fairness_object$explainers[[i]]$label[[1]]
+    labels[[i]]       <- fairness_object$fairness_labels[i]
   }
 
   unlisted_group_data <- unlist(group_data)
@@ -138,7 +138,7 @@ group_metric <- function(x , fairness_metric = NULL, performance_metric = NULL, 
 
   }
 
-  performance_data <- data.frame(x = labels, y = mod_perf)
+  performance_data <- data.frame(x = x$fairness_labels, y = mod_perf)
   y_label          <- fairness_metric
 
   if (parity_loss) y_label <- paste0(y_label, "_parity_loss")

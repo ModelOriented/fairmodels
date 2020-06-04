@@ -42,7 +42,7 @@ expand_fairness_object <- function(x, scale = FALSE, drop_metrics_with_na = FALS
 
   n_exp          <- length(x$explainers)
   metric_data    <- x$metric_data
-  labels         <- x$labels
+  labels         <- x$fairness_labels
 
   if (drop_metrics_with_na) {
     metric_data <- drop_metrics_with_na(metric_data)
