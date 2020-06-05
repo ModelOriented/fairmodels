@@ -70,11 +70,12 @@ fairness_heatmap <- function(x, scale = FALSE){
   matrix_model            <- as.matrix(x$metric_data)
   if (scale) matrix_model <- scale(matrix_model)
 
-  rownames(matrix_model)  <- x$labels
+  rownames(matrix_model)  <- x$fairness_labels
 
-  fairness_heatmap <- list(heatmap_data = heatmap_data,
-                           matrix_model = matrix_model,
-                           scale        = scale)
+  fairness_heatmap <- list(heatmap_data    = heatmap_data,
+                           matrix_model    = matrix_model,
+                           scale           = scale,
+                           fairness_labels = x$fairness_labels)
 
   class(fairness_heatmap) <- "fairness_heatmap"
   return(fairness_heatmap)

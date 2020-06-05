@@ -1,7 +1,7 @@
 #' Ceteris paribus cutoff plot
 #'
 #' @param x ceteris_paribus_cutoff object
-#' @param ... other plot parameters
+#' @param ... other ceteris_paribus_cutoff objects
 #'
 #' @return ggplot object
 #' @rdname plot_ceteris_paribus_cutoff
@@ -42,7 +42,14 @@
 
 plot.ceteris_paribus_cutoff <- function(x, ...){
 
-  data       <- x$data
+  list_of_objects   <- get_objects(list(x, ...), "ceteris_paribus_cutoff")
+  data              <- extract_data(list_of_objects, "data")
+
+  assert_different_fairness_labels(list_of_objects)
+
+  assert_equal_parameters(list_of_objects, "subgroup")
+  assert_equal_parameters(list_of_objects, "cummulated")
+
   n_models   <- length(unique(data$model))
   subgroup   <- x$subgroup
   cummulated <- x$cummulated

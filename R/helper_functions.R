@@ -41,6 +41,7 @@ assert_parity_metrics <- function(metric){
   invisible(return())
 }
 
+
 assert_equal_parameters <- function(x, parameter) {
   param_to_compare <- x[[1]][[parameter]]
 
@@ -50,4 +51,35 @@ assert_equal_parameters <- function(x, parameter) {
 }
 
 
+extract_data  <- function(x, parameter){
 
+  data_list         <- lapply(x, function(x) x[[parameter]])
+  data              <- do.call("rbind", data_list)
+  return(data)
+}
+
+assert_different_fairness_labels <- function(x){
+
+  labels <- unlist(lapply(x, function(x) x$fairness_labels))
+
+  if (length(labels) != length(unique(labels))) stop("Some models have the same fairness labels, be sure to print/plot objects with different fairness_labels ")
+
+}
+
+
+get_objects <- function(x, class){
+
+  stopifnot(class(x) == "list")
+
+  explainers <- list()
+  j <- 1
+
+  for (i in seq_along(x)){
+    if (class(x[[i]]) == class) {
+      explainers[[j]] <- x[[i]]
+      j               <- j + 1
+    }
+  }
+
+  return(explainers)
+}

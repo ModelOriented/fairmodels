@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{stacked_metrics object}
 
-\item{...}{other print parameters}
+\item{...}{other stacked_metrics objects and print params}
 }
 \value{
 
@@ -37,5 +37,6 @@ fobject <-create_fairness_object(explainer_glm, explainer_rf,
                                  group = "Ethnicity",
                                  base = "Caucasian",
                                  cutoff = 0.5)
+
 stack_metrics(fobject)
 }

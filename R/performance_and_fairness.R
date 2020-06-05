@@ -94,7 +94,8 @@ performance_and_fairness <- function(x, fairness_metric = NULL, performance_metr
   performance_and_fairness <- list( data               = out,
                                     fairness_metric    = fairness_metric,
                                     performance_metric = performance_metric,
-                                    explainers         = x$explainers)
+                                    explainers         = x$explainers,
+                                    fairness_labels    = x$fairness_labels)
 
   class(performance_and_fairness) <-  "performance_and_fairness"
 

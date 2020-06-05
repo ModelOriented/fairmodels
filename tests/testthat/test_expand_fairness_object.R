@@ -2,7 +2,7 @@ test_that("expand_fairness_object values check", {
 
   efo               <- expand_fairness_object(fobject)
   metric_data       <- fobject$metric_data
-  metric_data$label <- fobject$labels
+  metric_data$label <- fobject$fairness_labels
 
   metrics <- as.character(unique(efo$metric))
   models  <- as.character(unique(efo$model))

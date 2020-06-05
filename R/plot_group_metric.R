@@ -31,10 +31,8 @@
 plot.group_metric <- function(x, ...){
 
   list_of_objects    <- get_objects(list(x, ...), "group_metric")
-  data_list          <- lapply(list_of_objects, function(x) x$fairness_data)
-  fairness_data      <- do.call("rbind", data_list)
-  data_list          <- lapply(list_of_objects, function(x) x$performance_data)
-  performance_data   <- do.call("rbind", data_list)
+  fairness_data      <- extract_data(list_of_objects, "fairness_data")
+  performance_data   <- extract_data(list_of_objects, "performance_data")
 
   assert_equal_parameters(list_of_objects, "performance_metric")
   assert_equal_parameters(list_of_objects, "y_label")

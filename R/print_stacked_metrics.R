@@ -33,8 +33,7 @@
 print.stacked_metrics <- function(x, ...){
 
   list_of_objects   <- get_objects(list(x, ...), "stacked_metrics")
-  data_list         <- lapply(list_of_objects, function(x) x$expanded_data)
-  data              <- do.call("rbind", data_list)
+  data              <- extract_data(list_of_objects, "expanded_data")
 
   cat("\nFirst rows of stacked data: \n")
   print(head(data))

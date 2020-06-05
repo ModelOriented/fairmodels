@@ -2,7 +2,7 @@
 
 #' Plot fairness PCA
 #'
-#' @description Plot pca calculated on fainress_object metrics. Similar models and metrics should be close to each other.
+#' @description Plot pca calculated on fainress_object metrics. Similar models and metrics should be close to each other. Plot doesn't work on multiple \code{fairness_pca} objects.
 #'
 #'
 #' @param x fairness_pca object
@@ -64,16 +64,16 @@ plot.fairness_pca <- function(x, scale = 0.5,  ...){
 
   # scaling like in stats::biplot
   lam <- x$sdev[1:2]
-  n <- nrow(x$x)
+  n   <- nrow(x$x)
   lam <- lam * sqrt(n)
   if(scale != 0) lam <- lam^scale else lam <- 1
 
   pca_df <- t(t(x$x[,1:2])/lam)
   rotation <-  t(t(x$rotation[,1:2])*lam)
 
-  pc_1_2 <- x$pc_1_2
-  pca_data <- as.data.frame(pca_df)
-  pca_data$labels <- x$labels
+  pc_1_2          <- x$pc_1_2
+  pca_data        <- as.data.frame(pca_df)
+  pca_data$labels <- x$fairness_labels
 
   pca_feature <- as.data.frame(rotation)
   pca_feature$labels <- rownames(rotation)

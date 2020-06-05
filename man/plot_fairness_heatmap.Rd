@@ -11,7 +11,6 @@
   title = NULL,
   subtitle = NULL,
   text = TRUE,
-  scale = FALSE,
   flip_axis = FALSE
 )
 }
@@ -27,8 +26,6 @@
 \item{subtitle}{subtitle of the plot}
 
 \item{text}{deafult \code{TRUE} means it shows values on tiles}
-
-\item{scale}{whether metrics should be normalised}
 
 \item{flip_axis}{logical, whether to change axis with metrics on axis with models}
 }

@@ -146,7 +146,8 @@ group_metric <- function(x , fairness_metric = NULL, performance_metric = NULL, 
   group_metric <-  list(fairness_data      = fairness_data,
                         performance_data   = performance_data,
                         y_label            = y_label,
-                        performance_metric = performance_metric)
+                        performance_metric = performance_metric,
+                        fairness_labels = x$fairness_labels)
 
   class(group_metric) <- "group_metric"
   return(group_metric)

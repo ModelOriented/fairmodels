@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{object of class \code{choosen_metric}}
 
-\item{...}{other plot parameters}
+\item{...}{other objects of class \code{choosen_metric}}
 }
 \value{
 \code{ggplot2} object

@@ -145,7 +145,7 @@ fairness_check <- function(x, epsilon = 0.1){
 
   rownames(df) <- NULL
 
-  fairness_check <- list(data = df, n_exp = n_exp, n_sub = n_sub, epsilon = epsilon)
+  fairness_check <- list(data = df, n_exp = n_exp, n_sub = n_sub, epsilon = epsilon,fairness_labels = x$fairness_labels)
   class(fairness_check) <- "fairness_check"
 
   return(fairness_check)

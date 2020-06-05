@@ -7,9 +7,9 @@
 \method{plot}{performance_and_fairness}(x, ...)
 }
 \arguments{
-\item{x}{fairness object}
+\item{x}{\code{performance_and_fairness} object}
 
-\item{...}{other plot parameters}
+\item{...}{other \code{performance_and_fairness} objects}
 }
 \value{
 

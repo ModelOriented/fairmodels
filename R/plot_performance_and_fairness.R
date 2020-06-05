@@ -2,9 +2,8 @@
 #'
 #' @description visualise fairness and model metric at the same time. Note that fairness metric parity scale is reversed so that the best models are in top right corner.
 #'
-#' @param x fairness object
-#' @param ... other plot parameters
-#'
+#' @param x \code{performance_and_fairness} object
+#' @param ... other \code{performance_and_fairness} objects
 #'
 #' @return
 #' @export
@@ -47,9 +46,19 @@
 
 plot.performance_and_fairness <- function(x , ...){
 
-  data                     <- x$data
+  list_of_objects <- get_objects(list(x, ...), "performance_and_fairness")
+  data            <- extract_data(list_of_objects, "data")
+
+  assert_equal_parameters(list_of_objects, "performance_metric")
+  assert_equal_parameters(list_of_objects, "fairness_metric")
+
   performance_metric       <- x$performance_metric
   fairness_metric          <- x$fairness_metric
+
+  assert_different_fairness_labels(list_of_objects)
+
+  n <- length(unique(data$labels))
+
   inversed_fairness_metric <- paste("inversed", fairness_metric, collapse = " " )
 
   ggplot(data, aes(x = performance_metric, y = fairness_metric)) +
@@ -60,7 +69,7 @@ plot.performance_and_fairness <- function(x , ...){
                     size = 4) +
     geom_point(aes(color = labels)) +
     theme_drwhy() +
-    scale_color_manual(values = DALEX::colors_discrete_drwhy(n = length(x$explainers)) ) +
+    scale_color_manual(values = DALEX::colors_discrete_drwhy(n = n) ) +
     scale_y_reverse() +
     ggtitle("Fairness and performance plot") +
     xlab(performance_metric) +

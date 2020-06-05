@@ -47,7 +47,7 @@ head(compas)
 As our protected group is Ethnicity, we can plot amount of observations in particular class. Perfect data should have same number of observations in both classes per subgroup. This is just indicator of possible problem.  
 
 ```{r}
-demographic_parity(compas, outcome = "Two_yr_Recidivism", group  = "Ethnicity" )
+class_parity(compas, outcome = "Two_yr_Recidivism", group  = "Ethnicity" )
 ```
 
 
@@ -200,7 +200,7 @@ For both models and metrics dendograms are created. This way through hierarchica
 It can be normalised among metrics.
 ```{r}
 fheatmap <- fairness_heatmap(fobject, scale = TRUE)
-plot(fheatmap, , title = "Title can be changed", subtitle = "subtitle too!") # we can turn values off via text= FALSE
+plot(fheatmap , title = "Title can be changed", subtitle = "subtitle too!") # we can turn values off via text= FALSE
 ```
 
 Now we know what those scores are and how "similar" models are to each other

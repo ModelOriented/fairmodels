@@ -60,7 +60,7 @@ fairness_pca <- function(x, omit_models_with_NA = FALSE) {
 
   # extracting metric data from object
   data        <- x$metric_data
-  labels      <- x$labels
+  labels      <- x$fairness_labels
 
   data <- data[, colnames(data) %in% unique_metrics()]
 
@@ -94,7 +94,7 @@ fairness_pca <- function(x, omit_models_with_NA = FALSE) {
                        rotation = pca_fair$rotation,
                        x        = pca_fair$x,
                        sdev     = pca_fair$sdev,
-                       labels   = labels)
+                       fairness_labels = x$fairness_labels)
 
   class(fairness_pca) <- "fairness_pca"
   return(fairness_pca)

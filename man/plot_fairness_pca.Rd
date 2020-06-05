@@ -17,7 +17,7 @@
 
 }
 \description{
-Plot pca calculated on fainress_object metrics. Similar models and metrics should be close to each other.
+Plot pca calculated on fainress_object metrics. Similar models and metrics should be close to each other. Plot doesn't work on multiple \code{fairness_pca} objects.
 }
 \examples{
 

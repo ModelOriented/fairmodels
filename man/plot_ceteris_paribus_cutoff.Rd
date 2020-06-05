@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{ceteris_paribus_cutoff object}
 
-\item{...}{other plot parameters}
+\item{...}{other ceteris_paribus_cutoff objects}
 }
 \value{
 ggplot object

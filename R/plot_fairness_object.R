@@ -32,6 +32,7 @@
 #'                              base = "Caucasian",
 #'                              cutoff = 0.4,
 #'                              fairness_labels = c("lm_1","rf_2"))
+#'
 #' fobject2 <-create_fairness_object(explainer_rf,
 #'                              outcome = "Two_yr_Recidivism",
 #'                              group = "Ethnicity",
@@ -44,8 +45,12 @@
 plot.fairness_object <- function(x, ...){
 
   fairness_objects <- get_objects(list(x, ...), class = "fairness_object")
+
+  # data from first explainer
   data       <- x$data
-  n          <- nrow(data)
+  m          <- nrow(data)
+  n          <- length(unique(data[,x$group]))
+
 
   data_combined <- data.frame()
 
@@ -55,7 +60,7 @@ plot.fairness_object <- function(x, ...){
 
   for (i in seq_along(explainers)){
     data$`_probability_` <- explainers[[i]]$y_hat
-    data$`_label_`       <- rep(fairness_objects[[j]]$fairness_labels[i], n )
+    data$`_label_`       <- rep(fairness_objects[[j]]$fairness_labels[i], m )
 
     # bind with rest
     data_combined <- rbind(data_combined , data)

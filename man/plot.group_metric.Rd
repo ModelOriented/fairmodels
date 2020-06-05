@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{object of class group_metric}
 
-\item{...}{other params}
+\item{...}{other group_metric objects and other parameters}
 }
 \value{
 list of \code{ggplot} object

@@ -58,13 +58,16 @@ choose_metric <- function(x, fairness_metric = "FPR_parity_loss"){
   stopifnot(class(x) == "fairness_object")
   assert_parity_metrics(fairness_metric)
 
-  data           <- cbind(x$metric_data[,fairness_metric], x$labels)
+  data           <- cbind(x$metric_data[,fairness_metric], x$fairness_labels)
   data           <- as.data.frame(data)
   colnames(data) <- c("metric", "label")
   data$metric    <- as.numeric(data$metric)
 
 
-  choosen_metric <- list(data = data, metric = fairness_metric)
+  choosen_metric <- list(data            = data,
+                         metric          = fairness_metric,
+                         fairness_labels = x$fairness_labels)
+
   class(choosen_metric) <- "choosen_metric"
 
   return(choosen_metric)

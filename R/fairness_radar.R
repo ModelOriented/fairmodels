@@ -73,7 +73,8 @@ fairness_radar <- function(x, fairness_metrics = NULL){
   expanded_data$metric     <- factor(expanded_data$metric, levels = levels_sorted )
 
   fairness_radar <- list(df = expanded_data ,
-                         n = n_exp)
+                         n = n_exp,
+                         fairness_labels = x$fairness_labels)
 
   class(fairness_radar) <- "fairness_radar"
   return(fairness_radar)
