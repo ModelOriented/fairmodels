@@ -5,16 +5,15 @@
 #' Heatmap is flexible and is always longer than wider for esthetic reasons. It flips axis while number of explainers exceeds
 #' number of metrics. NA's in metrics are gray.
 #'
-#' @param x fairness object
-#' @param ... other plot parameters
-#' @param scale whether metrics should be normalised
-#' @param midpoint midpoint on gradient scale
-#' @param text deafult \code{TRUE} means it shows values on tiles
-#' @param title title of the plot
-#' @param subtitle subtitle of the plot
+#' @param x \code{fairness_heatmap}
+#' @param ... other \code{fairness_heatmap} objects
+#' @param midpoint numeric, midpoint on gradient scale
+#' @param text logical, default \code{TRUE} means it shows values on tiles
+#' @param title character, title of the plot
+#' @param subtitle character, subtitle of the plot
 #' @param flip_axis logical, whether to change axis with metrics on axis with models
 #'
-#' @return ggplot object
+#' @return list of \code{ggplot} objects
 #'
 #' @import patchwork
 #' @import ggplot2
@@ -63,13 +62,15 @@
 #' @rdname plot_fairness_heatmap
 
 
-plot.fairness_heatmap <- function(x, ..., midpoint = NULL, title = NULL, subtitle = NULL,   text = TRUE, scale = FALSE, flip_axis = FALSE){
+plot.fairness_heatmap <- function(x, ..., midpoint = NULL, title = NULL, subtitle = NULL,   text = TRUE, flip_axis = FALSE){
 
-    heatmap_data <- x$heatmap_data
-    matrix_model <- x$matrix_model
+    list_of_objects <- get_objects(list(x, ...), "fairness_heatmap")
+    heatmap_data    <- extract_data(list_of_objects, "heatmap_data")
+    matrix_model    <- extract_data(list_of_objects, "matrix_model")
+
+    assert_equal_parameters(list_of_objects, "scale")
+
     scale        <- x$scale
-    m <- x$m
-    n <- x$n
 
     if (is.null(midpoint)) midpoint <- max(matrix_model, na.rm = TRUE)/2
     if (scale) midpoint <- 0

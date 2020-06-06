@@ -1,9 +1,9 @@
 #' Fairness radar
 #'
-#' @description Make fairness_radar object whith chosen fairness_metrics. Note that there must be at least three metrics that does not contain NA.
+#' @description Make fairness_radar object with chosen fairness_metrics. Note that there must be at least three metrics that does not contain NA.
 #'
 #' @param x \code{fairness_object}
-#' @param fairness_metrics character, vector of metric names, at least 3 metrics without NA needed. If \code{NULL} deafult metrics will be taken.
+#' @param fairness_metrics character, vector of metric names, at least 3 metrics without NA needed. If \code{NULL} default metrics will be taken.
 #'
 #' @return \code{fairness_radar} object
 #' @export
@@ -73,7 +73,8 @@ fairness_radar <- function(x, fairness_metrics = NULL){
   expanded_data$metric     <- factor(expanded_data$metric, levels = levels_sorted )
 
   fairness_radar <- list(df = expanded_data ,
-                         n = n_exp)
+                         n = n_exp,
+                         fairness_labels = x$fairness_labels)
 
   class(fairness_radar) <- "fairness_radar"
   return(fairness_radar)

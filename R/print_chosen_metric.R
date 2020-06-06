@@ -1,11 +1,11 @@
-#' Print choosen metric
+#' Print chosen metric
 #'
-#' @param x \code{choosen_metric} object
-#' @param ... other print parameters
+#' @param x \code{chosen_metric} object
+#' @param ... other \code{chosen_metric} object
 #'
 #' @return
 #' @export
-#' @rdname print_choosen_metric
+#' @rdname print_chosen_metric
 #' @examples
 #'
 #' library(DALEX)
@@ -32,10 +32,16 @@
 #' cm <- choose_metric(fobject, "TPR_parity_loss")
 #' print(cm)
 
-print.choosen_metric <- function(x,...){
+print.chosen_metric <- function(x,...){
+
+  list_of_objects <- get_objects(list(x, ...), "chosen_metric")
+  data    <- extract_data(list_of_objects, "data")
+
+  assert_equal_parameters(list_of_objects, "metric")
+
   cat("\nchoosen metric:\n", x$metric)
   cat("\ndata:\n")
-  print(head(x$data,nrow(x$data)))
+  print(head(data,nrow(data)))
 
   cat("\n")
   return(invisible(NULL))

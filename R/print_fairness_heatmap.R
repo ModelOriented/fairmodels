@@ -46,13 +46,20 @@
 #' print(fheatmap)
 
 print.fairness_heatmap <- function(x, ...) {
+
+  list_of_objects <- get_objects(list(x, ...), "fairness_heatmap")
+  heatmap_data    <- extract_data(list_of_objects, "heatmap_data")
+  matrix_model    <- extract_data(list_of_objects, "matrix_model")
+
+  assert_equal_parameters(list_of_objects, "scale")
+
   scaled <- x$scale
-  cat("heatmap data: \n")
-  print(head(x$heatmap_data, 5))
+  cat("heatmap data top rows: \n")
+  print(head(heatmap_data, 5))
   cat("\n")
 
   cat("matrix model", ifelse(scaled, "scaled", "not scaled"), ":\n")
-  print(x$matrix_model)
+  print(matrix_model)
 
 
   cat("\n")

@@ -2,17 +2,17 @@
 #'
 #' @description Ceteris paribus cutoff is way to check how will parity loss behave if we changed only cutoff in one subgroup.
 #' By using parameter new_cutoffs parity loss for metric's with new cutoffs will be calculated. Note that cutoff for subgroup will
-#' change no metter if in new_cutoff is some value. When parameter cummulated is set to true, all metrics will be summed and facets will
+#' change no matter if in new_cutoff is some value. When parameter cumulated is set to true, all metrics will be summed and facets will
 #' collapse to one plot with different models on it. Sometimes due to NA's present in some metrics it is needed to drop some metrics.
 #'
 #'
 #' @param x fairness_object
 #' @param subgroup character, name of subgroup (level in group)
 #' @param new_cutoffs numeric, vector of new cutoffs, length should be equal to number of group levels.
-#' Position corresponding to subgroups in levels will be changed. Deafult NULL
+#' Position corresponding to subgroups in levels will be changed. Default is NULL
 #' @param fairness_metrics character, name of metric or vector of multiple metrics
 #' @param grid_points numeric, grid for cutoffs to test. Number of points between 0 and 1 spread evenly.
-#' @param cummulated logical, if true facets will collapse to one plot and parity loss for each model will be summed. Deafult FALSE.
+#' @param cumulated logical, if \code{TRUE}  facets will collapse to one plot and parity loss for each model will be summed. Deafult \code{FALSE}.
 #'
 #' @return
 #' @export
@@ -43,7 +43,7 @@
 #'
 #'
 #' cpc <- ceteris_paribus_cutoff(fobject, subgroup = "African_American",
-#'                               cummulated = TRUE,
+#'                               cumulated = TRUE,
 #'                               fairness_metrics = c("TPR_parity_loss","PPV_parity_loss", "TNR_parity_loss" ))
 #' plot(cpc)
 #'
@@ -53,7 +53,7 @@ ceteris_paribus_cutoff <- function(x,
                                    new_cutoffs = NULL,
                                    fairness_metrics = unique_metrics(),
                                    grid_points = 101,
-                                   cummulated = FALSE){
+                                   cumulated = FALSE){
 
   stopifnot(class(x) == "fairness_object")
 
@@ -107,7 +107,7 @@ ceteris_paribus_cutoff <- function(x,
         }
 
         data$`_probabilities_` <- explainer$y_hat
-        label              <- explainer$label
+        label                  <- x$fairness_labels[i]
 
         group_matrices <- group_matrices(data,
                                          group = group,
@@ -123,7 +123,7 @@ ceteris_paribus_cutoff <- function(x,
 
         gmm_loss_unique <- gmm_loss[names(gmm_loss) %in% fairness_metrics]
 
-        if (cummulated){
+        if (cumulated){
           to_add <- data.frame(parity_loss = sum(as.numeric(gmm_loss_unique)),
                                cutoff      = rep(custom_cutoff, length(gmm_loss_unique)),
                                model       = rep(label, length(gmm_loss_unique)))
@@ -141,7 +141,10 @@ ceteris_paribus_cutoff <- function(x,
     }
     })
 
-  ceteris_paribus_cutoff <- list(data = cutoff_data, subgroup = subgroup, cummulated = cummulated)
+  ceteris_paribus_cutoff <- list(data            = cutoff_data,
+                                 subgroup        = subgroup,
+                                 cumulated      = cumulated,
+                                 fairness_labels = x$fairness_labels)
   class(ceteris_paribus_cutoff) <- "ceteris_paribus_cutoff"
 
   return(ceteris_paribus_cutoff)

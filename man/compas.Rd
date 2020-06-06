@@ -17,7 +17,7 @@ data(compas)
 \code{compas}
 
 \describe{
-  \item{Two_yr_Recidivism}{factor, 1/0 for future recifivism or no recidivism. Models should predict this values}
+  \item{Two_yr_Recidivism}{factor, 1/0 for future recidivism or no recidivism. Models should predict this values}
   \item{Number_of_Priors}{numeric, number of priors, normalized}
   \item{Age_Above_FourtyFive}{factor, yes/no for age above 45 years or not}
   \item{Age_Below_TwentyFive}{factor, yes/no for age below 25 years or not}

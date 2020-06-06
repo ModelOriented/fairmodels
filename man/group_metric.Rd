@@ -14,11 +14,11 @@ group_metric(
 \arguments{
 \item{x}{object of class \code{fairness_object}}
 
-\item{fairness_metric}{fairness metric name}
+\item{fairness_metric}{character, fairness metric name}
 
-\item{performance_metric}{performance metric name}
+\item{performance_metric}{character, performance metric name}
 
-\item{parity_loss}{logical, if TRUE parity loss will supersede normal metirc}
+\item{parity_loss}{logical, if TRUE parity loss will supersede normal metric}
 }
 \value{
 \code{group_metric} object

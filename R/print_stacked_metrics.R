@@ -1,7 +1,7 @@
 #' Print stacked metrics
 #'
 #' @param x stacked_metrics object
-#' @param ... other print parameters
+#' @param ... other stacked_metrics objects
 #'
 #' @return
 #' @export
@@ -26,12 +26,19 @@
 #'                                  group = "Ethnicity",
 #'                                  base = "Caucasian",
 #'                                  cutoff = 0.5)
+#'
 #' stack_metrics(fobject)
 
 
 print.stacked_metrics <- function(x, ...){
 
+  list_of_objects   <- get_objects(list(x, ...), "stacked_metrics")
+  data              <- extract_data(list_of_objects, "expanded_data")
+
   cat("\nFirst rows of stacked data: \n")
-  print(head(x$expanded_data))
+  print(head(data))
   cat("\n")
 }
+
+
+

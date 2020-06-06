@@ -1,13 +1,15 @@
 #' Adult dataset
 #'
-#' @description
+#' @description Adult dataset consists of many columns containing various information about relationship, hours worked per week, workclass etc... and about
+#' salary, whether more than 50K a year or not. Lot's of possible protected attributes such as sex, race age. Some columns contain
+#' NA in form of "?". They are not removed and removing them depends on user as they might contain some information.
 #' \code{adult}
 #'
 #' @format A data frame with 32561 rows and 15 variables:
 #' \describe{
 #'   \item{salary}{factor, <=50K/>50K whether a person salary exceeds 50K a year or not}
 #'   \item{age}{integer, age of person}
-#'   \item{workclass}{factor, field of work}
+#'   \item{workclass}{factor, field of work, ? means missing value}
 #'   \item{fnlwgt}{numeric}
 #'   \item{education}{factor, completed education degree}
 #'   \item{education_num}{numeric, education number in converted from education factor, the bigger the better}

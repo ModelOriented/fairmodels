@@ -4,9 +4,9 @@
 #' It is highly suggested to pick small number of metrics. With value of cutoff all subgroup cutoffs change.
 #'
 #' @param x fairness_object
-#' @param explainer_label character, single label of choosen explainer
 #' @param grid_points numeric, grid for cutoffs to test. Number of points between 0 and 1 spread evenly.
 #' @param fairness_metrics character, name of metric or vector of multiple metrics
+#' @param fairness_label fairness_label of model to be calculated
 #'
 #' @return all_cutoffs object
 #' @export
@@ -32,12 +32,14 @@
 #'                                  base = "Caucasian",
 #'                                  cutoff = 0.5)
 #'
-#' ac <- all_cutoffs(fobject, fairness_metrics = c("TPR_parity_loss", "F1_parity_loss"), explainer_label = "ranger")
+#' ac <- all_cutoffs(fobject, fairness_metrics = c("TPR_parity_loss", "F1_parity_loss"), fairness_label = "ranger")
 #' plot(ac)
 #'
 
-
-all_cutoffs <- function(x, explainer_label, grid_points = 101, fairness_metrics = unique_metrics()){
+all_cutoffs <- function(x,
+                        fairness_label,
+                        grid_points = 101,
+                        fairness_metrics = unique_metrics()){
 
   stopifnot(class(x) == "fairness_object")
 
@@ -45,10 +47,9 @@ all_cutoffs <- function(x, explainer_label, grid_points = 101, fairness_metrics 
   lapply(fairness_metrics, assert_parity_metrics)
 
   if (! is.numeric(grid_points) | length(grid_points) > 1) stop("grid points must be single numeric value")
-  if (! is.character(explainer_label) | length(explainer_label) > 1)  stop("explainer_label must be character")
+  if (! is.character(fairness_label) | length(fairness_label) > 1)  stop("fairness_label must be character")
 
-  labels <- sapply(x$explainers, function(x) x$label)
-  if (! explainer_label %in% labels ) stop ("explainer_label not in provided labels")
+  if (! fairness_label %in% x$fairness_labels ) stop ("fairness_label not in provided labels")
 
 
   explainers <- x$explainers
@@ -67,10 +68,11 @@ all_cutoffs <- function(x, explainer_label, grid_points = 101, fairness_metrics 
   suppressMessages(
   for (custom_cutoff in cutoffs){
 
-      custom_cutoff_vec  <- rep(custom_cutoff, n_subgroups)
-      explainer          <- explainers[sapply(explainers , function(x) x$label) == explainer_label][[1]]
-      data$probabilities <- explainer$y_hat
-      label              <- explainer$label
+      custom_cutoff_vec      <- rep(custom_cutoff, n_subgroups)
+      i                      <- match(fairness_label, x$fairness_labels)
+      explainer              <- explainers[[i]]
+      data$`_probabilities_` <- explainer$y_hat
+
 
       group_matrices <- group_matrices(data,
                                        group = group,
@@ -88,13 +90,14 @@ all_cutoffs <- function(x, explainer_label, grid_points = 101, fairness_metrics 
 
       to_add <- data.frame(parity_loss = as.numeric(gmm_loss_unique),
                            metric      = names(gmm_loss_unique),
-                           cutoff      = rep(custom_cutoff, length(gmm_loss_unique)))
+                           cutoff      = rep(custom_cutoff, length(gmm_loss_unique)),
+                           label       = fairness_label)
 
       cutoff_data <- rbind(cutoff_data , to_add)
 
     })
 
-  all_cutoffs <- list(data = cutoff_data, explainer_label = explainer_label)
+  all_cutoffs <- list(data = cutoff_data, fairness_label = fairness_label)
   class(all_cutoffs) <- "all_cutoffs"
 
   return(all_cutoffs)

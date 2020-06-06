@@ -1,7 +1,7 @@
 #' Ceteris paribus cutoff plot
 #'
 #' @param x ceteris_paribus_cutoff object
-#' @param ... other plot parameters
+#' @param ... other ceteris_paribus_cutoff objects
 #'
 #' @return ggplot object
 #' @rdname plot_ceteris_paribus_cutoff
@@ -33,7 +33,7 @@
 #'
 #'
 #' cpc <- ceteris_paribus_cutoff(fobject, subgroup = "African_American",
-#'                               cummulated = TRUE,
+#'                               cumulated = TRUE,
 #'                               fairness_metrics = c("TPR_parity_loss","PPV_parity_loss", "TNR_parity_loss" ))
 #' plot(cpc)
 #'
@@ -42,15 +42,22 @@
 
 plot.ceteris_paribus_cutoff <- function(x, ...){
 
-  data       <- x$data
+  list_of_objects   <- get_objects(list(x, ...), "ceteris_paribus_cutoff")
+  data              <- extract_data(list_of_objects, "data")
+
+  assert_different_fairness_labels(list_of_objects)
+
+  assert_equal_parameters(list_of_objects, "subgroup")
+  assert_equal_parameters(list_of_objects, "cumulated")
+
   n_models   <- length(unique(data$model))
   subgroup   <- x$subgroup
-  cummulated <- x$cummulated
+  cumulated <- x$cumulated
   n_metrics  <- length(unique(data$metric))
 
   plt <- ggplot(data)
 
-  if (! cummulated){
+  if (! cumulated){
     plt <- plt + geom_line(aes(cutoff, parity_loss, color = metric)) +
                       theme_drwhy() +
                       facet_wrap(vars(model), nrow = n_models)  +
@@ -66,7 +73,7 @@ plot.ceteris_paribus_cutoff <- function(x, ...){
     plt <- plt + geom_line( aes(cutoff, parity_loss, color = model)) +
                     theme_drwhy() +
                     ggtitle("Ceteris paribus cutoff plot",
-                            subtitle = paste("Based on", subgroup, "and cummulated", collapse = " ")) +
+                            subtitle = paste("Based on", subgroup, "and cumulated", collapse = " ")) +
                     scale_color_manual(values = DALEX::colors_discrete_drwhy(n = n_models )) +
                     xlab("value of cutoff") +
                     ylab("cummulated parity loss")

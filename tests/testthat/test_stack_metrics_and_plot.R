@@ -12,7 +12,7 @@ test_that("test stack metric and plot",{
 
   expect_equal(plt$labels$fill, "Metric")
   expect_equal(plt$labels$title, "Stacked Metric Chart")
-  expect_equal(plt$labels$x, "Model Label")
+  expect_equal(plt$labels$x, "Fairness Label")
   expect_equal(plt$labels$y, "Cummulated metric score")
 
 })

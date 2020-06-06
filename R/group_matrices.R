@@ -1,13 +1,13 @@
 #' Group confusion matrices
 #'
-#' @description Calculates coufusion matrices for each subgroup
+#' @description Calculates confusion matrices for each subgroup
 #'
 #' @param data data frame
 #' @param group \code{character} name of column with group
 #' @param probs \code{character} name of column with probabilities
 #' @param outcome \code{character} name of column with outcome
 #' @param outcome_numeric \code{numeric} vector of outcome
-#' @param cutoff \code{numeric} cutoff for probabilities, deafult = 0.5
+#' @param cutoff \code{numeric} cutoff for probabilities, default = 0.5
 #'
 #' @return list with values:
 #' \itemize{
@@ -19,7 +19,7 @@
 #' \item fn - false negative values
 #' }}
 #' @export
-#' @rdname group_metrices
+#' @rdname group_matrices
 #'
 #' @examples
 #' data("compas")

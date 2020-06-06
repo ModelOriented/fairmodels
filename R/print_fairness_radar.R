@@ -33,10 +33,15 @@
 
 print.fairness_radar <- function(x, ...){
 
-  cat("\nFairness radar for: ", paste(unique(x$df$model), collapse = ", "), "\n")
+  list_of_objects   <- get_objects(list(x, ...), "fairness_radar")
+  data_list         <- lapply(list_of_objects, function(x) x$df)
+  df                <- do.call("rbind", data_list)
+
+
+  cat("\nFairness radar for: ", paste(unique(df$model), collapse = ", "), "\n")
 
   cat("First rows from data: \n")
-  print(head(x$df))
+  print(head(df))
   cat("\n")
   return(invisible(NULL))
 }

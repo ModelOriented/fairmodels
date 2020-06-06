@@ -7,17 +7,18 @@
 \method{plot}{fairness_pca}(x, scale = 0.5, ...)
 }
 \arguments{
-\item{x}{fairness_pca object}
+\item{x}{\code{fairness_pca} object}
 
 \item{scale}{scaling loadings plot, from 0 to 1}
 
-\item{...}{other parameters}
+\item{...}{other plot parameters}
 }
 \value{
 
 }
 \description{
-Plot pca calculated on fainress_object metrics. Similar models and metrics should be close to each other.
+Plot pca calculated on fairness_object metrics. Similar models and metrics should be close to each other. Plot doesn't work on multiple \code{fairness_pca} objects.
+Unlike in other plots here other \code{fairness_pca} objects cannot be added.
 }
 \examples{
 

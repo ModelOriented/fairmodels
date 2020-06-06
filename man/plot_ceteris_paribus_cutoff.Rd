@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{ceteris_paribus_cutoff object}
 
-\item{...}{other plot parameters}
+\item{...}{other ceteris_paribus_cutoff objects}
 }
 \value{
 ggplot object
@@ -43,7 +43,7 @@ plot(cpc)
 
 
 cpc <- ceteris_paribus_cutoff(fobject, subgroup = "African_American",
-                              cummulated = TRUE,
+                              cumulated = TRUE,
                               fairness_metrics = c("TPR_parity_loss","PPV_parity_loss", "TNR_parity_loss" ))
 plot(cpc)
 

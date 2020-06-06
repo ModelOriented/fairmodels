@@ -3,9 +3,9 @@
 #' @description Group metric enables to extract data from metrics generated for each group, and prepare it for visualization.
 #'
 #' @param x object of class \code{fairness_object}
-#' @param fairness_metric fairness metric name
-#' @param performance_metric performance metric name
-#' @param parity_loss logical, if TRUE parity loss will supersede normal metirc
+#' @param fairness_metric character, fairness metric name
+#' @param performance_metric character, performance metric name
+#' @param parity_loss logical, if TRUE parity loss will supersede normal metric
 #'
 #' @details
 #' Where:
@@ -105,7 +105,7 @@ group_metric <- function(x , fairness_metric = NULL, performance_metric = NULL, 
     # if parity loss, then scale
     if (parity_loss) group_data[[i]] <- abs(group_data[[i]] - group_data[[i]][base] )
 
-    labels[[i]]       <- fairness_object$explainers[[i]]$label[[1]]
+    labels[[i]]       <- fairness_object$fairness_labels[i]
   }
 
   unlisted_group_data <- unlist(group_data)
@@ -138,7 +138,7 @@ group_metric <- function(x , fairness_metric = NULL, performance_metric = NULL, 
 
   }
 
-  performance_data <- data.frame(x = labels, y = mod_perf)
+  performance_data <- data.frame(x = x$fairness_labels, y = mod_perf)
   y_label          <- fairness_metric
 
   if (parity_loss) y_label <- paste0(y_label, "_parity_loss")
@@ -146,7 +146,8 @@ group_metric <- function(x , fairness_metric = NULL, performance_metric = NULL, 
   group_metric <-  list(fairness_data      = fairness_data,
                         performance_data   = performance_data,
                         y_label            = y_label,
-                        performance_metric = performance_metric)
+                        performance_metric = performance_metric,
+                        fairness_labels = x$fairness_labels)
 
   class(group_metric) <- "group_metric"
   return(group_metric)

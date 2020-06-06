@@ -15,7 +15,7 @@ group_matrices(data, group, outcome, outcome_numeric, cutoff, probs = NULL)
 
 \item{outcome_numeric}{\code{numeric} vector of outcome}
 
-\item{cutoff}{\code{numeric} cutoff for probabilities, deafult = 0.5}
+\item{cutoff}{\code{numeric} cutoff for probabilities, default = 0.5}
 
 \item{probs}{\code{character} name of column with probabilities}
 }
@@ -31,7 +31,7 @@ list with values:
 }}
 }
 \description{
-Calculates coufusion matrices for each subgroup
+Calculates confusion matrices for each subgroup
 }
 \examples{
 data("compas")
