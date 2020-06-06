@@ -1,10 +1,6 @@
 #' Fairness check
 #'
-#' @description Method for quick popular fairness metrics check. On contrary to parity loss metrics here fairness_check bases on group_metrics
-#' and worse performance in particular metric means, that subgroup scored worse than privileged (base) subgroup. Note that being worse in particular
-#' metric depends on assumption that models try to predict positive outcome. Therefore Equal odds here calculates True positive rate. Unlike in Parity
-#' loss metrics assigning subjectively negative metric as positive (numeric 1) will end up in method's wrong interpretation of outcome. When plotted
-#' shows 5 metric scores for each subgroups and each model.
+#' @description Method for quick popular fairness metrics check.
 #'
 #' @param x fairness_object
 #'
@@ -43,15 +39,16 @@
 #' explainer_rf  <- explain(rf_compas, data = compas, y = y_numeric)
 #' explainer_glm <- explain(glm_compas, data = compas, y = y_numeric)
 #'
-#' fobject <-create_fairness_object(explainer_glm, explainer_rf,
+#' fobject2 <-create_fairness_object(explainer_glm, explainer_rf,
 #'                                  outcome = "Two_yr_Recidivism",
 #'                                  data  = compas,
 #'                                  group = "Sex",
 #'                                  base  = "Female",
-#'                                 cutoff = 0.5)
+#'                                 cutoff = 0.5,
+#'                                 fairness_labels = c("1","2"))
 #'
-#' fc <- fairness_check(fobject)
-#' plot(fc)
+#' fc2 <- fairness_check(fobject2)
+#' plot(fc,fc2)
 #'
 
 fairness_check <- function(x, epsilon = 0.1){
@@ -92,11 +89,10 @@ fairness_check <- function(x, epsilon = 0.1){
   statistical_parity_difference <- statistical_parity_difference[names(statistical_parity_difference) != base]
 
   # assigning metrics
-  equal_odds_loss        <- parity_loss_metrics$TPR
-  equal_oportunity_loss  <- parity_loss_metrics$PPV
-  NPV_loss               <- parity_loss_metrics$NPV
-  FPR_loss               <- parity_loss_metrics$FPR
-  FNR_loss               <- parity_loss_metrics$FNR
+  equal_oportunity_loss     <- parity_loss_metrics$FNR
+  predictive_parity_loss    <- parity_loss_metrics$PPV
+  predictive_equality_loss  <- parity_loss_metrics$FPR
+  accuracy_equality_loss    <- parity_loss_metrics$ACC
 
   n_sub <- length(levels(x$data[,x$group])) -1
   n_exp <- length(x$explainers)
@@ -104,43 +100,36 @@ fairness_check <- function(x, epsilon = 0.1){
   # creating data frames
   statistical_parity_data <- data.frame(score    = unlist(statistical_parity_difference),
                                         subgroup = names(statistical_parity_difference),
-                                        metric   = rep("Statistical parity loss", n_sub),
+                                        metric   = rep("Statistical parity loss  (TP + FP)/(TP + FP + TN + FN)", n_sub),
                                         model    = rep(model, n_sub))
 
-  equal_odds_data         <- data.frame(score    = unlist(equal_odds_loss),
-                                        subgroup = names(equal_odds_loss),
-                                        metric   = rep("Equal odds loss", n_sub),
+  predictive_parity_data  <- data.frame(score    = unlist(predictive_parity_loss),
+                                        subgroup = names(predictive_parity_loss),
+                                        metric   = rep("Predictive parity loss    TP/(TP + FP)", n_sub),
                                         model    = rep(model, n_sub))
 
-  # inverse to match others in terms of interpretation
-  inversed_equal_opportunity_data  <- data.frame(score = -unlist(equal_oportunity_loss),
+  equal_opportunity_data  <- data.frame(score    = unlist(equal_oportunity_loss),
                                         subgroup = names(equal_oportunity_loss),
-                                        metric   = rep("Inversed Equal opportynity loss", n_sub),
+                                        metric   = rep("Equal opportynity loss    FN/(FN + TP) ", n_sub),
                                         model    = rep(model, n_sub))
 
-  NPV_data  <- data.frame(score = unlist(NPV_loss),
-                          subgroup = names(NPV_loss),
-                          metric   = rep("Negative predictive value loss", n_sub),
-                          model    = rep(model, n_sub))
+  predictive_equality_data<- data.frame(score    = unlist(predictive_equality_loss),
+                                        subgroup = names(predictive_equality_loss),
+                                        metric   = rep("Predictive equality loss  FP/(FP + TN)", n_sub),
+                                        model    = rep(model, n_sub))
 
-  FPR_data  <- data.frame(score = unlist(FPR_loss),
-                          subgroup = names(FPR_loss),
-                          metric   = rep("False positive loss", n_sub),
-                          model    = rep(model, n_sub))
-
-  FNR_data  <- data.frame(score = unlist(FNR_loss),
-                          subgroup = names(FNR_loss),
-                          metric   = rep("False negative loss", n_sub),
-                          model    = rep(model, n_sub))
-
+  accuracy_equality_data  <- data.frame(score    = unlist(accuracy_equality_loss),
+                                        subgroup = names(accuracy_equality_loss),
+                                        metric   = rep("Accuracy equality loss   (TP + FN)/(TP + FP + TN + FN) ", n_sub),
+                                        model    = rep(model, n_sub))
 
   # add metrics to dataframe
   df <- rbind(df,
-                statistical_parity_data,
-                inversed_equal_opportunity_data,
-                equal_odds_data,
-                FPR_data,
-                NPV_data)
+              equal_opportunity_data,
+              predictive_parity_data,
+              predictive_equality_data,
+              accuracy_equality_data,
+              statistical_parity_data)
 
   }
 
@@ -157,8 +146,8 @@ fairness_check <- function(x, epsilon = 0.1){
 
 
 
+?expression
 
-
-
+expression(Value~is~sigma~R^{2}==0.6)
 
 

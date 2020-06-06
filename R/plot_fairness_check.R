@@ -47,11 +47,13 @@ plot.fairness_check <- function(x, ...){
 
   assert_equal_parameters(list_of_objects, "n_sub")
   assert_equal_parameters(list_of_objects, "epsilon")
-
+  assert_different_fairness_labels(list_of_objects)
 
   n_exp   <- length(unique(data$model))
-  n_sum   <- x$n_sub
+  n_sub   <- x$n_sub
+  n_met   <- length(unique(data$metric))
   epsilon <- x$epsilon
+  metrics <- unique(x$data$metric)
 
   upper_bound <- max(c(data$score)) + 0.05
   lower_bound <- min(c(data$score)) - 0.05
@@ -60,27 +62,41 @@ plot.fairness_check <- function(x, ...){
   red   <- "#f05a71"
 
   plt <- ggplot(data = data, aes(x = subgroup, y = score, fill = model)) +
-    geom_rect(xmin  = -Inf,
+
+    # middle (green)
+    annotate("rect",
+              xmin  = -Inf,
               xmax  = Inf,
               ymin  = -epsilon,
-              ymax  =  Inf,
+              ymax  =  epsilon,
               fill  = green,
-              alpha = 0.1,) +
-    geom_rect(xmin  = -Inf,
+              alpha = 0.1) +
+    # left (red)
+    annotate("rect",
+              xmin  = -Inf,
               xmax  = Inf,
               ymin  =  -Inf,
               ymax  =  -epsilon,
               fill  = red,
-              alpha = 0.1,) +
+              alpha = 0.1) +
+
+    # right (red)
+    annotate("rect",
+              xmin  = -Inf,
+              xmax  = Inf,
+              ymin  =  epsilon,
+              ymax  =  Inf,
+              fill  = red,
+              alpha = 0.1) +
+
     geom_bar(stat = "identity", position = "dodge") +
     geom_hline(yintercept = 0) +
     scale_y_continuous(limits = c(lower_bound, upper_bound)) +
     coord_flip() +
-    facet_wrap(vars(metric), nrow = 5) +
+    facet_wrap(vars(metric), ncol = 1) +
     theme_drwhy_vertical() +
     scale_fill_manual(values = DALEX::colors_discrete_drwhy(n = n_exp)) +
     ggtitle("Fairness check", subtitle = paste("Created with", paste(
                                                as.character(unique(x$data$model)), collapse = ", ")))
-
   plt
 }
