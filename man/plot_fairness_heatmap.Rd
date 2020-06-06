@@ -15,22 +15,22 @@
 )
 }
 \arguments{
-\item{x}{fairness object}
+\item{x}{\code{fairness_heatmap}}
 
-\item{...}{other plot parameters}
+\item{...}{other \code{fairness_heatmap} objects}
 
-\item{midpoint}{midpoint on gradient scale}
+\item{midpoint}{numeric, midpoint on gradient scale}
 
-\item{title}{title of the plot}
+\item{title}{character, title of the plot}
 
-\item{subtitle}{subtitle of the plot}
+\item{subtitle}{character, subtitle of the plot}
 
-\item{text}{deafult \code{TRUE} means it shows values on tiles}
+\item{text}{logical, default \code{TRUE} means it shows values on tiles}
 
 \item{flip_axis}{logical, whether to change axis with metrics on axis with models}
 }
 \value{
-ggplot object
+list of \code{ggplot} objects
 }
 \description{
 Heatmap shows all metrics across all models while displaying similarity between variables (in form of dendograms).

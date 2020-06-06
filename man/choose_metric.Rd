@@ -20,7 +20,7 @@ choose_metric(x, fairness_metric = "FPR_parity_loss")
 \item FNR_parity_loss - parity loss of False Negative Rate
 \item FPR_parity_loss - parity loss of False Positive Rate
 \item FDR_parity_loss - parity loss of False Discovery Rate
-\item FOR_parity_loss - parity loss of False Omision Rate
+\item FOR_parity_loss - parity loss of False Omission Rate
 \item TS_parity_loss  - parity loss of Threat Score
 \item ACC_parity_loss - parity loss of Accuracy
 \item F1_parity_loss  - parity loss of F1 Score

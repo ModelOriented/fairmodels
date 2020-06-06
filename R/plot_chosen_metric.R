@@ -1,15 +1,15 @@
-#' Plot choosen metric
+#' Plot chosen metric
 #'
 #' @description Choose metric and than plot it for every model.
 #'
-#' @param x object of class \code{choosen_metric}
-#' @param ... other objects of class \code{choosen_metric}
+#' @param x object of class \code{chosen_metric}
+#' @param ... other objects of class \code{chosen_metric}
 #'
 #' @import ggplot2
 #'
 #' @return \code{ggplot2} object
 #' @export
-#' @rdname plot_choosen_metric
+#' @rdname plot_chosen_metric
 #'
 #' @examples
 #'
@@ -38,9 +38,9 @@
 #' plot(cm)
 
 
-plot.choosen_metric <- function(x, ...){
+plot.chosen_metric <- function(x, ...){
 
-  list_of_objects <- get_objects(list(x, ...), "choosen_metric")
+  list_of_objects <- get_objects(list(x, ...), "chosen_metric")
   data            <- extract_data(list_of_objects, "data")
 
   assert_equal_parameters(list_of_objects, "metric")

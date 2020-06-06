@@ -5,15 +5,15 @@
 #' Heatmap is flexible and is always longer than wider for esthetic reasons. It flips axis while number of explainers exceeds
 #' number of metrics. NA's in metrics are gray.
 #'
-#' @param x fairness object
-#' @param ... other plot parameters
-#' @param midpoint midpoint on gradient scale
-#' @param text deafult \code{TRUE} means it shows values on tiles
-#' @param title title of the plot
-#' @param subtitle subtitle of the plot
+#' @param x \code{fairness_heatmap}
+#' @param ... other \code{fairness_heatmap} objects
+#' @param midpoint numeric, midpoint on gradient scale
+#' @param text logical, default \code{TRUE} means it shows values on tiles
+#' @param title character, title of the plot
+#' @param subtitle character, subtitle of the plot
 #' @param flip_axis logical, whether to change axis with metrics on axis with models
 #'
-#' @return ggplot object
+#' @return list of \code{ggplot} objects
 #'
 #' @import patchwork
 #' @import ggplot2

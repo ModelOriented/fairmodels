@@ -3,7 +3,7 @@
 #' @description Plot distribution for models output probabilities. See how being in particular subgroup affects models decision.
 #'
 #' @param x fairness_object
-#' @param ... other fairness_objects andd other parameters
+#' @param ... other fairness_objects and other parameters
 #'
 #' @return \code{ggplot} object
 #' @export

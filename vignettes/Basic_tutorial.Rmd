@@ -29,8 +29,8 @@ knitr::opts_chunk$set(
 
 ## Why? 
 
-Let's say you are building court system that predicts if someone will become recidivist in the futre. First you gather information
-then you build a model and predict outcomes. You get accuracy score of 90%. It is preety good, but it appears that the model is more likely to say that African Americans will become recidivists. Model was trained on data that was discriminating certain ethnic groups. So now we have some options. First one is to change the data, and the second one is to tune model, and check if it behaves as we would like it to be. We will choose the second option.
+Let's say you are building court system that predicts if someone will become recidivist in the future. First you gather information
+then you build a model and predict outcomes. You get accuracy score of 90%. It is pretty good, but it appears that the model is more likely to say that African Americans will become recidivists. Model was trained on data that was discriminating certain ethnic groups. So now we have some options. First one is to change the data, and the second one is to tune model, and check if it behaves as we would like it to be. We will choose the second option.
 
 ## Data
 
@@ -85,8 +85,8 @@ And we plot!
 plot(fobject)
 ```
    
-As we can see it is more likely that model will categorise African Americans as future recidivists than for example Asians. 
-But mabey some groups are statisticaly more likely to go do crimes in the future. It is possible, but there are more ways that the model can discriminate people. 
+As we can see it is more likely that model will categorize African Americans as future recidivists than for example Asians. 
+But maybe some groups are statistically more likely to go do crimes in the future. It is possible, but there are more ways that the model can discriminate people. 
 
 ## Fairness Object
 
@@ -136,13 +136,13 @@ What consists of fairness object?
 print(fobject)
 ```
 
-Fairness object gets metrics based on confussion matrix and checks them over the groups. 
+Fairness object gets metrics based on confusion matrix and checks them over the groups. 
 ```{r}
 # for the first model
 fobject$groups_data$ranger$TPR
 ```
 
-If we were going only to take score from certain metric (Let's say fpr and 0.3) we wouldn't know if it is good or bad. But we are aiming for **equal treatment over all groups** so if this metric score would be the same in all groups it would be very good. But the metrics wouldn't be comparable between each others (fpr - 0.3 in all groups and acc_parity - 0.9 in all groups, both are good in terms of parity). That is wy we use **base** - to set benchmark. And for example Caucasian in fpr had score of 0.3 and African American 0.6. After setting `base = Caucasian` Caucasian would have score 1, and African American 2, because is two times higher score in fpr.
+If we were going only to take score from certain metric (Let's say fpr and 0.3) we wouldn't know if it is good or bad. But we are aiming for **equal treatment over all groups** so if this metric score would be the same in all groups it would be very good. But the metrics wouldn't be comparable between each others (fpr - 0.3 in all groups and acc_parity - 0.9 in all groups, both are good in terms of parity). That is why we use **base** - to set benchmark. And for example Caucasian in fpr had score of 0.3 and African American 0.6. After setting `base = Caucasian` Caucasian would have score 1, and African American 2, because is two times higher score in fpr.
 
 *Note: When dealing with aggregating plots we use formula sum(abs(1-score)) to represent aggregated score in metrics. In short is how much it differs from ideal scores.* 
 
@@ -151,7 +151,7 @@ If we were going only to take score from certain metric (Let's say fpr and 0.3) 
 
 We now have a few models in our `fairness_object`
 
-Let's see how they perform in diffrent metrics.
+Let's see how they perform in different metrics.
 
 ## Stacked Barplot
 ```{r}
@@ -182,7 +182,7 @@ Let's plot!
 plot(fair_pca)
 ```
 
-It is done with loadings plot, which can be customised. 
+It is done with loadings plot, which can be customized. 
 ```{r}
 plot(fair_pca, scale = 0) # deafult = 0.5
 ```
@@ -197,7 +197,7 @@ plot(fheatmap)
    
 For both models and metrics dendograms are created. This way through hierarchical clustering we can look on similarities between models/metrics. It should give similar but more detailed information than PCA
    
-It can be normalised among metrics.
+It can be normalized among metrics.
 ```{r}
 fheatmap <- fairness_heatmap(fobject, scale = TRUE)
 plot(fheatmap , title = "Title can be changed", subtitle = "subtitle too!") # we can turn values off via text= FALSE
@@ -311,20 +311,20 @@ fobject_with_cutoff <- create_fairness_object(explainer_2,explainer_5, explainer
                                   outcome = "Two_yr_Recidivism",
                                   group  = "Sex",
                                   base = "Female", 
-                                  cutoff = c(0.63,0.5))  
+                                  cutoff = c(0.63,0.5), 
+                                  fairness_labels = c("gbm_c","lm_c","ranger_c")) # c as in changed  
 
 
-p1 <- plot(performance_and_fairness(fobject_without_cutoff,
+p1 <- performance_and_fairness(fobject_without_cutoff,
                                     fairness_metric = "TPR_parity_loss",
-                                    performance_metric = "accuracy")) + 
-                                    scale_x_continuous(limits = c(0.63,0.699))
-p2 <- plot(performance_and_fairness(fobject_with_cutoff,
+                                    performance_metric = "accuracy")
+p2 <- performance_and_fairness(fobject_with_cutoff,
                                     fairness_metric = "TPR_parity_loss",
-                                    performance_metric = "accuracy")) + 
-                                    scale_x_continuous(limits = c(0.63,0.699))
+                                    performance_metric = "accuracy")
 
+# plot more than one object simply passing objects as arguments
+plot(p1,p2)
 
-p1 / p2
 
 ```
 

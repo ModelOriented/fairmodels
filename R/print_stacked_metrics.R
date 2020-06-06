@@ -1,7 +1,7 @@
 #' Print stacked metrics
 #'
 #' @param x stacked_metrics object
-#' @param ... other stacked_metrics objects and print params
+#' @param ... other stacked_metrics objects
 #'
 #' @return
 #' @export

@@ -1,7 +1,7 @@
 #' Class parity
 #'
-#' @description Class parity can ba thaught as demographic parity for data. It does not look at predictions but original labels in data. It can visualize parity on dataset level. In perfect dataset classes should be evenly distributed across subgroups. Plot allows
-#' user to see not only how classes are distributed but also the size of subgroups. Plot allows to localize problems in dataset level. Function can recieve data frame or fairness object.
+#' @description Class parity can be thought as demographic parity for data. It does not look at predictions but original labels in data. It can visualize parity on dataset level. In perfect dataset classes should be evenly distributed across subgroups. Plot allows
+#' user to see not only how classes are distributed but also the size of subgroups. Plot allows to localize problems in dataset level. Function can receive data frame or fairness object.
 #'
 #' @param x data.frame/ fairness_object
 #' @param ... other parameters
@@ -66,7 +66,7 @@ class_parity.default <- function(x,..., outcome, group){
     theme_drwhy() +
     xlab(group) +
     ylab("Number of observations") +
-    ggtitle("Demographic parity plot")
+    ggtitle("Class parity plot")
 
 }
 

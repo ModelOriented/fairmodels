@@ -3,8 +3,8 @@
 #' @description Unfold fairness object to 3 columns (metrics, label, score) to construct better base for visualization.
 #'
 #' @param x fairness_object
-#' @param drop_metrics_with_na logical, if TRUE metrics with NA will be ommited
-#' @param scale if true normalises metric data
+#' @param drop_metrics_with_na logical, if TRUE metrics with NA will be omitted
+#' @param scale logical, if \code{TRUE} standarised.
 #'
 #' @return
 #' @export

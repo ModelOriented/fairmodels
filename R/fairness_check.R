@@ -1,18 +1,18 @@
 #' Fairness check
 #'
 #' @description Method for quick popular fairness metrics check. On contrary to parity loss metrics here fairness_check bases on group_metrics
-#' and worse performance in particular metric means, that subgroup scored worse than privlieged (base) subgroup. Note that being worse in particular
+#' and worse performance in particular metric means, that subgroup scored worse than privileged (base) subgroup. Note that being worse in particular
 #' metric depends on assumption that models try to predict positive outcome. Therefore Equal odds here calculates True positive rate. Unlike in Parity
 #' loss metrics assigning subjectively negative metric as positive (numeric 1) will end up in method's wrong interpretation of outcome. When plotted
 #' shows 5 metric scores for each subgroups and each model.
 #'
 #' @param x fairness_object
 #'
-#' @param epsilon numeric, margins for decision if fair or not. Deafult 0.1
+#' @param epsilon numeric, margins for decision if fair or not. Default 0.1
 #'
 #' @details Metrics used are made for each subgroup, then base metric score is subtracted leaving loss of particular metric.
-#' If loss is less than -epsilon than such metric is marked as "not passed". There is no upper boundry for fairness, so if some subgroup is "better"
-#' in particular metric than privliedged one there are no consequences to that. Good metric description can be found here :
+#' If loss is less than -epsilon than such metric is marked as "not passed". There is no upper boundary for fairness, so if some subgroup is "better"
+#' in particular metric than privileged one there are no consequences to that. Good metric description can be found here :
 #' \url{https://en.wikipedia.org/wiki/Fairness_(machine_learning)}
 #'
 #'
@@ -66,10 +66,11 @@ fairness_check <- function(x, epsilon = 0.1){
 
   df <- data.frame()
 
-  for (explainer in explainers){
+  for (i in seq_along(explainers)){
 
+  explainer <- explainers[[i]]
 
-  model  <- explainer$label
+  model  <- x$fairness_labels[i]
   # get based metrics from all
   parity_loss_metrics <- lapply(x$groups_data[[model]], function(y) y - y[base])
 

@@ -15,7 +15,7 @@
 
 }
 \description{
-visualise fairness and model metric at the same time. Note that fairness metric parity scale is reversed so that the best models are in top right corner.
+visualize fairness and model metric at the same time. Note that fairness metric parity scale is reversed so that the best models are in top right corner.
 }
 \examples{
 

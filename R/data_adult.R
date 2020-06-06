@@ -1,6 +1,6 @@
 #' Adult dataset
 #'
-#' @description Adult dataset consists of many columns containig various information about relationship, hours worked per week, workclass etc... and about
+#' @description Adult dataset consists of many columns containing various information about relationship, hours worked per week, workclass etc... and about
 #' salary, whether more than 50K a year or not. Lot's of possible protected attributes such as sex, race age. Some columns contain
 #' NA in form of "?". They are not removed and removing them depends on user as they might contain some information.
 #' \code{adult}

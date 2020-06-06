@@ -39,7 +39,7 @@ print.ceteris_paribus_cutoff<- function(x, ...){
   assert_different_fairness_labels(list_of_objects)
 
   assert_equal_parameters(list_of_objects, "subgroup")
-  assert_equal_parameters(list_of_objects, "cummulated")
+  assert_equal_parameters(list_of_objects, "cumulated")
 
   cat("\nCeteribus paribus cutoff for model:", x$subgroup, "\n")
   cat("\nFirst rows from data: \n")

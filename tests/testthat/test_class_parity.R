@@ -9,7 +9,7 @@ test_that("Test class parity", {
   plt2 <- class_parity(fobject)
 
   expect_equal(plt1$layers ,plt2$layers )
-  expect_equal("Demographic parity plot", plt1$labels$title)
+  expect_equal("Class parity plot", plt1$labels$title)
 
 })
 

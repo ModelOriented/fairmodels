@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{stacked_metrics object}
 
-\item{...}{other stacked_metrics objects and print params}
+\item{...}{other stacked_metrics objects}
 }
 \value{
 

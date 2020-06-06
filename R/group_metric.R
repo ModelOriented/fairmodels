@@ -3,9 +3,9 @@
 #' @description Group metric enables to extract data from metrics generated for each group, and prepare it for visualization.
 #'
 #' @param x object of class \code{fairness_object}
-#' @param fairness_metric fairness metric name
-#' @param performance_metric performance metric name
-#' @param parity_loss logical, if TRUE parity loss will supersede normal metirc
+#' @param fairness_metric character, fairness metric name
+#' @param performance_metric character, performance metric name
+#' @param parity_loss logical, if TRUE parity loss will supersede normal metric
 #'
 #' @details
 #' Where:

@@ -1,6 +1,6 @@
 #' Plot fairness and performance
 #'
-#' @description visualise fairness and model metric at the same time. Note that fairness metric parity scale is reversed so that the best models are in top right corner.
+#' @description visualize fairness and model metric at the same time. Note that fairness metric parity scale is reversed so that the best models are in top right corner.
 #'
 #' @param x \code{performance_and_fairness} object
 #' @param ... other \code{performance_and_fairness} objects
@@ -11,7 +11,7 @@
 #' @import DALEX
 #' @import ggrepel
 #'
-#' @rdname plot_fairness_and_performance
+#' @rdname plot_performance_and_fairness
 #'
 #' @examples
 #'

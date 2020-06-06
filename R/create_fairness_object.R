@@ -10,7 +10,7 @@
 #' @param outcome character, the target of classification, column name in data
 #' @param group character, protected group/variable with subgroups visible as levels, column name in data
 #' @param base character, subgroup, one of levels of group. In regard to what subgroup parity loss is calculated.
-#' @param cutoff numeric, threshold for probability, can be vector of thresholds with diferent value for each level of group (subgroup), deafult 0.5
+#' @param cutoff numeric, threshold for probability, can be vector of thresholds with different value for each level of group (subgroup), default 0.5
 #' @param fairness_labels character, labels for models in fairness object, if \code{NULL} labels from explainers will be extracted
 #'
 #' @return An object of class \code{fairness object} which is a list with elements:
@@ -25,7 +25,7 @@
 #' \item FNR - False Negative Rate
 #' \item FPR - False Positive Rate
 #' \item FDR - False Discovery Rate
-#' \item FOR - False Omision Rate
+#' \item FOR - False Omission Rate
 #' \item TS - Threat Score
 #' \item ACC - Accuracy
 #' \item F1 - F1 Score
@@ -42,7 +42,7 @@
 #'
 #' base_metric - scalar, value of metric for base subgroup
 #'
-#' \item groups_data - metrics across groups, with base but not summarised for explainer
+#' \item groups_data - metrics across groups, with base but not summarized for explainer
 #'
 #' \item explainers  - list of DALEX explainers
 #'

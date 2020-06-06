@@ -31,7 +31,7 @@ Data from UCL \url{https://archive.ics.uci.edu/ml/datasets/adult}
 data(adult_test)
 }
 \description{
-Adult test dataset consists of many columns containig various information about relationship, hours worked per week, workclass etc... and about
+Adult test dataset consists of many columns containing various information about relationship, hours worked per week, workclass etc... and about
 salary, whether more than 50K a year or not. Lot's of possible protected attributes such as sex, race age. Some columns contain
 NA in form of "?". They are not removed and removing them depends on user as they might contain some information.
 Data is designed for testing and ready to go.

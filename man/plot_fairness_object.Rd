@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{fairness_object}
 
-\item{...}{other fairness_objects andd other parameters}
+\item{...}{other fairness_objects and other parameters}
 }
 \value{
 \code{ggplot} object

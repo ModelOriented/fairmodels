@@ -2,12 +2,13 @@
 
 #' Plot fairness PCA
 #'
-#' @description Plot pca calculated on fainress_object metrics. Similar models and metrics should be close to each other. Plot doesn't work on multiple \code{fairness_pca} objects.
+#' @description Plot pca calculated on fairness_object metrics. Similar models and metrics should be close to each other. Plot doesn't work on multiple \code{fairness_pca} objects.
+#' Unlike in other plots here other \code{fairness_pca} objects cannot be added.
 #'
 #'
-#' @param x fairness_pca object
+#' @param x \code{fairness_pca} object
 #' @param scale scaling loadings plot, from 0 to 1
-#' @param ... other parameters
+#' @param ... other plot parameters
 #'
 #'
 #' @import ggplot2
@@ -75,7 +76,7 @@ plot.fairness_pca <- function(x, scale = 0.5,  ...){
   pca_data        <- as.data.frame(pca_df)
   pca_data$labels <- x$fairness_labels
 
-  pca_feature <- as.data.frame(rotation)
+  pca_feature        <- as.data.frame(rotation)
   pca_feature$labels <- rownames(rotation)
 
 

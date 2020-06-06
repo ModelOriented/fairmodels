@@ -1,11 +1,11 @@
 #' Plot fairness check
 #'
-#' @description Plot fairness check enables to look how big differences are between base subgroup (privildged) and unpriviledged ones.
+#' @description Plot fairness check enables to look how big differences are between base subgroup (privileged) and unprivileged ones.
 #' If barplot reaches red zone it means that for this subgroup fairness goal is not satisfied. Multiple subgroups and models can be plotted.
 #' Red and green zone boundary can be moved through epsilon parameter, that needs to be passed through fairness_check.
 #'
-#' @param x fainress_check object
-#' @param ... other plot parameters
+#' @param x \code{fairness_check} object
+#' @param ... other \code{fairness_check} objects
 #'
 #' @return ggplot object
 #' @export
@@ -41,9 +41,16 @@
 
 plot.fairness_check <- function(x, ...){
 
-  data  <- x$data
-  n_exp <- x$n_exp
-  n_sum <- x$n_sub
+  list_of_objects <- get_objects(list(x, ...), "fairness_check")
+  data            <- extract_data(list_of_objects, "data")
+
+
+  assert_equal_parameters(list_of_objects, "n_sub")
+  assert_equal_parameters(list_of_objects, "epsilon")
+
+
+  n_exp   <- length(unique(data$model))
+  n_sum   <- x$n_sub
   epsilon <- x$epsilon
 
   upper_bound <- max(c(data$score)) + 0.05

@@ -7,15 +7,15 @@
 \method{plot}{fairness_check}(x, ...)
 }
 \arguments{
-\item{x}{fainress_check object}
+\item{x}{\code{fairness_check} object}
 
-\item{...}{other plot parameters}
+\item{...}{other \code{fairness_check} objects}
 }
 \value{
 ggplot object
 }
 \description{
-Plot fairness check enables to look how big differences are between base subgroup (privildged) and unpriviledged ones.
+Plot fairness check enables to look how big differences are between base subgroup (privileged) and unprivileged ones.
 If barplot reaches red zone it means that for this subgroup fairness goal is not satisfied. Multiple subgroups and models can be plotted.
 Red and green zone boundary can be moved through epsilon parameter, that needs to be passed through fairness_check.
 }

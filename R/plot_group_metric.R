@@ -1,12 +1,14 @@
 #' Plot group metric
 #'
-#' @description Plot choosen metric in group. Notice how models are treatung different subgroups. Compare models both in fairness metrics and in performance.
+#' @description Plot chosen metric in group. Notice how models are treating different subgroups. Compare models both in fairness metrics and in performance.
 #'
 #' @param x object of class group_metric
 #' @param ... other group_metric objects and other parameters
 #'
 #' @return list of \code{ggplot} object
 #' @export
+#'
+#' @rdname plot_group_metric
 #'
 #' @examples
 #'
@@ -25,6 +27,7 @@
 #'
 #' gm <- group_metric(fo, fairness_metric = "FPR", performance_metric = "auc")
 #' plot(gm)
+#'
 #'
 
 
