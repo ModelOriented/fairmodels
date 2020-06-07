@@ -9,9 +9,9 @@ expand_fairness_object(x, scale = FALSE, drop_metrics_with_na = FALSE)
 \arguments{
 \item{x}{fairness_object}
 
-\item{scale}{if true normalises metric data}
+\item{scale}{logical, if \code{TRUE} standarised.}
 
-\item{drop_metrics_with_na}{logical, if TRUE metrics with NA will be ommited}
+\item{drop_metrics_with_na}{logical, if TRUE metrics with NA will be omitted}
 }
 \value{
 

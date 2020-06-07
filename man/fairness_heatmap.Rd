@@ -9,13 +9,13 @@ fairness_heatmap(x, scale = FALSE)
 \arguments{
 \item{x}{\code{fairness_object}}
 
-\item{scale}{logical, if true metrics will be scaled to mean 0 and sd 1. Deafult \code{FALSE}}
+\item{scale}{logical, if code{TRUE} metrics will be scaled to mean 0 and sd 1. Default \code{FALSE}}
 }
 \value{
 \code{fairness_heatmap} object
 }
 \description{
-Create fairness_heatmap object to compare both models and metrics. If parameter \code{scale} is set to \code{TRUE} metrics will be normalised.
+Create fairness_heatmap object to compare both models and metrics. If parameter \code{scale} is set to \code{TRUE} metrics will be scaled to median = 0 and sd = 1.
 If NA's appear heatmap will still plot, but with gray area where NA's were.
 }
 \examples{

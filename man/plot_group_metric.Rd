@@ -9,13 +9,13 @@
 \arguments{
 \item{x}{object of class group_metric}
 
-\item{...}{other params}
+\item{...}{other group_metric objects and other parameters}
 }
 \value{
 list of \code{ggplot} object
 }
 \description{
-Plot choosen metric in group. Notice how models are treatung different subgroups. Compare models both in fairness metrics and in performance.
+Plot chosen metric in group. Notice how models are treating different subgroups. Compare models both in fairness metrics and in performance.
 }
 \examples{
 
@@ -34,5 +34,6 @@ fo <- create_fairness_object(explainer_1, explainer_2,  outcome = "Two_yr_Recidi
 
 gm <- group_metric(fo, fairness_metric = "FPR", performance_metric = "auc")
 plot(gm)
+
 
 }

@@ -30,21 +30,24 @@
 #'                                  base = "Caucasian",
 #'                                  cutoff = 0.5)
 #'
-#' ac <- all_cutoffs(fobject, fairness_metrics = c("TPR_parity_loss", "F1_parity_loss"), explainer_label = "ranger")
+#' ac <- all_cutoffs(fobject, fairness_metrics = c("TPR_parity_loss", "F1_parity_loss"), fairness_label = "ranger")
 #' plot(ac)
 #'
 #'
 
 plot.all_cutoffs <- function(x, ...){
 
-  cutoff_data     <- x$data
-  explainer_label <- x$explainer_label
+  list_of_objects <- get_objects(list(x, ...), "all_cutoffs")
+  cutoff_data     <- extract_data(list_of_objects, "data")
+
+  labels          <- lapply(list_of_objects, function(x) x$fairness_label)
 
   plt <- ggplot(cutoff_data, aes(cutoff, parity_loss, color = metric)) +
     geom_line() +
     theme_drwhy() +
-    scale_color_manual(values = DALEX::colors_discrete_drwhy(n = 7)) +
-    ggtitle("All cutoffs plot", subtitle = paste("created with", explainer_label, collapse = " ")) +
+    scale_color_manual(values = c(DALEX::colors_discrete_drwhy(n=7),"#c295f0")) +
+    ggtitle("All cutoffs plot", subtitle = paste("created with", paste(labels, collapse = ", "), collapse = " ")) +
+    facet_grid(rows = vars(label)) +
     xlab("value of cutoff") +
     ylab("Metric's parity loss")
 

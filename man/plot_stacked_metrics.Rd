@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{\code{stacked_metrics} object}
 
-\item{...}{other plot parameters}
+\item{...}{other \code{stacked_metrics} objects and other plot parameters}
 }
 \description{
 Plot stacked Metrics

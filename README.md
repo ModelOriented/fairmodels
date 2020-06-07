@@ -6,7 +6,7 @@
   
 
 # FairModels 
-## Overwiew
+## Overview
 
 `FairModels` is package for fairness audit and visualization. Uses models explained with [DALEX](https://modeloriented.github.io/DALEX) and calculates fairness metrics based on confusion matrix for protected group.  Allows to compare and gain information about various machine learning models. *Make sure your models are classifying protected groups similarly*.
 
@@ -87,7 +87,7 @@ fobject %>% performance_and_fairness() %>% plot()
 
 `fairness object` consists of 
 * x, ...  - explainer or list of explainers
-* data    - full data (diffrent explainers can be trained on diffrent data)
+* data    - full data (different explainers can be trained on different data)
 * outcome - target variable
 * group   - protected variable, usually race, sex, etc...
 * base    - subgroup, base on which to calculate metrics. Metric on base subgroup is always 1. Usually specific race, sex etc...

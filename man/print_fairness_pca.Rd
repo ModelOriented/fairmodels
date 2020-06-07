@@ -7,9 +7,9 @@
 \method{print}{fairness_pca}(x, ...)
 }
 \arguments{
-\item{x}{fairness object}
+\item{x}{\code{fairness_pca} object}
 
-\item{...}{other params}
+\item{...}{other \code{fairness_pca} objects}
 }
 \value{
 

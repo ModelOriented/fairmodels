@@ -14,7 +14,7 @@
 #' \item FNR_parity_loss - parity loss of False Negative Rate
 #' \item FPR_parity_loss - parity loss of False Positive Rate
 #' \item FDR_parity_loss - parity loss of False Discovery Rate
-#' \item FOR_parity_loss - parity loss of False Omision Rate
+#' \item FOR_parity_loss - parity loss of False Omission Rate
 #' \item TS_parity_loss  - parity loss of Threat Score
 #' \item ACC_parity_loss - parity loss of Accuracy
 #' \item F1_parity_loss  - parity loss of F1 Score
@@ -58,14 +58,17 @@ choose_metric <- function(x, fairness_metric = "FPR_parity_loss"){
   stopifnot(class(x) == "fairness_object")
   assert_parity_metrics(fairness_metric)
 
-  data           <- cbind(x$metric_data[,fairness_metric], x$labels)
+  data           <- cbind(x$metric_data[,fairness_metric], x$fairness_labels)
   data           <- as.data.frame(data)
   colnames(data) <- c("metric", "label")
   data$metric    <- as.numeric(data$metric)
 
 
-  choosen_metric <- list(data = data, metric = fairness_metric)
-  class(choosen_metric) <- "choosen_metric"
+  choosen_metric <- list(data            = data,
+                         metric          = fairness_metric,
+                         fairness_labels = x$fairness_labels)
+
+  class(choosen_metric) <- "chosen_metric"
 
   return(choosen_metric)
 }

@@ -10,7 +10,7 @@ test_that("test helper functions",{
 
   df <- data.frame(a = c(1,0,1), b = c("e", NA, "v"), c = c(1,NA,0), d = c("a","b","c"))
 
-  expect_warning(drop_metrics_with_na(df), "Found metric with NA: b, c, ommiting it")
+  expect_warning(drop_metrics_with_na(df), "Found metric with NA: b, c, omiting it")
   expect_equal(drop_metrics_with_na(df), df[,c("a","d")])
 
 

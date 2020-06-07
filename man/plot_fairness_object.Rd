@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{fairness_object}
 
-\item{...}{other parameters}
+\item{...}{other fairness_objects and other parameters}
 }
 \value{
 \code{ggplot} object
@@ -25,17 +25,28 @@ library(ranger)
 data("compas")
 
 rf_compas  <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
+rf_compas2 <- ranger(Two_yr_Recidivism ~Misdemeanor+Age_Above_FourtyFive, data = compas, probability = TRUE)
 glm_compas <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
 
 y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
 
 explainer_rf  <- explain(rf_compas, data = compas, y = y_numeric)
+explainer_rf2 <- explain(rf_compas2, data = compas, y = y_numeric)
 explainer_glm <- explain(glm_compas, data = compas, y = y_numeric)
 
-fobject <-create_fairness_object(explainer_glm, explainer_rf,
+fobject1 <-create_fairness_object(explainer_glm, explainer_rf2,
                              outcome = "Two_yr_Recidivism",
                              group = "Ethnicity",
                              base = "Caucasian",
-                             cutoff = 0.4)
-plot(fobject)
+                             cutoff = 0.4,
+                             fairness_labels = c("lm_1","rf_2"))
+
+fobject2 <-create_fairness_object(explainer_rf,
+                             outcome = "Two_yr_Recidivism",
+                             group = "Ethnicity",
+                             base = "Caucasian",
+                             cutoff = 0.5)
+
+
+plot(fobject1, fobject2)
 }

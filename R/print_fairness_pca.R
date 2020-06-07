@@ -2,8 +2,8 @@
 #'
 #' @description Print principal components after using pca on fairness object
 #'
-#' @param x fairness object
-#' @param ... other params
+#' @param x \code{fairness_pca} object
+#' @param ... other \code{fairness_pca} objects
 #'
 #' @return
 #'

@@ -1,10 +1,10 @@
 #' Fairness heatmap
 #'
-#' @description  Create fairness_heatmap object to compare both models and metrics. If parameter \code{scale} is set to \code{TRUE} metrics will be normalised.
+#' @description  Create fairness_heatmap object to compare both models and metrics. If parameter \code{scale} is set to \code{TRUE} metrics will be scaled to median = 0 and sd = 1.
 #' If NA's appear heatmap will still plot, but with gray area where NA's were.
 #'
 #' @param x \code{fairness_object}
-#' @param scale logical, if true metrics will be scaled to mean 0 and sd 1. Deafult \code{FALSE}
+#' @param scale logical, if code{TRUE} metrics will be scaled to mean 0 and sd 1. Default \code{FALSE}
 #'
 #' @return \code{fairness_heatmap} object
 #' @export
@@ -66,15 +66,16 @@ fairness_heatmap <- function(x, scale = FALSE){
   heatmap_data$model  <- as.factor(heatmap_data$model)
   heatmap_data$score  <- round(as.numeric(heatmap_data$score),2)
 
-  # getting numerical data and if scale, normalising it
+  # getting numerical data and if scale, scaling it
   matrix_model            <- as.matrix(x$metric_data)
   if (scale) matrix_model <- scale(matrix_model)
 
-  rownames(matrix_model)  <- x$labels
+  rownames(matrix_model)  <- x$fairness_labels
 
-  fairness_heatmap <- list(heatmap_data = heatmap_data,
-                           matrix_model = matrix_model,
-                           scale        = scale)
+  fairness_heatmap <- list(heatmap_data    = heatmap_data,
+                           matrix_model    = matrix_model,
+                           scale           = scale,
+                           fairness_labels = x$fairness_labels)
 
   class(fairness_heatmap) <- "fairness_heatmap"
   return(fairness_heatmap)

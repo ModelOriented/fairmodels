@@ -1,7 +1,7 @@
-#' Demographic parity
+#' Class parity
 #'
-#' @description Demographic parity is popular choice to visualize parity on dataset level. In perfect dataset classes should be evenly distributed across subgroups. Plot allows
-#' user to see not only how classes are distributed but also the size of subgroups. Plot allows to localize problems in dataset level. Function can recieve data frame or fairness object.
+#' @description Class parity can be thought as demographic parity for data. It does not look at predictions but original labels in data. It can visualize parity on dataset level. In perfect dataset classes should be evenly distributed across subgroups. Plot allows
+#' user to see not only how classes are distributed but also the size of subgroups. Plot allows to localize problems in dataset level. Function can receive data frame or fairness object.
 #'
 #' @param x data.frame/ fairness_object
 #' @param ... other parameters
@@ -12,34 +12,34 @@
 #' @import ggplot2
 #' @return
 #'
-#' @rdname demographic_parity
+#' @rdname class_parity
 #' @export
 #'
 #' @examples
 #'
 #' data("compas")
-#' demographic_parity(compas, outcome =  "Two_yr_Recidivism", group = "Ethnicity")
+#' class_parity(compas, outcome =  "Two_yr_Recidivism", group = "Ethnicity")
 #'
 
-demographic_parity <- function(x,...) UseMethod("demographic_parity")
+class_parity <- function(x,...) UseMethod("class_parity")
 
 
 
-#' @rdname demographic_parity
+#' @rdname class_parity
 #' @export
 
-demographic_parity.fairness_object <- function(x, ...){
+class_parity.fairness_object <- function(x, ...){
   data    <- x$data
   outcome <- x$outcome
   group   <- x$group
 
-  demographic_parity.default(x = data, outcome = outcome, group = group)
+  class_parity.default(x = data, outcome = outcome, group = group)
 }
 
-#' @rdname demographic_parity
+#' @rdname class_parity
 #' @export
 
-demographic_parity.default <- function(x,..., outcome, group){
+class_parity.default <- function(x,..., outcome, group){
 
   data <-x
 
@@ -66,7 +66,7 @@ demographic_parity.default <- function(x,..., outcome, group){
     theme_drwhy() +
     xlab(group) +
     ylab("Number of observations") +
-    ggtitle("Demographic parity plot")
+    ggtitle("Class parity plot")
 
 }
 

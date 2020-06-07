@@ -3,7 +3,7 @@
 #' @description Makes radar plot showing different fairness metrics that allow to compare models.
 #'
 #' @param x \code{fairness_radar} object
-#' @param ... other plot parameters
+#' @param ... other \code{fairness_radar} object and other plot parameters
 #'
 #' @return \code{ggplot} object
 #' @export
@@ -36,8 +36,11 @@
 
 plot.fairness_radar <- function(x, ...) {
 
-  df <- x$df
-  n <-  x$n
+  list_of_objects   <- get_objects(list(x, ...), "fairness_radar")
+  data_list         <- lapply(list_of_objects, function(x) x$df)
+  df                <- do.call("rbind", data_list)
+
+  n         <- length(unique(df$model))
   max_score <- max(df$score)
   df$score  <- df$score/max_score
   labels    <- round(seq(0, 1, 0.25)*max_score, 2)
@@ -63,7 +66,6 @@ plot.fairness_radar <- function(x, ...) {
   p
 }
 
-# exclude from coverage
 
 # Code from Model's oriented auditor package , thanks agosiewska!
 coord_radar <- function(names_n = 2) {

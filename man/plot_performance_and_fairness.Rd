@@ -7,15 +7,15 @@
 \method{plot}{performance_and_fairness}(x, ...)
 }
 \arguments{
-\item{x}{fairness object}
+\item{x}{\code{performance_and_fairness} object}
 
-\item{...}{other plot parameters}
+\item{...}{other \code{performance_and_fairness} objects}
 }
 \value{
 
 }
 \description{
-visualise fairness and model metric at the same time. Note that fairness metric parity scale is reversed so that the best models are in top right corner.
+visualize fairness and model metric at the same time. Note that fairness metric parity scale is reversed so that the best models are in top right corner.
 }
 \examples{
 
