@@ -17,7 +17,8 @@ ggplot object
 \description{
 Plot fairness check enables to look how big differences are between base subgroup (privileged) and unprivileged ones.
 If barplot reaches red zone it means that for this subgroup fairness goal is not satisfied. Multiple subgroups and models can be plotted.
-Red and green zone boundary can be moved through epsilon parameter, that needs to be passed through fairness_check.
+Red and green zone boundary can be moved through epsilon parameter, that needs to be passed through \code{fairness_check}. Plot can receive many objects that
+will be plotted together with condition of equal parameters (number of subgroups, epsilon, etc...).
 }
 \examples{
 
@@ -41,9 +42,19 @@ fobject <-create_fairness_object(explainer_glm, explainer_rf,
                                  outcome = "Two_yr_Recidivism",
                                  data  = compas,
                                  group = "Sex",
+                                 base  = "Female")
+
+# changing cutoff values
+fobject2 <-create_fairness_object(explainer_glm, explainer_rf,
+                                 outcome = "Two_yr_Recidivism",
+                                 data  = compas,
+                                 group = "Sex",
                                  base  = "Female",
-                                cutoff = 0.5)
+                                cutoff = c(0.45,0.5),
+                                fairness_labels = c("lm_c","rf_c")) # c for changed
 
 fc <- fairness_check(fobject)
-plot(fc)
+fc2 <- fairness_check(fobject2)
+
+plot(fc,fc2)
 }

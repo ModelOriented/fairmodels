@@ -1,12 +1,6 @@
 #' Fairness check
 #'
-#' @description Method for quick popular fairness metrics check.
-#'
-#' @param x fairness_object
-#'
-#' @param epsilon numeric, margins for decision if fair or not. Default 0.1
-#'
-#' @details Metrics used are made for each subgroup, then base metric score is subtracted leaving loss of particular metric.
+#' @description Metrics used are made for each subgroup, then base metric score is subtracted leaving loss of particular metric.
 #' If loss is less than -epsilon than such metric is marked as "not passed". There is no upper boundary for fairness, so if some subgroup is "better"
 #' in particular metric than privileged one there are no consequences to that. Good metric description can be found here :
 #' If loss is greater than absolute value of epsilon than such metric is marked as "not passed". It means that values of metrics should be within (-epsilon,epsilon) boundary.
@@ -15,6 +9,11 @@
 #' may lead to misinterpretation of the plot. More on metrics and their equivalents:
 #' \url{https://fairware.cs.umass.edu/papers/Verma.pdf}
 #' \url{https://en.wikipedia.org/wiki/Fairness_(machine_learning)}
+#'
+#' @param x fairness_object
+#'
+#' @param epsilon numeric, margins for decision if fair or not. Default 0.1
+#'
 #'
 #'
 #'

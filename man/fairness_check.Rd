@@ -15,16 +15,14 @@ fairness_check(x, epsilon = 0.1)
 
 }
 \description{
-Method for quick popular fairness metrics check. On contrary to parity loss metrics here fairness_check bases on group_metrics
-and worse performance in particular metric means, that subgroup scored worse than privileged (base) subgroup. Note that being worse in particular
-metric depends on assumption that models try to predict positive outcome. Therefore Equal odds here calculates True positive rate. Unlike in Parity
-loss metrics assigning subjectively negative metric as positive (numeric 1) will end up in method's wrong interpretation of outcome. When plotted
-shows 5 metric scores for each subgroups and each model.
-}
-\details{
 Metrics used are made for each subgroup, then base metric score is subtracted leaving loss of particular metric.
 If loss is less than -epsilon than such metric is marked as "not passed". There is no upper boundary for fairness, so if some subgroup is "better"
 in particular metric than privileged one there are no consequences to that. Good metric description can be found here :
+If loss is greater than absolute value of epsilon than such metric is marked as "not passed". It means that values of metrics should be within (-epsilon,epsilon) boundary.
+Epsilon value can be adjusted to user's needs. There are some metrics that might be derived from existing metrics (For example Equalized Odds - equal TPR and FPR for all subgroups).
+That means passing 5 metrics in fairness check asserts that model is even more fair. In \code{fairness_check} models must always predict commonly desired result. Not adhering to this rule
+may lead to misinterpretation of the plot. More on metrics and their equivalents:
+\url{https://fairware.cs.umass.edu/papers/Verma.pdf}
 \url{https://en.wikipedia.org/wiki/Fairness_(machine_learning)}
 }
 \examples{
@@ -49,15 +47,27 @@ fobject <-create_fairness_object(explainer_glm, explainer_rf,
                                  outcome = "Two_yr_Recidivism",
                                  data  = compas,
                                  group = "Sex",
+                                 base  = "Female")
+
+# changing cutoff values
+fobject2 <-create_fairness_object(explainer_glm, explainer_rf,
+                                 outcome = "Two_yr_Recidivism",
+                                 data  = compas,
+                                 group = "Sex",
                                  base  = "Female",
-                                cutoff = 0.5)
+                                cutoff = c(0.45,0.5),
+                                fairness_labels = c("lm_c","rf_c")) # c for changed
 
 fc <- fairness_check(fobject)
-plot(fc)
+fc2 <- fairness_check(fobject2)
+
+plot(fc,fc2)
 
 }
 \references{
 Zafar,Valera, Rodriguez, Gummadi (2017)  \url{https://arxiv.org/pdf/1610.08452.pdf}
 
 Hardt, Price, Srebro (2016) \url{https://arxiv.org/pdf/1610.02413.pdf}
+
+Verma, Rubin (2018) \url{https://fairware.cs.umass.edu/papers/Verma.pdf}
 }
