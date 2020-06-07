@@ -104,7 +104,7 @@ fairness_check <- function(x, epsilon = 0.1){
   statistical_parity_difference <- statistical_parity_difference[names(statistical_parity_difference) != base]
 
   # assigning metrics
-  equal_oportunity_loss     <- parity_loss_metrics$FNR
+  equal_oportunity_loss     <- parity_loss_metrics$TPR
   predictive_parity_loss    <- parity_loss_metrics$PPV
   predictive_equality_loss  <- parity_loss_metrics$FPR
   accuracy_equality_loss    <- parity_loss_metrics$ACC
@@ -125,7 +125,7 @@ fairness_check <- function(x, epsilon = 0.1){
 
   equal_opportunity_data  <- data.frame(score    = unlist(equal_oportunity_loss),
                                         subgroup = names(equal_oportunity_loss),
-                                        metric   = rep("Equal opportynity loss    FN/(FN + TP) ", n_sub),
+                                        metric   = rep("Equal opportynity loss    TP/(TP + FN) ", n_sub),
                                         model    = rep(model, n_sub))
 
   predictive_equality_data<- data.frame(score    = unlist(predictive_equality_loss),

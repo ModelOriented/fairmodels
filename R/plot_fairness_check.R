@@ -33,11 +33,21 @@
 #'                                  outcome = "Two_yr_Recidivism",
 #'                                  data  = compas,
 #'                                  group = "Sex",
+#'                                  base  = "Female")
+#'
+#' # changing cutoff values
+#' fobject2 <-create_fairness_object(explainer_glm, explainer_rf,
+#'                                  outcome = "Two_yr_Recidivism",
+#'                                  data  = compas,
+#'                                  group = "Sex",
 #'                                  base  = "Female",
-#'                                 cutoff = 0.5)
+#'                                 cutoff = c(0.45,0.5),
+#'                                 fairness_labels = c("lm_c","rf_c")) # c for changed
 #'
 #' fc <- fairness_check(fobject)
-#' plot(fc)
+#' fc2 <- fairness_check(fobject2)
+#'
+#' plot(fc,fc2)
 
 
 plot.fairness_check <- function(x, ...){
@@ -57,7 +67,10 @@ plot.fairness_check <- function(x, ...){
   metrics <- unique(x$data$metric)
 
   upper_bound <- max(c(data$score)) + 0.05
+  if (upper_bound < 0.12) upper_bound <- 0.12
+
   lower_bound <- min(c(data$score)) - 0.05
+  if (lower_bound > -0.12) lower_bound <- -0.12
 
   green <- "#c7f5bf"
   red   <- "#f05a71"
@@ -98,6 +111,6 @@ plot.fairness_check <- function(x, ...){
     theme_drwhy_vertical() +
     scale_fill_manual(values = DALEX::colors_discrete_drwhy(n = n_exp)) +
     ggtitle("Fairness check", subtitle = paste("Created with", paste(
-                                               as.character(unique(x$data$model)), collapse = ", ")))
+                                               as.character(unique(data$model)), collapse = ", ")))
   plt
 }

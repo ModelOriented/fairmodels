@@ -62,7 +62,7 @@ print.fairness_check <- function(x, ...){
   cat("\nFairness check for models:", paste(models, collapse = ", "), "\n")
 
   for (model in models){
-    model_data <- x$data[x$data$model == model,]
+    model_data <- data[data$model == model,]
     failed_metrics <- unique(model_data[abs(model_data$score) > epsilon, "metric"])
     passed_metrics <-  length(metrics[! metrics %in% failed_metrics])
 
@@ -74,7 +74,7 @@ print.fairness_check <- function(x, ...){
     if (passed_metrics == 5){
       cat("\n", color_codes$green_start ,model, " passes ", passed_metrics, "/5 metrics\n", color_codes$green_end ,  sep = "")}
 
-    cat("Total loss: ", sum(abs(x$data[x$data$model == model, "score" ])), "\n")
+    cat("Total loss: ", sum(abs(data[data$model == model, "score" ])), "\n")
   }
 
   cat("\n")
