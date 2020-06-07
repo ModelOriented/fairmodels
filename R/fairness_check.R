@@ -11,9 +11,18 @@
 #' @param epsilon numeric, margins for decision if fair or not. Deafult 0.1
 #'
 #' @details Metrics used are made for each subgroup, then base metric score is subtracted leaving loss of particular metric.
+<<<<<<< Updated upstream
 #' If loss is less than -epsilon than such metric is marked as "not passed". There is no upper boundry for fairness, so if some subgroup is "better"
 #' in particular metric than privliedged one there are no consequences to that. Good metric description can be found here :
+=======
+#' If loss is greater than absolute value of epsilon than such metric is marked as "not passed". It means that values of metrics should be within (-epsilon,epsilon) boundary.
+#' Epsilon value can be adjusted to user's needs. There are some metrics that might be derived from existing metrics (For example Equalized Odds - equal TPR and FPR for all subgroups).
+#' That means passing 5 metrics in fairness check asserts that model is even more fair. In \code{fairness_check} models must always predict commonly desired result. Not adhering to this rule
+#' may lead to misinterpretation of the plot. More on metrics used:
+#' \url{https://fairware.cs.umass.edu/papers/Verma.pdf}
+>>>>>>> Stashed changes
 #' \url{https://en.wikipedia.org/wiki/Fairness_(machine_learning)}
+#'
 #'
 #'
 #' @return
@@ -24,7 +33,7 @@
 #'
 #' Hardt, Price, Srebro (2016) \url{https://arxiv.org/pdf/1610.02413.pdf}
 #'
-#'
+#' Verma, Rubin (2018) \url{https://fairware.cs.umass.edu/papers/Verma.pdf}
 #' @examples
 #'
 #' library(DALEX)
