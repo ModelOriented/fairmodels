@@ -180,14 +180,14 @@
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1377307 , mean =  0.4546035 , max =  0.8391593  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1330828 , mean =  0.4556085 , max =  0.8618825  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7792569 , mean =  0.0005164292 , max =  0.8429651  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7932196 , mean =  -0.000488565 , max =  0.8488202  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>glm_compas</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
 #&gt;   -&gt; target variable   :  6172  values 
-#&gt;   -&gt; model_info        :  package stats , ver. 4.0.0 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; model_info        :  package stats , ver. 4.0.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  0.1144574 , mean =  0.4551199 , max =  0.995477  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
@@ -197,18 +197,20 @@
                                  <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
                                  <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>,
                                  <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"Caucasian"</span>,
-                                 <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; Getting data from first ( )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
+                                 <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; Getting data from first ( </span><span style='color: #00BB00;'> lm </span><span> )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='input'>
 <span class='fu'><a href='all_cutoffs.html'>all_cutoffs</a></span>(<span class='no'>fobject</span>, <span class='st'>"ranger"</span>)</div><div class='output co'>#&gt; 
-#&gt; All cutofs for model: ranger 
+#&gt; All cutofs for model:
+#&gt;  ranger 
 #&gt; 
-#&gt; First rows from data:   parity_loss          metric cutoff
-#&gt; 1   0.0000000 TPR_parity_loss      0
-#&gt; 2   0.0000000 TNR_parity_loss      0
-#&gt; 3   0.3776684 PPV_parity_loss      0
-#&gt; 4          NA NPV_parity_loss      0
-#&gt; 5   0.3776684  TS_parity_loss      0
-#&gt; 6   0.3776684 ACC_parity_loss      0
+#&gt; First rows from data: 
+#&gt;   parity_loss          metric cutoff  label
+#&gt; 1   0.0000000 TPR_parity_loss      0 ranger
+#&gt; 2   0.0000000 TNR_parity_loss      0 ranger
+#&gt; 3   0.3776684 PPV_parity_loss      0 ranger
+#&gt; 4          NA NPV_parity_loss      0 ranger
+#&gt; 5   0.3776684  TS_parity_loss      0 ranger
+#&gt; 6   0.3776684 ACC_parity_loss      0 ranger
 #&gt; </div><div class='input'>
 </div></span></pre>
   </div>

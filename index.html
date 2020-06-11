@@ -88,9 +88,9 @@
 <div id="fairmodels" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#fairmodels" class="anchor"></a>FairModels</h1></div>
-<div id="overwiew" class="section level2">
+<div id="overview" class="section level2">
 <h2 class="hasAnchor">
-<a href="#overwiew" class="anchor"></a>Overwiew</h2>
+<a href="#overview" class="anchor"></a>Overview</h2>
 <p><code>FairModels</code> is package for fairness audit and visualization. Uses models explained with <a href="https://modeloriented.github.io/DALEX">DALEX</a> and calculates fairness metrics based on confusion matrix for protected group. Allows to compare and gain information about various machine learning models. <em>Make sure your models are classifying protected groups similarly</em>.</p>
 </div>
 <div id="preview" class="section level2">
@@ -179,7 +179,7 @@ fobject %&gt;% performance_and_fairness() %&gt;% plot()
 <p><code>fairness object</code> consists of</p>
 <ul>
 <li>x, … - explainer or list of explainers</li>
-<li>data - full data (diffrent explainers can be trained on diffrent data)</li>
+<li>data - full data (different explainers can be trained on different data)</li>
 <li>outcome - target variable</li>
 <li>group - protected variable, usually race, sex, etc…</li>
 <li>base - subgroup, base on which to calculate metrics. Metric on base subgroup is always 1. Usually specific race, sex etc…</li>

@@ -156,15 +156,15 @@
     </tr>
     <tr>
       <th>fairness_metric</th>
-      <td><p>fairness metric name</p></td>
+      <td><p>character, fairness metric name</p></td>
     </tr>
     <tr>
       <th>performance_metric</th>
-      <td><p>performance metric name</p></td>
+      <td><p>character, performance metric name</p></td>
     </tr>
     <tr>
       <th>parity_loss</th>
-      <td><p>logical, if TRUE parity loss will supersede normal metirc</p></td>
+      <td><p>logical, if TRUE parity loss will supersede normal metric</p></td>
     </tr>
     </table>
 
@@ -221,13 +221,13 @@
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
 #&gt;   -&gt; target variable   :  6172  values 
-#&gt;   -&gt; model_info        :  package stats , ver. 4.0.0 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; model_info        :  package stats , ver. 4.0.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  0.1144574 , mean =  0.4551199 , max =  0.995477  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9767658 , mean =  5.050949e-13 , max =  0.8822826  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='no'>fo</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_fairness_object.html'>create_fairness_object</a></span>(<span class='no'>explainer_1</span>, <span class='no'>explainer_2</span>,  <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>, <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"Caucasian"</span>  )</div><div class='output co'>#&gt; Getting data from first ( )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
+<span class='no'>fo</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_fairness_object.html'>create_fairness_object</a></span>(<span class='no'>explainer_1</span>, <span class='no'>explainer_2</span>,  <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>, <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"Caucasian"</span>  )</div><div class='output co'>#&gt; Getting data from first ( </span><span style='color: #00BB00;'> ranger </span><span> )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='input'>
 <span class='no'>gm</span> <span class='kw'>&lt;-</span> <span class='fu'>group_metric</span>(<span class='no'>fo</span>, <span class='kw'>fairness_metric</span> <span class='kw'>=</span> <span class='st'>"FPR"</span>, <span class='kw'>performance_metric</span> <span class='kw'>=</span> <span class='st'>"f1"</span>)</div><div class='output co'>#&gt; 
 #&gt; Creating object with: 

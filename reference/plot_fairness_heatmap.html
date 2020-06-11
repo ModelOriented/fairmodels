@@ -152,7 +152,6 @@ number of metrics. NA's in metrics are gray.</p>
   <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>subtitle</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>text</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>flip_axis</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</pre>
 
@@ -161,31 +160,27 @@ number of metrics. NA's in metrics are gray.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>fairness object</p></td>
+      <td><p><code>fairness_heatmap</code></p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>other plot parameters</p></td>
+      <td><p>other <code>fairness_heatmap</code> objects</p></td>
     </tr>
     <tr>
       <th>midpoint</th>
-      <td><p>midpoint on gradient scale</p></td>
+      <td><p>numeric, midpoint on gradient scale</p></td>
     </tr>
     <tr>
       <th>title</th>
-      <td><p>title of the plot</p></td>
+      <td><p>character, title of the plot</p></td>
     </tr>
     <tr>
       <th>subtitle</th>
-      <td><p>subtitle of the plot</p></td>
+      <td><p>character, subtitle of the plot</p></td>
     </tr>
     <tr>
       <th>text</th>
-      <td><p>deafult <code>TRUE</code> means it shows values on tiles</p></td>
-    </tr>
-    <tr>
-      <th>scale</th>
-      <td><p>whether metrics should be normalised</p></td>
+      <td><p>logical, default <code>TRUE</code> means it shows values on tiles</p></td>
     </tr>
     <tr>
       <th>flip_axis</th>
@@ -195,7 +190,7 @@ number of metrics. NA's in metrics are gray.</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>ggplot object</p>
+    <p>list of <code>ggplot</code> objects</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -220,14 +215,14 @@ number of metrics. NA's in metrics are gray.</p>
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.3028012 , mean =  0.4555205 , max =  0.7771487  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.296482 , mean =  0.4552187 , max =  0.7700323  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7509792 , mean =  -0.0004006066 , max =  0.6971988  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7482264 , mean =  -9.877687e-05 , max =  0.703518  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>model_compas_lr</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
 #&gt;   -&gt; target variable   :  6172  values 
-#&gt;   -&gt; model_info        :  package stats , ver. 4.0.0 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; model_info        :  package stats , ver. 4.0.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  0.1144574 , mean =  0.4551199 , max =  0.995477  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
@@ -238,27 +233,27 @@ number of metrics. NA's in metrics are gray.</p>
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1277762 , mean =  0.4553439 , max =  0.8377875  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1222828 , mean =  0.4553518 , max =  0.8527543  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7818545 , mean =  -0.0002239923 , max =  0.845274  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7947098 , mean =  -0.0002319174 , max =  0.8404319  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_6</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>rf_compas_6</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.305154 , mean =  0.4552258 , max =  0.5131235  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.303632 , mean =  0.4545136 , max =  0.5141721  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.5131235 , mean =  -0.0001059024 , max =  0.694846  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.5141721 , mean =  0.0006063269 , max =  0.696368  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_7</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>rf_compas_7</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.130293 , mean =  0.4551094 , max =  0.8401614  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1288766 , mean =  0.4547836 , max =  0.854802  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7904372 , mean =  1.050133e-05 , max =  0.8460356  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7911176 , mean =  0.0003363438 , max =  0.8435474  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='co'># different labels</span>
 <span class='no'>explainer_4</span>$<span class='no'>label</span> <span class='kw'>&lt;-</span> <span class='st'>"glm"</span>
@@ -271,7 +266,7 @@ number of metrics. NA's in metrics are gray.</p>
                                   <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
                                   <span class='kw'>group</span>  <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>,
                                   <span class='kw'>base</span>   <span class='kw'>=</span> <span class='st'>"Caucasian"</span>,
-                                  <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; Getting data from first ( )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
+                                  <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; Getting data from first ( </span><span style='color: #00BB00;'> ranger </span><span> )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='input'>
 <span class='no'>fheatmap</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fairness_heatmap.html'>fairness_heatmap</a></span>(<span class='no'>fobject</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>fheatmap</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_text).</span></div><div class='img'><img src='plot_fairness_heatmap-1.png' alt='' width='700' height='433' /></div><div class='input'>

@@ -46,7 +46,10 @@
 
 
 <meta property="og:title" content="Adult dataset — adult" />
-<meta property="og:description" content="adult" />
+<meta property="og:description" content="Adult dataset consists of many columns containing various information about relationship, hours worked per week, workclass etc... and about
+salary, whether more than 50K a year or not. Lot's of possible protected attributes such as sex, race age. Some columns contain
+NA in form of &quot;?&quot;. They are not removed and removing them depends on user as they might contain some information.
+adult" />
 
 
 
@@ -137,7 +140,10 @@
     </div>
 
     <div class="ref-description">
-    <p><code>adult</code></p>
+    <p>Adult dataset consists of many columns containing various information about relationship, hours worked per week, workclass etc... and about
+salary, whether more than 50K a year or not. Lot's of possible protected attributes such as sex, race age. Some columns contain
+NA in form of "?". They are not removed and removing them depends on user as they might contain some information.
+<code>adult</code></p>
     </div>
 
     <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>adult</span>)</pre>
@@ -148,7 +154,7 @@
     <p>A data frame with 32561 rows and 15 variables:</p><dl>
   <dt>salary</dt><dd><p>factor, &lt;=50K/&gt;50K whether a person salary exceeds 50K a year or not</p></dd>
   <dt>age</dt><dd><p>integer, age of person</p></dd>
-  <dt>workclass</dt><dd><p>factor, field of work</p></dd>
+  <dt>workclass</dt><dd><p>factor, field of work, ? means missing value</p></dd>
   <dt>fnlwgt</dt><dd><p>numeric</p></dd>
   <dt>education</dt><dd><p>factor, completed education degree</p></dd>
   <dt>education_num</dt><dd><p>numeric, education number in converted from education factor, the bigger the better</p></dd>

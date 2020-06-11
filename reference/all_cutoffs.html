@@ -142,12 +142,7 @@ It is highly suggested to pick small number of metrics. With value of cutoff all
 It is highly suggested to pick small number of metrics. With value of cutoff all subgroup cutoffs change.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>all_cutoffs</span>(
-  <span class='no'>x</span>,
-  <span class='no'>explainer_label</span>,
-  <span class='kw'>grid_points</span> <span class='kw'>=</span> <span class='fl'>101</span>,
-  <span class='kw'>fairness_metrics</span> <span class='kw'>=</span> <span class='fu'>unique_metrics</span>()
-)</pre>
+    <pre class="usage"><span class='fu'>all_cutoffs</span>(<span class='no'>x</span>, <span class='no'>label</span>, <span class='kw'>grid_points</span> <span class='kw'>=</span> <span class='fl'>101</span>, <span class='kw'>fairness_metrics</span> <span class='kw'>=</span> <span class='fu'>unique_metrics</span>())</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -157,8 +152,8 @@ It is highly suggested to pick small number of metrics. With value of cutoff all
       <td><p>fairness_object</p></td>
     </tr>
     <tr>
-      <th>explainer_label</th>
-      <td><p>character, single label of choosen explainer</p></td>
+      <th>label</th>
+      <td><p>label of model to be calculated</p></td>
     </tr>
     <tr>
       <th>grid_points</th>
@@ -201,7 +196,7 @@ It is highly suggested to pick small number of metrics. With value of cutoff all
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
 #&gt;   -&gt; target variable   :  6172  values 
-#&gt;   -&gt; model_info        :  package stats , ver. 4.0.0 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; model_info        :  package stats , ver. 4.0.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  0.1144574 , mean =  0.4551199 , max =  0.995477  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
@@ -211,9 +206,9 @@ It is highly suggested to pick small number of metrics. With value of cutoff all
                                  <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
                                  <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>,
                                  <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"Caucasian"</span>,
-                                 <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; Getting data from first ( )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
+                                 <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; Getting data from first ( </span><span style='color: #00BB00;'> lm </span><span> )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='input'>
-<span class='no'>ac</span> <span class='kw'>&lt;-</span> <span class='fu'>all_cutoffs</span>(<span class='no'>fobject</span>, <span class='kw'>fairness_metrics</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"TPR_parity_loss"</span>, <span class='st'>"F1_parity_loss"</span>), <span class='kw'>explainer_label</span> <span class='kw'>=</span> <span class='st'>"ranger"</span>)
+<span class='no'>ac</span> <span class='kw'>&lt;-</span> <span class='fu'>all_cutoffs</span>(<span class='no'>fobject</span>, <span class='kw'>fairness_metrics</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"TPR_parity_loss"</span>, <span class='st'>"F1_parity_loss"</span>), <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"ranger"</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>ac</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 33 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='all_cutoffs-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></span></pre>
   </div>

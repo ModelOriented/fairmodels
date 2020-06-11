@@ -48,7 +48,7 @@
 <meta property="og:title" content="Ceteris paribus cutoff — ceteris_paribus_cutoff" />
 <meta property="og:description" content="Ceteris paribus cutoff is way to check how will parity loss behave if we changed only cutoff in one subgroup.
 By using parameter new_cutoffs parity loss for metric's with new cutoffs will be calculated. Note that cutoff for subgroup will
-change no metter if in new_cutoff is some value. When parameter cummulated is set to true, all metrics will be summed and facets will
+change no matter if in new_cutoff is some value. When parameter cumulated is set to true, all metrics will be summed and facets will
 collapse to one plot with different models on it. Sometimes due to NA's present in some metrics it is needed to drop some metrics." />
 
 
@@ -142,7 +142,7 @@ collapse to one plot with different models on it. Sometimes due to NA's present 
     <div class="ref-description">
     <p>Ceteris paribus cutoff is way to check how will parity loss behave if we changed only cutoff in one subgroup.
 By using parameter new_cutoffs parity loss for metric's with new cutoffs will be calculated. Note that cutoff for subgroup will
-change no metter if in new_cutoff is some value. When parameter cummulated is set to true, all metrics will be summed and facets will
+change no matter if in new_cutoff is some value. When parameter cumulated is set to true, all metrics will be summed and facets will
 collapse to one plot with different models on it. Sometimes due to NA's present in some metrics it is needed to drop some metrics.</p>
     </div>
 
@@ -152,7 +152,7 @@ collapse to one plot with different models on it. Sometimes due to NA's present 
   <span class='kw'>new_cutoffs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>fairness_metrics</span> <span class='kw'>=</span> <span class='fu'>unique_metrics</span>(),
   <span class='kw'>grid_points</span> <span class='kw'>=</span> <span class='fl'>101</span>,
-  <span class='kw'>cummulated</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  <span class='kw'>cumulated</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -169,7 +169,7 @@ collapse to one plot with different models on it. Sometimes due to NA's present 
     <tr>
       <th>new_cutoffs</th>
       <td><p>numeric, vector of new cutoffs, length should be equal to number of group levels.
-Position corresponding to subgroups in levels will be changed. Deafult NULL</p></td>
+Position corresponding to subgroups in levels will be changed. Default is NULL</p></td>
     </tr>
     <tr>
       <th>fairness_metrics</th>
@@ -180,8 +180,8 @@ Position corresponding to subgroups in levels will be changed. Deafult NULL</p><
       <td><p>numeric, grid for cutoffs to test. Number of points between 0 and 1 spread evenly.</p></td>
     </tr>
     <tr>
-      <th>cummulated</th>
-      <td><p>logical, if true facets will collapse to one plot and parity loss for each model will be summed. Deafult FALSE.</p></td>
+      <th>cumulated</th>
+      <td><p>logical, if <code>TRUE</code>  facets will collapse to one plot and parity loss for each model will be summed. Deafult <code>FALSE</code>.</p></td>
     </tr>
     </table>
 
@@ -216,7 +216,7 @@ Position corresponding to subgroups in levels will be changed. Deafult NULL</p><
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
 #&gt;   -&gt; target variable   :  6172  values 
-#&gt;   -&gt; model_info        :  package stats , ver. 4.0.0 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; model_info        :  package stats , ver. 4.0.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  0.1144574 , mean =  0.4551199 , max =  0.995477  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
@@ -226,13 +226,13 @@ Position corresponding to subgroups in levels will be changed. Deafult NULL</p><
                                  <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
                                  <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>,
                                  <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"Caucasian"</span>,
-                                 <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; Getting data from first ( )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
+                                 <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; Getting data from first ( </span><span style='color: #00BB00;'> lm </span><span> )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='input'>
 <span class='no'>cpc</span> <span class='kw'>&lt;-</span> <span class='fu'>ceteris_paribus_cutoff</span>(<span class='no'>fobject</span>, <span class='kw'>subgroup</span> <span class='kw'>=</span> <span class='st'>"African_American"</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>cpc</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 182 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='ceteris_paribus_cutoff-1.png' alt='' width='700' height='433' /></div><div class='input'>
 
 <span class='no'>cpc</span> <span class='kw'>&lt;-</span> <span class='fu'>ceteris_paribus_cutoff</span>(<span class='no'>fobject</span>, <span class='kw'>subgroup</span> <span class='kw'>=</span> <span class='st'>"African_American"</span>,
-                              <span class='kw'>cummulated</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+                              <span class='kw'>cumulated</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
                               <span class='kw'>fairness_metrics</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"TPR_parity_loss"</span>,<span class='st'>"PPV_parity_loss"</span>, <span class='st'>"TNR_parity_loss"</span> ))
 <span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>cpc</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 54 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='ceteris_paribus_cutoff-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></span></pre>

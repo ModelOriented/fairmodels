@@ -46,9 +46,10 @@
 
 
 <meta property="og:title" content="Plot fairness check — plot.fairness_check" />
-<meta property="og:description" content="Plot fairness check enables to look how big differences are between base subgroup (privildged) and unpriviledged ones.
+<meta property="og:description" content="Plot fairness check enables to look how big differences are between base subgroup (privileged) and unprivileged ones.
 If barplot reaches red zone it means that for this subgroup fairness goal is not satisfied. Multiple subgroups and models can be plotted.
-Red and green zone boundary can be moved through epsilon parameter, that needs to be passed through fairness_check." />
+Red and green zone boundary can be moved through epsilon parameter, that needs to be passed through fairness_check. Plot can receive many objects that
+will be plotted together with condition of equal parameters (number of subgroups, epsilon, etc...)." />
 
 
 
@@ -139,9 +140,10 @@ Red and green zone boundary can be moved through epsilon parameter, that needs t
     </div>
 
     <div class="ref-description">
-    <p>Plot fairness check enables to look how big differences are between base subgroup (privildged) and unpriviledged ones.
+    <p>Plot fairness check enables to look how big differences are between base subgroup (privileged) and unprivileged ones.
 If barplot reaches red zone it means that for this subgroup fairness goal is not satisfied. Multiple subgroups and models can be plotted.
-Red and green zone boundary can be moved through epsilon parameter, that needs to be passed through fairness_check.</p>
+Red and green zone boundary can be moved through epsilon parameter, that needs to be passed through <code>fairness_check</code>. Plot can receive many objects that
+will be plotted together with condition of equal parameters (number of subgroups, epsilon, etc...).</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for fairness_check</span>
@@ -152,11 +154,11 @@ Red and green zone boundary can be moved through epsilon parameter, that needs t
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>fainress_check object</p></td>
+      <td><p><code>fairness_check</code> object</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>other plot parameters</p></td>
+      <td><p>other <code>fairness_check</code> objects</p></td>
     </tr>
     </table>
 
@@ -192,7 +194,7 @@ Red and green zone boundary can be moved through epsilon parameter, that needs t
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
 #&gt;   -&gt; target variable   :  6172  values 
-#&gt;   -&gt; model_info        :  package stats , ver. 4.0.0 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; model_info        :  package stats , ver. 4.0.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  0.004522979 , mean =  0.5448801 , max =  0.8855426  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
@@ -202,11 +204,21 @@ Red and green zone boundary can be moved through epsilon parameter, that needs t
                                  <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
                                  <span class='kw'>data</span>  <span class='kw'>=</span> <span class='no'>compas</span>,
                                  <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Sex"</span>,
+                                 <span class='kw'>base</span>  <span class='kw'>=</span> <span class='st'>"Female"</span>)
+
+<span class='co'># changing cutoff values</span>
+<span class='no'>fobject2</span> <span class='kw'>&lt;-</span><span class='fu'><a href='create_fairness_object.html'>create_fairness_object</a></span>(<span class='no'>explainer_glm</span>, <span class='no'>explainer_rf</span>,
+                                 <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
+                                 <span class='kw'>data</span>  <span class='kw'>=</span> <span class='no'>compas</span>,
+                                 <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Sex"</span>,
                                  <span class='kw'>base</span>  <span class='kw'>=</span> <span class='st'>"Female"</span>,
-                                <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)
+                                <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.45</span>,<span class='fl'>0.5</span>),
+                                <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lm_c"</span>,<span class='st'>"rf_c"</span>)) <span class='co'># c for changed</span>
 
 <span class='no'>fc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='no'>fobject</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>fc</span>)</div><div class='img'><img src='plot.fairness_check-1.png' alt='' width='700' height='433' /></div></span></pre>
+<span class='no'>fc2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='no'>fobject2</span>)
+
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>fc</span>,<span class='no'>fc2</span>)</div><div class='img'><img src='plot.fairness_check-1.png' alt='' width='700' height='433' /></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

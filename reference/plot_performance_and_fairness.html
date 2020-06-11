@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Performance and fairness — performance_and_fairness • fairmodels</title>
+<title>Plot fairness and performance — plot.performance_and_fairness • fairmodels</title>
 
 
 <!-- jquery -->
@@ -45,9 +45,8 @@
 
 
 
-<meta property="og:title" content="Performance and fairness — performance_and_fairness" />
-<meta property="og:description" content="measure model performance and model fairness metric at the same time. Choose best model according to bot metrics.
-Measure performance in both fairness metric and" />
+<meta property="og:title" content="Plot fairness and performance — plot.performance_and_fairness" />
+<meta property="og:description" content="visualize fairness and model metric at the same time. Note that fairness metric parity scale is reversed so that the best models are in top right corner." />
 
 
 
@@ -132,38 +131,36 @@ Measure performance in both fairness metric and" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Performance and fairness</h1>
+    <h1>Plot fairness and performance</h1>
     
-    <div class="hidden name"><code>performance_with_fairness.Rd</code></div>
+    <div class="hidden name"><code>plot_performance_and_fairness.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>measure model performance and model fairness metric at the same time. Choose best model according to bot metrics.</p>
-<p>Measure performance in both fairness metric and</p>
+    <p>visualize fairness and model metric at the same time. Note that fairness metric parity scale is reversed so that the best models are in top right corner.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>performance_and_fairness</span>(<span class='no'>x</span>, <span class='kw'>fairness_metric</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>performance_metric</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for performance_and_fairness</span>
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p><code>fairness_object</code></p></td>
+      <td><p><code>performance_and_fairness</code> object</p></td>
     </tr>
     <tr>
-      <th>fairness_metric</th>
-      <td><p>fairness metric, one of those in fairness_object</p></td>
-    </tr>
-    <tr>
-      <th>performance_metric</th>
-      <td><p>performance metric, one of</p></td>
+      <th>...</th>
+      <td><p>other <code>performance_and_fairness</code> objects</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>performance_and_fairness</code> object</p>
+    
+
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -187,9 +184,9 @@ Measure performance in both fairness metric and" />
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.2944343 , mean =  0.4549276 , max =  0.7862552  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.2947356 , mean =  0.4549058 , max =  0.7916937  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7532011 , mean =  0.000192265 , max =  0.7055657  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7641623 , mean =  0.0002140708 , max =  0.7052644  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>lr_compas_1</span>,  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>[,-<span class='fl'>1</span>], <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  6  cols 
@@ -205,31 +202,32 @@ Measure performance in both fairness metric and" />
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1380995 , mean =  0.4547612 , max =  0.8414796  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1330028 , mean =  0.454958 , max =  0.8586179  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7803659 , mean =  0.0003586986 , max =  0.8374907  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7839561 , mean =  0.000161896 , max =  0.8380892  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>rf_compas_3</span>,  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>[,-<span class='fl'>1</span>], <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"ranger_3"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger_3 
 #&gt;   -&gt; data              :  6172  rows  6  cols 
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.3042222 , mean =  0.4547127 , max =  0.5136061  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.3046007 , mean =  0.4554696 , max =  0.5137199  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.5136061 , mean =  0.0004072402 , max =  0.6957778  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.5137199 , mean =  -0.0003497065 , max =  0.6953993  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='no'>fobject</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_fairness_object.html'>create_fairness_object</a></span>(<span class='no'>explainer_1</span>,<span class='no'>explainer_2</span>,<span class='no'>explainer_3</span>,<span class='no'>explainer_4</span>,
                                     <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>,
                                     <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
                                     <span class='kw'>group</span>  <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>,
                                     <span class='kw'>base</span>   <span class='kw'>=</span> <span class='st'>"Caucasian"</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='input'><span class='no'>paf</span> <span class='kw'>&lt;-</span> <span class='fu'>performance_and_fairness</span>(<span class='no'>fobject</span>, <span class='kw'>performance_metric</span> <span class='kw'>=</span> <span class='st'>"f1"</span>)</div><div class='output co'>#&gt; Fairness Metric is NULL, setting deafult ( ACC_parity_loss )  
+#&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='input'>
+
+<span class='no'>paf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='performance_with_fairness.html'>performance_and_fairness</a></span>(<span class='no'>fobject</span>)</div><div class='output co'>#&gt; Fairness Metric is NULL, setting deafult ( ACC_parity_loss )  
+#&gt; Performace metric is NULL, setting deafult ( auc )  
 #&gt; 
 #&gt; Creating object with: 
 #&gt; Fairness metric ACC_parity_loss 
-#&gt; Performance metric  f1 </div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>paf</span>)</div><div class='img'><img src='performance_with_fairness-1.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></span></pre>
+#&gt; Performance metric  auc </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>paf</span>)</div><div class='img'><img src='plot_performance_and_fairness-1.png' alt='' width='700' height='433' /></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

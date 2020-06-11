@@ -102,7 +102,7 @@
 <div id="why" class="section level2">
 <h2 class="hasAnchor">
 <a href="#why" class="anchor"></a>Why?</h2>
-<p>Let’s say you are building court system that predicts if someone will become recidivist in the futre. First you gather information then you build a model and predict outcomes. You get accuracy score of 90%. It is preety good, but it appears that the model is more likely to say that African Americans will become recidivists. Model was trained on data that was discriminating certain ethnic groups. So now we have some options. First one is to change the data, and the second one is to tune model, and check if it behaves as we would like it to be. We will choose the second option.</p>
+<p>Let’s say you are building court system that predicts if someone will become recidivist in the future. First you gather information then you build a model and predict outcomes. You get accuracy score of 90%. It is pretty good, but it appears that the model is more likely to say that African Americans will become recidivists. Model was trained on data that was discriminating certain ethnic groups. So now we have some options. First one is to change the data, and the second one is to tune model, and check if it behaves as we would like it to be. We will choose the second option.</p>
 </div>
 <div id="data" class="section level2">
 <h2 class="hasAnchor">
@@ -131,7 +131,7 @@
 <h2 class="hasAnchor">
 <a href="#demographic-parity" class="anchor"></a>Demographic parity</h2>
 <p>As our protected group is Ethnicity, we can plot amount of observations in particular class. Perfect data should have same number of observations in both classes per subgroup. This is just indicator of possible problem.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="../reference/demographic_parity.html">demographic_parity</a></span>(<span class="no">compas</span>, <span class="kw">outcome</span> <span class="kw">=</span> <span class="st">"Two_yr_Recidivism"</span>, <span class="kw">group</span>  <span class="kw">=</span> <span class="st">"Ethnicity"</span> )</pre></body></html></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="../reference/class_parity.html">class_parity</a></span>(<span class="no">compas</span>, <span class="kw">outcome</span> <span class="kw">=</span> <span class="st">"Two_yr_Recidivism"</span>, <span class="kw">group</span>  <span class="kw">=</span> <span class="st">"Ethnicity"</span> )</pre></body></html></div>
 <p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
 <p>We train a <code>ranger</code> model and create an explainer with <code>DALEX</code>.</p>
 <div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">DALEX</span>)
@@ -151,9 +151,9 @@
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( [33m default [39m ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( [33m default [39m )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1422048 , mean =  0.4552587 , max =  0.8442178  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1318984 , mean =  0.4547109 , max =  0.8529861  
 #&gt;   -&gt; residual function :  difference between y and yhat ( [33m default [39m )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7764964 , mean =  -0.0001388444 , max =  0.836612  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7936098 , mean =  0.0004090358 , max =  0.8481586  
 #&gt;  [32m A new explainer has been created! [39m</code></pre>
 <p>Than we create <code>fairness_object</code> with <code><a href="../reference/create_fairness_object.html">create_fairness_object()</a></code></p>
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">fobject</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_object.html">create_fairness_object</a></span>(<span class="no">rf_explainer</span>,
@@ -165,7 +165,7 @@
 <p>And we plot!</p>
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fobject</span>)</pre></body></html></div>
 <p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
-<p>As we can see it is more likely that model will categorise African Americans as future recidivists than for example Asians. But mabey some groups are statisticaly more likely to go do crimes in the future. It is possible, but there are more ways that the model can discriminate people.</p>
+<p>As we can see it is more likely that model will categorize African Americans as future recidivists than for example Asians. But maybe some groups are statistically more likely to go do crimes in the future. It is possible, but there are more ways that the model can discriminate people.</p>
 </div>
 <div id="fairness-object" class="section level2">
 <h2 class="hasAnchor">
@@ -226,7 +226,7 @@
 #&gt; 4      0.2905197       0.1960918      0.3303955       0.3505547
 #&gt; 5      0.7824425       0.2502543      0.8321117       0.7168035
 #&gt; 6      0.5702318       0.2825981      0.5378322       0.5012586
-#&gt; Models explained:
+#&gt; Models explained (fairness labels):
 #&gt; [1] "ranger"
 #&gt; [1] "lm"
 #&gt; [1] "ranger_2"
@@ -241,14 +241,14 @@
 #&gt;    Sex Misdemeanor Ethnicity _probabilities_
 #&gt; 4 Male         yes     Other       0.2187197
 #&gt; 5 Male          no Caucasian       0.6805686</code></pre>
-<p>Fairness object gets metrics based on confussion matrix and checks them over the groups.</p>
+<p>Fairness object gets metrics based on confusion matrix and checks them over the groups.</p>
 <div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="co"># for the first model</span>
 <span class="no">fobject</span>$<span class="no">groups_data</span>$<span class="no">ranger</span>$<span class="no">TPR</span></pre></body></html></div>
 <pre><code>#&gt;        Caucasian African_American            Asian         Hispanic 
 #&gt;        0.4318735        0.6604455        0.3750000        0.4074074 
 #&gt;  Native_American            Other 
 #&gt;        0.8000000        0.4274194</code></pre>
-<p>If we were going only to take score from certain metric (Let’s say fpr and 0.3) we wouldn’t know if it is good or bad. But we are aiming for <strong>equal treatment over all groups</strong> so if this metric score would be the same in all groups it would be very good. But the metrics wouldn’t be comparable between each others (fpr - 0.3 in all groups and acc_parity - 0.9 in all groups, both are good in terms of parity). That is wy we use <strong>base</strong> - to set benchmark. And for example Caucasian in fpr had score of 0.3 and African American 0.6. After setting <code>base = Caucasian</code> Caucasian would have score 1, and African American 2, because is two times higher score in fpr.</p>
+<p>If we were going only to take score from certain metric (Let’s say fpr and 0.3) we wouldn’t know if it is good or bad. But we are aiming for <strong>equal treatment over all groups</strong> so if this metric score would be the same in all groups it would be very good. But the metrics wouldn’t be comparable between each others (fpr - 0.3 in all groups and acc_parity - 0.9 in all groups, both are good in terms of parity). That is why we use <strong>base</strong> - to set benchmark. And for example Caucasian in fpr had score of 0.3 and African American 0.6. After setting <code>base = Caucasian</code> Caucasian would have score 1, and African American 2, because is two times higher score in fpr.</p>
 <p><em>Note: When dealing with aggregating plots we use formula sum(abs(1-score)) to represent aggregated score in metrics. In short is how much it differs from ideal scores.</em></p>
 </div>
 </div>
@@ -256,7 +256,7 @@
 <h1 class="hasAnchor">
 <a href="#choosing-best-model" class="anchor"></a>Choosing best model</h1>
 <p>We now have a few models in our <code>fairness_object</code></p>
-<p>Let’s see how they perform in diffrent metrics.</p>
+<p>Let’s see how they perform in different metrics.</p>
 <div id="stacked-barplot" class="section level2">
 <h2 class="hasAnchor">
 <a href="#stacked-barplot" class="anchor"></a>Stacked Barplot</h2>
@@ -310,13 +310,13 @@
 #&gt; [6,]  1.1224067  0.2794146 -0.58784331  0.219663061 -0.014742726 -4.302114e-16
 #&gt; 
 #&gt; Created with: 
-#&gt; [1] "ranger"   "lm"       "ranger_2" "ranger_3" "gbm"      "ranger_4"
+#&gt; character(0)
 #&gt; 
 #&gt; First two components explained 98 % of variance.</code></pre>
 <p>Let’s plot!</p>
 <div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fair_pca</span>)</pre></body></html></div>
 <p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
-<p>It is done with loadings plot, which can be customised.</p>
+<p>It is done with loadings plot, which can be customized.</p>
 <div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fair_pca</span>, <span class="kw">scale</span> <span class="kw">=</span> <span class="fl">0</span>) <span class="co"># deafult = 0.5</span></pre></body></html></div>
 <p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
 </div>
@@ -328,9 +328,9 @@
 <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fheatmap</span>)</pre></body></html></div>
 <p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
 <p>For both models and metrics dendograms are created. This way through hierarchical clustering we can look on similarities between models/metrics. It should give similar but more detailed information than PCA</p>
-<p>It can be normalised among metrics.</p>
+<p>It can be normalized among metrics.</p>
 <div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="no">fheatmap</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/fairness_heatmap.html">fairness_heatmap</a></span>(<span class="no">fobject</span>, <span class="kw">scale</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fheatmap</span>, , <span class="kw">title</span> <span class="kw">=</span> <span class="st">"Title can be changed"</span>, <span class="kw">subtitle</span> <span class="kw">=</span> <span class="st">"subtitle too!"</span>) <span class="co"># we can turn values off via text= FALSE</span></pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fheatmap</span> , <span class="kw">title</span> <span class="kw">=</span> <span class="st">"Title can be changed"</span>, <span class="kw">subtitle</span> <span class="kw">=</span> <span class="st">"subtitle too!"</span>) <span class="co"># we can turn values off via text= FALSE</span></pre></body></html></div>
 <p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
 <p>Now we know what those scores are and how “similar” models are to each other</p>
 </div>
@@ -422,26 +422,26 @@
                                   <span class="kw">outcome</span> <span class="kw">=</span> <span class="st">"Two_yr_Recidivism"</span>,
                                   <span class="kw">group</span>  <span class="kw">=</span> <span class="st">"Sex"</span>,
                                   <span class="kw">base</span> <span class="kw">=</span> <span class="st">"Female"</span>,
-                                  <span class="kw">cutoff</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.63</span>,<span class="fl">0.5</span>))
+                                  <span class="kw">cutoff</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.63</span>,<span class="fl">0.5</span>),
+                                  <span class="kw">label</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"gbm_c"</span>,<span class="st">"lm_c"</span>,<span class="st">"ranger_c"</span>)) <span class="co"># c as in changed  </span>
 
 
-<span class="no">p1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="fu"><a href="../reference/performance_with_fairness.html">performance_and_fairness</a></span>(<span class="no">fobject_without_cutoff</span>,
+<span class="no">p1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/performance_with_fairness.html">performance_and_fairness</a></span>(<span class="no">fobject_without_cutoff</span>,
                                     <span class="kw">fairness_metric</span> <span class="kw">=</span> <span class="st">"TPR_parity_loss"</span>,
-                                    <span class="kw">performance_metric</span> <span class="kw">=</span> <span class="st">"accuracy"</span>)) +
-                                    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous</a></span>(<span class="kw">limits</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.63</span>,<span class="fl">0.699</span>))</pre></body></html></div>
+                                    <span class="kw">performance_metric</span> <span class="kw">=</span> <span class="st">"accuracy"</span>)</pre></body></html></div>
 <pre><code>#&gt; 
 #&gt; Creating object with: 
 #&gt; Fairness metric TPR_parity_loss 
 #&gt; Performance metric  accuracy</code></pre>
-<div class="sourceCode" id="cb43"><html><body><pre class="r"><span class="no">p2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="fu"><a href="../reference/performance_with_fairness.html">performance_and_fairness</a></span>(<span class="no">fobject_with_cutoff</span>,
+<div class="sourceCode" id="cb43"><html><body><pre class="r"><span class="no">p2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/performance_with_fairness.html">performance_and_fairness</a></span>(<span class="no">fobject_with_cutoff</span>,
                                     <span class="kw">fairness_metric</span> <span class="kw">=</span> <span class="st">"TPR_parity_loss"</span>,
-                                    <span class="kw">performance_metric</span> <span class="kw">=</span> <span class="st">"accuracy"</span>)) +
-                                    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous</a></span>(<span class="kw">limits</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.63</span>,<span class="fl">0.699</span>))</pre></body></html></div>
+                                    <span class="kw">performance_metric</span> <span class="kw">=</span> <span class="st">"accuracy"</span>)</pre></body></html></div>
 <pre><code>#&gt; 
 #&gt; Creating object with: 
 #&gt; Fairness metric TPR_parity_loss 
 #&gt; Performance metric  accuracy</code></pre>
-<div class="sourceCode" id="cb45"><html><body><pre class="r"><span class="no">p1</span> / <span class="no">p2</span></pre></body></html></div>
+<div class="sourceCode" id="cb45"><html><body><pre class="r"><span class="co"># plot more than one object simply passing objects as arguments</span>
+<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">p1</span>,<span class="no">p2</span>)</pre></body></html></div>
 <p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-28-1.png" width="700"></p>
 <p>In term of TPR we achieved less parity loss with similar accuracy.</p>
 </div>

@@ -46,11 +46,15 @@
 
 
 <meta property="og:title" content="Fairness check — fairness_check" />
-<meta property="og:description" content="Method for quick popular fairness metrics check. On contrary to parity loss metrics here fairness_check bases on group_metrics
-and worse performance in particular metric means, that subgroup scored worse than privlieged (base) subgroup. Note that being worse in particular
-metric depends on assumption that models try to predict positive outcome. Therefore Equal odds here calculates True positive rate. Unlike in Parity
-loss metrics assigning subjectively negative metric as positive (numeric 1) will end up in method's wrong interpretation of outcome. When plotted
-shows 5 metric scores for each subgroups and each model." />
+<meta property="og:description" content="Metrics used are made for each subgroup, then base metric score is subtracted leaving loss of particular metric.
+If loss is less than -epsilon than such metric is marked as &quot;not passed&quot;. There is no upper boundary for fairness, so if some subgroup is &quot;better&quot;
+in particular metric than privileged one there are no consequences to that. Good metric description can be found here :
+If loss is greater than absolute value of epsilon than such metric is marked as &quot;not passed&quot;. It means that values of metrics should be within (-epsilon,epsilon) boundary.
+Epsilon value can be adjusted to user's needs. There are some metrics that might be derived from existing metrics (For example Equalized Odds - equal TPR and FPR for all subgroups).
+That means passing 5 metrics in fairness check asserts that model is even more fair. In fairness_check models must always predict commonly desired result. Not adhering to this rule
+may lead to misinterpretation of the plot. More on metrics and their equivalents:
+https://fairware.cs.umass.edu/papers/Verma.pdf
+https://en.wikipedia.org/wiki/Fairness_(machine_learning)" />
 
 
 
@@ -141,11 +145,15 @@ shows 5 metric scores for each subgroups and each model." />
     </div>
 
     <div class="ref-description">
-    <p>Method for quick popular fairness metrics check. On contrary to parity loss metrics here fairness_check bases on group_metrics
-and worse performance in particular metric means, that subgroup scored worse than privlieged (base) subgroup. Note that being worse in particular
-metric depends on assumption that models try to predict positive outcome. Therefore Equal odds here calculates True positive rate. Unlike in Parity
-loss metrics assigning subjectively negative metric as positive (numeric 1) will end up in method's wrong interpretation of outcome. When plotted
-shows 5 metric scores for each subgroups and each model.</p>
+    <p>Metrics used are made for each subgroup, then base metric score is subtracted leaving loss of particular metric.
+If loss is less than -epsilon than such metric is marked as "not passed". There is no upper boundary for fairness, so if some subgroup is "better"
+in particular metric than privileged one there are no consequences to that. Good metric description can be found here :
+If loss is greater than absolute value of epsilon than such metric is marked as "not passed". It means that values of metrics should be within (-epsilon,epsilon) boundary.
+Epsilon value can be adjusted to user's needs. There are some metrics that might be derived from existing metrics (For example Equalized Odds - equal TPR and FPR for all subgroups).
+That means passing 5 metrics in fairness check asserts that model is even more fair. In <code>fairness_check</code> models must always predict commonly desired result. Not adhering to this rule
+may lead to misinterpretation of the plot. More on metrics and their equivalents:
+<a href='https://fairware.cs.umass.edu/papers/Verma.pdf'>https://fairware.cs.umass.edu/papers/Verma.pdf</a>
+<a href='https://en.wikipedia.org/wiki/Fairness_(machine_learning)'>https://en.wikipedia.org/wiki/Fairness_(machine_learning)</a></p>
     </div>
 
     <pre class="usage"><span class='fu'>fairness_check</span>(<span class='no'>x</span>, <span class='kw'>epsilon</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)</pre>
@@ -159,7 +167,7 @@ shows 5 metric scores for each subgroups and each model.</p>
     </tr>
     <tr>
       <th>epsilon</th>
-      <td><p>numeric, margins for decision if fair or not. Deafult 0.1</p></td>
+      <td><p>numeric, margins for decision if fair or not. Default 0.1</p></td>
     </tr>
     </table>
 
@@ -168,16 +176,11 @@ shows 5 metric scores for each subgroups and each model.</p>
     
 
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Metrics used are made for each subgroup, then base metric score is subtracted leaving loss of particular metric.
-If loss is less than -epsilon than such metric is marked as "not passed". There is no upper boundry for fairness, so if some subgroup is "better"
-in particular metric than privliedged one there are no consequences to that. Good metric description can be found here :
-<a href='https://en.wikipedia.org/wiki/Fairness_(machine_learning)'>https://en.wikipedia.org/wiki/Fairness_(machine_learning)</a></p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Zafar,Valera, Rodriguez, Gummadi (2017)  <a href='https://arxiv.org/pdf/1610.08452.pdf'>https://arxiv.org/pdf/1610.08452.pdf</a></p>
 <p>Hardt, Price, Srebro (2016) <a href='https://arxiv.org/pdf/1610.02413.pdf'>https://arxiv.org/pdf/1610.02413.pdf</a></p>
+<p>Verma, Rubin (2018) <a href='https://fairware.cs.umass.edu/papers/Verma.pdf'>https://fairware.cs.umass.edu/papers/Verma.pdf</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -186,7 +189,7 @@ in particular metric than privliedged one there are no consequences to that. Goo
 
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"compas"</span>)
 
-<span class='co'># chaging levels - positive situation here is not becoming recidivist</span>
+<span class='co'># changing levels - positive situation here is not becoming recidivist</span>
 <span class='no'>compas</span>$<span class='no'>Two_yr_Recidivism</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='no'>compas</span>$<span class='no'>Two_yr_Recidivism</span>, <span class='kw'>levels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>))
 
 <span class='no'>rf_compas</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>Two_yr_Recidivism</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
@@ -207,7 +210,7 @@ in particular metric than privliedged one there are no consequences to that. Goo
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
 #&gt;   -&gt; target variable   :  6172  values 
-#&gt;   -&gt; model_info        :  package stats , ver. 4.0.0 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; model_info        :  package stats , ver. 4.0.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  0.004522979 , mean =  0.5448801 , max =  0.8855426  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
@@ -217,11 +220,21 @@ in particular metric than privliedged one there are no consequences to that. Goo
                                  <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
                                  <span class='kw'>data</span>  <span class='kw'>=</span> <span class='no'>compas</span>,
                                  <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Sex"</span>,
+                                 <span class='kw'>base</span>  <span class='kw'>=</span> <span class='st'>"Female"</span>)
+
+<span class='co'># changing cutoff values</span>
+<span class='no'>fobject2</span> <span class='kw'>&lt;-</span><span class='fu'><a href='create_fairness_object.html'>create_fairness_object</a></span>(<span class='no'>explainer_glm</span>, <span class='no'>explainer_rf</span>,
+                                 <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
+                                 <span class='kw'>data</span>  <span class='kw'>=</span> <span class='no'>compas</span>,
+                                 <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Sex"</span>,
                                  <span class='kw'>base</span>  <span class='kw'>=</span> <span class='st'>"Female"</span>,
-                                <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)
+                                <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.45</span>,<span class='fl'>0.5</span>),
+                                <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lm_c"</span>,<span class='st'>"rf_c"</span>)) <span class='co'># c for changed</span>
 
 <span class='no'>fc</span> <span class='kw'>&lt;-</span> <span class='fu'>fairness_check</span>(<span class='no'>fobject</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>fc</span>)</div><div class='img'><img src='fairness_check-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>fc2</span> <span class='kw'>&lt;-</span> <span class='fu'>fairness_check</span>(<span class='no'>fobject2</span>)
+
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>fc</span>,<span class='no'>fc2</span>)</div><div class='img'><img src='fairness_check-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -46,7 +46,7 @@
 
 
 <meta property="og:title" content="Fairness heatmap — fairness_heatmap" />
-<meta property="og:description" content="Create fairness_heatmap object to compare both models and metrics. If parameter scale is set to TRUE metrics will be normalised.
+<meta property="og:description" content="Create fairness_heatmap object to compare both models and metrics. If parameter scale is set to TRUE metrics will be scaled to median = 0 and sd = 1.
 If NA's appear heatmap will still plot, but with gray area where NA's were." />
 
 
@@ -138,7 +138,7 @@ If NA's appear heatmap will still plot, but with gray area where NA's were." />
     </div>
 
     <div class="ref-description">
-    <p>Create fairness_heatmap object to compare both models and metrics. If parameter <code>scale</code> is set to <code>TRUE</code> metrics will be normalised.
+    <p>Create fairness_heatmap object to compare both models and metrics. If parameter <code>scale</code> is set to <code>TRUE</code> metrics will be scaled to median = 0 and sd = 1.
 If NA's appear heatmap will still plot, but with gray area where NA's were.</p>
     </div>
 
@@ -153,7 +153,7 @@ If NA's appear heatmap will still plot, but with gray area where NA's were.</p>
     </tr>
     <tr>
       <th>scale</th>
-      <td><p>logical, if true metrics will be scaled to mean 0 and sd 1. Deafult <code>FALSE</code></p></td>
+      <td><p>logical, if codeTRUE metrics will be scaled to mean 0 and sd 1. Default <code>FALSE</code></p></td>
     </tr>
     </table>
 
@@ -191,7 +191,7 @@ If NA's appear heatmap will still plot, but with gray area where NA's were.</p>
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
 #&gt;   -&gt; target variable   :  6172  values 
-#&gt;   -&gt; model_info        :  package stats , ver. 4.0.0 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; model_info        :  package stats , ver. 4.0.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  0.1144574 , mean =  0.4551199 , max =  0.995477  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
@@ -235,7 +235,7 @@ If NA's appear heatmap will still plot, but with gray area where NA's were.</p>
                                   <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
                                   <span class='kw'>group</span>  <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>,
                                   <span class='kw'>base</span>   <span class='kw'>=</span> <span class='st'>"Caucasian"</span>,
-                                  <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; Getting data from first ( )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
+                                  <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; Getting data from first ( </span><span style='color: #00BB00;'> ranger </span><span> )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='input'>
 <span class='no'>fheatmap</span> <span class='kw'>&lt;-</span> <span class='fu'>fairness_heatmap</span>(<span class='no'>fobject</span>)
 

@@ -183,14 +183,14 @@
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1381175 , mean =  0.5443915 , max =  0.8669172  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1543262 , mean =  0.5445709 , max =  0.8736753  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8488202 , mean =  0.000488565 , max =  0.7932196  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8412451 , mean =  0.0003091572 , max =  0.7825268  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>glm_compas</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
 #&gt;   -&gt; target variable   :  6172  values 
-#&gt;   -&gt; model_info        :  package stats , ver. 4.0.0 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; model_info        :  package stats , ver. 4.0.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  0.004522979 , mean =  0.5448801 , max =  0.8855426  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
@@ -207,10 +207,10 @@
 #&gt; Fairness check for models: lm, ranger 
 #&gt; 
 #&gt; </span><span style='color: #BB0000;'>lm passes 2/5 metrics
-#&gt; </span><span>Total loss:  0.7608068 
+#&gt; </span><span>Total loss:  0.9298582 
 #&gt; 
 #&gt; </span><span style='color: #BB0000;'>ranger passes 2/5 metrics
-#&gt; </span><span>Total loss:  0.4568568 
+#&gt; </span><span>Total loss:  0.5710473 
 #&gt; </div><div class='input'>
 <span class='no'>fobject2</span> <span class='kw'>&lt;-</span><span class='fu'><a href='create_fairness_object.html'>create_fairness_object</a></span>(<span class='no'>explainer_glm</span>, <span class='no'>explainer_rf</span>,
                                  <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
@@ -221,11 +221,11 @@
 <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='no'>fobject2</span>)</div><div class='output co'>#&gt; 
 #&gt; Fairness check for models: lm, ranger 
 #&gt; 
-#&gt; </span><span style='color: #BBBB00;'>lm passes 4/5 metrics
-#&gt; </span><span>Total loss:  0.23353 
+#&gt; </span><span style='color: #00BB00;'>lm passes 5/5 metrics
+#&gt; </span><span>Total loss:  0.2903276 
 #&gt; 
 #&gt; </span><span style='color: #BBBB00;'>ranger passes 4/5 metrics
-#&gt; </span><span>Total loss:  0.2395896 
+#&gt; </span><span>Total loss:  0.3544873 
 #&gt; </div><div class='input'>
 </div></span></pre>
   </div>

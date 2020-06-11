@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Modified COMPAS dataset (from fairness package) — compas • fairmodels</title>
+<title>Class parity — class_parity • fairmodels</title>
 
 
 <!-- jquery -->
@@ -45,19 +45,9 @@
 
 
 
-<meta property="og:title" content="Modified COMPAS dataset (from fairness package) — compas" />
-<meta property="og:description" content="compas
-
-  Two_yr_Recidivismfactor, 1/0 for future recidivism or no recidivism. Models should predict this values
-  Number_of_Priorsnumeric, number of priors, normalized
-  Age_Above_FourtyFivefactor, yes/no for age above 45 years or not
-  Age_Below_TwentyFivefactor, yes/no for age below 25 years or not
-  Sexfactor, female/male for gender
-  Misdemeanorfactor, yes/no for having recorded misdemeanor(s) or not
-  ethnicityfactor, Caucasian, African American, Asian, Hispanic, Native American or Other
-
-
-" />
+<meta property="og:title" content="Class parity — class_parity" />
+<meta property="og:description" content="Class parity can be thought as demographic parity for data. It does not look at predictions but original labels in data. It can visualize parity on dataset level. In perfect dataset classes should be evenly distributed across subgroups. Plot allows
+user to see not only how classes are distributed but also the size of subgroups. Plot allows to localize problems in dataset level. Function can receive data frame or fairness object." />
 
 
 
@@ -142,36 +132,56 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Modified COMPAS dataset (from fairness package)</h1>
+    <h1>Class parity</h1>
     
-    <div class="hidden name"><code>compas.Rd</code></div>
+    <div class="hidden name"><code>class_parity.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>compas</code></p>
-<dl>
-  <dt>Two_yr_Recidivism</dt><dd><p>factor, 1/0 for future recidivism or no recidivism. Models should predict this values</p></dd>
-  <dt>Number_of_Priors</dt><dd><p>numeric, number of priors, normalized</p></dd>
-  <dt>Age_Above_FourtyFive</dt><dd><p>factor, yes/no for age above 45 years or not</p></dd>
-  <dt>Age_Below_TwentyFive</dt><dd><p>factor, yes/no for age below 25 years or not</p></dd>
-  <dt>Sex</dt><dd><p>factor, female/male for gender</p></dd>
-  <dt>Misdemeanor</dt><dd><p>factor, yes/no for having recorded misdemeanor(s) or not</p></dd>
-  <dt>ethnicity</dt><dd><p>factor, Caucasian, African American, Asian, Hispanic, Native American or Other</p></dd>
-
-</dl>
-
+    <p>Class parity can be thought as demographic parity for data. It does not look at predictions but original labels in data. It can visualize parity on dataset level. In perfect dataset classes should be evenly distributed across subgroups. Plot allows
+user to see not only how classes are distributed but also the size of subgroups. Plot allows to localize problems in dataset level. Function can receive data frame or fairness object.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>compas</span>)</pre>
+    <pre class="usage"><span class='fu'>class_parity</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for fairness_object</span>
+<span class='fu'>class_parity</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for default</span>
+<span class='fu'>class_parity</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='no'>outcome</span>, <span class='no'>group</span>)</pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>data.frame/ fairness_object</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>other parameters</p></td>
+    </tr>
+    <tr>
+      <th>outcome</th>
+      <td><p>target column name in data</p></td>
+    </tr>
+    <tr>
+      <th>group</th>
+      <td><p>protected group (column) in data</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    
 
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A data frame with 6172 rows and 7 variables:</p>
-    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
-
-    <p>Modified data from `fairness` package. Without probabilities and predicted values. The original source of data is Kaggle.</p>
-
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"compas"</span>)
+<span class='fu'>class_parity</span>(<span class='no'>compas</span>, <span class='kw'>outcome</span> <span class='kw'>=</span>  <span class='st'>"Two_yr_Recidivism"</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>)</div><div class='img'><img src='class_parity-1.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
