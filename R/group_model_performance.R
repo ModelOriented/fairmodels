@@ -9,6 +9,7 @@
 #' @param cutoff vector of thresholds for each subgroup
 #' @param performance_metric name of performance metric
 #'
+#'
 #' @return score from 0 to 1
 #' @export
 #'

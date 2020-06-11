@@ -31,7 +31,7 @@ calculate_group_fairness_metrics <- function(x){
     FOR <- fn/(fn+ tn)
     TS  <- tp/(tp + fn + fp)
 
-    # cummulated metrics
+    # cumulated metrics
     ACC <- (tp + tn) / (tp + tn + fn + fp)
     F1  <- 2 * PPV*TPR/(PPV + TPR)
 
