@@ -312,7 +312,7 @@ fobject_with_cutoff <- create_fairness_object(explainer_2,explainer_5, explainer
                                   group  = "Sex",
                                   base = "Female", 
                                   cutoff = c(0.63,0.5), 
-                                  fairness_labels = c("gbm_c","lm_c","ranger_c")) # c as in changed  
+                                  label = c("gbm_c","lm_c","ranger_c")) # c as in changed  
 
 
 p1 <- performance_and_fairness(fobject_without_cutoff,

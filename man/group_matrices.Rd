@@ -44,13 +44,13 @@ data$probabilities <- y_prob
 
 y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
 
-group_matrices(data,
+gm <- group_matrices(data,
                "Ethnicity",
                 outcome = "Two_yr_Recidivism",
                 outcome_numeric = y_numeric,
                 cutoff = rep(0.45,6),
                 probs = "probabilities")
 
-
+gm
 
 }

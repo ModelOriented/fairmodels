@@ -16,7 +16,7 @@
 
 group_model_performance <- function(x , data, outcome,  group, cutoff,  performance_metric){
 
-  df               <- data
+  df<- data
   df$`_probabilities_` <- x$y_hat
 
   # group matrices for amount of tp, fn, fp, tn among groups for cutoff vector

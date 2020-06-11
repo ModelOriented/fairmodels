@@ -34,11 +34,10 @@
 print.fairness_radar <- function(x, ...){
 
   list_of_objects   <- get_objects(list(x, ...), "fairness_radar")
-  data_list         <- lapply(list_of_objects, function(x) x$df)
-  df                <- do.call("rbind", data_list)
+  data              <- extract_data(list_of_objects, "data")
 
 
-  cat("\nFairness radar for: ", paste(unique(df$model), collapse = ", "), "\n")
+  cat("\nFairness radar for: ", paste(unique(data$model), collapse = ", "), "\n")
 
   cat("First rows from data: \n")
   print(head(df))

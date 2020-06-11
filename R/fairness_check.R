@@ -33,7 +33,7 @@
 #'
 #' data("compas")
 #'
-#' # chaging levels - positive situation here is not becoming recidivist
+#' # changing levels - positive situation here is not becoming recidivist
 #' compas$Two_yr_Recidivism <- factor(compas$Two_yr_Recidivism, levels = c(1,0))
 #'
 #' rf_compas  <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
@@ -57,7 +57,7 @@
 #'                                  group = "Sex",
 #'                                  base  = "Female",
 #'                                 cutoff = c(0.45,0.5),
-#'                                 fairness_labels = c("lm_c","rf_c")) # c for changed
+#'                                 label = c("lm_c","rf_c")) # c for changed
 #'
 #' fc <- fairness_check(fobject)
 #' fc2 <- fairness_check(fobject2)
@@ -81,7 +81,7 @@ fairness_check <- function(x, epsilon = 0.1){
 
   explainer <- explainers[[i]]
 
-  model  <- x$fairness_labels[i]
+  model  <- x$label[i]
   # get based metrics from all
   parity_loss_metrics <- lapply(x$groups_data[[model]], function(y) y - y[base])
 
@@ -114,7 +114,7 @@ fairness_check <- function(x, epsilon = 0.1){
   # creating data frames
   statistical_parity_data <- data.frame(score    = unlist(statistical_parity_difference),
                                         subgroup = names(statistical_parity_difference),
-                                        metric   = rep("Statistical parity loss  (TP + FP)/(TP + FP + TN + FN)", n_sub),
+                                        metric   = rep("Statistical parity loss   (TP + FP)/(TP + FP + TN + FN)", n_sub),
                                         model    = rep(model, n_sub))
 
   predictive_parity_data  <- data.frame(score    = unlist(predictive_parity_loss),
@@ -129,7 +129,7 @@ fairness_check <- function(x, epsilon = 0.1){
 
   predictive_equality_data<- data.frame(score    = unlist(predictive_equality_loss),
                                         subgroup = names(predictive_equality_loss),
-                                        metric   = rep("Predictive equality loss  FP/(FP + TN)", n_sub),
+                                        metric   = rep("Predictive equality loss   FP/(FP + TN)", n_sub),
                                         model    = rep(model, n_sub))
 
   accuracy_equality_data  <- data.frame(score    = unlist(accuracy_equality_loss),
@@ -149,19 +149,11 @@ fairness_check <- function(x, epsilon = 0.1){
 
   rownames(df) <- NULL
 
-  fairness_check <- list(data = df, n_exp = n_exp, n_sub = n_sub, epsilon = epsilon,fairness_labels = x$fairness_labels)
+  fairness_check <- list(data = df, n_exp = n_exp, n_sub = n_sub, epsilon = epsilon,label = x$label)
   class(fairness_check) <- "fairness_check"
 
   return(fairness_check)
 }
 
-
-
-
-
-
-?expression
-
-expression(Value~is~sigma~R^{2}==0.6)
 
 

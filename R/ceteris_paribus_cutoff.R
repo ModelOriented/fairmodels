@@ -107,7 +107,7 @@ ceteris_paribus_cutoff <- function(x,
         }
 
         data$`_probabilities_` <- explainer$y_hat
-        label                  <- x$fairness_labels[i]
+        label                  <- x$label[i]
 
         group_matrices <- group_matrices(data,
                                          group = group,
@@ -144,7 +144,7 @@ ceteris_paribus_cutoff <- function(x,
   ceteris_paribus_cutoff <- list(data            = cutoff_data,
                                  subgroup        = subgroup,
                                  cumulated      = cumulated,
-                                 fairness_labels = x$fairness_labels)
+                                 label = x$label)
   class(ceteris_paribus_cutoff) <- "ceteris_paribus_cutoff"
 
   return(ceteris_paribus_cutoff)

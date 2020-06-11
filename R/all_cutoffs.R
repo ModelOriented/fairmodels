@@ -6,7 +6,7 @@
 #' @param x fairness_object
 #' @param grid_points numeric, grid for cutoffs to test. Number of points between 0 and 1 spread evenly.
 #' @param fairness_metrics character, name of metric or vector of multiple metrics
-#' @param fairness_label fairness_label of model to be calculated
+#' @param label label of model to be calculated
 #'
 #' @return all_cutoffs object
 #' @export
@@ -32,12 +32,12 @@
 #'                                  base = "Caucasian",
 #'                                  cutoff = 0.5)
 #'
-#' ac <- all_cutoffs(fobject, fairness_metrics = c("TPR_parity_loss", "F1_parity_loss"), fairness_label = "ranger")
+#' ac <- all_cutoffs(fobject, fairness_metrics = c("TPR_parity_loss", "F1_parity_loss"), label = "ranger")
 #' plot(ac)
 #'
 
 all_cutoffs <- function(x,
-                        fairness_label,
+                        label,
                         grid_points = 101,
                         fairness_metrics = unique_metrics()){
 
@@ -47,9 +47,9 @@ all_cutoffs <- function(x,
   lapply(fairness_metrics, assert_parity_metrics)
 
   if (! is.numeric(grid_points) | length(grid_points) > 1) stop("grid points must be single numeric value")
-  if (! is.character(fairness_label) | length(fairness_label) > 1)  stop("fairness_label must be character")
+  if (! is.character(label) | length(label) > 1)  stop("label must be character")
 
-  if (! fairness_label %in% x$fairness_labels ) stop ("fairness_label not in provided labels")
+  if (! label %in% x$label ) stop ("label not in provided labels")
 
 
   explainers <- x$explainers
@@ -69,7 +69,7 @@ all_cutoffs <- function(x,
   for (custom_cutoff in cutoffs){
 
       custom_cutoff_vec      <- rep(custom_cutoff, n_subgroups)
-      i                      <- match(fairness_label, x$fairness_labels)
+      i                      <- match(label, x$label)
       explainer              <- explainers[[i]]
       data$`_probabilities_` <- explainer$y_hat
 
@@ -91,13 +91,13 @@ all_cutoffs <- function(x,
       to_add <- data.frame(parity_loss = as.numeric(gmm_loss_unique),
                            metric      = names(gmm_loss_unique),
                            cutoff      = rep(custom_cutoff, length(gmm_loss_unique)),
-                           label       = fairness_label)
+                           label       = label)
 
       cutoff_data <- rbind(cutoff_data , to_add)
 
     })
 
-  all_cutoffs <- list(data = cutoff_data, fairness_label = fairness_label)
+  all_cutoffs <- list(data = cutoff_data, label = label)
   class(all_cutoffs) <- "all_cutoffs"
 
   return(all_cutoffs)

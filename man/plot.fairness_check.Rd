@@ -51,7 +51,7 @@ fobject2 <-create_fairness_object(explainer_glm, explainer_rf,
                                  group = "Sex",
                                  base  = "Female",
                                 cutoff = c(0.45,0.5),
-                                fairness_labels = c("lm_c","rf_c")) # c for changed
+                                label = c("lm_c","rf_c")) # c for changed
 
 fc <- fairness_check(fobject)
 fc2 <- fairness_check(fobject2)

@@ -2,16 +2,14 @@ test_that("Test_fairness_radar_and_plot", {
 
   fradar <- fairness_radar(fobject)
 
-  expect_equal(fradar$n, length(fobject$explainers))
-
   metrics <- fobject$metric_data
   models  <- fobject$labels
 
   for (metric in unique_metrics()){
     for (model in models){
       actual <- fobject$metric_data[fobject$labels == model, metric]
-      to_check <- as.character(fradar$df$metric) == metric & as.character(fradar$df$model) == model
-      expect_equal(fradar$df[to_check,"score"], actual)
+      to_check <- as.character(fradar$data$metric) == metric & as.character(fradar$data$model) == model
+      expect_equal(fradar$data[to_check,"score"], actual)
     }
   }
 
@@ -29,8 +27,8 @@ test_that("Test_fairness_radar_and_plot", {
   plt       <- plot(fradar)
   crd_radar <- coord_radar()
 
-  # checking if plot data is equal to df scaled by max val
-  expect_equal(plt$data$score, fradar$df$score/max(fradar$df$score))
+  # checking if plot data is equal to data scaled by max val
+  expect_equal(plt$data$score, fradar$data$score/max(fradar$data$score))
   expect_class(crd_radar, "CordRadar")
 
   expect_class(plt, "ggplot")
@@ -40,6 +38,5 @@ test_that("Test_fairness_radar_and_plot", {
 
   expect_error(render_bg_function())
   expect_error(theta_rescale())
-
 
 })

@@ -12,7 +12,7 @@ create_fairness_object(
   group,
   base = NULL,
   cutoff = NULL,
-  fairness_labels = NULL
+  label = NULL
 )
 }
 \arguments{
@@ -30,7 +30,7 @@ create_fairness_object(
 
 \item{cutoff}{numeric, threshold for probability, can be vector of thresholds with different value for each level of group (subgroup), default 0.5}
 
-\item{fairness_labels}{character, labels for models in fairness object, if \code{NULL} labels from explainers will be extracted}
+\item{label}{character, labels for models in fairness object, if \code{NULL} labels from explainers will be extracted}
 }
 \value{
 An object of class \code{fairness object} which is a list with elements:

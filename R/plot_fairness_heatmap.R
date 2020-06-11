@@ -65,7 +65,7 @@
 plot.fairness_heatmap <- function(x, ..., midpoint = NULL, title = NULL, subtitle = NULL,   text = TRUE, flip_axis = FALSE){
 
     list_of_objects <- get_objects(list(x, ...), "fairness_heatmap")
-    heatmap_data    <- extract_data(list_of_objects, "heatmap_data")
+    data    <- extract_data(list_of_objects, "data")
     matrix_model    <- extract_data(list_of_objects, "matrix_model")
 
     assert_equal_parameters(list_of_objects, "scale")
@@ -141,14 +141,14 @@ plot.fairness_heatmap <- function(x, ..., midpoint = NULL, title = NULL, subtitl
   names(metric_levels) <- NULL
 
   # releveling
-  heatmap_data$model  <- factor(heatmap_data$model,  levels = model_levels)
-  heatmap_data$metric <- factor(heatmap_data$metric, levels = metric_levels)
-  heatmap_data$score  <- as.numeric(heatmap_data$score)
+  data$model  <- factor(data$model,  levels = model_levels)
+  data$metric <- factor(data$metric, levels = metric_levels)
+  data$score  <- as.numeric(data$score)
 
   # heatmap
     ifelse(!flip_axis,
-           p <- ggplot(heatmap_data, aes(metric, model, fill = score)),
-           p <- ggplot(heatmap_data, aes(model, metric, fill = score)))
+           p <- ggplot(data, aes(metric, model, fill = score)),
+           p <- ggplot(data, aes(model, metric, fill = score)))
 
     heatmap <- p +    geom_tile(colour = "white",
                                 size = 0.2,

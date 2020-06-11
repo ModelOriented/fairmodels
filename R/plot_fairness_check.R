@@ -42,7 +42,7 @@
 #'                                  group = "Sex",
 #'                                  base  = "Female",
 #'                                 cutoff = c(0.45,0.5),
-#'                                 fairness_labels = c("lm_c","rf_c")) # c for changed
+#'                                 label = c("lm_c","rf_c")) # c for changed
 #'
 #' fc <- fairness_check(fobject)
 #' fc2 <- fairness_check(fobject2)
@@ -58,7 +58,7 @@ plot.fairness_check <- function(x, ...){
 
   assert_equal_parameters(list_of_objects, "n_sub")
   assert_equal_parameters(list_of_objects, "epsilon")
-  assert_different_fairness_labels(list_of_objects)
+  assert_different_label(list_of_objects)
 
   n_exp   <- length(unique(data$model))
   n_sub   <- x$n_sub

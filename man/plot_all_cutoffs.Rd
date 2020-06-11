@@ -38,7 +38,7 @@ fobject <-create_fairness_object(explainer_glm, explainer_rf,
                                  base = "Caucasian",
                                  cutoff = 0.5)
 
-ac <- all_cutoffs(fobject, fairness_metrics = c("TPR_parity_loss", "F1_parity_loss"), fairness_label = "ranger")
+ac <- all_cutoffs(fobject, fairness_metrics = c("TPR_parity_loss", "F1_parity_loss"), label = "ranger")
 plot(ac)
 
 

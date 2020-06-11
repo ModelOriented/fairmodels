@@ -55,7 +55,7 @@ plot.performance_and_fairness <- function(x , ...){
   performance_metric       <- x$performance_metric
   fairness_metric          <- x$fairness_metric
 
-  assert_different_fairness_labels(list_of_objects)
+  assert_different_label(list_of_objects)
 
   n <- length(unique(data$labels))
 

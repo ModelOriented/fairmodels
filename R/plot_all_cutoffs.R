@@ -30,7 +30,7 @@
 #'                                  base = "Caucasian",
 #'                                  cutoff = 0.5)
 #'
-#' ac <- all_cutoffs(fobject, fairness_metrics = c("TPR_parity_loss", "F1_parity_loss"), fairness_label = "ranger")
+#' ac <- all_cutoffs(fobject, fairness_metrics = c("TPR_parity_loss", "F1_parity_loss"), label = "ranger")
 #' plot(ac)
 #'
 #'
@@ -40,7 +40,7 @@ plot.all_cutoffs <- function(x, ...){
   list_of_objects <- get_objects(list(x, ...), "all_cutoffs")
   cutoff_data     <- extract_data(list_of_objects, "data")
 
-  labels          <- lapply(list_of_objects, function(x) x$fairness_label)
+  labels          <- lapply(list_of_objects, function(x) x$label)
 
   plt <- ggplot(cutoff_data, aes(cutoff, parity_loss, color = metric)) +
     geom_line() +

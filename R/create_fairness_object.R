@@ -11,7 +11,7 @@
 #' @param group character, protected group/variable with subgroups visible as levels, column name in data
 #' @param base character, subgroup, one of levels of group. In regard to what subgroup parity loss is calculated.
 #' @param cutoff numeric, threshold for probability, can be vector of thresholds with different value for each level of group (subgroup), default 0.5
-#' @param fairness_labels character, labels for models in fairness object, if \code{NULL} labels from explainers will be extracted
+#' @param label character, labels for models in fairness object, if \code{NULL} labels from explainers will be extracted
 #'
 #' @return An object of class \code{fairness object} which is a list with elements:
 #' \itemize{
@@ -87,7 +87,7 @@ create_fairness_object <- function(x,
                                    group,
                                    base = NULL,
                                    cutoff = NULL,
-                                   fairness_labels = NULL) {
+                                   label = NULL) {
 
 # Error handling
 
@@ -124,14 +124,14 @@ create_fairness_object <- function(x,
   # Data extraction
   explainers <- c(list(x), list(...))
 
-  if (is.null(fairness_labels)){
-    fairness_labels     <- sapply(explainers, function(x) x$label)
+  if (is.null(label)){
+    label     <- sapply(explainers, function(x) x$label)
   } else {
-    if (length(fairness_labels) != length(explainers)) stop("Number of fairness labels must be equal to number of explainers")
+    if (length(label) != length(explainers)) stop("Number of labels must be equal to number of explainers")
   }
 
   # explainers must have unique labels
-  if (length(unique(fairness_labels)) != length(fairness_labels) ) stop("Explainers don't have unique labels (use 'label' parameter while creating dalex explainer)")
+  if (length(unique(label)) != length(label) ) stop("Explainers don't have unique labels (use 'label' parameter while creating dalex explainer)")
 
   n_exp <- length(explainers)
 
@@ -156,7 +156,7 @@ create_fairness_object <- function(x,
     gmm <- calculate_group_fairness_metrics(group_matrices)
 
     # from every column in matrix subtract base column, then get abs value
-    # in other words we measure distance between base group metric's score and other
+    # in other words we measure distance between base group metrics score and other
     # groups metric scores
 
     gmm_scaled      <- abs(apply(gmm, 2 , function(x) x  - gmm[,base]))
@@ -169,11 +169,9 @@ create_fairness_object <- function(x,
     metric_list                 <- lapply(seq_len(nrow(gmm)), function(j) gmm[j,])
     names(metric_list)          <- rownames(gmm)
     explainers_groups[[i]]      <- metric_list
-    names(explainers_groups)[i] <- fairness_labels[i]
+    names(explainers_groups)[i] <- label[i]
 
   }
-
-  names(explainers_groups) <- fairness_labels
 
   # as data frame and making numeric
   metric_data   <- as.data.frame(metric_data)
@@ -198,7 +196,7 @@ create_fairness_object <- function(x,
   fairness_object <- list(metric_data     = metric_data,
                           groups_data     = explainers_groups,
                           explainers      = explainers,
-                          fairness_labels = fairness_labels,
+                          label           = label,
                           data            = data,
                           cutoff          = cutoff,
                           outcome         = outcome,

@@ -39,7 +39,7 @@ fobject1 <-create_fairness_object(explainer_glm, explainer_rf2,
                              group = "Ethnicity",
                              base = "Caucasian",
                              cutoff = 0.4,
-                             fairness_labels = c("lm_1","rf_2"))
+                             label = c("lm_1","rf_2"))
 
 fobject2 <-create_fairness_object(explainer_rf,
                              outcome = "Two_yr_Recidivism",

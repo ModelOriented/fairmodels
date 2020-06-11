@@ -32,7 +32,7 @@ library(ranger)
 
 data("compas")
 
-# chaging levels - positive situation here is not becoming recidivist
+# changing levels - positive situation here is not becoming recidivist
 compas$Two_yr_Recidivism <- factor(compas$Two_yr_Recidivism, levels = c(1,0))
 
 rf_compas  <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
@@ -56,7 +56,7 @@ fobject2 <-create_fairness_object(explainer_glm, explainer_rf,
                                  group = "Sex",
                                  base  = "Female",
                                 cutoff = c(0.45,0.5),
-                                fairness_labels = c("lm_c","rf_c")) # c for changed
+                                label = c("lm_c","rf_c")) # c for changed
 
 fc <- fairness_check(fobject)
 fc2 <- fairness_check(fobject2)

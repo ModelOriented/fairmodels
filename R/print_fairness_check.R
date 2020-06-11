@@ -1,4 +1,3 @@
-
 #' Print fairness check
 #'
 #' @param x fairness_check object
@@ -53,7 +52,7 @@ print.fairness_check <- function(x, ...){
 
   assert_equal_parameters(list_of_objects, "n_sub")
   assert_equal_parameters(list_of_objects, "epsilon")
-  assert_different_fairness_labels(list_of_objects)
+  assert_different_label(list_of_objects)
 
   models  <- unique(data$model)
   epsilon <- x$epsilon

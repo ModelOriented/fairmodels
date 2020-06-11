@@ -38,7 +38,7 @@ print.all_cutoffs <- function(x, ...){
   data            <- extract_data(list_of_objects, "data")
 
 
-  cat("\nAll cutofs for model:\n", x$fairness_label, "\n")
+  cat("\nAll cutofs for model:\n", x$label, "\n")
   cat("\nFirst rows from data: \n")
   print(head(data))
 

@@ -42,7 +42,7 @@ print.fairness_object <- function(x, ...){
   print(data)
   cat("Models explained (fairness labels):\n")
 
-  for (label in x$fairness_labels) print(label)
+  for (label in x$label) print(label)
 
   cat("\nData: \n")
   print(head(x$data,2))

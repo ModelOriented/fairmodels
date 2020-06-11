@@ -74,7 +74,7 @@ plot.fairness_pca <- function(x, scale = 0.5,  ...){
 
   pc_1_2          <- x$pc_1_2
   pca_data        <- as.data.frame(pca_df)
-  pca_data$labels <- x$fairness_labels
+  pca_data$labels <- x$label
 
   pca_feature        <- as.data.frame(rotation)
   pca_feature$labels <- rownames(rotation)

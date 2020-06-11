@@ -38,12 +38,12 @@ plot.group_metric <- function(x, ...){
   performance_data   <- extract_data(list_of_objects, "performance_data")
 
   assert_equal_parameters(list_of_objects, "performance_metric")
-  assert_equal_parameters(list_of_objects, "y_label")
+  assert_equal_parameters(list_of_objects, "fairness_metric")
 
-  y_label            <- x$y_label
+  fairness_metric    <- x$fairness_metric
   performance_metric <- x$performance_metric
 
-  # extracting number of fairness_labels
+  # extracting number of label
   n <- length(unique(fairness_data$label))
 
   plot1 <- ggplot(fairness_data, aes(group, value, fill = label)) +
@@ -52,7 +52,7 @@ plot.group_metric <- function(x, ...){
     theme_drwhy() +
     theme(axis.text.x=element_text(angle=90, hjust=1),
           legend.position = "none") +
-    ylab(y_label) +
+    ylab(fairness_metric) +
     xlab("Models metrics in subgroups") +
     scale_fill_manual(values = DALEX::colors_discrete_drwhy(n = n)) +
     ggtitle("Group metric plot")

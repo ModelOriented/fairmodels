@@ -58,11 +58,11 @@ extract_data  <- function(x, parameter){
   return(data)
 }
 
-assert_different_fairness_labels <- function(x){
+assert_different_label <- function(x){
 
-  labels <- unlist(lapply(x, function(x) x$fairness_labels))
+  labels <- unlist(lapply(x, function(x) x$label))
 
-  if (length(labels) != length(unique(labels))) stop("Some models have the same fairness labels, be sure to print/plot objects with different fairness_labels ")
+  if (length(labels) != length(unique(labels))) stop("Some models have the same fairness labels, be sure to print/plot objects with different label ")
 
 }
 

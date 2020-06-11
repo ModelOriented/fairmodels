@@ -4,17 +4,12 @@
 \alias{all_cutoffs}
 \title{All cutoffs}
 \usage{
-all_cutoffs(
-  x,
-  fairness_label,
-  grid_points = 101,
-  fairness_metrics = unique_metrics()
-)
+all_cutoffs(x, label, grid_points = 101, fairness_metrics = unique_metrics())
 }
 \arguments{
 \item{x}{fairness_object}
 
-\item{fairness_label}{fairness_label of model to be calculated}
+\item{label}{label of model to be calculated}
 
 \item{grid_points}{numeric, grid for cutoffs to test. Number of points between 0 and 1 spread evenly.}
 
@@ -48,7 +43,7 @@ fobject <-create_fairness_object(explainer_glm, explainer_rf,
                                  base = "Caucasian",
                                  cutoff = 0.5)
 
-ac <- all_cutoffs(fobject, fairness_metrics = c("TPR_parity_loss", "F1_parity_loss"), fairness_label = "ranger")
+ac <- all_cutoffs(fobject, fairness_metrics = c("TPR_parity_loss", "F1_parity_loss"), label = "ranger")
 plot(ac)
 
 }

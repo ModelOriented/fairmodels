@@ -37,23 +37,23 @@
 plot.fairness_radar <- function(x, ...) {
 
   list_of_objects   <- get_objects(list(x, ...), "fairness_radar")
-  data_list         <- lapply(list_of_objects, function(x) x$df)
-  df                <- do.call("rbind", data_list)
+  data              <- extract_data(list_of_objects, "data")
+  label             <- extract_data(list_of_objects, "label")
 
-  n         <- length(unique(df$model))
-  max_score <- max(df$score)
-  df$score  <- df$score/max_score
+  n         <- length(unique(data$model))
+  max_score <- max(data$score)
+  data$score<- data$score/max_score
   labels    <- round(seq(0, 1, 0.25)*max_score, 2)
 
-  df_text <- data.frame(x = rep(df$metric[1],5), y = c(0.01, 0.25, 0.50, 0.75, 1), label = labels)
+  df_text <- data.frame(x = rep(data$metric[1],5), y = c(0.01, 0.25, 0.50, 0.75, 1), label = labels)
 
   # plot
-  p <- ggplot(data = df, aes(x = metric, y = score)) +
-    coord_radar(names_n = length(unique(df$metric))) +
+  p <- ggplot(data = data, aes(x = metric, y = score)) +
+    coord_radar(names_n = length(unique(data$metric))) +
     geom_polygon(aes(group = model, color = model), fill = NA, show.legend = FALSE) +
     geom_point(aes(group = model, color = model)) +
     geom_text(data = df_text, aes(x = x, y = y, label = label), size = 3, fontface = "bold") +
-    scale_y_continuous(expand = c(0, 0), limits = c(0, max(df$score))) +
+    scale_y_continuous(expand = c(0, 0), limits = c(0, max(data$score))) +
     scale_color_manual(values = DALEX::colors_discrete_drwhy(n = n)) +
     xlab("") +
     ylab("") +
