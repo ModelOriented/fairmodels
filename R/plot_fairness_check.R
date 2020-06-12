@@ -66,10 +66,17 @@ plot.fairness_check <- function(x, ...){
   epsilon <- x$epsilon
   metrics <- unique(x$data$metric)
 
-  upper_bound <- max(c(data$score)) + 0.05
+  if (any(is.na(data$score))){
+
+   warning("Omiting NA for models: ",
+            paste(unique(data[is.na(data$score), "model"]),
+            collapse = ", "))
+  }
+
+  upper_bound <- max(c(na.omit(data$score))) + 0.05
   if (upper_bound < 0.12) upper_bound <- 0.12
 
-  lower_bound <- min(c(data$score)) - 0.05
+  lower_bound <- min(c(na.omit(data$score))) - 0.05
   if (lower_bound > -0.12) lower_bound <- -0.12
 
   green <- "#c7f5bf"
@@ -114,3 +121,5 @@ plot.fairness_check <- function(x, ...){
                                                as.character(unique(data$model)), collapse = ", ")))
   plt
 }
+
+

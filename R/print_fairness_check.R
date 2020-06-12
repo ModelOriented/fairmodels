@@ -62,7 +62,10 @@ print.fairness_check <- function(x, ...){
 
   for (model in models){
     model_data <- data[data$model == model,]
-    failed_metrics <- unique(model_data[abs(model_data$score) > epsilon, "metric"])
+
+    if (any(is.na(model_data$score))) warning("Omiting NA for modell: ", model)
+
+    failed_metrics <- unique(model_data[abs(na.omit(model_data$score)) > epsilon, "metric"])
     passed_metrics <-  length(metrics[! metrics %in% failed_metrics])
 
     if (passed_metrics < 4){
@@ -73,7 +76,7 @@ print.fairness_check <- function(x, ...){
     if (passed_metrics == 5){
       cat("\n", color_codes$green_start ,model, " passes ", passed_metrics, "/5 metrics\n", color_codes$green_end ,  sep = "")}
 
-    cat("Total loss: ", sum(abs(data[data$model == model, "score" ])), "\n")
+    cat("Total loss: ", sum(abs(na.omit(data[data$model == model, "score" ]))), "\n")
   }
 
   cat("\n")

@@ -65,7 +65,7 @@
 plot.fairness_heatmap <- function(x, ..., midpoint = NULL, title = NULL, subtitle = NULL,   text = TRUE, flip_axis = FALSE){
 
     list_of_objects <- get_objects(list(x, ...), "fairness_heatmap")
-    data    <- extract_data(list_of_objects, "data")
+    data            <- extract_data(list_of_objects, "data")
     matrix_model    <- extract_data(list_of_objects, "matrix_model")
 
     assert_equal_parameters(list_of_objects, "scale")
