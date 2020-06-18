@@ -156,7 +156,7 @@ may lead to misinterpretation of the plot. More on metrics and their equivalents
 <a href='https://en.wikipedia.org/wiki/Fairness_(machine_learning)'>https://en.wikipedia.org/wiki/Fairness_(machine_learning)</a></p>
     </div>
 
-    <pre class="usage"><span class='fu'>fairness_check</span>(<span class='no'>x</span>, <span class='kw'>epsilon</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)</pre>
+    <pre class="usage"><span class='fu'>fairness_check</span>(<span class='kw'>x</span>, epsilon = <span class='fl'>0.1</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -184,29 +184,29 @@ may lead to misinterpretation of the plot. More on metrics and their equivalents
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>DALEX</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ranger</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://ModelOriented.github.io/DALEX'>DALEX</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/imbs-hl/ranger'>ranger</a></span>)
 
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"compas"</span>)
 
 <span class='co'># changing levels - positive situation here is not becoming recidivist</span>
-<span class='no'>compas</span>$<span class='no'>Two_yr_Recidivism</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='no'>compas</span>$<span class='no'>Two_yr_Recidivism</span>, <span class='kw'>levels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>))
+<span class='kw'>compas</span><span class='op'>$</span><span class='kw'>Two_yr_Recidivism</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='kw'>compas</span><span class='op'>$</span><span class='kw'>Two_yr_Recidivism</span>, levels = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>))
 
-<span class='no'>rf_compas</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>Two_yr_Recidivism</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>glm_compas</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='no'>Two_yr_Recidivism</span>~<span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>compas</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(<span class='kw'>link</span><span class='kw'>=</span><span class='st'>"logit"</span>))
+<span class='kw'>rf_compas</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>Two_yr_Recidivism</span> <span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>compas</span>, probability = <span class='fl'>TRUE</span>)
+<span class='kw'>glm_compas</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='kw'>Two_yr_Recidivism</span><span class='op'>~</span><span class='kw'>.</span>, data=<span class='kw'>compas</span>, family=<span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(link=<span class='st'>"logit"</span>))
 
-<span class='no'>y_numeric</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='no'>compas</span>$<span class='no'>Two_yr_Recidivism</span>)-<span class='fl'>1</span>
+<span class='kw'>y_numeric</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='kw'>compas</span><span class='op'>$</span><span class='kw'>Two_yr_Recidivism</span>)<span class='op'>-</span><span class='fl'>1</span>
 
-<span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>rf_compas</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+<span class='kw'>explainer_rf</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>rf_compas</span>, data = <span class='kw'>compas</span>, y = <span class='kw'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( <span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1399824 , mean =  0.5452715 , max =  0.8692008  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1550914 , mean =  0.5452206 , max =  0.8640303  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8479306 , mean =  -0.0003914022 , max =  0.7944233  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>glm_compas</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8444829 , mean =  -0.0003404578 , max =  0.7869611  
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>explainer_glm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>glm_compas</span>, data = <span class='kw'>compas</span>, y = <span class='kw'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
 #&gt;   -&gt; target variable   :  6172  values 
@@ -216,26 +216,25 @@ may lead to misinterpretation of the plot. More on metrics and their equivalents
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.8822826 , mean =  -5.051352e-13 , max =  0.9767658  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='no'>fobject</span> <span class='kw'>&lt;-</span><span class='fu'><a href='create_fairness_object.html'>create_fairness_object</a></span>(<span class='no'>explainer_glm</span>, <span class='no'>explainer_rf</span>,
-                                 <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
-                                 <span class='kw'>data</span>  <span class='kw'>=</span> <span class='no'>compas</span>,
-                                 <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Sex"</span>,
-                                 <span class='kw'>base</span>  <span class='kw'>=</span> <span class='st'>"Female"</span>)
+<span class='kw'>fobject</span> <span class='op'>&lt;-</span><span class='fu'>create_fairness_object</span>(<span class='kw'>explainer_glm</span>, <span class='kw'>explainer_rf</span>,
+                                 outcome = <span class='st'>"Two_yr_Recidivism"</span>,
+                                 data  = <span class='kw'>compas</span>,
+                                 group = <span class='st'>"Sex"</span>,
+                                 base  = <span class='st'>"Female"</span>)
 
 <span class='co'># changing cutoff values</span>
-<span class='no'>fobject2</span> <span class='kw'>&lt;-</span><span class='fu'><a href='create_fairness_object.html'>create_fairness_object</a></span>(<span class='no'>explainer_glm</span>, <span class='no'>explainer_rf</span>,
-                                 <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
-                                 <span class='kw'>data</span>  <span class='kw'>=</span> <span class='no'>compas</span>,
-                                 <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Sex"</span>,
-                                 <span class='kw'>base</span>  <span class='kw'>=</span> <span class='st'>"Female"</span>,
-                                <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.45</span>,<span class='fl'>0.5</span>),
-                                <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lm_c"</span>,<span class='st'>"rf_c"</span>)) <span class='co'># c for changed</span>
+<span class='kw'>fobject2</span> <span class='op'>&lt;-</span><span class='fu'>create_fairness_object</span>(<span class='kw'>explainer_glm</span>, <span class='kw'>explainer_rf</span>,
+                                 outcome = <span class='st'>"Two_yr_Recidivism"</span>,
+                                 data  = <span class='kw'>compas</span>,
+                                 group = <span class='st'>"Sex"</span>,
+                                 base  = <span class='st'>"Female"</span>,
+                                cutoff = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.45</span>,<span class='fl'>0.5</span>),
+                                label = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lm_c"</span>,<span class='st'>"rf_c"</span>)) <span class='co'># c for changed</span>
 
-<span class='no'>fc</span> <span class='kw'>&lt;-</span> <span class='fu'>fairness_check</span>(<span class='no'>fobject</span>)
-<span class='no'>fc2</span> <span class='kw'>&lt;-</span> <span class='fu'>fairness_check</span>(<span class='no'>fobject2</span>)
+<span class='kw'>fc</span> <span class='op'>&lt;-</span> <span class='fu'>fairness_check</span>(<span class='kw'>fobject</span>)
+<span class='kw'>fc2</span> <span class='op'>&lt;-</span> <span class='fu'>fairness_check</span>(<span class='kw'>fobject2</span>)
 
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>fc</span>,<span class='no'>fc2</span>)</div><div class='img'><img src='fairness_check-1.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></span></pre>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>fc</span>,<span class='kw'>fc2</span>)</div><div class='img'><img src='fairness_check-1.png' alt='' width='700' height='433' /></div><div class='input'></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

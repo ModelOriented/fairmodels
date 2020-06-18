@@ -142,13 +142,13 @@ user to see not only how classes are distributed but also the size of subgroups.
 user to see not only how classes are distributed but also the size of subgroups. Plot allows to localize problems in dataset level. Function can receive data frame or fairness object.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>class_parity</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>class_parity</span>(<span class='kw'>x</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for fairness_object</span>
-<span class='fu'>class_parity</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+<span class='fu'>class_parity</span>(<span class='kw'>x</span>, <span class='kw'>...</span>)
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>class_parity</span>(<span class='no'>x</span>, <span class='no'>...</span>, <span class='no'>outcome</span>, <span class='no'>group</span>)</pre>
+<span class='fu'>class_parity</span>(<span class='kw'>x</span>, <span class='kw'>...</span>, <span class='kw'>outcome</span>, <span class='kw'>group</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -180,8 +180,7 @@ user to see not only how classes are distributed but also the size of subgroups.
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"compas"</span>)
-<span class='fu'>class_parity</span>(<span class='no'>compas</span>, <span class='kw'>outcome</span> <span class='kw'>=</span>  <span class='st'>"Two_yr_Recidivism"</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>)</div><div class='img'><img src='class_parity-1.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+<span class='fu'>class_parity</span>(<span class='kw'>compas</span>, outcome =  <span class='st'>"Two_yr_Recidivism"</span>, group = <span class='st'>"Ethnicity"</span>)</div><div class='img'><img src='class_parity-1.png' alt='' width='700' height='433' /></div><div class='input'></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

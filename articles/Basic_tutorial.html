@@ -81,7 +81,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="Basic_tutorial_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Basic Tutorial</h1>
@@ -108,10 +108,12 @@
 <h2 class="hasAnchor">
 <a href="#data" class="anchor"></a>Data</h2>
 <p>We will use modified ProPublica’s compas data to represent our problem.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">fairmodels</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">fairmodels</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"compas"</span>)
 
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">compas</span>)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">compas</span>)
+</pre></div>
 <pre><code>#&gt;    Two_yr_Recidivism Number_of_Priors Age_Above_FourtyFive Age_Below_TwentyFive
 #&gt; 4                  0       -0.6843578                   no                   no
 #&gt; 5                  1        2.2668817                   no                   no
@@ -131,39 +133,47 @@
 <h2 class="hasAnchor">
 <a href="#demographic-parity" class="anchor"></a>Demographic parity</h2>
 <p>As our protected group is Ethnicity, we can plot amount of observations in particular class. Perfect data should have same number of observations in both classes per subgroup. This is just indicator of possible problem.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="../reference/class_parity.html">class_parity</a></span>(<span class="no">compas</span>, <span class="kw">outcome</span> <span class="kw">=</span> <span class="st">"Two_yr_Recidivism"</span>, <span class="kw">group</span>  <span class="kw">=</span> <span class="st">"Ethnicity"</span> )</pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="fu"><a href="../reference/class_parity.html">class_parity</a></span>(<span class="kw">compas</span>, outcome = <span class="st">"Two_yr_Recidivism"</span>, group  = <span class="st">"Ethnicity"</span> )
+</pre></div>
 <p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
 <p>We train a <code>ranger</code> model and create an explainer with <code>DALEX</code>.</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">DALEX</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ranger</span>)
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://ModelOriented.github.io/DALEX">DALEX</a></span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/imbs-hl/ranger">ranger</a></span>)
 
 <span class="co"># train</span>
-<span class="no">rf_compas</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html">ranger</a></span>(<span class="no">Two_yr_Recidivism</span> ~<span class="no">.</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>, <span class="kw">probability</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<span class="kw">rf_compas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html">ranger</a></span>(<span class="kw">Two_yr_Recidivism</span> <span class="op">~</span><span class="kw">.</span>, data = <span class="kw">compas</span>, probability = <span class="fl">TRUE</span>)
 
 <span class="co"># numeric target values</span>
-<span class="no">y_numeric</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="no">compas</span>$<span class="no">Two_yr_Recidivism</span>)-<span class="fl">1</span>
+<span class="kw">y_numeric</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="kw">compas</span><span class="op">$</span><span class="kw">Two_yr_Recidivism</span>)<span class="op">-</span><span class="fl">1</span>
 
 <span class="co"># explainer</span>
-<span class="no">rf_explainer</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain</a></span>(<span class="no">rf_compas</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>[,-<span class="fl">1</span>], <span class="kw">y</span> <span class="kw">=</span> <span class="no">y_numeric</span>)</pre></body></html></div>
+<span class="kw">rf_explainer</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain</a></span>(<span class="kw">rf_compas</span>, data = <span class="kw">compas</span>[,<span class="op">-</span><span class="fl">1</span>], y = <span class="kw">y_numeric</span>)
+</pre></div>
 <pre><code>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( [33m default [39m )
 #&gt;   -&gt; data              :  6172  rows  6  cols 
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( [33m default [39m ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( [33m default [39m )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1344498 , mean =  0.4552923 , max =  0.8506401  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1410528 , mean =  0.45529 , max =  0.8499808  
 #&gt;   -&gt; residual function :  difference between y and yhat ( [33m default [39m )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7924522 , mean =  -0.0001723785 , max =  0.8449058  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7881213 , mean =  -0.0001701123 , max =  0.8408038  
 #&gt;  [32m A new explainer has been created! [39m</code></pre>
 <p>Than we create <code>fairness_object</code> with <code><a href="../reference/create_fairness_object.html">create_fairness_object()</a></code></p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">fobject</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_object.html">create_fairness_object</a></span>(<span class="no">rf_explainer</span>,
-                                  <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>, <span class="co"># it is important to specify all data if explainer doesn't have it</span>
-                                  <span class="kw">outcome</span> <span class="kw">=</span> <span class="st">"Two_yr_Recidivism"</span>, <span class="co"># target variable</span>
-                                  <span class="kw">group</span>  <span class="kw">=</span> <span class="st">"Ethnicity"</span>,          <span class="co"># protected group</span>
-                                  <span class="kw">base</span>   <span class="kw">=</span> <span class="st">"Caucasian"</span>,          <span class="co"># to what subgroup we want to compare</span>
-                                  <span class="kw">cutoff</span> <span class="kw">=</span> <span class="fl">0.5</span>)                  <span class="co"># cutoff - optional, deafult = 0.5</span></pre></body></html></div>
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="kw">fobject</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_object.html">create_fairness_object</a></span>(<span class="kw">rf_explainer</span>,
+                                  data = <span class="kw">compas</span>, <span class="co"># it is important to specify all data if explainer doesn't have it</span>
+                                  outcome = <span class="st">"Two_yr_Recidivism"</span>, <span class="co"># target variable</span>
+                                  group  = <span class="st">"Ethnicity"</span>,          <span class="co"># protected group</span>
+                                  base   = <span class="st">"Caucasian"</span>,          <span class="co"># to what subgroup we want to compare</span>
+                                  cutoff = <span class="fl">0.5</span>)                  <span class="co"># cutoff - optional, deafult = 0.5</span>
+</pre></div>
 <p>And we plot!</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fobject</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fobject</span>)
+</pre></div>
 <p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <p>As we can see it is more likely that model will categorize African Americans as future recidivists than for example Asians. But maybe some groups are statistically more likely to go do crimes in the future. It is possible, but there are more ways that the model can discriminate people.</p>
 </div>
@@ -171,31 +181,35 @@
 <h2 class="hasAnchor">
 <a href="#fairness-object" class="anchor"></a>Fairness Object</h2>
 <p>To really see what <code>fairness_object</code> is about, we need to make some more models and explainers.</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">gbm</span>)
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/gbm-developers/gbm">gbm</a></span>)
 
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">123</span>)
 
-<span class="no">rf_compas_1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html">ranger</a></span>(<span class="no">Two_yr_Recidivism</span> ~<span class="no">Number_of_Priors</span>+<span class="no">Age_Below_TwentyFive</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>, <span class="kw">probability</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="no">lr_compas_1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span>(<span class="no">Two_yr_Recidivism</span>~<span class="no">.</span>, <span class="kw">data</span><span class="kw">=</span><span class="no">compas</span>, <span class="kw">family</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span>(<span class="kw">link</span><span class="kw">=</span><span class="st">"logit"</span>))
-<span class="no">rf_compas_2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html">ranger</a></span>(<span class="no">Two_yr_Recidivism</span> ~<span class="no">.</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>, <span class="kw">probability</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="no">rf_compas_3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html">ranger</a></span>(<span class="no">Two_yr_Recidivism</span> ~ <span class="no">Age_Above_FourtyFive</span>+<span class="no">Misdemeanor</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>, <span class="kw">probability</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="no">rf_compas_4</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html">ranger</a></span>(<span class="no">Two_yr_Recidivism</span> ~<span class="no">.</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>, <span class="kw">probability</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="no">df</span> <span class="kw">&lt;-</span> <span class="no">compas</span>
-<span class="no">df</span>$<span class="no">Two_yr_Recidivism</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="no">compas</span>$<span class="no">Two_yr_Recidivism</span>)-<span class="fl">1</span>
-<span class="no">gbm_compas_1</span><span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/gbm/man/gbm.html">gbm</a></span>(<span class="no">Two_yr_Recidivism</span>~<span class="no">.</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">df</span>)
+<span class="kw">rf_compas_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html">ranger</a></span>(<span class="kw">Two_yr_Recidivism</span> <span class="op">~</span><span class="kw">Number_of_Priors</span><span class="op">+</span><span class="kw">Age_Below_TwentyFive</span>, data = <span class="kw">compas</span>, probability = <span class="fl">TRUE</span>)
+<span class="kw">lr_compas_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span>(<span class="kw">Two_yr_Recidivism</span><span class="op">~</span><span class="kw">.</span>, data=<span class="kw">compas</span>, family=<span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span>(link=<span class="st">"logit"</span>))
+<span class="kw">rf_compas_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html">ranger</a></span>(<span class="kw">Two_yr_Recidivism</span> <span class="op">~</span><span class="kw">.</span>, data = <span class="kw">compas</span>, probability = <span class="fl">TRUE</span>) 
+<span class="kw">rf_compas_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html">ranger</a></span>(<span class="kw">Two_yr_Recidivism</span> <span class="op">~</span> <span class="kw">Age_Above_FourtyFive</span><span class="op">+</span><span class="kw">Misdemeanor</span>, data = <span class="kw">compas</span>, probability = <span class="fl">TRUE</span>)
+<span class="kw">rf_compas_4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html">ranger</a></span>(<span class="kw">Two_yr_Recidivism</span> <span class="op">~</span><span class="kw">.</span>, data = <span class="kw">compas</span>, probability = <span class="fl">TRUE</span>)
+<span class="kw">df</span> <span class="op">&lt;-</span> <span class="kw">compas</span>
+<span class="kw">df</span><span class="op">$</span><span class="kw">Two_yr_Recidivism</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="kw">compas</span><span class="op">$</span><span class="kw">Two_yr_Recidivism</span>)<span class="op">-</span><span class="fl">1</span>
+<span class="kw">gbm_compas_1</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/gbm/man/gbm.html">gbm</a></span>(<span class="kw">Two_yr_Recidivism</span><span class="op">~</span><span class="kw">.</span>, data = <span class="kw">df</span>) 
 
-<span class="no">explainer_1</span> <span class="kw">&lt;-</span> <span class="kw pkg">DALEX</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain</a></span>(<span class="no">rf_compas_1</span>,  <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>[,-<span class="fl">1</span>], <span class="kw">y</span> <span class="kw">=</span> <span class="no">y_numeric</span>)
-<span class="no">explainer_2</span> <span class="kw">&lt;-</span> <span class="kw pkg">DALEX</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain</a></span>(<span class="no">lr_compas_1</span>,  <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>[,-<span class="fl">1</span>], <span class="kw">y</span> <span class="kw">=</span> <span class="no">y_numeric</span>)
-<span class="no">explainer_3</span> <span class="kw">&lt;-</span> <span class="kw pkg">DALEX</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain</a></span>(<span class="no">rf_compas_2</span>,  <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>[,-<span class="fl">1</span>], <span class="kw">y</span> <span class="kw">=</span> <span class="no">y_numeric</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="st">"ranger_2"</span>)
-<span class="no">explainer_4</span> <span class="kw">&lt;-</span> <span class="kw pkg">DALEX</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain</a></span>(<span class="no">rf_compas_3</span>,  <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>[,-<span class="fl">1</span>], <span class="kw">y</span> <span class="kw">=</span> <span class="no">y_numeric</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="st">"ranger_3"</span>)
-<span class="no">explainer_5</span> <span class="kw">&lt;-</span> <span class="kw pkg">DALEX</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain</a></span>(<span class="no">gbm_compas_1</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>[,-<span class="fl">1</span>], <span class="kw">y</span> <span class="kw">=</span> <span class="no">y_numeric</span>)
-<span class="no">explainer_6</span> <span class="kw">&lt;-</span> <span class="kw pkg">DALEX</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain</a></span>(<span class="no">rf_compas_4</span>,  <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>[,-<span class="fl">1</span>], <span class="kw">y</span> <span class="kw">=</span> <span class="no">y_numeric</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="st">"ranger_4"</span>)</pre></body></html></div>
+<span class="kw">explainer_1</span> <span class="op">&lt;-</span> <span class="kw">DALEX</span>::<span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain</a></span>(<span class="kw">rf_compas_1</span>,  data = <span class="kw">compas</span>[,<span class="op">-</span><span class="fl">1</span>], y = <span class="kw">y_numeric</span>)
+<span class="kw">explainer_2</span> <span class="op">&lt;-</span> <span class="kw">DALEX</span>::<span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain</a></span>(<span class="kw">lr_compas_1</span>,  data = <span class="kw">compas</span>[,<span class="op">-</span><span class="fl">1</span>], y = <span class="kw">y_numeric</span>)
+<span class="kw">explainer_3</span> <span class="op">&lt;-</span> <span class="kw">DALEX</span>::<span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain</a></span>(<span class="kw">rf_compas_2</span>,  data = <span class="kw">compas</span>[,<span class="op">-</span><span class="fl">1</span>], y = <span class="kw">y_numeric</span>, label = <span class="st">"ranger_2"</span>)
+<span class="kw">explainer_4</span> <span class="op">&lt;-</span> <span class="kw">DALEX</span>::<span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain</a></span>(<span class="kw">rf_compas_3</span>,  data = <span class="kw">compas</span>[,<span class="op">-</span><span class="fl">1</span>], y = <span class="kw">y_numeric</span>, label = <span class="st">"ranger_3"</span>)
+<span class="kw">explainer_5</span> <span class="op">&lt;-</span> <span class="kw">DALEX</span>::<span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain</a></span>(<span class="kw">gbm_compas_1</span>, data = <span class="kw">compas</span>[,<span class="op">-</span><span class="fl">1</span>], y = <span class="kw">y_numeric</span>)
+<span class="kw">explainer_6</span> <span class="op">&lt;-</span> <span class="kw">DALEX</span>::<span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain</a></span>(<span class="kw">rf_compas_4</span>,  data = <span class="kw">compas</span>[,<span class="op">-</span><span class="fl">1</span>], y = <span class="kw">y_numeric</span>, label = <span class="st">"ranger_4"</span>)
+</pre></div>
 <p>Now we create one object with all explainers</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">fobject</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_object.html">create_fairness_object</a></span>(<span class="no">explainer_1</span>,<span class="no">explainer_2</span>,<span class="no">explainer_3</span>,<span class="no">explainer_4</span>,<span class="no">explainer_5</span>,<span class="no">explainer_6</span>,
-                                  <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>,
-                                  <span class="kw">outcome</span> <span class="kw">=</span> <span class="st">"Two_yr_Recidivism"</span>,
-                                  <span class="kw">group</span>  <span class="kw">=</span> <span class="st">"Ethnicity"</span>,
-                                  <span class="kw">base</span>   <span class="kw">=</span> <span class="st">"Caucasian"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb9"><pre class="downlit">
+<span class="kw">fobject</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_object.html">create_fairness_object</a></span>(<span class="kw">explainer_1</span>,<span class="kw">explainer_2</span>,<span class="kw">explainer_3</span>,<span class="kw">explainer_4</span>,<span class="kw">explainer_5</span>,<span class="kw">explainer_6</span>,
+                                  data = <span class="kw">compas</span>, 
+                                  outcome = <span class="st">"Two_yr_Recidivism"</span>,
+                                  group  = <span class="st">"Ethnicity"</span>,
+                                  base   = <span class="st">"Caucasian"</span>)
+</pre></div>
 <p>As we can see there is some parameters in fobject such as:<br>
 1. DALEX Explainer or list of explainers<br>
 2. data - if first explainer was not provided with whole data frame, we should do it here<br>
@@ -203,7 +217,9 @@
 4. group - protected group/ sensitive variable which can be unfairly treated<br>
 5. base - to what subgroup we want to compare metric scores with. If not provided gets first subgroup in data.</p>
 <p>What consists of fairness object?</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">fobject</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb10"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">fobject</span>)
+</pre></div>
 <pre><code>#&gt; Fairness Matrics: 
 #&gt;   TPR_parity_loss TNR_parity_loss PPV_parity_loss NPV_parity_loss
 #&gt; 1       0.6824922       0.3146544       0.4689762       0.3560605
@@ -242,8 +258,10 @@
 #&gt; 4 Male         yes     Other       0.2187197
 #&gt; 5 Male          no Caucasian       0.6805686</code></pre>
 <p>Fairness object gets metrics based on confusion matrix and checks them over the groups.</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="co"># for the first model</span>
-<span class="no">fobject</span>$<span class="no">groups_data</span>$<span class="no">ranger</span>$<span class="no">TPR</span></pre></body></html></div>
+<div class="sourceCode" id="cb12"><pre class="downlit">
+<span class="co"># for the first model</span>
+<span class="kw">fobject</span><span class="op">$</span><span class="kw">groups_data</span><span class="op">$</span><span class="kw">ranger</span><span class="op">$</span><span class="kw">TPR</span>
+</pre></div>
 <pre><code>#&gt;        Caucasian African_American            Asian         Hispanic 
 #&gt;        0.4318735        0.6604455        0.3750000        0.4074074 
 #&gt;  Native_American            Other 
@@ -260,23 +278,29 @@
 <div id="stacked-barplot" class="section level2">
 <h2 class="hasAnchor">
 <a href="#stacked-barplot" class="anchor"></a>Stacked Barplot</h2>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">sm</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/plot_stacked_barplot.html">stack_metrics</a></span>(<span class="no">fobject</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">sm</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb14"><pre class="downlit">
+<span class="kw">sm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stack_metrics.html">stack_metrics</a></span>(<span class="kw">fobject</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">sm</span>)
+</pre></div>
 <p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 <p>At first we see that lm is the worst overall model. It does not give us information if plots are similar to each other. For now only plots basic metrics.</p>
 </div>
 <div id="plot-metric" class="section level2">
 <h2 class="hasAnchor">
 <a href="#plot-metric" class="anchor"></a>Plot metric</h2>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">cm</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/choose_metric.html">choose_metric</a></span>(<span class="no">fobject</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">cm</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb15"><pre class="downlit">
+<span class="kw">cm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/choose_metric.html">choose_metric</a></span>(<span class="kw">fobject</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">cm</span>)
+</pre></div>
 <p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
 </div>
 <div id="plot-fairness-pca" class="section level2">
 <h2 class="hasAnchor">
 <a href="#plot-fairness-pca" class="anchor"></a>Plot fairness PCA</h2>
 <p>With this task we should use <code>PCA</code>. We call <code>create_fairness_pca()</code> to create fairness pca object.</p>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">fobject</span>$<span class="no">metric_data</span></pre></body></html></div>
+<div class="sourceCode" id="cb16"><pre class="downlit">
+<span class="kw">fobject</span><span class="op">$</span><span class="kw">metric_data</span>
+</pre></div>
 <pre><code>#&gt;   TPR_parity_loss TNR_parity_loss PPV_parity_loss NPV_parity_loss
 #&gt; 1       0.6824922       0.3146544       0.4689762       0.3560605
 #&gt; 2       1.1219620       0.4459198       0.8675808       0.1131800
@@ -298,8 +322,10 @@
 #&gt; 4      0.2905197       0.1960918      0.3303955       0.3505547
 #&gt; 5      0.7824425       0.2502543      0.8321117       0.7168035
 #&gt; 6      0.5702318       0.2825981      0.5378322       0.5012586</code></pre>
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">fair_pca</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/fairness_pca.html">fairness_pca</a></span>(<span class="no">fobject</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">fair_pca</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb18"><pre class="downlit">
+<span class="kw">fair_pca</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fairness_pca.html">fairness_pca</a></span>(<span class="kw">fobject</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">fair_pca</span>)
+</pre></div>
 <pre><code>#&gt; Fairness PCA : 
 #&gt;             PC1        PC2         PC3          PC4          PC5           PC6
 #&gt; [1,]  0.8699102  0.4358304 -0.32389390 -0.307131257  0.021049055 -2.706169e-16
@@ -314,23 +340,31 @@
 #&gt; 
 #&gt; First two components explained 98 % of variance.</code></pre>
 <p>Let’s plot!</p>
-<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fair_pca</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb20"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fair_pca</span>)
+</pre></div>
 <p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 <p>It is done with loadings plot, which can be customized.</p>
-<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fair_pca</span>, <span class="kw">scale</span> <span class="kw">=</span> <span class="fl">0</span>) <span class="co"># deafult = 0.5</span></pre></body></html></div>
+<div class="sourceCode" id="cb21"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fair_pca</span>, scale = <span class="fl">0</span>) <span class="co"># deafult = 0.5</span>
+</pre></div>
 <p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
 </div>
 <div id="plot-heatmap" class="section level2">
 <h2 class="hasAnchor">
 <a href="#plot-heatmap" class="anchor"></a>Plot Heatmap</h2>
 <p>Another way to deal with grouped data is using heatmap.</p>
-<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="no">fheatmap</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/fairness_heatmap.html">fairness_heatmap</a></span>(<span class="no">fobject</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fheatmap</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb22"><pre class="downlit">
+<span class="kw">fheatmap</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fairness_heatmap.html">fairness_heatmap</a></span>(<span class="kw">fobject</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fheatmap</span>)
+</pre></div>
 <p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
 <p>For both models and metrics dendograms are created. This way through hierarchical clustering we can look on similarities between models/metrics. It should give similar but more detailed information than PCA</p>
 <p>It can be normalized among metrics.</p>
-<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="no">fheatmap</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/fairness_heatmap.html">fairness_heatmap</a></span>(<span class="no">fobject</span>, <span class="kw">scale</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fheatmap</span> , <span class="kw">title</span> <span class="kw">=</span> <span class="st">"Title can be changed"</span>, <span class="kw">subtitle</span> <span class="kw">=</span> <span class="st">"subtitle too!"</span>) <span class="co"># we can turn values off via text= FALSE</span></pre></body></html></div>
+<div class="sourceCode" id="cb23"><pre class="downlit">
+<span class="kw">fheatmap</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fairness_heatmap.html">fairness_heatmap</a></span>(<span class="kw">fobject</span>, scale = <span class="fl">TRUE</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fheatmap</span> , title = <span class="st">"Title can be changed"</span>, subtitle = <span class="st">"subtitle too!"</span>) <span class="co"># we can turn values off via text= FALSE</span>
+</pre></div>
 <p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
 <p>Now we know what those scores are and how “similar” models are to each other</p>
 </div>
@@ -338,110 +372,142 @@
 <h2 class="hasAnchor">
 <a href="#metric-and-performance-plot" class="anchor"></a>Metric and Performance Plot</h2>
 <p>Sometimes we would like to know how good are models in performance metrics and in fairness metrics at the same time, to see the tradeoff between them.</p>
-<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="no">fap</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/performance_with_fairness.html">performance_and_fairness</a></span>(<span class="no">fobject</span>, <span class="kw">fairness_metric</span> <span class="kw">=</span> <span class="st">"FPR_parity_loss"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb24"><pre class="downlit">
+<span class="kw">fap</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/performance_and_fairness.html">performance_and_fairness</a></span>(<span class="kw">fobject</span>, fairness_metric = <span class="st">"FPR_parity_loss"</span>)
+</pre></div>
 <pre><code>#&gt; Performace metric is NULL, setting deafult ( auc )  
 #&gt; 
 #&gt; Creating object with: 
 #&gt; Fairness metric FPR_parity_loss 
 #&gt; Performance metric  auc</code></pre>
-<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fap</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb26"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fap</span>)
+</pre></div>
 <p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
 <p>We can add plots with help of <code>patchwork</code></p>
-<div class="sourceCode" id="cb27"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">patchwork</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
+<div class="sourceCode" id="cb27"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://patchwork.data-imaginist.com">patchwork</a></span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span>)
 
-<span class="no">p1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="fu"><a href="../reference/performance_with_fairness.html">performance_and_fairness</a></span>(<span class="no">fobject</span>,  <span class="st">"TPR_parity_loss"</span>, <span class="st">"accuracy"</span>))
-<span class="no">p2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="fu"><a href="../reference/performance_with_fairness.html">performance_and_fairness</a></span>(<span class="no">fobject</span>,  <span class="st">"FPR_parity_loss"</span>, <span class="st">"auc"</span>))     + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">" "</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="kw">legend.position</span> <span class="kw">=</span> <span class="st">"none"</span>)
-<span class="no">p3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="fu"><a href="../reference/performance_with_fairness.html">performance_and_fairness</a></span>(<span class="no">fobject</span>,  <span class="st">"NPV_parity_loss"</span>, <span class="st">"recall"</span>))  + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">" "</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="kw">legend.position</span> <span class="kw">=</span> <span class="st">"none"</span>)
-<span class="no">p4</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="fu"><a href="../reference/performance_with_fairness.html">performance_and_fairness</a></span>(<span class="no">fobject</span>,  <span class="st">"TS_parity_loss"</span>, <span class="st">"f1"</span>))+ <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">" "</span>) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="kw">legend.position</span> <span class="kw">=</span> <span class="st">"none"</span>)</pre></body></html></div>
-<div class="sourceCode" id="cb28"><html><body><pre class="r">(<span class="no">p1</span> + <span class="no">p2</span>)/(<span class="no">p3</span>+<span class="no">p4</span>)</pre></body></html></div>
+<span class="kw">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="fu"><a href="../reference/performance_and_fairness.html">performance_and_fairness</a></span>(<span class="kw">fobject</span>,  <span class="st">"TPR_parity_loss"</span>, <span class="st">"accuracy"</span>))
+<span class="kw">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="fu"><a href="../reference/performance_and_fairness.html">performance_and_fairness</a></span>(<span class="kw">fobject</span>,  <span class="st">"FPR_parity_loss"</span>, <span class="st">"auc"</span>))     <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">" "</span>) <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(legend.position = <span class="st">"none"</span>)
+<span class="kw">p3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="fu"><a href="../reference/performance_and_fairness.html">performance_and_fairness</a></span>(<span class="kw">fobject</span>,  <span class="st">"NPV_parity_loss"</span>, <span class="st">"recall"</span>))  <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">" "</span>) <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(legend.position = <span class="st">"none"</span>)
+<span class="kw">p4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="fu"><a href="../reference/performance_and_fairness.html">performance_and_fairness</a></span>(<span class="kw">fobject</span>,  <span class="st">"TS_parity_loss"</span>, <span class="st">"f1"</span>))<span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span>(<span class="st">" "</span>) <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(legend.position = <span class="st">"none"</span>)
+</pre></div>
+<div class="sourceCode" id="cb28"><pre class="downlit">
+(<span class="kw">p1</span> <span class="op">+</span> <span class="kw">p2</span>)<span class="op">/</span>(<span class="kw">p3</span><span class="op">+</span><span class="kw">p4</span>)
+</pre></div>
 <p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
 </div>
 <div id="back-to-detail" class="section level2">
 <h2 class="hasAnchor">
 <a href="#back-to-detail" class="anchor"></a>Back to detail</h2>
 <p>When we have narrowed down our search for the best model we can use <code>two_models_plot</code> to check once again metrics within groups and decide which model to use.</p>
-<div class="sourceCode" id="cb29"><html><body><pre class="r"><span class="no">fobject2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_object.html">create_fairness_object</a></span>(<span class="no">explainer_1</span>,<span class="no">explainer_2</span>,
-                                   <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>,
-                                  <span class="kw">outcome</span> <span class="kw">=</span> <span class="st">"Two_yr_Recidivism"</span>,
-                                  <span class="kw">group</span>  <span class="kw">=</span> <span class="st">"Ethnicity"</span>,
-                                  <span class="kw">base</span>   <span class="kw">=</span> <span class="st">"Caucasian"</span>)
+<div class="sourceCode" id="cb29"><pre class="downlit">
+<span class="kw">fobject2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_object.html">create_fairness_object</a></span>(<span class="kw">explainer_1</span>,<span class="kw">explainer_2</span>, 
+                                   data = <span class="kw">compas</span>, 
+                                  outcome = <span class="st">"Two_yr_Recidivism"</span>,
+                                  group  = <span class="st">"Ethnicity"</span>,
+                                  base   = <span class="st">"Caucasian"</span>)
 
 
-<span class="no">gm</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/group_metric.html">group_metric</a></span>(<span class="no">fobject2</span>, <span class="kw">fairness_metric</span> <span class="kw">=</span> <span class="st">"FPR"</span>)</pre></body></html></div>
+<span class="kw">gm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/group_metric.html">group_metric</a></span>(<span class="kw">fobject2</span>, fairness_metric = <span class="st">"FPR"</span>)
+</pre></div>
 <pre><code>#&gt; Performace metric not given, setting deafult ( auc )  
 #&gt; 
 #&gt; Creating object with: 
 #&gt; Fairness metric FPR 
 #&gt; Performance metric  auc</code></pre>
-<div class="sourceCode" id="cb31"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">gm</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb31"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">gm</span>)
+</pre></div>
 <p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
 </div>
 <div id="radar-plot" class="section level2">
 <h2 class="hasAnchor">
 <a href="#radar-plot" class="anchor"></a>Radar plot</h2>
-<div class="sourceCode" id="cb32"><html><body><pre class="r"><span class="no">fradar</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/fairness_radar.html">fairness_radar</a></span>(<span class="no">fobject2</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fradar</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb32"><pre class="downlit">
+<span class="kw">fradar</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fairness_radar.html">fairness_radar</a></span>(<span class="kw">fobject2</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fradar</span>)
+</pre></div>
 <p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
 <p>We can also use simple <code>plot</code> when we have only few explainers.</p>
-<div class="sourceCode" id="cb33"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fobject2</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb33"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fobject2</span>)
+</pre></div>
 <p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
 <p>Of course the protected group can be changed.</p>
-<div class="sourceCode" id="cb34"><html><body><pre class="r"><span class="no">fobject3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_object.html">create_fairness_object</a></span>(<span class="no">explainer_2</span>,<span class="no">explainer_5</span>,
-                                   <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>,
-                                  <span class="kw">outcome</span> <span class="kw">=</span> <span class="st">"Two_yr_Recidivism"</span>,
-                                  <span class="kw">group</span>  <span class="kw">=</span> <span class="st">"Sex"</span>,
-                                  <span class="kw">base</span> <span class="kw">=</span> <span class="st">"Female"</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fobject3</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb34"><pre class="downlit">
+<span class="kw">fobject3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_object.html">create_fairness_object</a></span>(<span class="kw">explainer_2</span>,<span class="kw">explainer_5</span>, 
+                                   data = <span class="kw">compas</span>, 
+                                  outcome = <span class="st">"Two_yr_Recidivism"</span>,
+                                  group  = <span class="st">"Sex"</span>,
+                                  base = <span class="st">"Female"</span>)   
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fobject3</span>)
+</pre></div>
 <p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-24-1.png" width="700"></p>
 </div>
 <div id="custom-cutoff" class="section level2">
 <h2 class="hasAnchor">
 <a href="#custom-cutoff" class="anchor"></a>Custom cutoff</h2>
 <p>In <code>fairmodels</code> we can specify cutoff (threshold) for each subgroup, so if subgroups are:</p>
-<div class="sourceCode" id="cb35"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span>(<span class="no">compas</span>$<span class="no">Sex</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb35"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span>(<span class="kw">compas</span><span class="op">$</span><span class="kw">Sex</span>)
+</pre></div>
 <pre><code>#&gt; [1] "Male"   "Female"</code></pre>
-<div class="sourceCode" id="cb37"><html><body><pre class="r"><span class="no">fobject_without_cutoff</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_object.html">create_fairness_object</a></span>(<span class="no">explainer_2</span>,<span class="no">explainer_5</span>, <span class="no">explainer_4</span>,
-                                   <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>,
-                                  <span class="kw">outcome</span> <span class="kw">=</span> <span class="st">"Two_yr_Recidivism"</span>,
-                                  <span class="kw">group</span>  <span class="kw">=</span> <span class="st">"Sex"</span>,
-                                  <span class="kw">base</span> <span class="kw">=</span> <span class="st">"Female"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb37"><pre class="downlit">
+<span class="kw">fobject_without_cutoff</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_object.html">create_fairness_object</a></span>(<span class="kw">explainer_2</span>,<span class="kw">explainer_5</span>, <span class="kw">explainer_4</span>,
+                                   data = <span class="kw">compas</span>, 
+                                  outcome = <span class="st">"Two_yr_Recidivism"</span>,
+                                  group  = <span class="st">"Sex"</span>,
+                                  base = <span class="st">"Female"</span>)
+</pre></div>
 <div id="ceteris-paribus-cutoff" class="section level3">
 <h3 class="hasAnchor">
 <a href="#ceteris-paribus-cutoff" class="anchor"></a>Ceteris paribus cutoff</h3>
 <p>In this plot <code>NA</code> values are natural, so warnings are to be expected.</p>
-<div class="sourceCode" id="cb38"><html><body><pre class="r"><span class="no">cpc</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/ceteris_paribus_cutoff.html">ceteris_paribus_cutoff</a></span>(<span class="no">fobject_without_cutoff</span>, <span class="kw">subgroup</span> <span class="kw">=</span> <span class="st">"Male"</span>)
+<div class="sourceCode" id="cb38"><pre class="downlit">
+<span class="kw">cpc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ceteris_paribus_cutoff.html">ceteris_paribus_cutoff</a></span>(<span class="kw">fobject_without_cutoff</span>, subgroup = <span class="st">"Male"</span>)
 
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">cpc</span>)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">cpc</span>)
+</pre></div>
 <p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-27-1.png" width="700"></p>
 <p>As we can see most optimal value for Male cutoff is at the rate of 0.6-0.65</p>
-<div class="sourceCode" id="cb39"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span>(<span class="no">compas</span>$<span class="no">Sex</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb39"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span>(<span class="kw">compas</span><span class="op">$</span><span class="kw">Sex</span>)
+</pre></div>
 <pre><code>#&gt; [1] "Male"   "Female"</code></pre>
-<div class="sourceCode" id="cb41"><html><body><pre class="r"><span class="no">fobject_with_cutoff</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_object.html">create_fairness_object</a></span>(<span class="no">explainer_2</span>,<span class="no">explainer_5</span>, <span class="no">explainer_4</span>,
-                                   <span class="kw">data</span> <span class="kw">=</span> <span class="no">compas</span>,
-                                  <span class="kw">outcome</span> <span class="kw">=</span> <span class="st">"Two_yr_Recidivism"</span>,
-                                  <span class="kw">group</span>  <span class="kw">=</span> <span class="st">"Sex"</span>,
-                                  <span class="kw">base</span> <span class="kw">=</span> <span class="st">"Female"</span>,
-                                  <span class="kw">cutoff</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.63</span>,<span class="fl">0.5</span>),
-                                  <span class="kw">label</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"gbm_c"</span>,<span class="st">"lm_c"</span>,<span class="st">"ranger_c"</span>)) <span class="co"># c as in changed  </span>
+<div class="sourceCode" id="cb41"><pre class="downlit">
+<span class="kw">fobject_with_cutoff</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_fairness_object.html">create_fairness_object</a></span>(<span class="kw">explainer_2</span>,<span class="kw">explainer_5</span>, <span class="kw">explainer_4</span>,
+                                   data = <span class="kw">compas</span>, 
+                                  outcome = <span class="st">"Two_yr_Recidivism"</span>,
+                                  group  = <span class="st">"Sex"</span>,
+                                  base = <span class="st">"Female"</span>, 
+                                  cutoff = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.63</span>,<span class="fl">0.5</span>), 
+                                  label = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"gbm_c"</span>,<span class="st">"lm_c"</span>,<span class="st">"ranger_c"</span>)) <span class="co"># c as in changed  </span>
 
 
-<span class="no">p1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/performance_with_fairness.html">performance_and_fairness</a></span>(<span class="no">fobject_without_cutoff</span>,
-                                    <span class="kw">fairness_metric</span> <span class="kw">=</span> <span class="st">"TPR_parity_loss"</span>,
-                                    <span class="kw">performance_metric</span> <span class="kw">=</span> <span class="st">"accuracy"</span>)</pre></body></html></div>
+<span class="kw">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/performance_and_fairness.html">performance_and_fairness</a></span>(<span class="kw">fobject_without_cutoff</span>,
+                                    fairness_metric = <span class="st">"TPR_parity_loss"</span>,
+                                    performance_metric = <span class="st">"accuracy"</span>)
+</pre></div>
 <pre><code>#&gt; 
 #&gt; Creating object with: 
 #&gt; Fairness metric TPR_parity_loss 
 #&gt; Performance metric  accuracy</code></pre>
-<div class="sourceCode" id="cb43"><html><body><pre class="r"><span class="no">p2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/performance_with_fairness.html">performance_and_fairness</a></span>(<span class="no">fobject_with_cutoff</span>,
-                                    <span class="kw">fairness_metric</span> <span class="kw">=</span> <span class="st">"TPR_parity_loss"</span>,
-                                    <span class="kw">performance_metric</span> <span class="kw">=</span> <span class="st">"accuracy"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb43"><pre class="downlit">
+<span class="kw">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/performance_and_fairness.html">performance_and_fairness</a></span>(<span class="kw">fobject_with_cutoff</span>,
+                                    fairness_metric = <span class="st">"TPR_parity_loss"</span>,
+                                    performance_metric = <span class="st">"accuracy"</span>)
+</pre></div>
 <pre><code>#&gt; 
 #&gt; Creating object with: 
 #&gt; Fairness metric TPR_parity_loss 
 #&gt; Performance metric  accuracy</code></pre>
-<div class="sourceCode" id="cb45"><html><body><pre class="r"><span class="co"># plot more than one object simply passing objects as arguments</span>
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">p1</span>,<span class="no">p2</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb45"><pre class="downlit">
+<span class="co"># plot more than one object simply passing objects as arguments</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">p1</span>,<span class="kw">p2</span>)
+</pre></div>
 <p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-28-1.png" width="700"></p>
 <p>In term of TPR we achieved less parity loss with similar accuracy.</p>
 </div>

@@ -140,7 +140,7 @@
     <p>Calculates confusion matrices for each subgroup</p>
     </div>
 
-    <pre class="usage"><span class='fu'>group_matrices</span>(<span class='no'>data</span>, <span class='no'>group</span>, <span class='no'>outcome</span>, <span class='no'>outcome_numeric</span>, <span class='no'>cutoff</span>, <span class='kw'>probs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>group_matrices</span>(<span class='kw'>data</span>, <span class='kw'>group</span>, <span class='kw'>outcome</span>, <span class='kw'>outcome_numeric</span>, <span class='kw'>cutoff</span>, probs = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -186,22 +186,22 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"compas"</span>)
 
-<span class='no'>glm_compas</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='no'>Two_yr_Recidivism</span>~<span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>compas</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(<span class='kw'>link</span><span class='kw'>=</span><span class='st'>"logit"</span>))
-<span class='no'>y_prob</span> <span class='kw'>&lt;-</span> <span class='no'>glm_compas</span>$<span class='no'>fitted.values</span>
+<span class='kw'>glm_compas</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='kw'>Two_yr_Recidivism</span><span class='op'>~</span><span class='kw'>.</span>, data=<span class='kw'>compas</span>, family=<span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(link=<span class='st'>"logit"</span>))
+<span class='kw'>y_prob</span> <span class='op'>&lt;-</span> <span class='kw'>glm_compas</span><span class='op'>$</span><span class='kw'>fitted.values</span>
 
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='no'>compas</span>
-<span class='no'>data</span>$<span class='no'>probabilities</span> <span class='kw'>&lt;-</span> <span class='no'>y_prob</span>
+<span class='kw'>data</span> <span class='op'>&lt;-</span> <span class='kw'>compas</span>
+<span class='kw'>data</span><span class='op'>$</span><span class='kw'>probabilities</span> <span class='op'>&lt;-</span> <span class='kw'>y_prob</span>
 
-<span class='no'>y_numeric</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='no'>compas</span>$<span class='no'>Two_yr_Recidivism</span>)-<span class='fl'>1</span>
+<span class='kw'>y_numeric</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='kw'>compas</span><span class='op'>$</span><span class='kw'>Two_yr_Recidivism</span>)<span class='op'>-</span><span class='fl'>1</span>
 
-<span class='no'>gm</span> <span class='kw'>&lt;-</span> <span class='fu'>group_matrices</span>(<span class='no'>data</span>,
+<span class='kw'>gm</span> <span class='op'>&lt;-</span> <span class='fu'>group_matrices</span>(<span class='kw'>data</span>,
                <span class='st'>"Ethnicity"</span>,
-                <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
-                <span class='kw'>outcome_numeric</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>,
-                <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0.45</span>,<span class='fl'>6</span>),
-                <span class='kw'>probs</span> <span class='kw'>=</span> <span class='st'>"probabilities"</span>)
+                outcome = <span class='st'>"Two_yr_Recidivism"</span>,
+                outcome_numeric = <span class='kw'>y_numeric</span>,
+                cutoff = <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0.45</span>,<span class='fl'>6</span>),
+                probs = <span class='st'>"probabilities"</span>)
 
-<span class='no'>gm</span></div><div class='output co'>#&gt; $Caucasian
+<span class='kw'>gm</span></div><div class='output co'>#&gt; $Caucasian
 #&gt; $tp
 #&gt; [1] 392
 #&gt; 
@@ -298,8 +298,7 @@
 #&gt; [1] "confusion_matrix"
 #&gt; 
 #&gt; attr(,"class")
-#&gt; [1] "group_matrices"</div><div class='input'>
-</div></pre>
+#&gt; [1] "group_matrices"</div><div class='input'></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
