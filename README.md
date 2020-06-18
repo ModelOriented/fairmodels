@@ -1,4 +1,4 @@
-# FairModels 
+# fairmodels 
 
   <!-- badges: start -->
   [![Codecov test coverage](https://codecov.io/gh/ModelOriented/FairModels/branch/master/graph/badge.svg)](https://codecov.io/gh/ModelOriented/FairModels?branch=master)
@@ -10,7 +10,7 @@
 
 ## Overview
 
-`FairModels` is package for fairness audit and visualization. Uses models explained with [DALEX](https://modeloriented.github.io/DALEX) and calculates fairness metrics based on confusion matrix for protected group.  Allows to compare and gain information about various machine learning models. *Make sure your models are classifying protected groups similarly*.
+`fairmodels` is package for fairness audit and visualization. Uses models explained with [DALEX](https://modeloriented.github.io/DALEX) and calculates fairness metrics based on confusion matrix for protected group.  Allows to compare and gain information about various machine learning models. *Make sure your models are classifying protected groups similarly*.
 
 
 
