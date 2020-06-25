@@ -54,12 +54,10 @@ all_cutoffs <- function(x,
 
   explainers <- x$explainers
   cutoffs    <- seq(0,1, length.out =  grid_points)
-  data       <- x$data
-  group      <- x$group
-  outcome    <- x$outcome
-  base       <- x$base
+  protected  <- x$protected
+  privileged <- x$privileged
 
-  n_subgroups <- length(x$cutoff)
+  n_subgroups <- length(levels(protected))
   cutoff_data <- data.frame()
 
   # custom cutoffs will give messages (0 in matrices, NA in metrics)  numerous times,
@@ -71,18 +69,16 @@ all_cutoffs <- function(x,
       custom_cutoff_vec      <- rep(custom_cutoff, n_subgroups)
       i                      <- match(label, x$label)
       explainer              <- explainers[[i]]
-      data$`_probabilities_` <- explainer$y_hat
 
 
-      group_matrices <- group_matrices(data,
-                                       group = group,
-                                       outcome = outcome,
-                                       outcome_numeric = explainer$y,
+      group_matrices <- group_matrices(protected = protected,
+                                       probs = explainer$y_hat,
+                                       preds = explainer$y,
                                        cutoff = custom_cutoff_vec)
 
       # like in create fobject
       gmm             <- calculate_group_fairness_metrics(group_matrices)
-      gmm_scaled      <- abs(apply(gmm, 2 , function(x) x  - gmm[,base]))
+      gmm_scaled      <- abs(apply(gmm, 2 , function(x) x  - gmm[,privileged]))
       gmm_loss        <- rowSums(gmm_scaled)
       names(gmm_loss) <- paste0(names(gmm_loss),"_parity_loss")
 

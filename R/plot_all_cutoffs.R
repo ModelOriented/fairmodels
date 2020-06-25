@@ -45,7 +45,7 @@ plot.all_cutoffs <- function(x, ...){
   plt <- ggplot(cutoff_data, aes(cutoff, parity_loss, color = metric)) +
     geom_line() +
     theme_drwhy() +
-    scale_color_manual(values = c(DALEX::colors_discrete_drwhy(n=7),"#c295f0")) +
+    scale_color_manual(values = c(DALEX::colors_discrete_drwhy(n=8),"#c295f0")) +
     ggtitle("All cutoffs plot", subtitle = paste("created with", paste(labels, collapse = ", "), collapse = " ")) +
     facet_grid(rows = vars(label)) +
     xlab("value of cutoff") +

@@ -12,7 +12,7 @@
 #' Position corresponding to subgroups in levels will be changed. Default is NULL
 #' @param fairness_metrics character, name of metric or vector of multiple metrics
 #' @param grid_points numeric, grid for cutoffs to test. Number of points between 0 and 1 spread evenly.
-#' @param cumulated logical, if \code{TRUE}  facets will collapse to one plot and parity loss for each model will be summed. Deafult \code{FALSE}.
+#' @param cumulated logical, if \code{TRUE}  facets will collapse to one plot and parity loss for each model will be summed. Default \code{FALSE}.
 #'
 #' @return
 #' @export
@@ -64,17 +64,13 @@ ceteris_paribus_cutoff <- function(x,
 
   explainers <- x$explainers
   cutoffs    <- seq(0,1, length.out =  grid_points)
-  data       <- x$data
-  group      <- x$group
-  outcome    <- x$outcome
-  base       <- x$base
-  cutoff     <- x$cutoff
+  protected  <- x$protected
+  privileged <- x$privileged
 
-  n_subgroups <- length(x$cutoff)
+  n_subgroups <- length(levels(protected))
   cutoff_data <- data.frame()
 
-
-  group_levels <- levels(data[,group])
+  group_levels <- levels(protected)
 
   if (! subgroup %in% group_levels) stop("subgroup is not present in group's levels")
 
@@ -99,25 +95,23 @@ ceteris_paribus_cutoff <- function(x,
         explainer <- explainers[[i]]
 
         if (is.null(new_cutoffs)){
-          custom_cutoff_vec  <- cutoff
+          custom_cutoff_vec  <- x$cutoff[[i]]
           custom_cutoff_vec[position_of_subgroup] <- custom_cutoff
         } else {
           custom_cutoff_vec <- new_cutoffs
           custom_cutoff_vec[position_of_subgroup] <- custom_cutoff
         }
 
-        data$`_probabilities_` <- explainer$y_hat
         label                  <- x$label[i]
 
-        group_matrices <- group_matrices(data,
-                                         group = group,
-                                         outcome = outcome,
-                                         outcome_numeric = explainer$y,
+        group_matrices <- group_matrices(protected = protected,
+                                         preds     = explainer$y,
+                                         probs     = explainer$y_hat,
                                          cutoff = custom_cutoff_vec)
 
         # like in create fobject
         gmm             <- calculate_group_fairness_metrics(group_matrices)
-        gmm_scaled      <- abs(apply(gmm, 2 , function(x) x  - gmm[,base]))
+        gmm_scaled      <- abs(apply(gmm, 2 , function(x) x  - gmm[,privileged]))
         gmm_loss        <- rowSums(gmm_scaled)
         names(gmm_loss) <- paste0(names(gmm_loss),"_parity_loss")
 

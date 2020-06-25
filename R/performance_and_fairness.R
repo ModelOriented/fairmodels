@@ -53,7 +53,7 @@ performance_and_fairness <- function(x, fairness_metric = NULL, performance_metr
   }
 
   if (is.null(performance_metric)) {
-    performance_metric = "auc"
+    performance_metric = "accuracy"
     cat("Performace metric is NULL, setting deafult (", performance_metric,")  \n")
   }
 
@@ -76,11 +76,9 @@ performance_and_fairness <- function(x, fairness_metric = NULL, performance_metr
     } else {
       # if else use custom cutoff function implemented in fairmodels
 
-      mod_perf[i] <- group_model_performance(x$explainers[[i]],
-                                             data = x$data,
-                                             group = x$group,
-                                             outcome = x$outcome,
-                                             cutoff = x$cutoff,
+      mod_perf[i] <- group_model_performance(x         = x$explainers[[i]],
+                                             protected = x$protected,
+                                             cutoff    = x$cutoff[[x$label[i]]],
                                              performance_metric = performance_metric)
     }
   }

@@ -2,12 +2,10 @@
 #'
 #' @description Calculates confusion matrices for each subgroup
 #'
-#' @param data data frame
-#' @param group \code{character} name of column with group
 #' @param probs \code{character} name of column with probabilities
-#' @param outcome \code{character} name of column with outcome
-#' @param outcome_numeric \code{numeric} vector of outcome
 #' @param cutoff \code{numeric} cutoff for probabilities, default = 0.5
+#' @param protected vector containing protected variable
+#' @param preds numeric, vector with predictions
 #'
 #' @return list with values:
 #' \itemize{
@@ -40,15 +38,15 @@
 
 group_matrices <- function(protected, probs, preds , cutoff){
 
-  group_values <- unique(as.character(protected))
+  protected_levels <- levels(protected)
   group_confusion_metrices <- list()
 
-  group_data <- data.frame(preds = preds,
-                           probs = probs,
+  group_data <- data.frame(preds     = preds,
+                           probs     = probs,
                            protected = protected  )
 
-  for (i in seq_along(group_values)){
-    subgroup <- group_values[i]
+  for (i in seq_along(protected_levels)){
+    subgroup <- protected_levels[i]
     sub_data <- group_data[group_data[,"protected"] == subgroup,]
 
     observed      <- sub_data$preds

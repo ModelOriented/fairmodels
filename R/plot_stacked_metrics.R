@@ -21,8 +21,8 @@
 #'
 #' fobject <-create_fairness_object(explainer_glm, explainer_rf,
 #'                              outcome = "Two_yr_Recidivism",
-#'                              group = "Ethnicity",
-#'                              base = "Caucasian",
+#'                              group   = "Ethnicity",
+#'                              base    = "Caucasian",
 #'                              cutoff = 0.5)
 #'
 #' sm <- stack_metrics(fobject)
@@ -35,16 +35,13 @@
 
 plot.stacked_metrics <- function(x, ...){
 
-  objects   <- get_objects(list(x, ...), "stacked_metrics")
-  data_list <- lapply(objects, function(x) x$expanded_data)
-  data      <- do.call("rbind", data_list)
-
+  data <- x$expanded_data
 
   ggplot(data, aes(x = reorder(model, -score), y = score, fill = reorder(metric, score))) +
     geom_bar(stat = "identity", position = "stack", alpha = 0.8) +
     coord_flip() +
     theme_drwhy_vertical() +
-    scale_fill_manual(values = c(DALEX::colors_discrete_drwhy(n=7),"#c295f0")) +
+    scale_fill_manual(values = c(DALEX::colors_discrete_drwhy(n=8),"#c295f0")) +
     xlab("Fairness Label") +
     ylab("Cummulated metric score") +
     labs(fill = "Metric") +
