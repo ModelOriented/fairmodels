@@ -34,19 +34,34 @@
 
 print.fairness_object <- function(x, ...){
 
-  objects   <- get_objects(list(x, ...), "fairness_object")
-  data_list <- lapply(objects, function(x) x$metric_data)
-  data      <- do.call("rbind", data_list)
+  data <- x$fairness_check_data
 
-  cat("Fairness Matrics: \n")
-  print(data)
-  cat("Models explained (fairness labels):\n")
+  models  <- unique(data$model)
+  epsilon <- x$epsilon
+  metrics <- unique(data$metric)
 
-  for (label in x$label) print(label)
+  cat("\nFairness check for models:", paste(models, collapse = ", "), "\n")
 
-  cat("\nData: \n")
-  print(head(x$data,2))
+  for (model in models){
+    model_data <- data[data$model == model,]
+
+    if (any(is.na(model_data$score))) warning("Omiting NA for model: ", model)
+
+    failed_metrics <- unique(model_data[abs(na.omit(model_data$score)) > epsilon, "metric"])
+    passed_metrics <-  length(metrics[! metrics %in% failed_metrics])
+
+    if (passed_metrics < 4){
+      cat("\n", color_codes$red_start ,model, " passes ", passed_metrics, "/5 metrics\n", color_codes$red_end ,  sep = "")}
+    if (passed_metrics == 4){
+      cat("\n", color_codes$yellow_start ,model, " passes ", passed_metrics, "/5 metrics\n", color_codes$yellow_end ,  sep = "")
+    }
+    if (passed_metrics == 5){
+      cat("\n", color_codes$green_start ,model, " passes ", passed_metrics, "/5 metrics\n", color_codes$green_end ,  sep = "")}
+
+    cat("Total loss: ", sum(abs(na.omit(data[data$model == model, "score" ]))), "\n")
+  }
 
   cat("\n")
   return(invisible(NULL))
+
 }

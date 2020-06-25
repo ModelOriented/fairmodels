@@ -26,65 +26,46 @@
 #' explainer_rf2 <- explain(rf_compas2, data = compas, y = y_numeric)
 #' explainer_glm <- explain(glm_compas, data = compas, y = y_numeric)
 #'
-#' fobject1 <-create_fairness_object(explainer_glm, explainer_rf2,
-#'                              outcome = "Two_yr_Recidivism",
-#'                              group = "Ethnicity",
-#'                              base = "Caucasian",
-#'                              cutoff = 0.4,
+#' fobject <-  fairness_check(explainer_glm, explainer_rf2,
+#'                              protected = compas$Ethnicity,
+#'                              privileged = "Caucasian",
 #'                              label = c("lm_1","rf_2"))
 #'
-#' fobject2 <-create_fairness_object(explainer_rf,
-#'                              outcome = "Two_yr_Recidivism",
-#'                              group = "Ethnicity",
-#'                              base = "Caucasian",
-#'                              cutoff = 0.5)
-#'
-#'
-#' plot(fobject1, fobject2)
-
-plot.fairness_object <- function(x, ...){
-
-  fairness_objects <- get_objects(list(x, ...), class = "fairness_object")
-
-  # data from first explainer
-  data       <- x$data
-  m          <- nrow(data)
-  n          <- length(unique(data[,x$group]))
+#' plot_density(fobject)
 
 
-  data_combined <- data.frame()
+plot_density <- function(x, ...){
 
-  for (j in seq_along(fairness_objects)){
+  stopifnot(class(x) == "fairness_object")
 
-    explainers <- fairness_objects[[j]]$explainers
+  explainers   <- x$explainers
+  m            <- length(x$protected)
+  density_data <- data.frame()
 
   for (i in seq_along(explainers)){
-    data$`_probability_` <- explainers[[i]]$y_hat
-    data$`_label_`       <- rep(fairness_objects[[j]]$label[i], m )
+    tmp_data <- data.frame(probability = explainers[[i]]$y_hat,
+                           label       = rep(x$label[i], m ),
+                           protected   = x$protected)
 
     # bind with rest
-    data_combined <- rbind(data_combined , data)
+    density_data <- rbind(density_data , tmp_data)
   }
-}
-
-  # rename columns
-  to_change <- match(TRUE , colnames(data_combined) == x$group)
-  colnames(data_combined)[to_change] <- "group"
 
 
-  p <- ggplot(data_combined, aes(`_probability_`, group)) +
+
+  p <- ggplot(density_data, aes(probability, protected)) +
         geom_violin(color = "#ceced9", fill = "#ceced9" , alpha = 0.5) +
-        geom_boxplot(aes(fill = group) ,width = 0.3, alpha = 0.5, outlier.alpha = 0) +
+        geom_boxplot(aes(fill = protected) ,width = 0.3, alpha = 0.5, outlier.alpha = 0) +
         scale_x_continuous(limits = c(0,1)) +
         theme_drwhy_vertical() +
-        scale_fill_manual(values = DALEX::colors_discrete_drwhy(n = n)) +
+        scale_fill_manual(values = DALEX::colors_discrete_drwhy(n = m)) +
         theme(legend.position = "none", # legend off
               strip.placement = "outside",
               strip.text.y = element_text(hjust = 0.5, vjust = 1),
               ) +
-        ylab(x$group) +
-        ggtitle("Probability plot")
-  p + facet_grid(rows = vars(`_label_`))
+        ylab("protected variable") +
+        ggtitle("Density plot")
+  p + facet_grid(rows = vars(label))
 
 }
 

@@ -29,42 +29,19 @@
 #' explainer_rf  <- explain(rf_compas, data = compas, y = y_numeric)
 #' explainer_glm <- explain(glm_compas, data = compas, y = y_numeric)
 #'
-#' fobject <-create_fairness_object(explainer_glm, explainer_rf,
-#'                                  outcome = "Two_yr_Recidivism",
-#'                                  data  = compas,
-#'                                  group = "Sex",
-#'                                  base  = "Female")
+#' fobject <- fairness_check(explainer_glm, explainer_rf,
+#'                                  protected  = compas$Sex,
+#'                                  privileged = "Female")
 #'
-#' # changing cutoff values
-#' fobject2 <-create_fairness_object(explainer_glm, explainer_rf,
-#'                                  outcome = "Two_yr_Recidivism",
-#'                                  data  = compas,
-#'                                  group = "Sex",
-#'                                  base  = "Female",
-#'                                 cutoff = c(0.45,0.5),
-#'                                 label = c("lm_c","rf_c")) # c for changed
-#'
-#' fc <- fairness_check(fobject)
-#' fc2 <- fairness_check(fobject2)
-#'
-#' plot(fc,fc2)
+#' plot(fobject)
 
+plot.fairness_object <- function(x, ...){
 
-plot.fairness_check <- function(x, ...){
-
-  list_of_objects <- get_objects(list(x, ...), "fairness_check")
-  data            <- extract_data(list_of_objects, "data")
-
-
-  assert_equal_parameters(list_of_objects, "n_sub")
-  assert_equal_parameters(list_of_objects, "epsilon")
-  assert_different_label(list_of_objects)
-
-  n_exp   <- length(unique(data$model))
-  n_sub   <- x$n_sub
-  n_met   <- length(unique(data$metric))
+  n_exp   <- length(x$explainers)
+  data    <- x$fairness_check_data
+  metrics <- unique(data$metric)
+  n_met   <- length(metrics)
   epsilon <- x$epsilon
-  metrics <- unique(x$data$metric)
 
   if (any(is.na(data$score))){
 

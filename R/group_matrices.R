@@ -27,43 +27,32 @@
 #' glm_compas <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
 #' y_prob <- glm_compas$fitted.values
 #'
-#' data <- compas
-#' data$probabilities <- y_prob
-#'
 #' y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
 #'
-#' gm <- group_matrices(data,
-#'                "Ethnicity",
-#'                 outcome = "Two_yr_Recidivism",
-#'                 outcome_numeric = y_numeric,
-#'                 cutoff = rep(0.45,6),
-#'                 probs = "probabilities")
+#' gm <- group_matrices(as.numeric(compas$Ethnicity),
+#'                      y_prob,
+#'                      y_numeric,
+#'                      cutoff = rep(0.45,6))
 #'
 #' gm
 #'
 
 
-group_matrices <- function(data, group, outcome, outcome_numeric, cutoff, probs = NULL){
+group_matrices <- function(protected, probs, preds , cutoff){
 
-  data$`_outcome_numeric_` <- outcome_numeric
-
-  if(!is.factor(data[,group])) stop("\ndata[,group] is not factor\n")
-
-  group_levels <- levels(data[,group])
-
+  group_values <- unique(as.character(protected))
   group_confusion_metrices <- list()
 
-  for (i in seq_along(group_levels)){
-    subgroup <- group_levels[i]
-    sub_data <- data[data[,group] == subgroup,]
+  group_data <- data.frame(preds = preds,
+                           probs = probs,
+                           protected = protected  )
 
-    observed <- sub_data$`_outcome_numeric_`
+  for (i in seq_along(group_values)){
+    subgroup <- group_values[i]
+    sub_data <- group_data[group_data[,"protected"] == subgroup,]
 
-    if (is.null(probs)){
-      probabilities <- sub_data$`_probabilities_`
-    } else {
-      probabilities <- sub_data[,probs]
-    }
+    observed      <- sub_data$preds
+    probabilities <- sub_data$probs
 
     # cutoff is ith element of vector, threshold for group
     cm <- confusion_matrix(probabilities, observed, cutoff = cutoff[i])

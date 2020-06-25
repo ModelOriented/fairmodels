@@ -1,8 +1,7 @@
 #' Create Fairness Object
 #'
-#' @description Create fairness object which measures different fairness metrics and wraps data, explainers and parameters in useful object. This is fundamental object in this package
-#' It allows to visualize fairness metrics in many ways and compare models on both fairness and performance level. Enables user to handle many models at once, to choose best by having in mind different
-#' aspects and metrics. Some plots are more useful when many models are given and some when 2-3 are passed.
+#' @description Fairness check creates fairness object which measures different fairness metrics and wraps data, explainers and parameters in useful object. This is fundamental object in this package
+#' It allows to visualize fairness metrics in many ways and compare models on both fairness and performance level. Fairness check
 #'
 #' @param data Data frame to be used
 #' @param x DALEX explainer
@@ -26,9 +25,10 @@
 #' \item FPR - False Positive Rate
 #' \item FDR - False Discovery Rate
 #' \item FOR - False Omission Rate
-#' \item TS - Threat Score
+#' \item TS  - Threat Score
+#' \item STP - Statistical Parity
 #' \item ACC - Accuracy
-#' \item F1 - F1 Score
+#' \item F1  - F1 Score
 #' \item MCC - Matthews correlation coefficient
 #' }
 #'
@@ -117,7 +117,7 @@ create_fairness_object <- function(x,
   if ( any(cutoff > 1) | any(cutoff < 0)) stop("cutoff must have values between 0 and 1")
   if (length(cutoff) == 1)                cutoff <- rep(cutoff, group_levels)
 
-  # cutoff should be now lenght of group's levels
+  # cutoff should be now length of group's levels
   if (length(cutoff) != group_levels) stop("cutoff must be either lenght 1 or length of group's levels")
 
 
