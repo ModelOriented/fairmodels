@@ -7,10 +7,6 @@ test_that("test prints",{
   cm <- choose_metric(fobject)
   print(cm)
 
-  # wrong usage of fairness check but only testing print
-  fc <- fairness_check(fobject)
-  print(fc)
-
   print(fobject)
 
   fpca <- fairness_pca(fobject)

@@ -42,18 +42,14 @@ data("compas")
 
 head(compas)
 ```
-## Demographic parity
-
-As our protected group is Ethnicity, we can plot amount of observations in particular class. Perfect data should have same number of observations in both classes per subgroup. This is just indicator of possible problem.  
+For `fairmodels` package to work properly we want to flip factor levels in target variable, so positive outcome (not being a recidivist) is being predicted by models. It is only needed for one specific function but more on it later.
 
 ```{r}
-class_parity(compas, outcome = "Two_yr_Recidivism", group  = "Ethnicity" )
+compas$Two_yr_Recidivism 
 ```
 
 
-
 We train a `ranger` model and create an explainer with `DALEX`.
-
 ```{r}
 library(DALEX)
 library(ranger)
@@ -68,21 +64,19 @@ y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
 rf_explainer <- explain(rf_compas, data = compas[,-1], y = y_numeric)
 ```
 
-Than we create `fairness_object` with `create_fairness_object()`
+Than we create call function `fairness_check()`
 
 ```{r}
 
-fobject <- create_fairness_object(rf_explainer,
-                                  data = compas, # it is important to specify all data if explainer doesn't have it
-                                  outcome = "Two_yr_Recidivism", # target variable
-                                  group  = "Ethnicity",          # protected group
-                                  base   = "Caucasian",          # to what subgroup we want to compare
-                                  cutoff = 0.5)                  # cutoff - optional, deafult = 0.5
+fobject <- fairness_check(rf_explainer,                         # explainer
+                          protected = compas$Two_yr_Recidivism, # protected variable as factor
+                          privileged = "Caucasian",             # level in protected variable, potentially more privileged
+                          cutoff = 0.5)                         # cutoff - optional, default = 0.5
 ```
 
 And we plot!
 ```{r}
-plot(fobject)
+plot_density(fobject)
 ```
    
 As we can see it is more likely that model will categorize African Americans as future recidivists than for example Asians. 

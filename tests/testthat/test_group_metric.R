@@ -9,16 +9,14 @@ test_that("Test group_metrics ", {
   expect_error(group_metric(fobject, performance_metric = "f11"))
 
 
-  fobject <- create_fairness_object( explainer_glm, explainer_ranger,
-                                    data = compas,
-                                    outcome = "Two_yr_Recidivism",
-                                    base = "Caucasian",
-                                    group = "Ethnicity")
+  fobject <- fairness_check( explainer_glm, explainer_ranger,
+                             protected = compas$Ethnicity,
+                             privileged = "Caucasian")
 
   plt <- plot(group_metric(fobject))
 
   expect_equal(plt[[1]]$labels$title, "Group metric plot")
-  expect_equal(plt[[1]]$labels$y, "ACC")
+  expect_equal(plt[[1]]$labels$y, "TPR")
 
   # changing metrics
 

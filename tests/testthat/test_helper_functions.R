@@ -2,7 +2,9 @@
 test_that("test helper functions",{
 
 
-  expect_equal(c("TPR_parity_loss", "TNR_parity_loss" ,"PPV_parity_loss", "NPV_parity_loss" ,"TS_parity_loss" , "ACC_parity_loss" ,"F1_parity_loss",  "MCC_parity_loss"),  unique_metrics())
+  expect_equal(c("TPR_parity_loss", "TNR_parity_loss" ,"PPV_parity_loss", "NPV_parity_loss",
+                 "TS_parity_loss" , "STP_parity_loss", "ACC_parity_loss" ,"F1_parity_loss",
+                 "MCC_parity_loss"),  unique_metrics())
 
   expect_error(assert_parity_metrics("non existing"))
   expect_error(assert_base_metrics("non existing"))

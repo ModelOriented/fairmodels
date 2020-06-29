@@ -34,7 +34,7 @@ test_that("PCA fairness and plot", {
 
   expect_class(plt, "ggplot")
 
-  expect_equal(plt$labels$title, "Fairness Metric PCA plot")
+  expect_equal(plt$labels$title, "Fairness PCA plot")
 
 
 })

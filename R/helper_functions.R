@@ -87,7 +87,7 @@ get_objects <- function(x, class){
 
 colors_fairmodels <- function(n = 2){
 # bases on drwhy color guide
-
+# 13 distinct colors needed
   if (n < 8){
     return(DALEX::colors_discrete_drwhy(n = n))
   }
