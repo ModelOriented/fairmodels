@@ -1,6 +1,8 @@
 #' Group metric
 #'
-#' @description Group metric enables to extract data from metrics generated for each group, and prepare it for visualization.
+#' @description Group metric enables to extract data from metrics generated for each subgroup (values in protected variable)
+#' The closer metric values are to each other, the less bias particular model has. If parity_loss parameter is set to TRUE, distance between
+#' privileged and unprivileged subgroups will be measured. When plotted shows both fairness metric and chosen performance metric.
 #'
 #' @param x object of class \code{fairness_object}
 #' @param fairness_metric character, fairness metric name
@@ -8,7 +10,7 @@
 #' @param parity_loss logical, if TRUE parity loss will supersede normal metric
 #'
 #' @details
-#' Where:
+#' Available metrics:
 #'
 #' Fairness metrics:
 #'
@@ -42,20 +44,28 @@
 #'
 #' @examples
 #'
-#' library(DALEX)
-#' library(ranger)
-#' data("compas")
-#' y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
+#' data("german")
 #'
-#' rf_1 <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
-#' lr_1 <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
+#' y_numeric <- as.numeric(german$Risk) -1
 #'
-#' explainer_1 <- explain(rf_1, data = compas, y = y_numeric)
-#' explainer_2 <- explain(lr_1, data = compas, y = y_numeric)
+#' lm_model <- glm(Risk~.,
+#'                 data = german,
+#'                 family=binomial(link="logit"))
 #'
-#' fo <- create_fairness_object(explainer_1, explainer_2,  outcome = "Two_yr_Recidivism", group = "Ethnicity", base = "Caucasian"  )
+#' rf_model <- ranger::ranger(Risk ~.,
+#'                            data = german,
+#'                            probability = TRUE,
+#'                            num.trees = 200)
 #'
-#' gm <- group_metric(fo, fairness_metric = "FPR", performance_metric = "f1")
+#' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+#' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
+#'
+#' fobject <- fairness_check(explainer_lm, explainer_rf,
+#'                           protected = german$Sex,
+#'                           privileged = "male")
+#'
+#' gm <- group_metric(fobject, "TPR", "f1", parity_loss = TRUE)
+#'
 #' plot(gm)
 #'
 #' @return \code{group_metric} object
@@ -63,25 +73,22 @@
 #' @rdname group_metric
 #'
 
-group_metric <- function(x , fairness_metric = NULL, performance_metric = NULL, parity_loss = FALSE){
+group_metric <- function(x, fairness_metric = NULL, performance_metric = NULL, parity_loss = FALSE){
 
   stopifnot(class(x) == "fairness_object")
   stopifnot(is.logical(parity_loss))
 
-  fairness_object <- x
-  base  <- fairness_object$base
-  data  <- fairness_object$data
-  m     <- ncol(data)
-  n     <- length(fairness_object$groups_data[[1]][[1]])
-  n_exp <- length(fairness_object$explainers)
+  base  <- x$privileged
+  n     <- length(x$groups_data[[1]][[1]])
+  n_exp <- length(x$explainers)
 
   if (is.null(fairness_metric)) {
-    fairness_metric <-  "ACC"
+    fairness_metric <-  "TPR"
     cat("Fairness Metric not given, setting deafult (", fairness_metric,")  \n")
   }
 
   if (is.null(performance_metric)) {
-    performance_metric <-  "auc"
+    performance_metric <-  "accuracy"
     cat("Performace metric not given, setting deafult (", performance_metric,")  \n")
   }
 
@@ -100,12 +107,12 @@ group_metric <- function(x , fairness_metric = NULL, performance_metric = NULL, 
   labels     <- list()
 
   for (i in seq_len(n_exp)){
-    group_data[[i]] <- fairness_object$groups_data[[i]][fairness_metric][[1]]
+    group_data[[i]] <- x$groups_data[[i]][fairness_metric][[1]]
 
     # if parity loss, then scale
     if (parity_loss) group_data[[i]] <- abs(group_data[[i]] - group_data[[i]][base] )
 
-    labels[[i]]       <- fairness_object$label[i]
+    labels[[i]]       <- x$label[i]
   }
 
   unlisted_group_data <- unlist(group_data)
@@ -113,12 +120,12 @@ group_metric <- function(x , fairness_metric = NULL, performance_metric = NULL, 
   labels              <- unlist(labels)
   labels_rep          <- rep(labels, each = n)
 
-  fairness_data <- data.frame(group = row_names,
+  group_metric_data <- data.frame(group = row_names,
                               value = unlisted_group_data,
                               label = labels_rep)
 
   # performance metric
-  cutoff   <- fairness_object$cutoff
+  cutoff   <- x$cutoff
   mod_perf <- rep(0, length(x$explainers))
 
   for (i in seq_len(n_exp)){
@@ -129,10 +136,8 @@ group_metric <- function(x , fairness_metric = NULL, performance_metric = NULL, 
     } else {
       # if else use custom cutoff function implemented in fairmodels
       mod_perf[i] <- group_model_performance(x$explainers[[i]],
-                                             data               = x$data,
-                                             group              = x$group,
-                                             outcome            = x$outcome,
-                                             cutoff             = x$cutoff,
+                                             protected  = x$protected,
+                                             cutoff     = x$cutoff[[i]],
                                              performance_metric = performance_metric)
     }
 
@@ -140,9 +145,11 @@ group_metric <- function(x , fairness_metric = NULL, performance_metric = NULL, 
 
   performance_data <- data.frame(x = x$label, y = mod_perf)
 
-  if (parity_loss) y_label <- paste0(y_label, "_parity_loss")
-
-  group_metric <-  list(fairness_data      = fairness_data,
+  if (parity_loss){
+    fairness_metric <- paste0(fairness_metric, "_parity_loss")
+    group_metric_data <- group_metric_data[group_metric_data$group != x$privileged,]
+  }
+  group_metric <-  list(group_metric_data      = group_metric_data,
                         performance_data   = performance_data,
                         fairness_metric    = fairness_metric,
                         performance_metric = performance_metric,

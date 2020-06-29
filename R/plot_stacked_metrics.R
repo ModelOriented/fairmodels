@@ -44,7 +44,7 @@ plot.stacked_metrics <- function(x, ...){
     geom_bar(stat = "identity", position = "stack", alpha = 0.8) +
     coord_flip() +
     theme_drwhy_vertical() +
-    scale_fill_manual(values = colors_fairmodels()) +
+    scale_fill_manual(values = colors_fairmodels(13)) +
     xlab("model") +
     ylab("Acummulated metric score") +
     labs(fill = "Metric") +

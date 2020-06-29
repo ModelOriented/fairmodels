@@ -58,7 +58,7 @@ plot.ceteris_paribus_cutoff <- function(x, ...){
                       facet_wrap(vars(model), nrow = n_models)  +
                       ggtitle("Ceteris paribus cutoff plot",
                               subtitle = paste("Based on", subgroup, collapse = " ")) +
-                      scale_color_manual(values = DALEX::colors_discrete_drwhy(n = n_metrics )) +
+                      scale_color_manual(values = colors_fairmodels(n_metrics)) +
                       xlab("value of cutoff") +
                       ylab("parity loss")
 
@@ -69,7 +69,7 @@ plot.ceteris_paribus_cutoff <- function(x, ...){
                     theme_drwhy() +
                     ggtitle("Ceteris paribus cutoff plot",
                             subtitle = paste("Based on", subgroup, "and cumulated", collapse = " ")) +
-                    scale_color_manual(values = DALEX::colors_discrete_drwhy(n = n_models )) +
+                    scale_color_manual(values = colors_fairmodels(n = n_models )) +
                     xlab("value of cutoff") +
                     ylab("cummulated parity loss")
 

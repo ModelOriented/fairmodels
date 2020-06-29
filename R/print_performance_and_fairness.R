@@ -1,10 +1,10 @@
-#' Print group metric
+#' Print performance and fairness
 #'
-#' @param x \code{group_metric} object
+#' @param x \code{performance_and_fairness} object
 #' @param ... other print parameters
 #'
 #' @export
-#' @rdname print_group_metric
+#' @rdname print_performance_and_fairness
 #'
 #' @examples
 #'
@@ -28,23 +28,30 @@
 #'                           protected = german$Sex,
 #'                           privileged = "male")
 #'
-#' gm <- group_metric(fobject, "TPR", "f1", parity_loss = TRUE)
+#'  # same explainers with different cutoffs for female
+#' fobject <- fairness_check(explainer_lm, explainer_rf, fobject,
+#'                           protected = german$Sex,
+#'                           privileged = "male",
+#'                           cutoff = c(0.4,0.5),
+#'                           label = c("lm_2", "rf_2"))
 #'
-#' print(gm)
+#' paf <- performance_and_fairness(fobject)
+#'
+#' paf
 
-print.group_metric <- function(x, ...){
+print.performance_and_fairness <- function(x, ...){
 
+  data               <- x$paf_data
+  performance_metric <- x$performance_metric
+  fairness_metric    <- x$fairness_metric
 
-  cat("Fairness data top rows for", x$fairness_metric, "\n")
-  print(head(x$group_metric_data))
-  cat("\n")
+  cat("performance_and_fairness object created for: \n")
+  print(x$label)
 
-  cat("Performance data for", x$performance_metric, ":")
+  cat("\ndata: \n")
+  print(data)
 
-  perf_df <- x$performance_data
-  colnames(perf_df) <- NULL
-  print(perf_df)
-
-  cat("\n")
   return(invisible(NULL))
+
 }
+

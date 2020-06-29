@@ -85,20 +85,62 @@ get_objects <- function(x, class){
 }
 
 
-colors_fairmodels <- function(){
+colors_fairmodels <- function(n = 2){
 # bases on drwhy color guide
 
-colors <- c(DALEX::colors_discrete_drwhy(n=7),
-            # other colors:
-            "#B622AD",
-            "#c295f0",
-            "#037B63",
-            "#733E6B",
-            "#9fdf9f",
-            "#794469"
+  if (n < 8){
+    return(DALEX::colors_discrete_drwhy(n = n))
+  }
+  if (n == 8) {
+    return(c(DALEX::colors_discrete_drwhy(n = 7),
+                     "#B622AD"))
+    }
+  if (n == 9){
+   return(c(DALEX::colors_discrete_drwhy(n = 7),
+                     "#B622AD",
+                     "#c295f0"))
+  }
+  if (n == 10) {
+    return(c(DALEX::colors_discrete_drwhy(n = 7),
+                     "#B622AD",
+                     "#c295f0",
+                     "#037B63"))
+  }
+  if (n == 11){
+   return(c(DALEX::colors_discrete_drwhy(n = 7),
+                     "#B622AD",
+                     "#c295f0",
+                     "#037B63",
+                     "#733E6B"))
+  }
+  if (n == 12){
 
-            )
-return(colors)
+   return(c(DALEX::colors_discrete_drwhy(n = 7),
+                     "#B622AD",
+                     "#c295f0",
+                     "#037B63",
+                     "#733E6B",
+                     "#9fdf9f"))
+  }
+
+  if (n == 13){
+    return(c(DALEX::colors_discrete_drwhy(n = 7),
+                     "#B622AD",
+                     "#c295f0",
+                     "#037B63",
+                     "#733E6B",
+                     "#9fdf9f",
+                     "#794469"))
+  }
+
+    c(DALEX::colors_discrete_drwhy(n = 7),
+      "#B622AD",
+      "#c295f0",
+      "#037B63",
+      "#733E6B",
+      "#9fdf9f",
+      "#794469")[((0:(n - 1))%%13) + 1]
+
 }
 
 

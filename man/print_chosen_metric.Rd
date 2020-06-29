@@ -20,27 +20,25 @@ The one with the least parity loss is more fair in terms of this particular metr
 }
 \examples{
 
-data("compas")
+data("german")
 
-# positive outcome - not being recidivist
-two_yr_recidivism <- factor(compas$Two_yr_Recidivism, levels = c(1,0))
-y_numeric <- as.numeric(two_yr_recidivism) -1
+y_numeric <- as.numeric(german$Risk) -1
 
-lm_model <- glm(Two_yr_Recidivism~.,
-                data=compas,
+lm_model <- glm(Risk~.,
+                data = german,
                 family=binomial(link="logit"))
 
-rf_model <- ranger::ranger(Two_yr_Recidivism ~.,
-                           data = compas,
+rf_model <- ranger::ranger(Risk ~.,
+                           data = german,
                            probability = TRUE,
                            num.trees = 200)
 
-explainer_lm <- DALEX::explain(lm_model, data = compas[,-1], y = y_numeric)
-explainer_rf <- DALEX::explain(rf_model, data = compas[,-1], y = y_numeric)
+explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
 
 fobject <- fairness_check(explainer_lm, explainer_rf,
-                          protected = compas$Ethnicity,
-                          privileged = "Caucasian")
+                          protected = german$Sex,
+                          privileged = "male")
 
 cm <- choose_metric(fobject, "TPR_parity_loss")
 print(cm)

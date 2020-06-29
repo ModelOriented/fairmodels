@@ -15,45 +15,37 @@
 #'
 #' @examples
 #'
-#' library(DALEX)
-#' library(ranger)
+#' data("german")
 #'
-#' data("compas")
-#' y_numeric <- as.numeric(compas$Two_yr_Recidivism) - 1
-#' # models
+#' y_numeric <- as.numeric(german$Risk) -1
 #'
-#' rf_compas_1 <- ranger(Two_yr_Recidivism ~ Number_of_Priors + Age_Below_TwentyFive, data = compas, probability = TRUE)
-#' rf_compas_3 <- ranger(Two_yr_Recidivism ~ Sex + Age_Above_FourtyFive, data = compas, probability = TRUE)
-#' model_compas_lr <- glm(Two_yr_Recidivism ~ ., data = compas, family = binomial(link = "logit"))
-#' rf_compas_5 <- ranger(Two_yr_Recidivism ~ ., data = compas, probability = TRUE)
-#' rf_compas_6 <- ranger(Two_yr_Recidivism ~ Age_Above_FourtyFive + Misdemeanor, data = compas, probability = TRUE)
-#' rf_compas_7 <- ranger(Two_yr_Recidivism ~ ., data = compas, probability = TRUE)
-#' rf_compas_8 <- ranger(Two_yr_Recidivism ~ Sex + Age_Above_FourtyFive + Misdemeanor + Ethnicity, data = compas, probability = TRUE)
+#' lm_model <- glm(Risk~.,
+#'                 data = german,
+#'                 family=binomial(link="logit"))
 #'
-#' # explainers
-#' explainer_1 <- explain(rf_compas_1, data = compas, y = y_numeric)
-#' explainer_3 <- explain(rf_compas_3, data = compas, y = y_numeric)
-#' explainer_4 <- explain(model_compas_lr, data = compas, y = y_numeric)
-#' explainer_5 <- explain(rf_compas_5, data = compas, y = y_numeric)
-#' explainer_6 <- explain(rf_compas_6, data = compas, y = y_numeric)
-#' explainer_7 <- explain(rf_compas_7, data = compas, y = y_numeric)
+#' rf_model <- ranger::ranger(Risk ~.,
+#'                            data = german,
+#'                            probability = TRUE,
+#'                            num.trees = 200)
 #'
-#' # different labels
-#' explainer_3$label <- "rf3"
-#' explainer_4$label <- "glm"
-#' explainer_5$label <- "rf5"
-#' explainer_6$label <- "rf6"
-#' explainer_7$label <- "rf7"
-#' explainers <- list(explainer_1, explainer_3, explainer_4, explainer_5, explainer_6, explainer_7)
+#' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+#' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
 #'
-#' fobject <- create_fairness_object(explainer_1, explainer_3, explainer_4, explainer_5, explainer_6, explainer_7,
-#'   outcome = "Two_yr_Recidivism",
-#'   group = "Ethnicity",
-#'   base = "Caucasian"
-#' )
+#' fobject <- fairness_check(explainer_lm, explainer_rf,
+#'                           protected = german$Sex,
+#'                           privileged = "male")
+#'
+#'  # same explainers with different cutoffs for female
+#' fobject <- fairness_check(explainer_lm, explainer_rf, fobject,
+#'                           protected = german$Sex,
+#'                           privileged = "male",
+#'                           cutoff = c(0.4,0.5),
+#'                           label = c("lm_2", "rf_2"))
 #'
 #' fpca <- fairness_pca(fobject)
+#'
 #' print(fpca)
+#'
 
 
 print.fairness_pca <- function(x, ...){
@@ -62,7 +54,7 @@ print.fairness_pca <- function(x, ...){
   print(x$x)
 
   cat("\nCreated with: \n")
-  print(as.character(x$labels))
+  print(as.character(x$label))
 
   cat("\nFirst two components explained", sum(x$pc_1_2)*100, "% of variance.\n")
 

@@ -45,11 +45,12 @@ plot.all_cutoffs <- function(x, ...){
 
   data   <- x$cutoff_data
   label  <- unique(data$label)
+  n_exp  <- length(label)
 
   plt <- ggplot(data, aes(cutoff, parity_loss, color = metric)) +
     geom_line() +
     theme_drwhy() +
-    scale_color_manual(values = c(colors_fairmodels())) +
+    scale_color_manual(values = c(colors_fairmodels(n_exp))) +
     ggtitle("All cutoffs plot", subtitle = paste("created with", paste(label, collapse = ", "), collapse = " ")) +
     xlab("value of cutoff") +
     ylab("Metric's parity loss")
