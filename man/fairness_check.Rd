@@ -28,7 +28,7 @@ fairness_check(
 \item{label}{character, vector of labels to be assigned for explainers, default is explainer label.}
 }
 \value{
-An object of class \code{fairness object} which is a list with elements:
+An object of class \code{fairness_object} which is a list with elements:
 \itemize{
 \item metric_data - data.frame containing parity loss for various fairness metrics. Created with following metrics:
 \itemize{
@@ -58,9 +58,9 @@ metric - vector of metrics from each subgroup
 
 base_metric - scalar, value of metric for base subgroup
 
-\item groups_data - metrics across groups, with base but not summarized for explainer
+\item groups_data - metrics across levels in protected variable
 
-\item explainers  - list of DALEX explainers
+\item explainers  - list of DALEX explainers used to create object
 
 \item ...         - other parameters passed to function
 }

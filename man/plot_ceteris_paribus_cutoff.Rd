@@ -9,43 +9,42 @@
 \arguments{
 \item{x}{ceteris_paribus_cutoff object}
 
-\item{...}{other ceteris_paribus_cutoff objects}
+\item{...}{other plot parameters}
 }
 \value{
 ggplot object
 }
 \description{
-Ceteris paribus cutoff plot
+Ceteris paribus cutoff is way to check how will parity loss behave if we changed only cutoff in one subgroup.
+It plots object of class ceteric_paribus_cutoff. It might have two types - default and cumulated. Cumulated sums metrics and plots
+it all in one plot. When default one is used all chosen metrics will be plotted for each model.
 }
 \examples{
 
-library(DALEX)
-library(ranger)
-
 data("compas")
 
-rf_compas  <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
-glm_compas <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
+# positive outcome - not being recidivist
+two_yr_recidivism <- factor(compas$Two_yr_Recidivism, levels = c(1,0))
+y_numeric <- as.numeric(two_yr_recidivism) -1
 
-y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
+lm_model <- glm(Two_yr_Recidivism~.,
+                data=compas,
+                family=binomial(link="logit"))
 
-explainer_rf  <- explain(rf_compas, data = compas, y = y_numeric)
-explainer_glm <- explain(glm_compas, data = compas, y = y_numeric)
+rf_model <- ranger::ranger(Two_yr_Recidivism ~.,
+                           data = compas,
+                           probability = TRUE,
+                           num.trees = 200)
 
-fobject <-create_fairness_object(explainer_glm, explainer_rf,
-                                 outcome = "Two_yr_Recidivism",
-                                 group = "Ethnicity",
-                                 base = "Caucasian",
-                                 cutoff = 0.5)
+explainer_lm <- DALEX::explain(lm_model, data = compas[,-1], y = y_numeric)
+explainer_rf <- DALEX::explain(rf_model, data = compas[,-1], y = y_numeric)
 
-cpc <- ceteris_paribus_cutoff(fobject, subgroup = "African_American")
+fobject <- fairness_check(explainer_lm, explainer_rf,
+                          protected = compas$Ethnicity,
+                          privileged = "Caucasian")
+
+cpc <- ceteris_paribus_cutoff(fobject, "African_American")
+
 plot(cpc)
-
-
-cpc <- ceteris_paribus_cutoff(fobject, subgroup = "African_American",
-                              cumulated = TRUE,
-                              fairness_metrics = c("TPR_parity_loss","PPV_parity_loss", "TNR_parity_loss" ))
-plot(cpc)
-
 
 }

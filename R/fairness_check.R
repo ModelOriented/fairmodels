@@ -22,7 +22,7 @@
 #' \url{https://en.wikipedia.org/wiki/Fairness_(machine_learning)}
 #'
 
-#' @return An object of class \code{fairness object} which is a list with elements:
+#' @return An object of class \code{fairness_object} which is a list with elements:
 #' \itemize{
 #' \item metric_data - data.frame containing parity loss for various fairness metrics. Created with following metrics:
 #' \itemize{
@@ -52,9 +52,9 @@
 #'
 #' base_metric - scalar, value of metric for base subgroup
 #'
-#' \item groups_data - metrics across groups, with base but not summarized for explainer
+#' \item groups_data - metrics across levels in protected variable
 #'
-#' \item explainers  - list of DALEX explainers
+#' \item explainers  - list of DALEX explainers used to create object
 #'
 #' \item ...         - other parameters passed to function
 #' }
@@ -212,10 +212,12 @@ fairness_check <- function(x,
 
   # cutoff handling- if cutoff is null than 0.5 for all subgroups
   group_levels <- levels(protected)
-  if (is.null(cutoff))                    cutoff <- rep(0.5, group_levels)
+  n_lvl        <- length(group_levels)
+  if (is.null(cutoff))                    cutoff <- rep(0.5, n_lvl)
   if (! is.numeric(cutoff))               stop("cutoff must be numeric scalar/ vector")
   if ( any(cutoff > 1) | any(cutoff < 0)) stop("cutoff must have values between 0 and 1")
-  if (length(cutoff) == 1)                cutoff <- rep(cutoff, group_levels)
+  if (length(cutoff) == 1 & n_lvl != 1)    cutoff <- rep(cutoff, n_lvl)
+  if (length(cutoff) != n_lvl)    stop("cutoff must be same length as number of subgroups (or lenght 1) ")
 
 
 

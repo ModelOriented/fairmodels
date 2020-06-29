@@ -15,30 +15,32 @@
 
 }
 \description{
-Print chosen metric
+Choose metric from parity loss metrics and plot it for every model.
+The one with the least parity loss is more fair in terms of this particular metric.
 }
 \examples{
 
-library(DALEX)
-library(ranger)
+data("compas")
 
-data(compas)
+# positive outcome - not being recidivist
+two_yr_recidivism <- factor(compas$Two_yr_Recidivism, levels = c(1,0))
+y_numeric <- as.numeric(two_yr_recidivism) -1
 
-rf_compas <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE) # Wszystko
-lr_compas <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
-# numeric target values
-y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
+lm_model <- glm(Two_yr_Recidivism~.,
+                data=compas,
+                family=binomial(link="logit"))
 
-# explainer
-rf_explainer <- explain(rf_compas, data = compas[,-1], y = y_numeric)
-lr_explainer <- explain(lr_compas, data = compas[,-1], y = y_numeric)
+rf_model <- ranger::ranger(Two_yr_Recidivism ~.,
+                           data = compas,
+                           probability = TRUE,
+                           num.trees = 200)
 
+explainer_lm <- DALEX::explain(lm_model, data = compas[,-1], y = y_numeric)
+explainer_rf <- DALEX::explain(rf_model, data = compas[,-1], y = y_numeric)
 
-fobject <- create_fairness_object(rf_explainer, lr_explainer,
-                                  data = compas,
-                                  outcome = "Two_yr_Recidivism",
-                                  group = "Ethnicity",
-                                  base = "African_American")
+fobject <- fairness_check(explainer_lm, explainer_rf,
+                          protected = compas$Ethnicity,
+                          privileged = "Caucasian")
 
 cm <- choose_metric(fobject, "TPR_parity_loss")
 print(cm)

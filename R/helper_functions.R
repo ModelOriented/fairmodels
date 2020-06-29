@@ -83,3 +83,30 @@ get_objects <- function(x, class){
 
   return(explainers)
 }
+
+
+colors_fairmodels <- function(){
+# bases on drwhy color guide
+
+colors <- c(DALEX::colors_discrete_drwhy(n=7),
+            # other colors:
+            "#B622AD",
+            "#c295f0",
+            "#037B63",
+            "#733E6B",
+            "#9fdf9f",
+            "#794469"
+
+            )
+return(colors)
+}
+
+
+
+
+
+
+
+
+
+

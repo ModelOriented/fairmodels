@@ -1,6 +1,7 @@
 #' Stack metrics
 #'
-#' @description Stacked metrics is like plot for \code{choosen_metric} but with all unique metrics stacked on top of each other. Metrics containing NA's will be dropped to enable fair comparison.
+#' @description Stack metrics sums parity loss metrics for all models. Higher value of stacked metrics means the model is less fair (has higher bias)
+#' for subgroups from protected vector.
 #'
 #' @param x \code{fairness_object}
 #'
@@ -14,24 +15,25 @@
 #'
 #' @examples
 #'
-#' library(DALEX)
-#' library(ranger)
+#' data("german")
 #'
-#' data("compas")
+#' y_numeric <- as.numeric(german$Risk) -1
 #'
-#' rf_compas  <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
-#' glm_compas <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
+#' lm_model <- glm(Risk~.,
+#'                 data = german,
+#'                 family=binomial(link="logit"))
 #'
-#' y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
+#' rf_model <- ranger::ranger(Risk ~.,
+#'                            data = german,
+#'                            probability = TRUE,
+#'                            num.trees = 200)
 #'
-#' explainer_rf  <- explain(rf_compas, data = compas, y = y_numeric)
-#' explainer_glm <- explain(glm_compas, data = compas, y = y_numeric)
+#' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+#' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
 #'
-#' fobject <-create_fairness_object(explainer_glm, explainer_rf,
-#'                              outcome = "Two_yr_Recidivism",
-#'                              group = "Ethnicity",
-#'                              base = "Caucasian",
-#'                              cutoff = 0.5)
+#' fobject <- fairness_check(explainer_lm, explainer_rf,
+#'                           protected = german$Sex,
+#'                           privileged = "male")
 #'
 #' sm <- stack_metrics(fobject)
 #' plot(sm)
@@ -54,7 +56,7 @@ stack_metrics <- function(x){
   expanded_data <- expanded_data[expanded_data$metric %in% unique_metrics(),]
 
 
-  stacked_metrics <- list(expanded_data = expanded_data)
+  stacked_metrics <- list(stacked_data = expanded_data)
   class(stacked_metrics) <- "stacked_metrics"
 
   return(stacked_metrics)

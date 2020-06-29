@@ -15,28 +15,33 @@
 
 }
 \description{
-Print stacked metrics
+Stack metrics sums parity loss metrics for all models. Higher value of stacked metrics means the model is less fair (has higher bias)
+for subgroups from protected vector.
 }
 \examples{
 
-library(DALEX)
-library(ranger)
-
 data("compas")
 
-rf_compas  <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
-glm_compas <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
+# positive outcome - not being recidivist
+two_yr_recidivism <- factor(compas$Two_yr_Recidivism, levels = c(1,0))
+y_numeric <- as.numeric(two_yr_recidivism) -1
 
-y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
+lm_model <- glm(Two_yr_Recidivism~.,
+                data=compas,
+                family=binomial(link="logit"))
 
-explainer_rf  <- explain(rf_compas, data = compas, y = y_numeric)
-explainer_glm <- explain(glm_compas, data = compas, y = y_numeric)
+rf_model <- ranger::ranger(Two_yr_Recidivism ~.,
+                           data = compas,
+                           probability = TRUE,
+                           num.trees = 200)
 
-fobject <-create_fairness_object(explainer_glm, explainer_rf,
-                                 outcome = "Two_yr_Recidivism",
-                                 group = "Ethnicity",
-                                 base = "Caucasian",
-                                 cutoff = 0.5)
+explainer_lm <- DALEX::explain(lm_model, data = compas[,-1], y = y_numeric)
+explainer_rf <- DALEX::explain(rf_model, data = compas[,-1], y = y_numeric)
 
-stack_metrics(fobject)
+fobject <- fairness_check(explainer_lm, explainer_rf,
+                          protected = compas$Ethnicity,
+                          privileged = "Caucasian")
+
+sm <- stack_metrics(fobject)
+print(sm)
 }

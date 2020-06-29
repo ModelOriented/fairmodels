@@ -3,7 +3,7 @@
 #' @description Special method for model performance evaluation. Counts number of tp, tn, fp, fn for each subgroup and therefore cutoff, sums afterwards.
 #'
 #' @param x DALEX explainer
-#' @param protected
+#' @param protected factor, vector with levels as subgroups
 #' @param cutoff vector of thresholds for each subgroup
 #' @param performance_metric name of performance metric
 #'

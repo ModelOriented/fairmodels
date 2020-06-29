@@ -1,13 +1,13 @@
 #' Ceteris paribus cutoff
 #'
 #' @description Ceteris paribus cutoff is way to check how will parity loss behave if we changed only cutoff in one subgroup.
-#' By using parameter new_cutoffs parity loss for metric's with new cutoffs will be calculated. Note that cutoff for subgroup will
-#' change no matter if in new_cutoff is some value. When parameter cumulated is set to true, all metrics will be summed and facets will
-#' collapse to one plot with different models on it. Sometimes due to NA's present in some metrics it is needed to drop some metrics.
+#' By using parameter new_cutoffs parity loss for metric's with new cutoffs will be calculated. Note that cutoff for subgroup (passed as parameter) will
+#' change no matter new_cutoff's value at that position. When parameter cumulated is set to true, all metrics will be summed and facets will
+#' collapse to one plot with different models on it. Sometimes due to NA's present in certain metrics it is advised that those should be omitted.
 #'
 #'
 #' @param x fairness_object
-#' @param subgroup character, name of subgroup (level in group)
+#' @param subgroup character, name of subgroup (level in protected variable)
 #' @param new_cutoffs numeric, vector of new cutoffs, length should be equal to number of group levels.
 #' Position corresponding to subgroups in levels will be changed. Default is NULL
 #' @param fairness_metrics character, name of metric or vector of multiple metrics
@@ -18,33 +18,30 @@
 #' @export
 #'
 #' @examples
-#'
-#' library(DALEX)
-#' library(ranger)
-#'
 #' data("compas")
 #'
-#' rf_compas  <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
-#' glm_compas <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
+#' # positive outcome - not being recidivist
+#' two_yr_recidivism <- factor(compas$Two_yr_Recidivism, levels = c(1,0))
+#' y_numeric <- as.numeric(two_yr_recidivism) -1
 #'
-#' y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
+#' lm_model <- glm(Two_yr_Recidivism~.,
+#'                 data=compas,
+#'                 family=binomial(link="logit"))
 #'
-#' explainer_rf  <- explain(rf_compas, data = compas, y = y_numeric)
-#' explainer_glm <- explain(glm_compas, data = compas, y = y_numeric)
+#' rf_model <- ranger::ranger(Two_yr_Recidivism ~.,
+#'                            data = compas,
+#'                            probability = TRUE,
+#'                            num.trees = 200)
 #'
-#' fobject <-create_fairness_object(explainer_glm, explainer_rf,
-#'                                  outcome = "Two_yr_Recidivism",
-#'                                  group = "Ethnicity",
-#'                                  base = "Caucasian",
-#'                                  cutoff = 0.5)
+#' explainer_lm <- DALEX::explain(lm_model, data = compas[,-1], y = y_numeric)
+#' explainer_rf <- DALEX::explain(rf_model, data = compas[,-1], y = y_numeric)
 #'
-#' cpc <- ceteris_paribus_cutoff(fobject, subgroup = "African_American")
-#' plot(cpc)
+#' fobject <- fairness_check(explainer_lm, explainer_rf,
+#'                           protected = compas$Ethnicity,
+#'                           privileged = "Caucasian")
 #'
+#' cpc <- ceteris_paribus_cutoff(fobject, "African_American")
 #'
-#' cpc <- ceteris_paribus_cutoff(fobject, subgroup = "African_American",
-#'                               cumulated = TRUE,
-#'                               fairness_metrics = c("TPR_parity_loss","PPV_parity_loss", "TNR_parity_loss" ))
 #' plot(cpc)
 #'
 
@@ -80,7 +77,6 @@ ceteris_paribus_cutoff <- function(x,
     }
   }
 
-
   # position of subgroup in group (for cutoff position)
   position_of_subgroup <-  which(subgroup == group_levels)
 
@@ -102,14 +98,14 @@ ceteris_paribus_cutoff <- function(x,
           custom_cutoff_vec[position_of_subgroup] <- custom_cutoff
         }
 
-        label                  <- x$label[i]
+        label <- x$label[i]
 
         group_matrices <- group_matrices(protected = protected,
                                          preds     = explainer$y,
                                          probs     = explainer$y_hat,
                                          cutoff = custom_cutoff_vec)
 
-        # like in create fobject
+        # like in create fairness_check
         gmm             <- calculate_group_fairness_metrics(group_matrices)
         gmm_scaled      <- abs(apply(gmm, 2 , function(x) x  - gmm[,privileged]))
         gmm_loss        <- rowSums(gmm_scaled)
@@ -135,10 +131,10 @@ ceteris_paribus_cutoff <- function(x,
     }
     })
 
-  ceteris_paribus_cutoff <- list(data            = cutoff_data,
-                                 subgroup        = subgroup,
-                                 cumulated      = cumulated,
-                                 label = x$label)
+  ceteris_paribus_cutoff <- list(cutoff_data = cutoff_data,
+                                 subgroup    = subgroup,
+                                 cumulated   = cumulated,
+                                 label       = x$label)
   class(ceteris_paribus_cutoff) <- "ceteris_paribus_cutoff"
 
   return(ceteris_paribus_cutoff)

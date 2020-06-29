@@ -7,17 +7,13 @@
 group_matrices(protected, probs, preds, cutoff)
 }
 \arguments{
+\item{protected}{vector containing protected variable}
+
 \item{probs}{\code{character} name of column with probabilities}
 
+\item{preds}{numeric, vector with predictions}
+
 \item{cutoff}{\code{numeric} cutoff for probabilities, default = 0.5}
-
-\item{data}{data frame}
-
-\item{group}{\code{character} name of column with group}
-
-\item{outcome}{\code{character} name of column with outcome}
-
-\item{outcome_numeric}{\code{numeric} vector of outcome}
 }
 \value{
 list with values:

@@ -4,16 +4,12 @@
 \alias{group_model_performance}
 \title{Group model performance}
 \usage{
-group_model_performance(x, data, outcome, group, cutoff, performance_metric)
+group_model_performance(x, protected, cutoff, performance_metric)
 }
 \arguments{
 \item{x}{DALEX explainer}
 
-\item{data}{whole data}
-
-\item{outcome}{name of outcome column}
-
-\item{group}{name of protected group column}
+\item{protected}{factor, vector with levels as subgroups}
 
 \item{cutoff}{vector of thresholds for each subgroup}
 

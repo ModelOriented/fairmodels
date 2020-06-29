@@ -16,7 +16,7 @@ ceteris_paribus_cutoff(
 \arguments{
 \item{x}{fairness_object}
 
-\item{subgroup}{character, name of subgroup (level in group)}
+\item{subgroup}{character, name of subgroup (level in protected variable)}
 
 \item{new_cutoffs}{numeric, vector of new cutoffs, length should be equal to number of group levels.
 Position corresponding to subgroups in levels will be changed. Default is NULL}
@@ -25,45 +25,42 @@ Position corresponding to subgroups in levels will be changed. Default is NULL}
 
 \item{grid_points}{numeric, grid for cutoffs to test. Number of points between 0 and 1 spread evenly.}
 
-\item{cumulated}{logical, if \code{TRUE}  facets will collapse to one plot and parity loss for each model will be summed. Deafult \code{FALSE}.}
+\item{cumulated}{logical, if \code{TRUE}  facets will collapse to one plot and parity loss for each model will be summed. Default \code{FALSE}.}
 }
 \value{
 
 }
 \description{
 Ceteris paribus cutoff is way to check how will parity loss behave if we changed only cutoff in one subgroup.
-By using parameter new_cutoffs parity loss for metric's with new cutoffs will be calculated. Note that cutoff for subgroup will
-change no matter if in new_cutoff is some value. When parameter cumulated is set to true, all metrics will be summed and facets will
-collapse to one plot with different models on it. Sometimes due to NA's present in some metrics it is needed to drop some metrics.
+By using parameter new_cutoffs parity loss for metric's with new cutoffs will be calculated. Note that cutoff for subgroup (passed as parameter) will
+change no matter new_cutoff's value at that position. When parameter cumulated is set to true, all metrics will be summed and facets will
+collapse to one plot with different models on it. Sometimes due to NA's present in certain metrics it is advised that those should be omitted.
 }
 \examples{
-
-library(DALEX)
-library(ranger)
-
 data("compas")
 
-rf_compas  <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
-glm_compas <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
+# positive outcome - not being recidivist
+two_yr_recidivism <- factor(compas$Two_yr_Recidivism, levels = c(1,0))
+y_numeric <- as.numeric(two_yr_recidivism) -1
 
-y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
+lm_model <- glm(Two_yr_Recidivism~.,
+                data=compas,
+                family=binomial(link="logit"))
 
-explainer_rf  <- explain(rf_compas, data = compas, y = y_numeric)
-explainer_glm <- explain(glm_compas, data = compas, y = y_numeric)
+rf_model <- ranger::ranger(Two_yr_Recidivism ~.,
+                           data = compas,
+                           probability = TRUE,
+                           num.trees = 200)
 
-fobject <-create_fairness_object(explainer_glm, explainer_rf,
-                                 outcome = "Two_yr_Recidivism",
-                                 group = "Ethnicity",
-                                 base = "Caucasian",
-                                 cutoff = 0.5)
+explainer_lm <- DALEX::explain(lm_model, data = compas[,-1], y = y_numeric)
+explainer_rf <- DALEX::explain(rf_model, data = compas[,-1], y = y_numeric)
 
-cpc <- ceteris_paribus_cutoff(fobject, subgroup = "African_American")
-plot(cpc)
+fobject <- fairness_check(explainer_lm, explainer_rf,
+                          protected = compas$Ethnicity,
+                          privileged = "Caucasian")
 
+cpc <- ceteris_paribus_cutoff(fobject, "African_American")
 
-cpc <- ceteris_paribus_cutoff(fobject, subgroup = "African_American",
-                              cumulated = TRUE,
-                              fairness_metrics = c("TPR_parity_loss","PPV_parity_loss", "TNR_parity_loss" ))
 plot(cpc)
 
 }

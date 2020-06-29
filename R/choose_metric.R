@@ -1,8 +1,9 @@
 #' Choose metric
 #'
-#' @description choose metric and compare it's values across all models
+#' @description Choose metric creates \code{chosen_metric} object. It is visualization of metric data from fairness object.
+#' It allows to visualize and compare it's values of chosen metric across all models.
 #'
-#' @param x fairness object
+#' @param x \code{fairness_object}
 #' @param fairness_metric \code{char}, name of fairness metric, one of metrics:
 #'
 #' \itemize{
@@ -28,26 +29,27 @@
 #'
 #' @examples
 #'
-#' library(DALEX)
-#' library(ranger)
+#' data("compas")
 #'
-#' data(compas)
+#' # positive outcome - not being recidivist
+#' two_yr_recidivism <- factor(compas$Two_yr_Recidivism, levels = c(1,0))
+#' y_numeric <- as.numeric(two_yr_recidivism) -1
 #'
-#' rf_compas <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE) # Wszystko
-#' lr_compas <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
-#' # numeric target values
-#' y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
+#' lm_model <- glm(Two_yr_Recidivism~.,
+#'                 data=compas,
+#'                 family=binomial(link="logit"))
 #'
-#' # explainer
-#' rf_explainer <- explain(rf_compas, data = compas[,-1], y = y_numeric)
-#' lr_explainer <- explain(lr_compas, data = compas[,-1], y = y_numeric)
+#' rf_model <- ranger::ranger(Two_yr_Recidivism ~.,
+#'                            data = compas,
+#'                            probability = TRUE,
+#'                            num.trees = 200)
 #'
+#' explainer_lm <- DALEX::explain(lm_model, data = compas[,-1], y = y_numeric)
+#' explainer_rf <- DALEX::explain(rf_model, data = compas[,-1], y = y_numeric)
 #'
-#' fobject <- create_fairness_object(rf_explainer, lr_explainer,
-#'                                   data = compas,
-#'                                   outcome = "Two_yr_Recidivism",
-#'                                   group = "Ethnicity",
-#'                                   base = "African_American")
+#' fobject <- fairness_check(explainer_lm, explainer_rf,
+#'                           protected = compas$Ethnicity,
+#'                           privileged = "Caucasian")
 #'
 #' cm <- choose_metric(fobject, "TPR_parity_loss")
 #' plot(cm)
@@ -55,6 +57,7 @@
 
 
 choose_metric <- function(x, fairness_metric = "FPR_parity_loss"){
+
   stopifnot(class(x) == "fairness_object")
   assert_parity_metrics(fairness_metric)
 
@@ -64,9 +67,9 @@ choose_metric <- function(x, fairness_metric = "FPR_parity_loss"){
   data$metric    <- as.numeric(data$metric)
 
 
-  choosen_metric <- list(data            = data,
-                         metric          = fairness_metric,
-                         label = x$label)
+  choosen_metric <- list(metric_data = data,
+                         metric = fairness_metric,
+                         label  = x$label)
 
   class(choosen_metric) <- "chosen_metric"
 
