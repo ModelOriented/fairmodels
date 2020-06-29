@@ -4,7 +4,7 @@ test_that("Test all_cutoffs with plot", {
 
   expect_equal(ac$label, "ranger")
 
-  tmp <- ac$data[ac$data$cutoff == 0.5,]
+  tmp <- ac$cutoff_data[ac$cutoff_data$cutoff == 0.5,]
   tmp <- tmp["metric"]
   tmp <- as.character(unlist(tmp))
   names(tmp) <- NULL
