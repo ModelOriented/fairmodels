@@ -7,6 +7,8 @@
 #' @param x ceteris_paribus_cutoff object
 #' @param ... other plot parameters
 #'
+#' @import ggplot2
+#'
 #' @return ggplot object
 #' @rdname plot_ceteris_paribus_cutoff
 #' @export
@@ -50,6 +52,7 @@ plot.ceteris_paribus_cutoff <- function(x, ...){
   cumulated  <- x$cumulated
   n_metrics  <- length(unique(data$metric))
 
+  cutoff <- parity_loss <- metric <- model <- NULL
   plt <- ggplot(data)
 
   if (! cumulated){
@@ -57,8 +60,12 @@ plot.ceteris_paribus_cutoff <- function(x, ...){
                       theme_drwhy() +
                       facet_wrap(vars(model), nrow = n_models)  +
                       ggtitle("Ceteris paribus cutoff plot",
-                              subtitle = paste("Based on", subgroup, collapse = " ")) +
-                      scale_color_manual(values = colors_fairmodels(n_metrics)) +
+                              subtitle = paste("Based on",
+                                               subgroup,
+                                               collapse = " ")) +
+                      scale_color_manual(
+                        values = colors_fairmodels(n_metrics)
+                        ) +
                       xlab("value of cutoff") +
                       ylab("parity loss")
 

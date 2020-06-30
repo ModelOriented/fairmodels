@@ -4,7 +4,10 @@ test_that("test stack metric and plot",{
   df <- expand_fairness_object(fobject)
   df$score <- round(df$score, 3)
 
-  expect_equal(sm$stacked_data,  df[df$metric %in% unique_metrics(),] )
+
+  expect_equal(sm$stacked_data[sm$stacked_data$metric == "TPR_parity_loss" & sm$stacked_data$model == 'lm', 'score'],
+               df[df$metric== "TPR_parity_loss" & df$model == 'lm', 'score'])
+
 
   plt <- plot(sm)
 

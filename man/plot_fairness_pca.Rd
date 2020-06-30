@@ -14,7 +14,7 @@
 \item{...}{other plot parameters}
 }
 \value{
-
+\code{ggplot} object
 }
 \description{
 Plot pca calculated on fairness_object metrics. Similar models and metrics should be close to each other. Plot doesn't work on multiple \code{fairness_pca} objects.

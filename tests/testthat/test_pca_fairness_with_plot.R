@@ -29,7 +29,7 @@ test_that("PCA fairness and plot", {
 
   ########################################## PLOT #########################################
 
-  fp <- fairness_pca(fobject_big)
+  fp <- suppressWarnings(fairness_pca(fobject_big))
   plt <- plot(fp)
 
   expect_class(plt, "ggplot")

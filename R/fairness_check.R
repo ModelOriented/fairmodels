@@ -11,7 +11,7 @@
 #' @param privileged one value of \code{protected}, in regard to what subgroup parity loss is calculated
 #' @param cutoff numeric, vector of cutoffs (thresholds) for each value of protected variable, affecting only explainers.
 #' @param label character, vector of labels to be assigned for explainers, default is explainer label.
-#'
+#' @param epsilon numeric, boundary for fairness checking
 #'
 #' @details Metrics used are made for each subgroup, then base metric score is subtracted leaving loss of particular metric.
 #' If absolute loss is greater than epsilon than such metric is marked as "not passed". It means that values of metrics should be within (-epsilon,epsilon) boundary.
@@ -21,7 +21,7 @@
 #' \url{https://fairware.cs.umass.edu/papers/Verma.pdf}
 #' \url{https://en.wikipedia.org/wiki/Fairness_(machine_learning)}
 #'
-
+#'
 #' @return An object of class \code{fairness_object} which is a list with elements:
 #' \itemize{
 #' \item metric_data - data.frame containing parity loss for various fairness metrics. Created with following metrics:
@@ -71,24 +71,27 @@
 #' @rdname fairness_check
 #'
 #' @examples
-#' library(DALEX)
-#' library(ranger)
+#' data("german")
 #'
-#' data("compas")
+#' y_numeric <- as.numeric(german$Risk) -1
 #'
-#' rf_compas  <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
-#' glm_compas <- glm(Two_yr_Recidivism~., data=compas,
-#'  family=binomial(link="logit"))
+#' lm_model <- glm(Risk~.,
+#'                 data = german,
+#'                 family=binomial(link="logit"))
 #'
-#' y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
+#' rf_model <- ranger::ranger(Risk ~.,
+#'                            data = german,
+#'                            probability = TRUE,
+#'                            num.trees = 200)
 #'
-#' explainer_rf  <- explain(rf_compas, data = compas, y = y_numeric)
-#' explainer_glm <- explain(glm_compas, data = compas, y = y_numeric)
+#' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+#' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
 #'
-#' fcheck <- fairness_check(explainer_glm, explainer_rf,
-#'                              protected = compas$Ethnicity,
-#'                              privileged = "Caucasian")
-#' plot(fcheck)
+#' fobject <- fairness_check(explainer_lm, explainer_rf,
+#'                           protected = german$Sex,
+#'                           privileged = "male")
+#'
+#' plot(fobject)
 #'
 
 

@@ -22,7 +22,7 @@ explainer_gbm    <- explain(gbm_compas,data = compas[-1]   , y = y_numeric, verb
 fobject <- quiet(fairness_check(explainer_gbm, explainer_glm, explainer_ranger,
                                   protected = compas$Ethnicity,
                                   privileged = "Caucasian",
-                                  cutoff = c(0.5,0.5,0.45,0.5,0.5,0.5)))
+                                  cutoff = c(0.5,0.45,0.5,0.5,0.5,0.5)))
 
 
 

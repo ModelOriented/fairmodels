@@ -6,7 +6,8 @@
 #' @param x \code{chosen_metric} object
 #' @param ... other \code{chosen_metric} object
 #'
-#' @return
+#' @import utils
+#'
 #' @export
 #' @rdname print_chosen_metric
 #' @examples

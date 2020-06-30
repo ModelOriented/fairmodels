@@ -15,7 +15,7 @@
 #' @import DALEX
 #' @import ggrepel
 #'
-#' @return
+#' @return \code{ggplot} object
 #' @export
 #' @rdname plot_fairness_pca
 #' @examples
@@ -79,7 +79,7 @@ plot.fairness_pca <- function(x, scale = 0.5,  ...){
 
   n <- nrow(rotation)
 
-
+  PC1 <- PC2 <- NULL
   ggplot() +
     # hline covers lines from theme
     geom_hline(yintercept = 0, color = "white",     linetype = "dashed") +

@@ -11,6 +11,7 @@
   title = NULL,
   subtitle = NULL,
   text = TRUE,
+  text_size = 3,
   flip_axis = FALSE
 )
 }
@@ -26,6 +27,8 @@
 \item{subtitle}{character, subtitle of the plot}
 
 \item{text}{logical, default \code{TRUE} means it shows values on tiles}
+
+\item{text_size}{numeric, size of text}
 
 \item{flip_axis}{logical, whether to change axis with metrics on axis with models}
 }

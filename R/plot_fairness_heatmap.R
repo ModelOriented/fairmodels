@@ -12,6 +12,7 @@
 #' @param title character, title of the plot
 #' @param subtitle character, subtitle of the plot
 #' @param flip_axis logical, whether to change axis with metrics on axis with models
+#' @param text_size numeric, size of text
 #'
 #' @return list of \code{ggplot} objects
 #'
@@ -58,7 +59,7 @@
 #' @rdname plot_fairness_heatmap
 
 
-plot.fairness_heatmap <- function(x, ..., midpoint = NULL, title = NULL, subtitle = NULL,   text = TRUE, flip_axis = FALSE){
+plot.fairness_heatmap <- function(x, ..., midpoint = NULL, title = NULL, subtitle = NULL,   text = TRUE, text_size = 3,flip_axis = FALSE){
 
 
     matrix_model <- x$matrix_model
@@ -80,11 +81,18 @@ plot.fairness_heatmap <- function(x, ..., midpoint = NULL, title = NULL, subtitl
     stopifnot(is.character(title))
     stopifnot(is.character(subtitle))
 
+    # text size
+    stopifnot(is.numeric(text_size))
+    stopifnot(length(text_size) == 1)
+    stopifnot(text_size > 0)
+
+    # prepare variables
+    y <- xend <- yend <- metric <- model <- score <- NULL
 
     # Dendograms -----------------------------------------
 
     # making top dendogram
-    model1 <- hclust(dist(matrix_model))
+    model1 <- stats::hclust(stats::dist(matrix_model))
     dhc1   <- as.dendrogram(model1)
 
 
@@ -104,8 +112,8 @@ plot.fairness_heatmap <- function(x, ..., midpoint = NULL, title = NULL, subtitl
                                 axis.title = element_blank())
 
     # dendogram for metrics
-    model2 <- hclust(dist(t(as.matrix(matrix_model))))
-    dhc2   <- as.dendrogram(model2)
+    model2 <- stats::hclust( stats::dist( t(as.matrix(matrix_model))))
+    dhc2   <- stats::as.dendrogram(model2)
 
     dendro_data2     <- dendro_data(dhc2, type = "rectangle")
     dendogram_metric <- ggplot(segment(dendro_data2)) +
@@ -157,7 +165,7 @@ plot.fairness_heatmap <- function(x, ..., midpoint = NULL, title = NULL, subtitl
   # if text true add text
   if (text) heatmap <- heatmap + geom_text(aes(label = score),
                                            color = "white",
-                                           size = 4,
+                                           size = text_size,
                                            fontface = "bold")
 
   ifelse(!flip_axis,

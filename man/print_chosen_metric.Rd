@@ -11,9 +11,6 @@
 
 \item{...}{other \code{chosen_metric} object}
 }
-\value{
-
-}
 \description{
 Choose metric from parity loss metrics and plot it for every model.
 The one with the least parity loss is more fair in terms of this particular metric.

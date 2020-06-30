@@ -3,6 +3,8 @@
 #' @param x \code{group_metric} object
 #' @param ... other print parameters
 #'
+#' @import utils
+#'
 #' @export
 #' @rdname print_group_metric
 #'

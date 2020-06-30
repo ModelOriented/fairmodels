@@ -10,7 +10,7 @@ calculate_group_fairness_metrics(x)
 \item{x}{object of class \code{group_matrices}}
 }
 \value{
-
+\code{group_metric_matrix} object
 }
 \description{
 Calculate fairness metrics in groups

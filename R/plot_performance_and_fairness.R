@@ -9,6 +9,8 @@
 #' @export
 #'
 #'
+#' @import ggplot2
+#'
 #' @rdname plot_performance_and_fairness
 #'
 #' @examples

@@ -3,6 +3,8 @@
 #' @param x \code{fairness_heatmap} object
 #' @param ... other print parameters
 #'
+#' @import utils
+#'
 #' @export
 #' @rdname print_fairness_heatmap
 #'

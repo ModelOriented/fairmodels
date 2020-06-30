@@ -2,7 +2,7 @@
 #'
 #' @param x object of class \code{group_matrices}
 #'
-#' @return
+#' @return \code{group_metric_matrix} object
 #' @export
 #'
 

@@ -11,9 +11,6 @@
 
 \item{...}{other print parameters}
 }
-\value{
-
-}
 \description{
 Print all cutoffs
 }

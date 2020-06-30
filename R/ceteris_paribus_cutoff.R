@@ -14,7 +14,7 @@
 #' @param grid_points numeric, grid for cutoffs to test. Number of points between 0 and 1 spread evenly.
 #' @param cumulated logical, if \code{TRUE}  facets will collapse to one plot and parity loss for each model will be summed. Default \code{FALSE}.
 #'
-#' @return
+#' @return \code{ceteris_paribus_cutoff} object
 #' @export
 #'
 #' @examples
@@ -83,6 +83,7 @@ ceteris_paribus_cutoff <- function(x,
   # custom cutoffs will give messages (0 in matrices, NA in metrics)  numerous times,
   # so for code below they will be suppressed
 
+  cutoff <- NULL
   suppressMessages(
     for (i in seq_along(explainers)){
 

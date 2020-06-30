@@ -13,7 +13,9 @@ vignette: >
   %\VignetteEncoding{UTF-8}
   
 ---
-# Objects and Structure
+# fairmodels
+
+In this tutorial you will get to know when, why and how to use `fairmodels`. `fairmodels` is a tool for bias testing and fairness metrics visualization. It is compatible with `DALEX` and `DALEXtra` which are model agnositic explainers. Some knowledge of how to use those explainers will be needed but in this tutorial you should grasp the idea.
 
 For this tutorial we will use `compas` data to see if someone will become recidivist in next 2 years.
 
@@ -45,9 +47,10 @@ head(compas)
 For `fairmodels` package to work properly we want to flip factor levels in target variable, so positive outcome (not being a recidivist) is being predicted by models. It is only needed for one specific function but more on it later.
 
 ```{r}
-compas$Two_yr_Recidivism 
+compas$Two_yr_Recidivism <- as.factor(ifelse(compas$Two_yr_Recidivism == '1', '0', '1'))
 ```
 
+## Basic features
 
 We train a `ranger` model and create an explainer with `DALEX`.
 ```{r}
@@ -64,32 +67,59 @@ y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
 rf_explainer <- explain(rf_compas, data = compas[,-1], y = y_numeric)
 ```
 
+### fairness check
 Than we create call function `fairness_check()`
+This function aggregates many explainers so you may compare many models.
+We assign object to name `fobject` which is short version of `fairness_object` - object returned by `fairness_check()`, 
 
 ```{r}
 
 fobject <- fairness_check(rf_explainer,                         # explainer
-                          protected = compas$Two_yr_Recidivism, # protected variable as factor
+                          protected = compas$Ethnicity,         # protected variable as factor
                           privileged = "Caucasian",             # level in protected variable, potentially more privileged
                           cutoff = 0.5)                         # cutoff - optional, default = 0.5
 ```
+Let's see if our ranger model has bias.
 
-And we plot!
+```{r}
+fobject
+```
+```{r}
+plot(fobject)
+```
+
+Of course the `protected` parameter can be changed.
+```{r}
+fobject_tmp <- fairness_check(rf_explainer, 
+                           protected = compas$Sex,
+                           privileged = "Female")
+
+plot(fobject_tmp)
+```
+
+
+
+
+
+In many metrics `ranger` exceeds fairness threshold (which can be changed by `epsilon` parameter). If bars reach red field on the left it means that there is bias towards certain unprivileged subgroup. If they reach one on the right it means bias towards privileged (Caucasian - in all metrics here Caucasian subgroup is referenced as base - 0) subgroup. Someone can argue that some groups are statistically more likely commit a crime but `fairness_check()` takes it into account. Statistical parity loss checks if proportion of assigned positive class is equal among all subgroups. In this example Native Americans and African Americans are more likely to be classified as recidivists. Other metrics measure how equal treatment and mistreatment among subgroups is. More on those metrics: [wikipedia](https://en.wikipedia.org/wiki/Fairness_(machine_learning))
+
+Why do we have this bias? Model did learn from biased data. We can see it on plot below
+
+
+### plot density
 ```{r}
 plot_density(fobject)
 ```
    
-As we can see it is more likely that model will categorize African Americans as future recidivists than for example Asians. 
-But maybe some groups are statistically more likely to go do crimes in the future. It is possible, but there are more ways that the model can discriminate people. 
+As we can see it is more likely that model will categorize African Americans as not being recidivists than for example Asians. 
+But maybe some groups are statistically more likely to go do crimes in the future. It is possible but that is why we used `fairness_check()` earlier. It does not only catch if subgroups are . 
 
-## Fairness Object
+## fairness object - idea
 
 To really see what `fairness_object` is about, we need to make some more models and explainers. 
 
 ```{r, results= "hide"}
 library(gbm)
-
-set.seed(123)
 
 rf_compas_1 <- ranger(Two_yr_Recidivism ~Number_of_Priors+Age_Below_TwentyFive, data = compas, probability = TRUE)
 lr_compas_1 <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
@@ -111,34 +141,63 @@ explainer_6 <- DALEX::explain(rf_compas_4,  data = compas[,-1], y = y_numeric, l
    
 Now we create one object with all explainers
 ```{r}
-fobject <- create_fairness_object(explainer_1,explainer_2,explainer_3,explainer_4,explainer_5,explainer_6,
-                                  data = compas, 
-                                  outcome = "Two_yr_Recidivism",
-                                  group  = "Ethnicity",
-                                  base   = "Caucasian")
+fobject <- fairness_check(explainer_1, explainer_2,
+                            explainer_3, explainer_4,
+                            explainer_5, explainer_6,
+                            protected = compas$Ethnicity,
+                            privileged = "Caucasian") 
 ```
    
-As we can see there is some parameters in fobject such as:    
-1. DALEX  Explainer or list of explainers   
-2. data - if first explainer was not provided with whole data frame, we should do it here    
-3. outcome - target variable, what we want to predict   
-4. group - protected group/ sensitive variable which can be unfairly treated   
-5. base - to what subgroup we want to compare metric scores with. If not provided gets first subgroup in data.   
+As we can see there is some parameters in fairness_check such as:    
+1. x, ...  -  list of `DALEX` explainers, and other `fairness_object` objects   
+2. protected - factor, containing subgroups as levels. Protected stands for protected variable (or sensitive attribute)
+3. privileged - character,  level in protected, it is subgroup suspected of having better results
+4. cutoff - numeric, vector of cutoffs values matching the order of levels in protected variable. It affects only explainers so if `fairness_object` is passed it's cutoff vector won't be changed.
+5. label - character, vector of labels for explainers only. Very convenient for `fairness_check()` iterative approach - having explainer, checking for bias, mitigating bias, passing both explainer and fairness object and comparing fairness.
+6. epsilon - numeric, boundary position in `fairness_check()`. Fairness metrics are satisfied if parity loss values are between (-epsilon, epsilon)
 
-What consists of fairness object? 
+### What consists of fairness object? 
+
+`fairness_object` is output value of `fairness_check()`
+It is S3 object consisting of:
+* Parity loss metrics 
+Popular confusion matrix metrics with parity loss - sum of distances of metric values between unprivileged subgroups and privlieged one. If model would have 0 in certain parity loss metric it would mean that it treats all subgroups equally. 
 ```{r}
-print(fobject)
+fobject$metric_data
 ```
+* groups_data
 
 Fairness object gets metrics based on confusion matrix and checks them over the groups. 
 ```{r}
 # for the first model
 fobject$groups_data$ranger$TPR
 ```
+It is simply metrics for certain subgroup.
 
-If we were going only to take score from certain metric (Let's say fpr and 0.3) we wouldn't know if it is good or bad. But we are aiming for **equal treatment over all groups** so if this metric score would be the same in all groups it would be very good. But the metrics wouldn't be comparable between each others (fpr - 0.3 in all groups and acc_parity - 0.9 in all groups, both are good in terms of parity). That is why we use **base** - to set benchmark. And for example Caucasian in fpr had score of 0.3 and African American 0.6. After setting `base = Caucasian` Caucasian would have score 1, and African American 2, because is two times higher score in fpr.
+What is relation between `$groups_data` and `$metric_data` ? 
+
+If we were going only to take score from certain metric (Let's say fpr and 0.3) we wouldn't know if it is good or bad. But we are aiming for **equal treatment over all groups** so if this metric score would be the same in all groups it would be very good. But the metrics wouldn't be comparable between each others (fpr - 0.3 in all groups and accuracy - 0.9 in all groups, both are good in terms of parity). That is why we use **privileged** - to set benchmark. And for example Caucasian in fpr had score of 0.3 and African American 0.6. After setting `privilieged = Caucasian` Caucasian would have score 0, and African American 0.3, because is the distance between those metrics.
 
 *Note: When dealing with aggregating plots we use formula sum(abs(1-score)) to represent aggregated score in metrics. In short is how much it differs from ideal scores.* 
+
+* explainers 
+
+list of `DALEX` explainers
+
+* cutoff 
+
+```{r}
+# for first model
+fobject$cutoff$ranger
+```
+
+list of cutoff values for each model
+
+* fairness_check_data 
+data used in print and plot of `fairness_object`. It is already processed data and ready to plot. If someone were to use `abs()` metrics there would be equal to particular metrics in `$metric_data`. It means that it allows negative values. So when value is negative it means that score of privileged group in this metric was better.  
+
+
+* ... - other parameters passed to `fairness_check()`
 
 
 # Choosing best model
@@ -152,8 +211,7 @@ Let's see how they perform in different metrics.
 sm <- stack_metrics(fobject)
 plot(sm)
 ```
-   
-At first we see that lm is the worst overall model. It does not give us information if plots are similar to each other. For now only plots basic metrics.
+It displays accumulated (Stacked) metric scores for each model. The least metric score the better.   
 
 ## Plot metric
 
@@ -166,7 +224,6 @@ plot(cm)
 ## Plot fairness PCA
 With this task we should use `PCA`. We call `create_fairness_pca()` to create fairness pca object. 
 ```{r}
-fobject$metric_data
 fair_pca <- fairness_pca(fobject)
 print(fair_pca)
 ```
@@ -186,7 +243,7 @@ Another way to deal with grouped data is using heatmap.
 
 ```{r}
 fheatmap <- fairness_heatmap(fobject)
-plot(fheatmap)
+plot(fheatmap, text_size = 2.5)
 ```
    
 For both models and metrics dendograms are created. This way through hierarchical clustering we can look on similarities between models/metrics. It should give similar but more detailed information than PCA
@@ -194,7 +251,7 @@ For both models and metrics dendograms are created. This way through hierarchica
 It can be normalized among metrics.
 ```{r}
 fheatmap <- fairness_heatmap(fobject, scale = TRUE)
-plot(fheatmap , title = "Title can be changed", subtitle = "subtitle too!") # we can turn values off via text= FALSE
+plot(fheatmap , title = "Title can be changed", subtitle = "subtitle too!", text = FALSE) # we can turn values off via text= FALSE
 ```
 
 Now we know what those scores are and how "similar" models are to each other
@@ -229,16 +286,14 @@ p4 <- plot(performance_and_fairness(fobject,  "TS_parity_loss", "f1"))+ ggtitle(
 
 
 
-## Back to detail 
+## Group Metric
 
-When we have narrowed down our search for the best model we can use `two_models_plot` to check once again metrics within groups and decide which model to use.
+When we have narrowed down our search for the best model we can use `group_metric` to check once again metrics within groups and decide which model to use.
 
 ```{r}
-fobject2 <- create_fairness_object(explainer_1,explainer_2, 
-                                   data = compas, 
-                                  outcome = "Two_yr_Recidivism",
-                                  group  = "Ethnicity",
-                                  base   = "Caucasian")
+fobject2 <- fairness_check(explainer_1,explainer_2, 
+                                   protected = compas$Ethnicity,
+                                   privileged = "Caucasian")
 
 
 gm <- group_metric(fobject2, fairness_metric = "FPR")
@@ -253,74 +308,34 @@ fradar <- fairness_radar(fobject2)
 plot(fradar)
 ```
 
-
-We can also use simple `plot` when we have only few explainers.
-```{r}
-plot(fobject2)
-```
-
-Of course the protected group can be changed.
-```{r}
-fobject3 <- create_fairness_object(explainer_2,explainer_5, 
-                                   data = compas, 
-                                  outcome = "Two_yr_Recidivism",
-                                  group  = "Sex",
-                                  base = "Female")   
-plot(fobject3)
-```
-
 ## Custom cutoff
 
-In `fairmodels` we can specify cutoff (threshold) for each subgroup, so if subgroups are: 
+We may see how cutoff affects parity loss of metrics
+
+
+
+### All cutoffs
+
+All cutoffs measures where metrics exist (are not NA) and how they change if we modify cutoffs in all subgroups.
+
+In this plot `NA` values are natural, so warnings are to be expected. 
 ```{r}
-levels(compas$Sex)
-```
+ac <- all_cutoffs(fobject2, label = 'lm')
 
-```{r}
-fobject_without_cutoff <- create_fairness_object(explainer_2,explainer_5, explainer_4,
-                                   data = compas, 
-                                  outcome = "Two_yr_Recidivism",
-                                  group  = "Sex",
-                                  base = "Female")
-
-
+plot(ac)
 ```
 
 ### Ceteris paribus cutoff
 
-In this plot `NA` values are natural, so warnings are to be expected. 
+This function shows how parity loss metrics would change if we modified cutoff only for one subgroup (here African American) with other cutoffs fixed. 
+
 ```{r}
-cpc <- ceteris_paribus_cutoff(fobject_without_cutoff, subgroup = "Male")
+cpc <- ceteris_paribus_cutoff(fobject2, subgroup = "African_American")
 
 plot(cpc)
 ```
 
-As we can see most optimal value for Male cutoff is at the rate of 0.6-0.65
-
-```{r}
-levels(compas$Sex)
-
-fobject_with_cutoff <- create_fairness_object(explainer_2,explainer_5, explainer_4,
-                                   data = compas, 
-                                  outcome = "Two_yr_Recidivism",
-                                  group  = "Sex",
-                                  base = "Female", 
-                                  cutoff = c(0.63,0.5), 
-                                  label = c("gbm_c","lm_c","ranger_c")) # c as in changed  
+In future there will be advanced tutorial showing mitigation techniques and how to compare models after mitigation of bias.
 
 
-p1 <- performance_and_fairness(fobject_without_cutoff,
-                                    fairness_metric = "TPR_parity_loss",
-                                    performance_metric = "accuracy")
-p2 <- performance_and_fairness(fobject_with_cutoff,
-                                    fairness_metric = "TPR_parity_loss",
-                                    performance_metric = "accuracy")
-
-# plot more than one object simply passing objects as arguments
-plot(p1,p2)
-
-
-```
-
-In term of TPR we achieved less parity loss with similar accuracy. 
 

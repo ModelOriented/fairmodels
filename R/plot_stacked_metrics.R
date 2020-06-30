@@ -6,6 +6,7 @@
 #' @param x \code{stacked_metrics} object
 #' @param ... other plot parameters
 #'
+#' @import ggplot2
 #'
 #' @examples
 #'
@@ -40,7 +41,10 @@ plot.stacked_metrics <- function(x, ...){
 
   data <- x$stacked_data
 
-  ggplot(data, aes(x = reorder(model, -score), y = score, fill = reorder(metric, score))) +
+  model <- score <- metric <- NULL
+  ggplot(data, aes(x    = stats::reorder(model, -score),
+                   y    = score,
+                   fill = stats::reorder(metric, score))) +
     geom_bar(stat = "identity", position = "stack", alpha = 0.8) +
     coord_flip() +
     theme_drwhy_vertical() +

@@ -11,9 +11,6 @@
 
 \item{...}{other stacked_metrics objects}
 }
-\value{
-
-}
 \description{
 Stack metrics sums parity loss metrics for all models. Higher value of stacked metrics means the model is less fair (has higher bias)
 for subgroups from protected vector.

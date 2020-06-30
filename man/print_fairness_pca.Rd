@@ -11,9 +11,6 @@
 
 \item{...}{other \code{fairness_pca} objects}
 }
-\value{
-
-}
 \description{
 Print principal components after using pca on fairness object
 }

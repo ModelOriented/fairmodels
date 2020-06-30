@@ -3,8 +3,10 @@
 #' @param x fairness_radar object
 #' @param ... other print parameters
 #'
-#' @return
+#' @import utils
+#'
 #' @export
+#' @rdname print_fairness_radar
 #'
 #' @examples
 #'

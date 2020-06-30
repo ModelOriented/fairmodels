@@ -1,11 +1,12 @@
-
 #' Print ceteris paribus cutoff
 #'
 #' @param x ceteris_paribus_cutoff object
 #' @param ... other print parameters
 #'
-#' @return
+#' @import utils
+#'
 #' @export
+#' @rdname print_ceteris_paribus_cutoff
 #'
 #' @examples
 #'

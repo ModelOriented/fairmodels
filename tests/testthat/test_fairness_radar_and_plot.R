@@ -21,7 +21,8 @@ test_that("Test_fairness_radar_and_plot", {
 
   fo$metric_data[2,1:11] <- NA
 
-  expect_error(fairness_radar(fo))
+  # both warning and error
+  expect_warning(expect_error(fairness_radar(fo)))
 
   ############### plot #######################
   plt       <- plot(fradar)

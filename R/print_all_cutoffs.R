@@ -3,8 +3,9 @@
 #' @param x all_cuttofs object
 #' @param ... other print parameters
 #'
-#' @return
 #' @export
+#'
+#' @import utils
 #'
 #' @rdname print_all_cutoffs
 #'

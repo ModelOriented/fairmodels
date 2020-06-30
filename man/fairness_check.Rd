@@ -26,6 +26,8 @@ fairness_check(
 \item{cutoff}{numeric, vector of cutoffs (thresholds) for each value of protected variable, affecting only explainers.}
 
 \item{label}{character, vector of labels to be assigned for explainers, default is explainer label.}
+
+\item{epsilon}{numeric, boundary for fairness checking}
 }
 \value{
 An object of class \code{fairness_object} which is a list with elements:

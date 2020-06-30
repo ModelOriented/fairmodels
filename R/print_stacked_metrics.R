@@ -6,7 +6,8 @@
 #' @param x stacked_metrics object
 #' @param ... other stacked_metrics objects
 #'
-#' @return
+#' @import utils
+#'
 #' @export
 #'
 #' @rdname print_stacked_metrics

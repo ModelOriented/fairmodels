@@ -43,6 +43,7 @@ plot.chosen_metric <- function(x, ...){
   fairness_metric <- x$metric
 
 
+  label <- metric <- NULL
   ggplot(data, aes(x = label, y = metric)) +
     geom_bar(stat = "identity", fill = "#46bac2", alpha = 0.8) +
     coord_flip()+

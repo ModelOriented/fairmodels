@@ -5,9 +5,7 @@
 #' @param x \code{fairness_pca} object
 #' @param ... other \code{fairness_pca} objects
 #'
-#' @return
-#'
-#'
+#' @import utils
 #'
 #' @export
 #' @rdname print_fairness_pca

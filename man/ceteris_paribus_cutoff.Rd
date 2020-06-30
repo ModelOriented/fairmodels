@@ -28,7 +28,7 @@ Position corresponding to subgroups in levels will be changed. Default is NULL}
 \item{cumulated}{logical, if \code{TRUE}  facets will collapse to one plot and parity loss for each model will be summed. Default \code{FALSE}.}
 }
 \value{
-
+\code{ceteris_paribus_cutoff} object
 }
 \description{
 Ceteris paribus cutoff is way to check how will parity loss behave if we changed only cutoff in one subgroup.

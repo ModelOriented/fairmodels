@@ -6,6 +6,9 @@
 #' @param x object of class group_metric
 #' @param ... other group_metric objects and other parameters
 #'
+#' @import ggplot2
+#'
+#'
 #' @return list of \code{ggplot} object
 #' @export
 #'
@@ -51,7 +54,10 @@ plot.group_metric <- function(x, ...){
   # extracting number of labels
   n <- length(unique(data$label))
 
-  plot1 <- ggplot(data, aes(group, value, fill = label)) +
+  # global variables
+  y <- group <- value <- NULL
+
+  plot1 <- ggplot(data, aes(x = group, y = value, fill = label)) +
             geom_bar(stat="identity",
                      position = "dodge")  +
             theme_drwhy() +
@@ -62,7 +68,7 @@ plot.group_metric <- function(x, ...){
             scale_fill_manual(values = colors_fairmodels(n)) +
             ggtitle("Group metric plot")
 
-  plot2 <- ggplot(performance_data, aes(x,y, fill = x)) +
+  plot2 <- ggplot(performance_data, aes(x = x, y = y, fill = x)) +
               geom_bar(stat = "identity",
                        width = 0.4) +
               geom_text(aes(label=round(y,3)),

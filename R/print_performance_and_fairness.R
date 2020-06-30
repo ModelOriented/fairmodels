@@ -3,6 +3,8 @@
 #' @param x \code{performance_and_fairness} object
 #' @param ... other print parameters
 #'
+#' @import utils
+#'
 #' @export
 #' @rdname print_performance_and_fairness
 #'
