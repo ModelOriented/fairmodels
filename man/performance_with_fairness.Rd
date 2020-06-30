@@ -17,37 +17,42 @@ performance_and_fairness(x, fairness_metric = NULL, performance_metric = NULL)
 \code{performance_and_fairness} object
 }
 \description{
-measure model performance and model fairness metric at the same time. Choose best model according to bot metrics.
+measure model performance and model fairness metric at the same time. Choose best model according to both metrics. When plotted y axis is inversed to accentuate
+that models in top right corner are the best according to both metrics.
 
 Measure performance in both fairness metric and
 }
 \examples{
 
-library(DALEX)
-library(ranger)
+data("german")
 
-data("compas")
+y_numeric <- as.numeric(german$Risk) -1
 
-y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
+lm_model <- glm(Risk~.,
+                data = german,
+                family=binomial(link="logit"))
 
-rf_compas_1 <- ranger(Two_yr_Recidivism ~Number_of_Priors+Age_Below_TwentyFive, data = compas, probability = TRUE)
-lr_compas_1 <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
-rf_compas_2 <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
-rf_compas_3 <- ranger(Two_yr_Recidivism ~ Age_Above_FourtyFive+Misdemeanor, data = compas, probability = TRUE)
-df <- compas
-df$Two_yr_Recidivism <- as.numeric(compas$Two_yr_Recidivism)-1
+rf_model <- ranger::ranger(Risk ~.,
+                           data = german,
+                           probability = TRUE,
+                           num.trees = 200)
 
-explainer_1 <- explain(rf_compas_1,  data = compas[,-1], y = y_numeric)
-explainer_2 <- explain(lr_compas_1,  data = compas[,-1], y = y_numeric)
-explainer_3 <- explain(rf_compas_2,  data = compas[,-1], y = y_numeric, label = "ranger_2")
-explainer_4 <- explain(rf_compas_3,  data = compas[,-1], y = y_numeric, label = "ranger_3")
+explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
 
-fobject <- create_fairness_object(explainer_1,explainer_2,explainer_3,explainer_4,
-                                    data = compas,
-                                    outcome = "Two_yr_Recidivism",
-                                    group  = "Ethnicity",
-                                    base   = "Caucasian")
-paf <- performance_and_fairness(fobject, performance_metric = "f1")
+fobject <- fairness_check(explainer_lm, explainer_rf,
+                          protected = german$Sex,
+                          privileged = "male")
+
+ # same explainers with different cutoffs for female
+fobject <- fairness_check(explainer_lm, explainer_rf, fobject,
+                          protected = german$Sex,
+                          privileged = "male",
+                          cutoff = c(0.4,0.5),
+                          label = c("lm_2", "rf_2"))
+
+paf <- performance_and_fairness(fobject)
+
 plot(paf)
 
 }

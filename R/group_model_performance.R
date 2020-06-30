@@ -3,9 +3,7 @@
 #' @description Special method for model performance evaluation. Counts number of tp, tn, fp, fn for each subgroup and therefore cutoff, sums afterwards.
 #'
 #' @param x DALEX explainer
-#' @param data whole data
-#' @param outcome name of outcome column
-#' @param group name of protected group column
+#' @param protected factor, vector with levels as subgroups
 #' @param cutoff vector of thresholds for each subgroup
 #' @param performance_metric name of performance metric
 #'
@@ -15,17 +13,13 @@
 #'
 #' @rdname group_model_performance
 
-group_model_performance <- function(x , data, outcome,  group, cutoff,  performance_metric){
-
-  df<- data
-  df$`_probabilities_` <- x$y_hat
+group_model_performance <- function(x, protected, cutoff,  performance_metric){
 
   # group matrices for amount of tp, fn, fp, tn among groups for cutoff vector
-  gm               <- group_matrices(data = df,
-                                     group = group,
-                                     outcome = outcome,
-                                     outcome_numeric = x$y,
-                                     cutoff = cutoff)
+  gm               <- group_matrices(protected,
+                                     x$y_hat,
+                                     x$y,
+                                     cutoff)
 
   tp_in_gr <- lapply(gm , function(x) sum(x$tp))
   fn_in_gr <- lapply(gm , function(x) sum(x$fn))

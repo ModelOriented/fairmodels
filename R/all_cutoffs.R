@@ -13,26 +13,31 @@
 #'
 #' @examples
 #'
-#' library(DALEX)
-#' library(ranger)
+#' data("german")
 #'
-#' data("compas")
+#' y_numeric <- as.numeric(german$Risk) -1
 #'
-#' rf_compas  <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
-#' glm_compas <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
+#' lm_model <- glm(Risk~.,
+#'                 data = german,
+#'                 family=binomial(link="logit"))
 #'
-#' y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
+#' rf_model <- ranger::ranger(Risk ~.,
+#'                            data = german,
+#'                            probability = TRUE,
+#'                            num.trees = 200)
 #'
-#' explainer_rf  <- explain(rf_compas, data = compas, y = y_numeric)
-#' explainer_glm <- explain(glm_compas, data = compas, y = y_numeric)
+#' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+#' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
 #'
-#' fobject <-create_fairness_object(explainer_glm, explainer_rf,
-#'                                  outcome = "Two_yr_Recidivism",
-#'                                  group = "Ethnicity",
-#'                                  base = "Caucasian",
-#'                                  cutoff = 0.5)
+#' fobject <- fairness_check(explainer_lm, explainer_rf,
+#'                           protected = german$Sex,
+#'                           privileged = "male")
 #'
-#' ac <- all_cutoffs(fobject, fairness_metrics = c("TPR_parity_loss", "F1_parity_loss"), label = "ranger")
+#'
+#' ac <- all_cutoffs(fobject,
+#'                   label = "lm",
+#'                   fairness_metrics = c("TPR_parity_loss",
+#'                                        "FPR_parity_loss"))
 #' plot(ac)
 #'
 
@@ -54,12 +59,10 @@ all_cutoffs <- function(x,
 
   explainers <- x$explainers
   cutoffs    <- seq(0,1, length.out =  grid_points)
-  data       <- x$data
-  group      <- x$group
-  outcome    <- x$outcome
-  base       <- x$base
+  protected  <- x$protected
+  privileged <- x$privileged
 
-  n_subgroups <- length(x$cutoff)
+  n_subgroups <- length(levels(protected))
   cutoff_data <- data.frame()
 
   # custom cutoffs will give messages (0 in matrices, NA in metrics)  numerous times,
@@ -71,18 +74,16 @@ all_cutoffs <- function(x,
       custom_cutoff_vec      <- rep(custom_cutoff, n_subgroups)
       i                      <- match(label, x$label)
       explainer              <- explainers[[i]]
-      data$`_probabilities_` <- explainer$y_hat
 
 
-      group_matrices <- group_matrices(data,
-                                       group = group,
-                                       outcome = outcome,
-                                       outcome_numeric = explainer$y,
+      group_matrices <- group_matrices(protected = protected,
+                                       probs = explainer$y_hat,
+                                       preds = explainer$y,
                                        cutoff = custom_cutoff_vec)
 
       # like in create fobject
       gmm             <- calculate_group_fairness_metrics(group_matrices)
-      gmm_scaled      <- abs(apply(gmm, 2 , function(x) x  - gmm[,base]))
+      gmm_scaled      <- abs(apply(gmm, 2 , function(x) x  - gmm[,privileged]))
       gmm_loss        <- rowSums(gmm_scaled)
       names(gmm_loss) <- paste0(names(gmm_loss),"_parity_loss")
 
@@ -97,7 +98,7 @@ all_cutoffs <- function(x,
 
     })
 
-  all_cutoffs <- list(data = cutoff_data, label = label)
+  all_cutoffs <- list(cutoff_data = cutoff_data, label = label)
   class(all_cutoffs) <- "all_cutoffs"
 
   return(all_cutoffs)

@@ -19,16 +19,17 @@ test_that("Test_fairness_radar_and_plot", {
 
   expect_warning(fairness_radar(fo))
 
-  fo$metric_data[2,1:10] <- NA
+  fo$metric_data[2,1:11] <- NA
 
-  expect_error(fairness_radar(fo))
+  # both warning and error
+  expect_warning(expect_error(fairness_radar(fo)))
 
   ############### plot #######################
   plt       <- plot(fradar)
   crd_radar <- coord_radar()
 
   # checking if plot data is equal to data scaled by max val
-  expect_equal(plt$data$score, fradar$data$score/max(fradar$data$score))
+  expect_equal(plt$data$score, fradar$radar_data$score/max(fradar$radar_data$score))
   expect_class(crd_radar, "CordRadar")
 
   expect_class(plt, "ggplot")

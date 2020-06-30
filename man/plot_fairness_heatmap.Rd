@@ -11,6 +11,7 @@
   title = NULL,
   subtitle = NULL,
   text = TRUE,
+  text_size = 3,
   flip_axis = FALSE
 )
 }
@@ -27,6 +28,8 @@
 
 \item{text}{logical, default \code{TRUE} means it shows values on tiles}
 
+\item{text_size}{numeric, size of text}
+
 \item{flip_axis}{logical, whether to change axis with metrics on axis with models}
 }
 \value{
@@ -39,41 +42,37 @@ number of metrics. NA's in metrics are gray.
 }
 \examples{
 
-library(ranger)
-library(DALEX)
-data(compas)
+data("german")
 
-# models
-y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
+y_numeric <- as.numeric(german$Risk) -1
 
-rf_compas_1 <- ranger(Two_yr_Recidivism ~Number_of_Priors+Age_Below_TwentyFive, data = compas, probability = TRUE)
-model_compas_lr <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
-rf_compas_5 <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
-rf_compas_6 <- ranger(Two_yr_Recidivism ~ Age_Above_FourtyFive+Misdemeanor, data = compas, probability = TRUE)
-rf_compas_7 <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
-rf_compas_8 <- ranger(Two_yr_Recidivism ~ Sex+Age_Above_FourtyFive+Misdemeanor+Ethnicity, data = compas, probability = TRUE)
+lm_model <- glm(Risk~.,
+                data = german,
+                family=binomial(link="logit"))
 
-# explainers
-explainer_1 <- explain(rf_compas_1, data = compas, y = y_numeric)
-explainer_4 <- explain(model_compas_lr, data = compas, y = y_numeric)
-explainer_5 <- explain(rf_compas_5, data = compas, y = y_numeric)
-explainer_6 <- explain(rf_compas_6, data = compas, y = y_numeric)
-explainer_7 <- explain(rf_compas_7, data = compas, y = y_numeric)
+rf_model <- ranger::ranger(Risk ~.,
+                           data = german,
+                           probability = TRUE,
+                           num.trees = 200)
 
-# different labels
-explainer_4$label <- "glm"
-explainer_5$label <- "rf5"
-explainer_6$label <- "rf6"
-explainer_7$label <- "rf7"
+explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
+
+fobject <- fairness_check(explainer_lm, explainer_rf,
+                          protected = german$Sex,
+                          privileged = "male")
+
+ # same explainers with different cutoffs for female
+fobject <- fairness_check(explainer_lm, explainer_rf, fobject,
+                          protected = german$Sex,
+                          privileged = "male",
+                          cutoff = c(0.4,0.5),
+                          label = c("lm_2", "rf_2"))
 
 
-fobject <- create_fairness_object(explainer_1, explainer_4, explainer_5, explainer_6, explainer_7,
-                                  outcome = "Two_yr_Recidivism",
-                                  group  = "Ethnicity",
-                                  base   = "Caucasian",
-                                  cutoff = 0.5)
+fh <- fairness_heatmap(fobject)
 
-fheatmap <- fairness_heatmap(fobject)
-plot(fheatmap)
+plot(fh)
+
 
 }

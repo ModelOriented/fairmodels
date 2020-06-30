@@ -1,9 +1,13 @@
 #' Plot all cutoffs
 #'
+#' @description All cutoffs plot allows to check how parity loss of chosen metrics is affected by the change of cutoff. Values of cutoff
+#' are the same for all subgroups (levels of protected variable) no matter what cuttof values were in fairness_object.
 #'
 #'
 #' @param x all_cutoffs object
 #' @param ... other plot parameters
+#'
+#' @import ggplot2
 #'
 #' @return ggplot object
 #' @export
@@ -11,43 +15,46 @@
 #'
 #' @examples
 #'
-#' library(DALEX)
-#' library(ranger)
+#' data("german")
 #'
-#' data("compas")
+#' y_numeric <- as.numeric(german$Risk) -1
 #'
-#' rf_compas  <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
-#' glm_compas <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
+#' lm_model <- glm(Risk~.,
+#'                 data = german,
+#'                 family=binomial(link="logit"))
 #'
-#' y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
+#' rf_model <- ranger::ranger(Risk ~.,
+#'                            data = german,
+#'                            probability = TRUE,
+#'                            num.trees = 200)
 #'
-#' explainer_rf  <- explain(rf_compas, data = compas, y = y_numeric)
-#' explainer_glm <- explain(glm_compas, data = compas, y = y_numeric)
+#' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+#' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
 #'
-#' fobject <-create_fairness_object(explainer_glm, explainer_rf,
-#'                                  outcome = "Two_yr_Recidivism",
-#'                                  group = "Ethnicity",
-#'                                  base = "Caucasian",
-#'                                  cutoff = 0.5)
+#' fobject <- fairness_check(explainer_lm, explainer_rf,
+#'                           protected = german$Sex,
+#'                           privileged = "male")
 #'
-#' ac <- all_cutoffs(fobject, fairness_metrics = c("TPR_parity_loss", "F1_parity_loss"), label = "ranger")
+#' ac <- all_cutoffs(fobject,
+#'                   label = "lm",
+#'                   fairness_metrics = c("TPR_parity_loss",
+#'                                        "FPR_parity_loss"))
 #' plot(ac)
 #'
 #'
 
 plot.all_cutoffs <- function(x, ...){
 
-  list_of_objects <- get_objects(list(x, ...), "all_cutoffs")
-  cutoff_data     <- extract_data(list_of_objects, "data")
+  data   <- x$cutoff_data
+  label  <- unique(data$label)
+  n_met  <- length(data$metric)
 
-  labels          <- lapply(list_of_objects, function(x) x$label)
-
-  plt <- ggplot(cutoff_data, aes(cutoff, parity_loss, color = metric)) +
+  cutoff <- parity_loss <- metric <- NULL
+  plt <- ggplot(data, aes(cutoff, parity_loss, color = metric)) +
     geom_line() +
     theme_drwhy() +
-    scale_color_manual(values = c(DALEX::colors_discrete_drwhy(n=7),"#c295f0")) +
-    ggtitle("All cutoffs plot", subtitle = paste("created with", paste(labels, collapse = ", "), collapse = " ")) +
-    facet_grid(rows = vars(label)) +
+    scale_color_manual(values = c(colors_fairmodels(n_met))) +
+    ggtitle("All cutoffs plot", subtitle = paste("created with", paste(label, collapse = ", "), collapse = " ")) +
     xlab("value of cutoff") +
     ylab("Metric's parity loss")
 

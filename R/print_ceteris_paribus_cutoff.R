@@ -1,45 +1,41 @@
-
 #' Print ceteris paribus cutoff
 #'
 #' @param x ceteris_paribus_cutoff object
 #' @param ... other print parameters
 #'
-#' @return
+#' @import utils
+#'
 #' @export
+#' @rdname print_ceteris_paribus_cutoff
 #'
 #' @examples
 #'
-#' library(DALEX)
-#' library(ranger)
+#' data("german")
 #'
-#' data("compas")
+#' y_numeric <- as.numeric(german$Risk) -1
 #'
-#' rf_compas  <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
-#' glm_compas <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
+#' lm_model <- glm(Risk~.,
+#'                 data = german,
+#'                 family=binomial(link="logit"))
 #'
-#' y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
+#' rf_model <- ranger::ranger(Risk ~.,
+#'                            data = german,
+#'                            probability = TRUE,
+#'                            num.trees = 200)
 #'
-#' explainer_rf  <- explain(rf_compas, data = compas, y = y_numeric)
-#' explainer_glm <- explain(glm_compas, data = compas, y = y_numeric)
+#' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+#' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
 #'
-#' fobject <-create_fairness_object(explainer_glm, explainer_rf,
-#'                                  outcome = "Two_yr_Recidivism",
-#'                                  group = "Ethnicity",
-#'                                  base = "Caucasian",
-#'                                  cutoff = 0.5)
+#' fobject <- fairness_check(explainer_lm, explainer_rf,
+#'                           protected = german$Sex,
+#'                           privileged = "male")
 #'
-#' ceteris_paribus_cutoff(fobject, "Asian")
+#' ceteris_paribus_cutoff(fobject, "female")
 
 
 print.ceteris_paribus_cutoff<- function(x, ...){
 
-  list_of_objects   <- get_objects(list(x, ...), "ceteris_paribus_cutoff")
-  data              <- extract_data(list_of_objects, "data")
-
-  assert_different_label(list_of_objects)
-
-  assert_equal_parameters(list_of_objects, "subgroup")
-  assert_equal_parameters(list_of_objects, "cumulated")
+  data <- x$cutoff_data
 
   cat("\nCeteribus paribus cutoff for model:", x$subgroup, "\n")
   cat("\nFirst rows from data: \n")

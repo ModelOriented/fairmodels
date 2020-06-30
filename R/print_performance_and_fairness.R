@@ -1,15 +1,12 @@
-#' Print fairness PCA
+#' Print performance and fairness
 #'
-#' @description Print principal components after using pca on fairness object
-#'
-#' @param x \code{fairness_pca} object
-#' @param ... other \code{fairness_pca} objects
+#' @param x \code{performance_and_fairness} object
+#' @param ... other print parameters
 #'
 #' @import utils
 #'
 #' @export
-#' @rdname print_fairness_pca
-#'
+#' @rdname print_performance_and_fairness
 #'
 #' @examples
 #'
@@ -40,22 +37,23 @@
 #'                           cutoff = c(0.4,0.5),
 #'                           label = c("lm_2", "rf_2"))
 #'
-#' fpca <- fairness_pca(fobject)
+#' paf <- performance_and_fairness(fobject)
 #'
-#' print(fpca)
-#'
+#' paf
 
+print.performance_and_fairness <- function(x, ...){
 
-print.fairness_pca <- function(x, ...){
+  data               <- x$paf_data
+  performance_metric <- x$performance_metric
+  fairness_metric    <- x$fairness_metric
 
-  cat("Fairness PCA : \n")
-  print(x$x)
+  cat("performance_and_fairness object created for: \n")
+  print(x$label)
 
-  cat("\nCreated with: \n")
-  print(as.character(x$label))
-
-  cat("\nFirst two components explained", sum(x$pc_1_2)*100, "% of variance.\n")
+  cat("\ndata: \n")
+  print(data)
 
   return(invisible(NULL))
+
 }
 

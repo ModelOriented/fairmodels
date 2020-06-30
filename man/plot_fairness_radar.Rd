@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{\code{fairness_radar} object}
 
-\item{...}{other \code{fairness_radar} object and other plot parameters}
+\item{...}{other plot parameters}
 }
 \value{
 \code{ggplot} object
@@ -18,25 +18,29 @@
 Makes radar plot showing different fairness metrics that allow to compare models.
 }
 \examples{
-library(DALEX)
-library(ranger)
+data("german")
 
-data("compas")
+y_numeric <- as.numeric(german$Risk) -1
 
-rf_compas  <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
-glm_compas <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
+lm_model <- glm(Risk~.,
+                data = german,
+                family=binomial(link="logit"))
 
-y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
+rf_model <- ranger::ranger(Risk ~.,
+                           data = german,
+                           probability = TRUE,
+                           num.trees = 200)
 
-explainer_rf  <- explain(rf_compas, data = compas, y = y_numeric)
-explainer_glm <- explain(glm_compas, data = compas, y = y_numeric)
+explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
 
-fobject <- create_fairness_object(explainer_glm, explainer_rf,
-                             outcome = "Two_yr_Recidivism",
-                             group = "Ethnicity",
-                             base = "Caucasian",
-                             cutoff = 0.5)
+fobject <- fairness_check(explainer_lm, explainer_rf,
+                          protected = german$Sex,
+                          privileged = "male")
+
+
 fradar <- fairness_radar(fobject)
+
 plot(fradar)
 
 }

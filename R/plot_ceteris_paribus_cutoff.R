@@ -1,7 +1,13 @@
 #' Ceteris paribus cutoff plot
 #'
+#' @description Ceteris paribus cutoff is way to check how will parity loss behave if we changed only cutoff in one subgroup.
+#' It plots object of class ceteric_paribus_cutoff. It might have two types - default and cumulated. Cumulated sums metrics and plots
+#' it all in one plot. When default one is used all chosen metrics will be plotted for each model.
+#'
 #' @param x ceteris_paribus_cutoff object
-#' @param ... other ceteris_paribus_cutoff objects
+#' @param ... other plot parameters
+#'
+#' @import ggplot2
 #'
 #' @return ggplot object
 #' @rdname plot_ceteris_paribus_cutoff
@@ -9,52 +15,44 @@
 #'
 #' @examples
 #'
-#' library(DALEX)
-#' library(ranger)
-#'
 #' data("compas")
 #'
-#' rf_compas  <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
-#' glm_compas <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
+#' # positive outcome - not being recidivist
+#' two_yr_recidivism <- factor(compas$Two_yr_Recidivism, levels = c(1,0))
+#' compas$T
+#' y_numeric <- as.numeric(two_yr_recidivism) -1
 #'
-#' y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
+#' lm_model <- glm(Two_yr_Recidivism~.,
+#'                 data=compas,
+#'                 family=binomial(link="logit"))
 #'
-#' explainer_rf  <- explain(rf_compas, data = compas, y = y_numeric)
-#' explainer_glm <- explain(glm_compas, data = compas, y = y_numeric)
+#' rf_model <- ranger::ranger(Two_yr_Recidivism ~.,
+#'                            data = compas,
+#'                            probability = TRUE,
+#'                            num.trees = 200)
 #'
-#' fobject <-create_fairness_object(explainer_glm, explainer_rf,
-#'                                  outcome = "Two_yr_Recidivism",
-#'                                  group = "Ethnicity",
-#'                                  base = "Caucasian",
-#'                                  cutoff = 0.5)
+#' explainer_lm <- DALEX::explain(lm_model, data = compas[,-1], y = y_numeric)
+#' explainer_rf <- DALEX::explain(rf_model, data = compas[,-1], y = y_numeric)
 #'
-#' cpc <- ceteris_paribus_cutoff(fobject, subgroup = "African_American")
+#' fobject <- fairness_check(explainer_lm, explainer_rf,
+#'                           protected = compas$Ethnicity,
+#'                           privileged = "Caucasian")
+#'
+#' cpc <- ceteris_paribus_cutoff(fobject, "African_American")
+#'
 #' plot(cpc)
-#'
-#'
-#' cpc <- ceteris_paribus_cutoff(fobject, subgroup = "African_American",
-#'                               cumulated = TRUE,
-#'                               fairness_metrics = c("TPR_parity_loss","PPV_parity_loss", "TNR_parity_loss" ))
-#' plot(cpc)
-#'
 #'
 
 
 plot.ceteris_paribus_cutoff <- function(x, ...){
 
-  list_of_objects   <- get_objects(list(x, ...), "ceteris_paribus_cutoff")
-  data              <- extract_data(list_of_objects, "data")
-
-  assert_different_label(list_of_objects)
-
-  assert_equal_parameters(list_of_objects, "subgroup")
-  assert_equal_parameters(list_of_objects, "cumulated")
-
+  data       <- x$cutoff_data
   n_models   <- length(unique(data$model))
   subgroup   <- x$subgroup
-  cumulated <- x$cumulated
+  cumulated  <- x$cumulated
   n_metrics  <- length(unique(data$metric))
 
+  cutoff <- parity_loss <- metric <- model <- NULL
   plt <- ggplot(data)
 
   if (! cumulated){
@@ -62,8 +60,12 @@ plot.ceteris_paribus_cutoff <- function(x, ...){
                       theme_drwhy() +
                       facet_wrap(vars(model), nrow = n_models)  +
                       ggtitle("Ceteris paribus cutoff plot",
-                              subtitle = paste("Based on", subgroup, collapse = " ")) +
-                      scale_color_manual(values = DALEX::colors_discrete_drwhy(n = n_metrics )) +
+                              subtitle = paste("Based on",
+                                               subgroup,
+                                               collapse = " ")) +
+                      scale_color_manual(
+                        values = colors_fairmodels(n_metrics)
+                        ) +
                       xlab("value of cutoff") +
                       ylab("parity loss")
 
@@ -74,7 +76,7 @@ plot.ceteris_paribus_cutoff <- function(x, ...){
                     theme_drwhy() +
                     ggtitle("Ceteris paribus cutoff plot",
                             subtitle = paste("Based on", subgroup, "and cumulated", collapse = " ")) +
-                    scale_color_manual(values = DALEX::colors_discrete_drwhy(n = n_models )) +
+                    scale_color_manual(values = colors_fairmodels(n = n_models )) +
                     xlab("value of cutoff") +
                     ylab("cummulated parity loss")
 

@@ -1,93 +1,105 @@
 #' Plot fairness object
 #'
-#' @description Plot distribution for models output probabilities. See how being in particular subgroup affects models decision.
+#' @description Plot fairness check enables to look how big differences are between base subgroup (privileged) and unprivileged ones.
+#' If barplot reaches red zone it means that for this subgroup fairness goal is not satisfied. Multiple subgroups and models can be plotted.
+#' Red and green zone boundary can be moved through epsilon parameter, that needs to be passed through \code{fairness_check}. Plot can receive many objects that
+#' will be plotted together with condition of equal parameters (number of subgroups, epsilon, etc...).
 #'
-#' @param x fairness_object
-#' @param ... other fairness_objects and other parameters
+#' @param x \code{fairness_check} object
+#' @param ... other \code{fairness_check} objects
+#'
+#' @import ggplot2
 #'
 #' @return \code{ggplot} object
 #' @export
-#' @rdname plot_fairness_object
 #'
 #' @examples
 #'
-#' library(DALEX)
-#' library(ranger)
+#' data("german")
 #'
-#' data("compas")
+#' y_numeric <- as.numeric(german$Risk) -1
 #'
-#' rf_compas  <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
-#' rf_compas2 <- ranger(Two_yr_Recidivism ~Misdemeanor+Age_Above_FourtyFive, data = compas, probability = TRUE)
-#' glm_compas <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
+#' lm_model <- glm(Risk~.,
+#'                 data = german,
+#'                 family=binomial(link="logit"))
 #'
-#' y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
+#' rf_model <- ranger::ranger(Risk ~.,
+#'                            data = german,
+#'                            probability = TRUE,
+#'                            num.trees = 200)
 #'
-#' explainer_rf  <- explain(rf_compas, data = compas, y = y_numeric)
-#' explainer_rf2 <- explain(rf_compas2, data = compas, y = y_numeric)
-#' explainer_glm <- explain(glm_compas, data = compas, y = y_numeric)
+#' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+#' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
 #'
-#' fobject1 <-create_fairness_object(explainer_glm, explainer_rf2,
-#'                              outcome = "Two_yr_Recidivism",
-#'                              group = "Ethnicity",
-#'                              base = "Caucasian",
-#'                              cutoff = 0.4,
-#'                              label = c("lm_1","rf_2"))
+#' fobject <- fairness_check(explainer_lm, explainer_rf,
+#'                           protected = german$Sex,
+#'                           privileged = "male")
 #'
-#' fobject2 <-create_fairness_object(explainer_rf,
-#'                              outcome = "Two_yr_Recidivism",
-#'                              group = "Ethnicity",
-#'                              base = "Caucasian",
-#'                              cutoff = 0.5)
-#'
-#'
-#' plot(fobject1, fobject2)
+#' plot(fobject)
 
 plot.fairness_object <- function(x, ...){
 
-  fairness_objects <- get_objects(list(x, ...), class = "fairness_object")
+  n_exp   <- length(x$explainers)
+  data    <- x$fairness_check_data
+  metrics <- unique(data$metric)
+  n_met   <- length(metrics)
+  epsilon <- x$epsilon
 
-  # data from first explainer
-  data       <- x$data
-  m          <- nrow(data)
-  n          <- length(unique(data[,x$group]))
+  if (any(is.na(data$score))){
 
-
-  data_combined <- data.frame()
-
-  for (j in seq_along(fairness_objects)){
-
-    explainers <- fairness_objects[[j]]$explainers
-
-  for (i in seq_along(explainers)){
-    data$`_probability_` <- explainers[[i]]$y_hat
-    data$`_label_`       <- rep(fairness_objects[[j]]$label[i], m )
-
-    # bind with rest
-    data_combined <- rbind(data_combined , data)
+   warning("Omiting NA for models: ",
+            paste(unique(data[is.na(data$score), "model"]),
+            collapse = ", "))
   }
+
+  upper_bound <- max(c(na.omit(data$score))) + 0.05
+  if (upper_bound < 0.12) upper_bound <- 0.12
+
+  lower_bound <- min(c(na.omit(data$score))) - 0.05
+  if (lower_bound > -0.12) lower_bound <- -0.12
+
+  green <- "#c7f5bf"
+  red   <- "#f05a71"
+
+  subgroup <- score <- model <- metric <- NULL
+  plt <- ggplot(data = data, aes(x = subgroup, y = score, fill = model)) +
+
+    # middle (green)
+    annotate("rect",
+              xmin  = -Inf,
+              xmax  = Inf,
+              ymin  = -epsilon,
+              ymax  =  epsilon,
+              fill  = green,
+              alpha = 0.1) +
+    # left (red)
+    annotate("rect",
+              xmin  = -Inf,
+              xmax  = Inf,
+              ymin  =  -Inf,
+              ymax  =  -epsilon,
+              fill  = red,
+              alpha = 0.1) +
+
+    # right (red)
+    annotate("rect",
+              xmin  = -Inf,
+              xmax  = Inf,
+              ymin  =  epsilon,
+              ymax  =  Inf,
+              fill  = red,
+              alpha = 0.1) +
+
+    geom_bar(stat = "identity", position = "dodge") +
+    geom_hline(yintercept = 0) +
+    scale_y_continuous(limits = c(lower_bound, upper_bound)) +
+    coord_flip() +
+    facet_wrap(vars(metric), ncol = 1) +
+    theme_drwhy_vertical() +
+    scale_fill_manual(values = DALEX::colors_discrete_drwhy(n = n_exp)) +
+    ggtitle("Fairness check", subtitle = paste("Created with", paste(
+                                               as.character(unique(data$model)), collapse = ", ")))
+  plt
 }
-
-  # rename columns
-  to_change <- match(TRUE , colnames(data_combined) == x$group)
-  colnames(data_combined)[to_change] <- "group"
-
-
-  p <- ggplot(data_combined, aes(`_probability_`, group)) +
-        geom_violin(color = "#ceced9", fill = "#ceced9" , alpha = 0.5) +
-        geom_boxplot(aes(fill = group) ,width = 0.3, alpha = 0.5, outlier.alpha = 0) +
-        scale_x_continuous(limits = c(0,1)) +
-        theme_drwhy_vertical() +
-        scale_fill_manual(values = DALEX::colors_discrete_drwhy(n = n)) +
-        theme(legend.position = "none", # legend off
-              strip.placement = "outside",
-              strip.text.y = element_text(hjust = 0.5, vjust = 1),
-              ) +
-        ylab(x$group) +
-        ggtitle("Probability plot")
-  p + facet_grid(rows = vars(`_label_`))
-
-}
-
-
 
 

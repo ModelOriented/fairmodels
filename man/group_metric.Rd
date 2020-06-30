@@ -24,10 +24,12 @@ group_metric(
 \code{group_metric} object
 }
 \description{
-Group metric enables to extract data from metrics generated for each group, and prepare it for visualization.
+Group metric enables to extract data from metrics generated for each subgroup (values in protected variable)
+The closer metric values are to each other, the less bias particular model has. If parity_loss parameter is set to TRUE, distance between
+privileged and unprivileged subgroups will be measured. When plotted shows both fairness metric and chosen performance metric.
 }
 \details{
-Where:
+Available metrics:
 
 Fairness metrics:
 
@@ -57,20 +59,28 @@ Performance metrics
 }
 \examples{
 
-library(DALEX)
-library(ranger)
-data("compas")
-y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
+data("german")
 
-rf_1 <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
-lr_1 <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
+y_numeric <- as.numeric(german$Risk) -1
 
-explainer_1 <- explain(rf_1, data = compas, y = y_numeric)
-explainer_2 <- explain(lr_1, data = compas, y = y_numeric)
+lm_model <- glm(Risk~.,
+                data = german,
+                family=binomial(link="logit"))
 
-fo <- create_fairness_object(explainer_1, explainer_2,  outcome = "Two_yr_Recidivism", group = "Ethnicity", base = "Caucasian"  )
+rf_model <- ranger::ranger(Risk ~.,
+                           data = german,
+                           probability = TRUE,
+                           num.trees = 200)
 
-gm <- group_metric(fo, fairness_metric = "FPR", performance_metric = "f1")
+explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
+
+fobject <- fairness_check(explainer_lm, explainer_rf,
+                          protected = german$Sex,
+                          privileged = "male")
+
+gm <- group_metric(fobject, "TPR", "f1", parity_loss = TRUE)
+
 plot(gm)
 
 }

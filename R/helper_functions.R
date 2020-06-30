@@ -2,7 +2,7 @@
 
 
 unique_metrics <- function(){
-  out <- paste0(c("TPR", 'TNR', 'PPV', 'NPV','TS','ACC','F1','MCC'), "_parity_loss")
+  out <- paste0(c("TPR", 'TNR', 'PPV', 'NPV','TS','STP','ACC','F1','MCC'), "_parity_loss")
   return(out)
 }
 
@@ -19,7 +19,7 @@ return(data)
 
 assert_base_metrics <- function(metric){
   if( !( is.character(metric)    & length(metric) ==1 )) stop("metric must be character")
-  metrics <- c("TPR","TNR","PPV","NPV","FNR","FPR","FDR","FOR","TS","ACC","F1", "MCC")
+  metrics <- c("TPR","TNR","PPV","NPV","FNR","FPR","FDR","FOR","TS","STP","ACC","F1", "MCC")
   if (! metric %in% metrics) stop ("Metric not in available metrics")
   invisible(return())
 }
@@ -34,7 +34,7 @@ assert_performance_metrics <- function(metric){
 assert_parity_metrics <- function(metric){
 
   if( !( is.character(metric)    & length(metric) ==1 )) stop("metric must be character")
-  metrics <- c("TPR","TNR","PPV","NPV","FNR","FPR","FDR","FOR","TS","ACC","F1", "MCC")
+  metrics <- c("TPR","TNR","PPV","NPV","FNR","FPR","FDR","FOR","TS","STP","ACC","F1", "MCC")
   metrics <- paste0(metrics, "_parity_loss")
   if (! metric %in% metrics) stop ("Metric not in available metrics")
 
@@ -83,3 +83,76 @@ get_objects <- function(x, class){
 
   return(explainers)
 }
+
+
+colors_fairmodels <- function(n = 2){
+# bases on drwhy color guide
+# 13 distinct colors needed
+  if (n < 8){
+    return(DALEX::colors_discrete_drwhy(n = n))
+  }
+  if (n == 8) {
+    return(c(DALEX::colors_discrete_drwhy(n = 7),
+                     "#B622AD"))
+    }
+  if (n == 9){
+   return(c(DALEX::colors_discrete_drwhy(n = 7),
+                     "#B622AD",
+                     "#c295f0"))
+  }
+  if (n == 10) {
+    return(c(DALEX::colors_discrete_drwhy(n = 7),
+                     "#B622AD",
+                     "#c295f0",
+                     "#037B63"))
+  }
+  if (n == 11){
+   return(c(DALEX::colors_discrete_drwhy(n = 7),
+                     "#B622AD",
+                     "#c295f0",
+                     "#037B63",
+                     "#733E6B"))
+  }
+  if (n == 12){
+
+   return(c(DALEX::colors_discrete_drwhy(n = 7),
+                     "#B622AD",
+                     "#c295f0",
+                     "#037B63",
+                     "#733E6B",
+                     "#9fdf9f"))
+  }
+
+  if (n == 13){
+    return(c(DALEX::colors_discrete_drwhy(n = 7),
+                     "#B622AD",
+                     "#c295f0",
+                     "#037B63",
+                     "#733E6B",
+                     "#9fdf9f",
+                     "#794469"))
+  }
+
+    c(DALEX::colors_discrete_drwhy(n = 7),
+      "#B622AD",
+      "#c295f0",
+      "#037B63",
+      "#733E6B",
+      "#9fdf9f",
+      "#794469")[((0:(n - 1))%%13) + 1]
+
+}
+
+
+
+quiet <- function(x) {
+  sink(tempfile())
+  on.exit(sink())
+  invisible(force(x))
+}
+
+
+
+
+
+

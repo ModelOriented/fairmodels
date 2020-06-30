@@ -1,33 +1,37 @@
 #' Plot stacked Metrics
 #'
-#' @param x \code{stacked_metrics} object
-#' @param ... other \code{stacked_metrics} objects and other plot parameters
+#' @description Stacked metrics is like plot for \code{choosen_metric} but with all unique metrics stacked on top of each other.
+#' Metrics containing NA's will be dropped to enable fair comparison.
 #'
+#' @param x \code{stacked_metrics} object
+#' @param ... other plot parameters
+#'
+#' @import ggplot2
 #'
 #' @examples
 #'
-#' library(DALEX)
-#' library(ranger)
+#' data("german")
 #'
-#' data("compas")
+#' y_numeric <- as.numeric(german$Risk) -1
 #'
-#' rf_compas  <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
-#' glm_compas <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
+#' lm_model <- glm(Risk~.,
+#'                 data = german,
+#'                 family=binomial(link="logit"))
 #'
-#' y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
+#' rf_model <- ranger::ranger(Risk ~.,
+#'                            data = german,
+#'                            probability = TRUE,
+#'                            num.trees = 200)
 #'
-#' explainer_rf  <- explain(rf_compas, data = compas, y = y_numeric)
-#' explainer_glm <- explain(glm_compas, data = compas, y = y_numeric)
+#' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+#' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
 #'
-#' fobject <-create_fairness_object(explainer_glm, explainer_rf,
-#'                              outcome = "Two_yr_Recidivism",
-#'                              group = "Ethnicity",
-#'                              base = "Caucasian",
-#'                              cutoff = 0.5)
+#' fobject <- fairness_check(explainer_lm, explainer_rf,
+#'                           protected = german$Sex,
+#'                           privileged = "male")
 #'
 #' sm <- stack_metrics(fobject)
 #' plot(sm)
-#'
 #'
 #' @export
 #' @rdname plot_stacked_metrics
@@ -35,19 +39,19 @@
 
 plot.stacked_metrics <- function(x, ...){
 
-  objects   <- get_objects(list(x, ...), "stacked_metrics")
-  data_list <- lapply(objects, function(x) x$expanded_data)
-  data      <- do.call("rbind", data_list)
+  data <- x$stacked_data
 
-
-  ggplot(data, aes(x = reorder(model, -score), y = score, fill = reorder(metric, score))) +
+  model <- score <- metric <- NULL
+  ggplot(data, aes(x    = stats::reorder(model, -score),
+                   y    = score,
+                   fill = stats::reorder(metric, score))) +
     geom_bar(stat = "identity", position = "stack", alpha = 0.8) +
     coord_flip() +
     theme_drwhy_vertical() +
-    scale_fill_manual(values = c(DALEX::colors_discrete_drwhy(n=7),"#c295f0")) +
-    xlab("Fairness Label") +
-    ylab("Cummulated metric score") +
+    scale_fill_manual(values = colors_fairmodels(13)) +
+    xlab("model") +
+    ylab("Acummulated metric score") +
     labs(fill = "Metric") +
-    ggtitle("Stacked Metric Chart")
+    ggtitle("Stacked Metric plot")
 
 }

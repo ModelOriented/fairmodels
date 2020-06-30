@@ -10,25 +10,22 @@ test_that("Test fairness_check", {
   explainer_rf  <- explain(rf_compas, data = compas, y = y_numeric)
   explainer_glm <- explain(glm_compas, data = compas, y = y_numeric)
 
-  fobject <-create_fairness_object(explainer_glm, explainer_rf,
-                                   outcome = "Two_yr_Recidivism",
-                                   data  = compas,
-                                   group = "Sex",
-                                   base  = "Female",
+  fobject <- fairness_check(explainer_glm, explainer_rf,
+                                   protected = compas$Sex,
+                                   privileged = "Female",
                                    cutoff = 0.5)
 
-  fc <- fairness_check(fobject)
 
-  expect_class(fc, "fairness_check")
+  fc_data <- fobject$fairness_check_data
 
-  metrics <- length(unique(as.character(fc$data$metric)))
+  metrics <- length(unique(as.character(fc_data$metric)))
   expect_equal(metrics, 5)
 
-  expect_equal(as.character(fc$data$subgroup)[1], "Male")
+  expect_equal(as.character(fc_data$subgroup)[1], "Male")
 
   ################################## plot #######################################
 
-  plt <- plot(fc)
+  plt <- plot(fobject)
 
   expect_equal(plt$labels$subtitle, "Created with lm, ranger")
   expect_equal(plt$labels$title , "Fairness check")

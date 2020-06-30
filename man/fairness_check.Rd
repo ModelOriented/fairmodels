@@ -4,64 +4,103 @@
 \alias{fairness_check}
 \title{Fairness check}
 \usage{
-fairness_check(x, epsilon = 0.1)
+fairness_check(
+  x,
+  ...,
+  protected,
+  privileged,
+  cutoff = NULL,
+  label = NULL,
+  epsilon = NULL
+)
 }
 \arguments{
-\item{x}{fairness_object}
+\item{x}{\code{DALEX explainer}/\code{fairness_object}}
 
-\item{epsilon}{numeric, margins for decision if fair or not. Default 0.1}
+\item{...}{possibly more \code{DALEX explainers}/\code{fairness_objects}}
+
+\item{protected}{vector, protected variable (also called sensitive attribute), containing privileged and unprivileged groups}
+
+\item{privileged}{one value of \code{protected}, in regard to what subgroup parity loss is calculated}
+
+\item{cutoff}{numeric, vector of cutoffs (thresholds) for each value of protected variable, affecting only explainers.}
+
+\item{label}{character, vector of labels to be assigned for explainers, default is explainer label.}
+
+\item{epsilon}{numeric, boundary for fairness checking}
 }
 \value{
+An object of class \code{fairness_object} which is a list with elements:
+\itemize{
+\item metric_data - data.frame containing parity loss for various fairness metrics. Created with following metrics:
+\itemize{
 
+\item TPR - True Positive Rate (Sensitivity, Recall, Equal Odds)
+\item TNR - True Negative Rate (Specificity)
+\item PPV - Positive Predictive Value (Precision)
+\item NPV - Negative Predictive Value
+\item FNR - False Negative Rate
+\item FPR - False Positive Rate
+\item FDR - False Discovery Rate
+\item FOR - False Omission Rate
+\item TS  - Threat Score
+\item STP - Statistical Parity
+\item ACC - Accuracy
+\item F1  - F1 Score
+\item MCC - Matthews correlation coefficient
+}
+
+M_parity_loss = sum(abs(metric - base_metric))
+
+where:
+
+M - some metric mentioned above
+
+metric - vector of metrics from each subgroup
+
+base_metric - scalar, value of metric for base subgroup
+
+\item groups_data - metrics across levels in protected variable
+
+\item explainers  - list of DALEX explainers used to create object
+
+\item ...         - other parameters passed to function
+}
 }
 \description{
+Fairness check creates fairness object which measures different fairness metrics and wraps data, explainers and parameters in useful object. This is fundamental object in this package
+It allows to visualize fairness metrics in many ways and compare models on both fairness and performance level. Fairness check acts as merger and wrapper for explainers and fairness objects.
+While other fairness objects values are not changed, fairness check assigns cutoffs and labels to provided explainers so same explainers with changed labels/cutoffs might be gradually added to fairness object.
+Users through print and plot methods may quickly check values of most popular fairness metrics. More on that topic in details/
+}
+\details{
 Metrics used are made for each subgroup, then base metric score is subtracted leaving loss of particular metric.
-If loss is less than -epsilon than such metric is marked as "not passed". There is no upper boundary for fairness, so if some subgroup is "better"
-in particular metric than privileged one there are no consequences to that. Good metric description can be found here :
-If loss is greater than absolute value of epsilon than such metric is marked as "not passed". It means that values of metrics should be within (-epsilon,epsilon) boundary.
+If absolute loss is greater than epsilon than such metric is marked as "not passed". It means that values of metrics should be within (-epsilon,epsilon) boundary.
 Epsilon value can be adjusted to user's needs. There are some metrics that might be derived from existing metrics (For example Equalized Odds - equal TPR and FPR for all subgroups).
-That means passing 5 metrics in fairness check asserts that model is even more fair. In \code{fairness_check} models must always predict commonly desired result. Not adhering to this rule
+That means passing 5 metrics in fairness check asserts that model is even more fair. In \code{fairness_check} models must always predict positive result. Not adhering to this rule
 may lead to misinterpretation of the plot. More on metrics and their equivalents:
 \url{https://fairware.cs.umass.edu/papers/Verma.pdf}
 \url{https://en.wikipedia.org/wiki/Fairness_(machine_learning)}
 }
 \examples{
-
 library(DALEX)
 library(ranger)
 
 data("compas")
 
-# changing levels - positive situation here is not becoming recidivist
-compas$Two_yr_Recidivism <- factor(compas$Two_yr_Recidivism, levels = c(1,0))
-
 rf_compas  <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
-glm_compas <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
+glm_compas <- glm(Two_yr_Recidivism~., data=compas,
+ family=binomial(link="logit"))
 
 y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
 
 explainer_rf  <- explain(rf_compas, data = compas, y = y_numeric)
 explainer_glm <- explain(glm_compas, data = compas, y = y_numeric)
 
-fobject <-create_fairness_object(explainer_glm, explainer_rf,
-                                 outcome = "Two_yr_Recidivism",
-                                 data  = compas,
-                                 group = "Sex",
-                                 base  = "Female")
-
-# changing cutoff values
-fobject2 <-create_fairness_object(explainer_glm, explainer_rf,
-                                 outcome = "Two_yr_Recidivism",
-                                 data  = compas,
-                                 group = "Sex",
-                                 base  = "Female",
-                                cutoff = c(0.45,0.5),
-                                label = c("lm_c","rf_c")) # c for changed
-
-fc <- fairness_check(fobject)
-fc2 <- fairness_check(fobject2)
-
-plot(fc,fc2)
+fcheck <- fairness_check(explainer_glm, explainer_rf,
+                             protected = compas$Ethnicity,
+                             privileged = "Caucasian")
+plot(fcheck)
 
 }
 \references{

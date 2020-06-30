@@ -2,12 +2,10 @@
 #'
 #' @description Calculates confusion matrices for each subgroup
 #'
-#' @param data data frame
-#' @param group \code{character} name of column with group
 #' @param probs \code{character} name of column with probabilities
-#' @param outcome \code{character} name of column with outcome
-#' @param outcome_numeric \code{numeric} vector of outcome
 #' @param cutoff \code{numeric} cutoff for probabilities, default = 0.5
+#' @param protected vector containing protected variable
+#' @param preds numeric, vector with predictions
 #'
 #' @return list with values:
 #' \itemize{
@@ -27,43 +25,32 @@
 #' glm_compas <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
 #' y_prob <- glm_compas$fitted.values
 #'
-#' data <- compas
-#' data$probabilities <- y_prob
-#'
 #' y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
 #'
-#' gm <- group_matrices(data,
-#'                "Ethnicity",
-#'                 outcome = "Two_yr_Recidivism",
-#'                 outcome_numeric = y_numeric,
-#'                 cutoff = rep(0.45,6),
-#'                 probs = "probabilities")
+#' gm <- group_matrices(as.numeric(compas$Ethnicity),
+#'                      y_prob,
+#'                      y_numeric,
+#'                      cutoff = rep(0.45,6))
 #'
 #' gm
 #'
 
 
-group_matrices <- function(data, group, outcome, outcome_numeric, cutoff, probs = NULL){
+group_matrices <- function(protected, probs, preds , cutoff){
 
-  data$`_outcome_numeric_` <- outcome_numeric
-
-  if(!is.factor(data[,group])) stop("\ndata[,group] is not factor\n")
-
-  group_levels <- levels(data[,group])
-
+  protected_levels <- levels(protected)
   group_confusion_metrices <- list()
 
-  for (i in seq_along(group_levels)){
-    subgroup <- group_levels[i]
-    sub_data <- data[data[,group] == subgroup,]
+  group_data <- data.frame(preds     = preds,
+                           probs     = probs,
+                           protected = protected  )
 
-    observed <- sub_data$`_outcome_numeric_`
+  for (i in seq_along(protected_levels)){
+    subgroup <- protected_levels[i]
+    sub_data <- group_data[group_data[,"protected"] == subgroup,]
 
-    if (is.null(probs)){
-      probabilities <- sub_data$`_probabilities_`
-    } else {
-      probabilities <- sub_data[,probs]
-    }
+    observed      <- sub_data$preds
+    probabilities <- sub_data$probs
 
     # cutoff is ith element of vector, threshold for group
     cm <- confusion_matrix(probabilities, observed, cutoff = cutoff[i])

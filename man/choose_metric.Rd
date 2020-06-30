@@ -7,7 +7,7 @@
 choose_metric(x, fairness_metric = "FPR_parity_loss")
 }
 \arguments{
-\item{x}{fairness object}
+\item{x}{\code{fairness_object}}
 
 \item{fairness_metric}{\code{char}, name of fairness metric, one of metrics:
 
@@ -31,33 +31,33 @@ choose_metric(x, fairness_metric = "FPR_parity_loss")
 choose_metric object
 }
 \description{
-choose metric and compare it's values across all models
+Choose metric creates \code{chosen_metric} object. It is visualization of metric data from fairness object.
+It allows to visualize and compare it's values of chosen metric across all models.
 }
 \details{
 some of metrics give same parity loss as others (for example TPR and FNR and that is because TPR = 1 - FNR)
 }
 \examples{
 
-library(DALEX)
-library(ranger)
+data("german")
 
-data(compas)
+y_numeric <- as.numeric(german$Risk) -1
 
-rf_compas <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE) # Wszystko
-lr_compas <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
-# numeric target values
-y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
+lm_model <- glm(Risk~.,
+                data = german,
+                family=binomial(link="logit"))
 
-# explainer
-rf_explainer <- explain(rf_compas, data = compas[,-1], y = y_numeric)
-lr_explainer <- explain(lr_compas, data = compas[,-1], y = y_numeric)
+rf_model <- ranger::ranger(Risk ~.,
+                           data = german,
+                           probability = TRUE,
+                           num.trees = 200)
 
+explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
 
-fobject <- create_fairness_object(rf_explainer, lr_explainer,
-                                  data = compas,
-                                  outcome = "Two_yr_Recidivism",
-                                  group = "Ethnicity",
-                                  base = "African_American")
+fobject <- fairness_check(explainer_lm, explainer_rf,
+                          protected = german$Sex,
+                          privileged = "male")
 
 cm <- choose_metric(fobject, "TPR_parity_loss")
 plot(cm)

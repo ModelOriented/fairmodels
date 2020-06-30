@@ -7,11 +7,9 @@ test_that("test fairness object", {
 
 
 
-  fobject10 <- create_fairness_object(explainer_ranger,
-                                      data = data,
-                                      outcome = "Two_yr_Recidivism",
-                                      group = "Ethnicity",
-                                      base = "Caucasian")
+  fobject10 <- fairness_check(explainer_ranger,
+                              protected  = compas$Ethnicity,
+                              privileged = "Caucasian")
 
   data_C <- data[data$Ethnicity == "Caucasian",]
   preds01_C <- factor(round(data_C$`_probabilities_`))
@@ -26,7 +24,10 @@ test_that("test fairness object", {
   fn_C <- sum(true10_C != preds10_C & true10_C == 1)
 
 
-  gm <- group_matrices(data, group = "Ethnicity", outcome = "Two_yr_Recidivism", outcome_numeric = explainer_ranger$y, cutoff = rep(0.5,6))
+  gm <- group_matrices(protected = compas$Ethnicity,
+                       probs     = explainer_ranger$y_hat,
+                       preds     = explainer_ranger$y,
+                       cutoff = rep(0.5,6))
 
   expect_equal(gm$Caucasian$tp, tp_C)
   expect_equal(gm$Caucasian$fp, fp_C)
@@ -55,75 +56,71 @@ test_that("test fairness object", {
   tpr_C <- tp_C/(tp_C + fn_C)
   tpr_A <- tp_A/(tp_A + fn_A)
 
-  fobject_value <- round(fobject10$groups_data$ranger$TPR[1],3)
+  fobject_value <- round(fobject10$groups_data$ranger$TPR['Caucasian'],3)
   names(fobject_value) <- NULL
   expect_equal(fobject_value, round(tpr_C,3))
 
-  fobject_value <- round(fobject10$groups_data$ranger$TPR[2],3)
+  fobject_value <- round(fobject10$groups_data$ranger$TPR['African_American'],3)
   names(fobject_value) <- NULL
   expect_equal(fobject_value, round(tpr_A,3))
 
-  expect_error(create_fairness_object(explainer_ranger,
-                                      data = compas,
-                                      outcome = "Two_yr_Recidivism",
-                                      group = "notindata",
-                                      base = "Caucasian"))
+  # no such level
+  expect_error(fairness_check(explainer_ranger,
+                              protected  = compas$Ethnicity,
+                              privileged = "notexisting"))
 
-  expect_error(create_fairness_object(explainer_ranger,
-                                      data = compas,
-                                      outcome = "notindata",
-                                      group = "Ethnicity",
-                                      base = "Caucasian"))
+  # different lenght
+  expect_error(fairness_check(explainer_ranger,
+                              protected  = compas$Ethnicity[1:(length(compas$Ethnicity) -1)],
+                              privileged = "Caucasian"))
 
-  expect_error(create_fairness_object(explainer_ranger,
-                                      data = compas,
-                                      outcome = "Two_yr_Recidivism",
-                                      group = "Ethnicity",
-                                      base = "notidata"))
+  fc <- fairness_check(explainer_ranger,
+                              protected  = compas$Ethnicity,
+                              privileged = "Caucasian")
 
-  expect_error(create_fairness_object(explainer_ranger,
-                                      data = compas,
-                                      outcome = "Age",
-                                      group = "Ethnicity",
-                                      base = "notindata"))
+  # same labels
+  expect_error(fairness_check(explainer_ranger, fc,
+                       protected  = compas$Ethnicity,
+                       privileged = "Caucasian"))
 
+  new_exp <- explainer_ranger
+  new_exp$y[4] <- 1
+  new_exp$label <- "error"
 
-  expect_error(create_fairness_object(explainer_ranger,
-                                      data = compas,
-                                      outcome = "Two_yr_Recidivism",
-                                      group = "Ethnicity",
-                                      base = "Caucasian",
-                                      cutoff = "notnumeric"))
+  new_vec <-  compas$Ethnicity
+  new_vec[3] <- "Other"
+
+  fc2 <- fairness_check(new_exp,
+                       protected  = new_vec,
+                       privileged = "Caucasian")
 
 
-  expect_error(create_fairness_object(explainer_ranger,
-                                      data = compas,
-                                      outcome = "Two_yr_Recidivism",
-                                      group = "Ethnicity",
-                                      base = "Caucasian",
-                                      cutoff = c(1.3)))
+  # incompatible fairness objects
+  expect_error(fairness_check(fc, fc2,
+                              protected  = compas$Ethnicity,
+                              privileged = "Caucasian"
+                              ))
 
-  expect_error(create_fairness_object(explainer_ranger,
-                                      data = compas,
-                                      outcome = "Two_yr_Recidivism",
-                                      group = "Ethnicity",
-                                      base = "Caucasian",
-                                      cutoff = c(1, 0.3)))
+  # different y in explainers
+  expect_error(fairness_check(new_exp, explainer_ranger,
+                              protected  = compas$Ethnicity,
+                              privileged = "Caucasian"))
 
 
-  expect_error(create_fairness_object(explainer_ranger, explainer_ranger,
-                                      data = compas,
-                                      outcome = "Two_yr_Recidivism",
-                                      group = "Ethnicity",
-                                      base = "Caucasian"))
+  expect_error(fairness_check(explainer_ranger,
+                              protected  = compas$Ethnicity,
+                              privileged = "Caucasian",
+                              cutoff = c(1.3)))
 
-
-
+  expect_error(fairness_check(explainer_ranger,
+                              protected  = compas$Ethnicity,
+                              privileged = "Caucasian",
+                              cutoff = c(1, 0.3)))
 
 
   ######################## plot #############################
 
-  plt <- plot(fobject)
+  plt <- plot_density(fc)
 
   expect_class(plt, "ggplot")
 

@@ -1,39 +1,46 @@
 #' Print stacked metrics
 #'
+#' @description Stack metrics sums parity loss metrics for all models. Higher value of stacked metrics means the model is less fair (has higher bias)
+#' for subgroups from protected vector.
+#'
 #' @param x stacked_metrics object
 #' @param ... other stacked_metrics objects
 #'
-#' @return
+#' @import utils
+#'
 #' @export
+#'
+#' @rdname print_stacked_metrics
 #'
 #' @examples
 #'
-#' library(DALEX)
-#' library(ranger)
+#' data("german")
 #'
-#' data("compas")
+#' y_numeric <- as.numeric(german$Risk) -1
 #'
-#' rf_compas  <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
-#' glm_compas <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
+#' lm_model <- glm(Risk~.,
+#'                 data = german,
+#'                 family=binomial(link="logit"))
 #'
-#' y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
+#' rf_model <- ranger::ranger(Risk ~.,
+#'                            data = german,
+#'                            probability = TRUE,
+#'                            num.trees = 200)
 #'
-#' explainer_rf  <- explain(rf_compas, data = compas, y = y_numeric)
-#' explainer_glm <- explain(glm_compas, data = compas, y = y_numeric)
+#' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+#' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
 #'
-#' fobject <-create_fairness_object(explainer_glm, explainer_rf,
-#'                                  outcome = "Two_yr_Recidivism",
-#'                                  group = "Ethnicity",
-#'                                  base = "Caucasian",
-#'                                  cutoff = 0.5)
+#' fobject <- fairness_check(explainer_lm, explainer_rf,
+#'                           protected = german$Sex,
+#'                           privileged = "male")
 #'
-#' stack_metrics(fobject)
+#' sm <- stack_metrics(fobject)
+#' print(sm)
 
 
 print.stacked_metrics <- function(x, ...){
 
-  list_of_objects   <- get_objects(list(x, ...), "stacked_metrics")
-  data              <- extract_data(list_of_objects, "expanded_data")
+  data <- x$stacked_data
 
   cat("\nFirst rows of stacked data: \n")
   print(head(data))

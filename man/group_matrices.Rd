@@ -4,20 +4,16 @@
 \alias{group_matrices}
 \title{Group confusion matrices}
 \usage{
-group_matrices(data, group, outcome, outcome_numeric, cutoff, probs = NULL)
+group_matrices(protected, probs, preds, cutoff)
 }
 \arguments{
-\item{data}{data frame}
-
-\item{group}{\code{character} name of column with group}
-
-\item{outcome}{\code{character} name of column with outcome}
-
-\item{outcome_numeric}{\code{numeric} vector of outcome}
-
-\item{cutoff}{\code{numeric} cutoff for probabilities, default = 0.5}
+\item{protected}{vector containing protected variable}
 
 \item{probs}{\code{character} name of column with probabilities}
+
+\item{preds}{numeric, vector with predictions}
+
+\item{cutoff}{\code{numeric} cutoff for probabilities, default = 0.5}
 }
 \value{
 list with values:
@@ -39,17 +35,12 @@ data("compas")
 glm_compas <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
 y_prob <- glm_compas$fitted.values
 
-data <- compas
-data$probabilities <- y_prob
-
 y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
 
-gm <- group_matrices(data,
-               "Ethnicity",
-                outcome = "Two_yr_Recidivism",
-                outcome_numeric = y_numeric,
-                cutoff = rep(0.45,6),
-                probs = "probabilities")
+gm <- group_matrices(as.numeric(compas$Ethnicity),
+                     y_prob,
+                     y_numeric,
+                     cutoff = rep(0.45,6))
 
 gm
 
