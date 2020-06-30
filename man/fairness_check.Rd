@@ -11,7 +11,9 @@ fairness_check(
   privileged,
   cutoff = NULL,
   label = NULL,
-  epsilon = NULL
+  epsilon = NULL,
+  verbose = TRUE,
+  colorize = TRUE
 )
 }
 \arguments{
@@ -28,6 +30,10 @@ fairness_check(
 \item{label}{character, vector of labels to be assigned for explainers, default is explainer label.}
 
 \item{epsilon}{numeric, boundary for fairness checking}
+
+\item{verbose}{logical, whether to print information about creation of fairness object}
+
+\item{colorize}{logical, whether to print information in color}
 }
 \value{
 An object of class \code{fairness_object} which is a list with elements:

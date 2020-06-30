@@ -12,7 +12,8 @@
 #' @param cutoff numeric, vector of cutoffs (thresholds) for each value of protected variable, affecting only explainers.
 #' @param label character, vector of labels to be assigned for explainers, default is explainer label.
 #' @param epsilon numeric, boundary for fairness checking
-#'
+#' @param verbose logical, whether to print information about creation of fairness object
+#' @param colorize logical, whether to print information in color
 #'
 #' @details Metrics used are made for each subgroup, then base metric score is subtracted leaving loss of particular metric.
 #' If absolute loss is greater than epsilon than such metric is marked as "not passed". It means that values of metrics should be within (-epsilon,epsilon) boundary.
