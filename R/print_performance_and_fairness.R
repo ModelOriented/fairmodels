@@ -3,7 +3,7 @@
 #' @param x \code{performance_and_fairness} object
 #' @param ... other print parameters
 #'
-#' @import utils
+#' @importFrom utils head
 #'
 #' @export
 #' @rdname print_performance_and_fairness
@@ -51,7 +51,7 @@ print.performance_and_fairness <- function(x, ...){
   print(x$label)
 
   cat("\ndata: \n")
-  print(data)
+  print(data, ...)
 
   return(invisible(NULL))
 

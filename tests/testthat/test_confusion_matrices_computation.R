@@ -22,10 +22,6 @@ test_that("confusion_matrices_for_groups", {
   expect_equal(gm$male$fp, 2)
   expect_equal(gm$male$fn, 2)
 
-  expect_message(group_matrices(protected = test_data$sex,
-                                preds = test_data$target,
-                                probs = test_data$probabilities,
-                                cutoff = c(0.8,0.8)), "0's appear in confusion matrix for group: male")
 
 
 })

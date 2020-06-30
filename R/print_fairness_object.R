@@ -4,7 +4,7 @@
 #' @param x \code{fairness object}
 #' @param ... other parameters
 #'
-#' @import utils
+#' @importFrom utils head
 #'
 #' @export
 #'

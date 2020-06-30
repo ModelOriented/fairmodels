@@ -1,14 +1,13 @@
 Package: fairmodels
 Type: Package
-Title: Fairness measures for Models
+Title: Fairness Metrics for Models
 Version: 0.1.0
 Authors@R:
     c(person("Jakub", "Wiśniewski", role = c("aut", "cre"),
              email = "jakwisn@gmail.com"),
       person("Przemysław", "Biecek", role = c("aut"), 
              comment = c(ORCID = "0000-0001-8423-1823")))
-Maintainer: The package maintainer <jakwisn@gmail.com>
-Description: Measure all fairness metrics in one place. Compare models, choose best.  
+Description: Measure all fairness metrics in one place for many models. Check how big is model's bias towards different races, sex, nationalities etc.  Use measures such as Statistical Parity, Equal odds and many many more.  Visualize those metrics using heatmap, radar plot, biplot, barchart (and more!) to better understand the type of bias, how big it is and what can one do to mitigate that bias.
 License: GPL
 Encoding: UTF-8
 LazyData: true
@@ -26,6 +25,6 @@ Suggests:
     knitr,
     rmarkdown,
     covr,
-    testthat 
+    testthat
 RoxygenNote: 7.1.0.9000
 VignetteBuilder: knitr

@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{\code{fairness_pca} object}
 
-\item{...}{other \code{fairness_pca} objects}
+\item{...}{other print parameters}
 }
 \description{
 Print principal components after using pca on fairness object

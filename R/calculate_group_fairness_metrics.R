@@ -43,8 +43,8 @@ calculate_group_fairness_metrics <- function(x){
 
   }
 
+  # NA instead of NaN
   if (sum(is.nan(group_metric_matrix))){
-    message("NA's created in metric's matrix ")
     group_metric_matrix[is.nan(group_metric_matrix)] <- NA
   }
 

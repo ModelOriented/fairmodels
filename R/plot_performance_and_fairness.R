@@ -10,6 +10,7 @@
 #'
 #'
 #' @import ggplot2
+#' @importFrom ggrepel geom_text_repel
 #'
 #' @rdname plot_performance_and_fairness
 #'
@@ -58,7 +59,7 @@ plot.performance_and_fairness <- function(x , ...){
   inversed_fairness_metric <- paste("inversed", fairness_metric, collapse = " " )
 
   ggplot(data, aes(x = performance_metric, y = fairness_metric)) +
-    ggrepel::geom_text_repel(aes(label = labels),
+    geom_text_repel(aes(label = labels),
                     segment.size  = 0.2,
                     segment.color = "grey50",
                     direction     = "x",

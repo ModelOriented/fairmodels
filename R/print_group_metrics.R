@@ -3,7 +3,7 @@
 #' @param x \code{group_metric} object
 #' @param ... other print parameters
 #'
-#' @import utils
+#' @importFrom utils head
 #'
 #' @export
 #' @rdname print_group_metric
@@ -38,7 +38,7 @@ print.group_metric <- function(x, ...){
 
 
   cat("Fairness data top rows for", x$fairness_metric, "\n")
-  print(head(x$group_metric_data))
+  print(head(x$group_metric_data, ...))
   cat("\n")
 
   cat("Performance data for", x$performance_metric, ":")
