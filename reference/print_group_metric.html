@@ -194,18 +194,16 @@
 <span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'>fairness_check</span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
                           protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
                           privileged = <span class='st'>"male"</span>)</div><div class='output co'>#&gt; Creating fairness object
-#&gt; Privileged subgroup	...	</span><span style='color: #00BB00;'> Ok </span><span> 
-#&gt; Protected varaible	...	</span><span style='color: #00BB00;'> Ok </span><span> 
-#&gt; Fairness objects	...	</span><span style='color: #00BB00;'> compatible </span><span> 
-#&gt; Checking explainers	...	</span><span style='color: #00BB00;'> done! </span><span> 
-#&gt; Metric calculation	...</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>0's appear in confusion matrix for group: female</span></div><div class='output co'>#&gt; Metric calculation	...	 </span><span style='color: #00BB00;'> done! </span><span> 
-#&gt; Fairness object created	...	 </span><span style='color: #00BB00;'> succesfully </span><span> </div><div class='input'>
+#&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
+#&gt; -&gt; Protected varaible		: factor (</span><span style='color: #00BB00;'> Ok </span><span> ) 
+#&gt; -&gt; Fairness objects		: compatible
+#&gt; -&gt; Checking explainers		:compatible
+#&gt; -&gt; Metric calculation		: successful
+#&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
 <span class='kw'>gm</span> <span class='op'>&lt;-</span> <span class='fu'>group_metric</span>(<span class='kw'>fobject</span>, <span class='st'>"TPR"</span>, <span class='st'>"f1"</span>, parity_loss = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; 
 #&gt; Creating object with: 
 #&gt; Fairness metric TPR 
-#&gt; Performance metric  f1 </div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>0's appear in confusion matrix for group: female</span></div><div class='input'>
+#&gt; Performance metric  f1 </div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>gm</span>)</div><div class='output co'>#&gt; Fairness data top rows for TPR_parity_loss 
 #&gt;    group       value  label
 #&gt; 1 female 0.085055684     lm

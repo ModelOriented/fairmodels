@@ -196,13 +196,12 @@ Metrics containing NA's will be dropped to enable fair comparison.</p>
 <span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'>fairness_check</span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
                           protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
                           privileged = <span class='st'>"male"</span>)</div><div class='output co'>#&gt; Creating fairness object
-#&gt; Privileged subgroup	...	</span><span style='color: #00BB00;'> Ok </span><span> 
-#&gt; Protected varaible	...	</span><span style='color: #00BB00;'> Ok </span><span> 
-#&gt; Fairness objects	...	</span><span style='color: #00BB00;'> compatible </span><span> 
-#&gt; Checking explainers	...	</span><span style='color: #00BB00;'> done! </span><span> 
-#&gt; Metric calculation	...</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>0's appear in confusion matrix for group: female</span></div><div class='output co'>#&gt; Metric calculation	...	 </span><span style='color: #00BB00;'> done! </span><span> 
-#&gt; Fairness object created	...	 </span><span style='color: #00BB00;'> succesfully </span><span> </div><div class='input'>
+#&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
+#&gt; -&gt; Protected varaible		: factor (</span><span style='color: #00BB00;'> Ok </span><span> ) 
+#&gt; -&gt; Fairness objects		: compatible
+#&gt; -&gt; Checking explainers		:compatible
+#&gt; -&gt; Metric calculation		: successful
+#&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
 <span class='kw'>sm</span> <span class='op'>&lt;-</span> <span class='fu'>stack_metrics</span>(<span class='kw'>fobject</span>)
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>sm</span>)</div><div class='img'><img src='plot_stacked_metrics-1.png' alt='' width='700' height='433' /></div><div class='input'></div></span></pre>
   </div>
