@@ -140,7 +140,7 @@
     <p>Special method for model performance evaluation. Counts number of tp, tn, fp, fn for each subgroup and therefore cutoff, sums afterwards.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>group_model_performance</span>(<span class='kw'>x</span>, <span class='kw'>data</span>, <span class='kw'>outcome</span>, <span class='kw'>group</span>, <span class='kw'>cutoff</span>, <span class='kw'>performance_metric</span>)</pre>
+    <pre class="usage"><span class='fu'>group_model_performance</span>(<span class='kw'>x</span>, <span class='kw'>protected</span>, <span class='kw'>cutoff</span>, <span class='kw'>performance_metric</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -150,16 +150,8 @@
       <td><p>DALEX explainer</p></td>
     </tr>
     <tr>
-      <th>data</th>
-      <td><p>whole data</p></td>
-    </tr>
-    <tr>
-      <th>outcome</th>
-      <td><p>name of outcome column</p></td>
-    </tr>
-    <tr>
-      <th>group</th>
-      <td><p>name of protected group column</p></td>
+      <th>protected</th>
+      <td><p>factor, vector with levels as subgroups</p></td>
     </tr>
     <tr>
       <th>cutoff</th>

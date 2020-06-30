@@ -46,15 +46,10 @@
 
 
 <meta property="og:title" content="Fairness check — fairness_check" />
-<meta property="og:description" content="Metrics used are made for each subgroup, then base metric score is subtracted leaving loss of particular metric.
-If loss is less than -epsilon than such metric is marked as &quot;not passed&quot;. There is no upper boundary for fairness, so if some subgroup is &quot;better&quot;
-in particular metric than privileged one there are no consequences to that. Good metric description can be found here :
-If loss is greater than absolute value of epsilon than such metric is marked as &quot;not passed&quot;. It means that values of metrics should be within (-epsilon,epsilon) boundary.
-Epsilon value can be adjusted to user's needs. There are some metrics that might be derived from existing metrics (For example Equalized Odds - equal TPR and FPR for all subgroups).
-That means passing 5 metrics in fairness check asserts that model is even more fair. In fairness_check models must always predict commonly desired result. Not adhering to this rule
-may lead to misinterpretation of the plot. More on metrics and their equivalents:
-https://fairware.cs.umass.edu/papers/Verma.pdf
-https://en.wikipedia.org/wiki/Fairness_(machine_learning)" />
+<meta property="og:description" content="Fairness check creates fairness object which measures different fairness metrics and wraps data, explainers and parameters in useful object. This is fundamental object in this package
+It allows to visualize fairness metrics in many ways and compare models on both fairness and performance level. Fairness check acts as merger and wrapper for explainers and fairness objects.
+While other fairness objects values are not changed, fairness check assigns cutoffs and labels to provided explainers so same explainers with changed labels/cutoffs might be gradually added to fairness object.
+Users through print and plot methods may quickly check values of most popular fairness metrics. More on that topic in details/" />
 
 
 
@@ -145,37 +140,93 @@ https://en.wikipedia.org/wiki/Fairness_(machine_learning)" />
     </div>
 
     <div class="ref-description">
-    <p>Metrics used are made for each subgroup, then base metric score is subtracted leaving loss of particular metric.
-If loss is less than -epsilon than such metric is marked as "not passed". There is no upper boundary for fairness, so if some subgroup is "better"
-in particular metric than privileged one there are no consequences to that. Good metric description can be found here :
-If loss is greater than absolute value of epsilon than such metric is marked as "not passed". It means that values of metrics should be within (-epsilon,epsilon) boundary.
-Epsilon value can be adjusted to user's needs. There are some metrics that might be derived from existing metrics (For example Equalized Odds - equal TPR and FPR for all subgroups).
-That means passing 5 metrics in fairness check asserts that model is even more fair. In <code>fairness_check</code> models must always predict commonly desired result. Not adhering to this rule
-may lead to misinterpretation of the plot. More on metrics and their equivalents:
-<a href='https://fairware.cs.umass.edu/papers/Verma.pdf'>https://fairware.cs.umass.edu/papers/Verma.pdf</a>
-<a href='https://en.wikipedia.org/wiki/Fairness_(machine_learning)'>https://en.wikipedia.org/wiki/Fairness_(machine_learning)</a></p>
+    <p>Fairness check creates fairness object which measures different fairness metrics and wraps data, explainers and parameters in useful object. This is fundamental object in this package
+It allows to visualize fairness metrics in many ways and compare models on both fairness and performance level. Fairness check acts as merger and wrapper for explainers and fairness objects.
+While other fairness objects values are not changed, fairness check assigns cutoffs and labels to provided explainers so same explainers with changed labels/cutoffs might be gradually added to fairness object.
+Users through print and plot methods may quickly check values of most popular fairness metrics. More on that topic in details/</p>
     </div>
 
-    <pre class="usage"><span class='fu'>fairness_check</span>(<span class='kw'>x</span>, epsilon = <span class='fl'>0.1</span>)</pre>
+    <pre class="usage"><span class='fu'>fairness_check</span>(
+  <span class='kw'>x</span>,
+  <span class='kw'>...</span>,
+  <span class='kw'>protected</span>,
+  <span class='kw'>privileged</span>,
+  cutoff = <span class='kw'>NULL</span>,
+  label = <span class='kw'>NULL</span>,
+  epsilon = <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>fairness_object</p></td>
+      <td><p><code>DALEX explainer</code>/<code>fairness_object</code></p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>possibly more <code>DALEX explainers</code>/<code>fairness_objects</code></p></td>
+    </tr>
+    <tr>
+      <th>protected</th>
+      <td><p>vector, protected variable (also called sensitive attribute), containing privileged and unprivileged groups</p></td>
+    </tr>
+    <tr>
+      <th>privileged</th>
+      <td><p>one value of <code>protected</code>, in regard to what subgroup parity loss is calculated</p></td>
+    </tr>
+    <tr>
+      <th>cutoff</th>
+      <td><p>numeric, vector of cutoffs (thresholds) for each value of protected variable, affecting only explainers.</p></td>
+    </tr>
+    <tr>
+      <th>label</th>
+      <td><p>character, vector of labels to be assigned for explainers, default is explainer label.</p></td>
     </tr>
     <tr>
       <th>epsilon</th>
-      <td><p>numeric, margins for decision if fair or not. Default 0.1</p></td>
+      <td><p>numeric, boundary for fairness checking</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
+    <p>An object of class <code>fairness_object</code> which is a list with elements:</p><ul>
+<li><p>metric_data - data.frame containing parity loss for various fairness metrics. Created with following metrics:</p><ul>
+<li><p>TPR - True Positive Rate (Sensitivity, Recall, Equal Odds)</p></li>
+<li><p>TNR - True Negative Rate (Specificity)</p></li>
+<li><p>PPV - Positive Predictive Value (Precision)</p></li>
+<li><p>NPV - Negative Predictive Value</p></li>
+<li><p>FNR - False Negative Rate</p></li>
+<li><p>FPR - False Positive Rate</p></li>
+<li><p>FDR - False Discovery Rate</p></li>
+<li><p>FOR - False Omission Rate</p></li>
+<li><p>TS  - Threat Score</p></li>
+<li><p>STP - Statistical Parity</p></li>
+<li><p>ACC - Accuracy</p></li>
+<li><p>F1  - F1 Score</p></li>
+<li><p>MCC - Matthews correlation coefficient</p></li>
+</ul>
 
+<p>M_parity_loss = sum(abs(metric - base_metric))</p>
+<p>where:</p>
+<p>M - some metric mentioned above</p>
+<p>metric - vector of metrics from each subgroup</p>
+<p>base_metric - scalar, value of metric for base subgroup</p></li>
+<li><p>groups_data - metrics across levels in protected variable</p></li>
+<li><p>explainers  - list of DALEX explainers used to create object</p></li>
+<li><p>...         - other parameters passed to function</p></li>
+</ul>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Metrics used are made for each subgroup, then base metric score is subtracted leaving loss of particular metric.
+If absolute loss is greater than epsilon than such metric is marked as "not passed". It means that values of metrics should be within (-epsilon,epsilon) boundary.
+Epsilon value can be adjusted to user's needs. There are some metrics that might be derived from existing metrics (For example Equalized Odds - equal TPR and FPR for all subgroups).
+That means passing 5 metrics in fairness check asserts that model is even more fair. In <code>fairness_check</code> models must always predict positive result. Not adhering to this rule
+may lead to misinterpretation of the plot. More on metrics and their equivalents:
+<a href='https://fairware.cs.umass.edu/papers/Verma.pdf'>https://fairware.cs.umass.edu/papers/Verma.pdf</a>
+<a href='https://en.wikipedia.org/wiki/Fairness_(machine_learning)'>https://en.wikipedia.org/wiki/Fairness_(machine_learning)</a></p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Zafar,Valera, Rodriguez, Gummadi (2017)  <a href='https://arxiv.org/pdf/1610.08452.pdf'>https://arxiv.org/pdf/1610.08452.pdf</a></p>
@@ -183,17 +234,16 @@ may lead to misinterpretation of the plot. More on metrics and their equivalents
 <p>Verma, Rubin (2018) <a href='https://fairware.cs.umass.edu/papers/Verma.pdf'>https://fairware.cs.umass.edu/papers/Verma.pdf</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://ModelOriented.github.io/DALEX'>DALEX</a></span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/imbs-hl/ranger'>ranger</a></span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://ModelOriented.github.io/DALEX'>DALEX</a></span>)</div><div class='output co'>#&gt; <span class='message'>Welcome to DALEX (version: 1.2.1).</span>
+#&gt; <span class='message'>Find examples and detailed introduction at: https://pbiecek.github.io/ema/</span>
+#&gt; <span class='message'>Additional features will be available after installation of: ggpubr.</span>
+#&gt; <span class='message'>Use 'install_dependencies()' to get all suggested dependencies</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/imbs-hl/ranger'>ranger</a></span>)
 
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"compas"</span>)
 
-<span class='co'># changing levels - positive situation here is not becoming recidivist</span>
-<span class='kw'>compas</span><span class='op'>$</span><span class='kw'>Two_yr_Recidivism</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='kw'>compas</span><span class='op'>$</span><span class='kw'>Two_yr_Recidivism</span>, levels = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>))
-
 <span class='kw'>rf_compas</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>Two_yr_Recidivism</span> <span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>compas</span>, probability = <span class='fl'>TRUE</span>)
-<span class='kw'>glm_compas</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='kw'>Two_yr_Recidivism</span><span class='op'>~</span><span class='kw'>.</span>, data=<span class='kw'>compas</span>, family=<span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(link=<span class='st'>"logit"</span>))
+<span class='kw'>glm_compas</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='kw'>Two_yr_Recidivism</span><span class='op'>~</span><span class='kw'>.</span>, data=<span class='kw'>compas</span>,
+ family=<span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(link=<span class='st'>"logit"</span>))
 
 <span class='kw'>y_numeric</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='kw'>compas</span><span class='op'>$</span><span class='kw'>Two_yr_Recidivism</span>)<span class='op'>-</span><span class='fl'>1</span>
 
@@ -203,38 +253,29 @@ may lead to misinterpretation of the plot. More on metrics and their equivalents
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1550914 , mean =  0.5452206 , max =  0.8640303  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1342047 , mean =  0.4552737 , max =  0.8447643  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8444829 , mean =  -0.0003404578 , max =  0.7869611  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7871887 , mean =  -0.0001538288 , max =  0.8487182  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>explainer_glm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>glm_compas</span>, data = <span class='kw'>compas</span>, y = <span class='kw'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  6172  rows  7  cols 
 #&gt;   -&gt; target variable   :  6172  values 
-#&gt;   -&gt; model_info        :  package stats , ver. 4.0.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; model_info        :  package stats , ver. 4.0.2 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.004522979 , mean =  0.5448801 , max =  0.8855426  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1144574 , mean =  0.4551199 , max =  0.995477  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8822826 , mean =  -5.051352e-13 , max =  0.9767658  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.9767658 , mean =  5.070175e-13 , max =  0.8822826  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='kw'>fobject</span> <span class='op'>&lt;-</span><span class='fu'>create_fairness_object</span>(<span class='kw'>explainer_glm</span>, <span class='kw'>explainer_rf</span>,
-                                 outcome = <span class='st'>"Two_yr_Recidivism"</span>,
-                                 data  = <span class='kw'>compas</span>,
-                                 group = <span class='st'>"Sex"</span>,
-                                 base  = <span class='st'>"Female"</span>)
-
-<span class='co'># changing cutoff values</span>
-<span class='kw'>fobject2</span> <span class='op'>&lt;-</span><span class='fu'>create_fairness_object</span>(<span class='kw'>explainer_glm</span>, <span class='kw'>explainer_rf</span>,
-                                 outcome = <span class='st'>"Two_yr_Recidivism"</span>,
-                                 data  = <span class='kw'>compas</span>,
-                                 group = <span class='st'>"Sex"</span>,
-                                 base  = <span class='st'>"Female"</span>,
-                                cutoff = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.45</span>,<span class='fl'>0.5</span>),
-                                label = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lm_c"</span>,<span class='st'>"rf_c"</span>)) <span class='co'># c for changed</span>
-
-<span class='kw'>fc</span> <span class='op'>&lt;-</span> <span class='fu'>fairness_check</span>(<span class='kw'>fobject</span>)
-<span class='kw'>fc2</span> <span class='op'>&lt;-</span> <span class='fu'>fairness_check</span>(<span class='kw'>fobject2</span>)
-
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>fc</span>,<span class='kw'>fc2</span>)</div><div class='img'><img src='fairness_check-1.png' alt='' width='700' height='433' /></div><div class='input'></div></span></pre>
+<span class='kw'>fcheck</span> <span class='op'>&lt;-</span> <span class='fu'>fairness_check</span>(<span class='kw'>explainer_glm</span>, <span class='kw'>explainer_rf</span>,
+                             protected = <span class='kw'>compas</span><span class='op'>$</span><span class='kw'>Ethnicity</span>,
+                             privileged = <span class='st'>"Caucasian"</span>)</div><div class='output co'>#&gt; Creating fairness object
+#&gt; Privileged subgroup	...	</span><span style='color: #00BB00;'> Ok </span><span> 
+#&gt; Protected varaible	...	</span><span style='color: #00BB00;'> Ok </span><span> 
+#&gt; Fairness objects	...	</span><span style='color: #00BB00;'> compatible </span><span> 
+#&gt; Checking explainers	...	</span><span style='color: #00BB00;'> done! </span><span> 
+#&gt; Metric calculation	...</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='output co'>#&gt; Metric calculation	...	 </span><span style='color: #00BB00;'> done! </span><span> 
+#&gt; Fairness object created	...	 </span><span style='color: #00BB00;'> succesfully </span><span> </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>fcheck</span>)</div><div class='img'><img src='fairness_check-1.png' alt='' width='700' height='433' /></div><div class='input'></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

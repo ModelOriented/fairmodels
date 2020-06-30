@@ -161,93 +161,64 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://ModelOriented.github.io/DALEX'>DALEX</a></span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/imbs-hl/ranger'>ranger</a></span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"german"</span>)
 
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"compas"</span>)
-<span class='kw'>y_numeric</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='kw'>compas</span><span class='op'>$</span><span class='kw'>Two_yr_Recidivism</span>) <span class='op'>-</span> <span class='fl'>1</span>
-<span class='co'># models</span>
+<span class='kw'>y_numeric</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='kw'>german</span><span class='op'>$</span><span class='kw'>Risk</span>) <span class='op'>-</span><span class='fl'>1</span>
 
-<span class='kw'>rf_compas_1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>Two_yr_Recidivism</span> <span class='op'>~</span> <span class='kw'>Number_of_Priors</span> <span class='op'>+</span> <span class='kw'>Age_Below_TwentyFive</span>, data = <span class='kw'>compas</span>, probability = <span class='fl'>TRUE</span>)
-<span class='kw'>rf_compas_3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>Two_yr_Recidivism</span> <span class='op'>~</span> <span class='kw'>Sex</span> <span class='op'>+</span> <span class='kw'>Age_Above_FourtyFive</span>, data = <span class='kw'>compas</span>, probability = <span class='fl'>TRUE</span>)
-<span class='kw'>model_compas_lr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='kw'>Two_yr_Recidivism</span> <span class='op'>~</span> <span class='kw'>.</span>, data = <span class='kw'>compas</span>, family = <span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(link = <span class='st'>"logit"</span>))
-<span class='kw'>rf_compas_5</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>Two_yr_Recidivism</span> <span class='op'>~</span> <span class='kw'>.</span>, data = <span class='kw'>compas</span>, probability = <span class='fl'>TRUE</span>)
-<span class='kw'>rf_compas_6</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>Two_yr_Recidivism</span> <span class='op'>~</span> <span class='kw'>Age_Above_FourtyFive</span> <span class='op'>+</span> <span class='kw'>Misdemeanor</span>, data = <span class='kw'>compas</span>, probability = <span class='fl'>TRUE</span>)
-<span class='kw'>rf_compas_7</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>Two_yr_Recidivism</span> <span class='op'>~</span> <span class='kw'>.</span>, data = <span class='kw'>compas</span>, probability = <span class='fl'>TRUE</span>)
-<span class='kw'>rf_compas_8</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>Two_yr_Recidivism</span> <span class='op'>~</span> <span class='kw'>Sex</span> <span class='op'>+</span> <span class='kw'>Age_Above_FourtyFive</span> <span class='op'>+</span> <span class='kw'>Misdemeanor</span> <span class='op'>+</span> <span class='kw'>Ethnicity</span>, data = <span class='kw'>compas</span>, probability = <span class='fl'>TRUE</span>)
+<span class='kw'>lm_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='kw'>Risk</span><span class='op'>~</span><span class='kw'>.</span>,
+                data = <span class='kw'>german</span>,
+                family=<span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(link=<span class='st'>"logit"</span>))
 
-<span class='co'># explainers</span>
-<span class='kw'>explainer_1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>rf_compas_1</span>, data = <span class='kw'>compas</span>, y = <span class='kw'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  ranger  ( <span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; data              :  6172  rows  7  cols 
-#&gt;   -&gt; target variable   :  6172  values 
-#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
-#&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.300113 , mean =  0.4554702 , max =  0.7784002  
-#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.745627 , mean =  -0.0003502607 , max =  0.699887  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>explainer_3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>rf_compas_3</span>, data = <span class='kw'>compas</span>, y = <span class='kw'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; data              :  6172  rows  7  cols 
-#&gt;   -&gt; target variable   :  6172  values 
-#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
-#&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.294238 , mean =  0.4551428 , max =  0.5009637  
-#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.5009637 , mean =  -2.288849e-05 , max =  0.705762  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>explainer_4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>model_compas_lr</span>, data = <span class='kw'>compas</span>, y = <span class='kw'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; data              :  6172  rows  7  cols 
-#&gt;   -&gt; target variable   :  6172  values 
-#&gt;   -&gt; model_info        :  package stats , ver. 4.0.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+<span class='kw'>rf_model</span> <span class='op'>&lt;-</span> <span class='kw'>ranger</span>::<span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>Risk</span> <span class='op'>~</span><span class='kw'>.</span>,
+                           data = <span class='kw'>german</span>,
+                           probability = <span class='fl'>TRUE</span>,
+                           num.trees = <span class='fl'>200</span>)
+
+<span class='kw'>explainer_lm</span> <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>lm_model</span>, data = <span class='kw'>german</span>[,<span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label       :  lm  ( <span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; data              :  1000  rows  9  cols 
+#&gt;   -&gt; target variable   :  1000  values 
+#&gt;   -&gt; model_info        :  package stats , ver. 4.0.2 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1144574 , mean =  0.4551199 , max =  0.995477  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1369187 , mean =  0.7 , max =  0.9832426  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.9767658 , mean =  5.050949e-13 , max =  0.8822826  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>explainer_5</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>rf_compas_5</span>, data = <span class='kw'>compas</span>, y = <span class='kw'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; residuals         :  numerical, min =  -0.9572803 , mean =  1.940006e-17 , max =  0.8283475  
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>explainer_rf</span> <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>rf_model</span>, data = <span class='kw'>german</span>[,<span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; data              :  6172  rows  7  cols 
-#&gt;   -&gt; target variable   :  6172  values 
+#&gt;   -&gt; data              :  1000  rows  9  cols 
+#&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.13692 , mean =  0.4548545 , max =  0.8456057  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.04847222 , mean =  0.6950055 , max =  0.9950238  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7847625 , mean =  0.0002654195 , max =  0.8387541  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>explainer_6</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>rf_compas_6</span>, data = <span class='kw'>compas</span>, y = <span class='kw'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; data              :  6172  rows  7  cols 
-#&gt;   -&gt; target variable   :  6172  values 
-#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
-#&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.298807 , mean =  0.4549913 , max =  0.5140115  
-#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.5140115 , mean =  0.0001285807 , max =  0.701193  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>explainer_7</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>rf_compas_7</span>, data = <span class='kw'>compas</span>, y = <span class='kw'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; data              :  6172  rows  7  cols 
-#&gt;   -&gt; target variable   :  6172  values 
-#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
-#&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1356868 , mean =  0.4551106 , max =  0.8502582  
-#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7874573 , mean =  9.320671e-06 , max =  0.8393217  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7190705 , mean =  0.004994476 , max =  0.648101  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='co'># different labels</span>
-<span class='kw'>explainer_3</span><span class='op'>$</span><span class='kw'>label</span> <span class='op'>&lt;-</span> <span class='st'>"rf3"</span>
-<span class='kw'>explainer_4</span><span class='op'>$</span><span class='kw'>label</span> <span class='op'>&lt;-</span> <span class='st'>"glm"</span>
-<span class='kw'>explainer_5</span><span class='op'>$</span><span class='kw'>label</span> <span class='op'>&lt;-</span> <span class='st'>"rf5"</span>
-<span class='kw'>explainer_6</span><span class='op'>$</span><span class='kw'>label</span> <span class='op'>&lt;-</span> <span class='st'>"rf6"</span>
-<span class='kw'>explainer_7</span><span class='op'>$</span><span class='kw'>label</span> <span class='op'>&lt;-</span> <span class='st'>"rf7"</span>
-<span class='kw'>explainers</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>explainer_1</span>, <span class='kw'>explainer_3</span>, <span class='kw'>explainer_4</span>, <span class='kw'>explainer_5</span>, <span class='kw'>explainer_6</span>, <span class='kw'>explainer_7</span>)
+<span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'>fairness_check</span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
+                          protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
+                          privileged = <span class='st'>"male"</span>)</div><div class='output co'>#&gt; Creating fairness object
+#&gt; Privileged subgroup	...	</span><span style='color: #00BB00;'> Ok </span><span> 
+#&gt; Protected varaible	...	</span><span style='color: #00BB00;'> Ok </span><span> 
+#&gt; Fairness objects	...	</span><span style='color: #00BB00;'> compatible </span><span> 
+#&gt; Checking explainers	...	</span><span style='color: #00BB00;'> done! </span><span> 
+#&gt; Metric calculation	...</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>0's appear in confusion matrix for group: female</span></div><div class='output co'>#&gt; Metric calculation	...	 </span><span style='color: #00BB00;'> done! </span><span> 
+#&gt; Fairness object created	...	 </span><span style='color: #00BB00;'> succesfully </span><span> </div><div class='input'>
+ <span class='co'># same explainers with different cutoffs for female</span>
+<span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'>fairness_check</span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>, <span class='kw'>fobject</span>,
+                          protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
+                          privileged = <span class='st'>"male"</span>,
+                          cutoff = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.4</span>,<span class='fl'>0.5</span>),
+                          label = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lm_2"</span>, <span class='st'>"rf_2"</span>))</div><div class='output co'>#&gt; Creating fairness object
+#&gt; Privileged subgroup	...	</span><span style='color: #00BB00;'> Ok </span><span> 
+#&gt; Protected varaible	...	</span><span style='color: #00BB00;'> Ok </span><span> 
+#&gt; Fairness objects	...	</span><span style='color: #00BB00;'> compatible </span><span> 
+#&gt; Checking explainers	...	</span><span style='color: #00BB00;'> done! </span><span> 
+#&gt; Metric calculation	...</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>0's appear in confusion matrix for group: female</span></div><div class='output co'>#&gt; Metric calculation	...	 </span><span style='color: #00BB00;'> done! </span><span> 
+#&gt; Fairness object created	...	 </span><span style='color: #00BB00;'> succesfully </span><span> </div><div class='input'>
+<span class='kw'>fpca</span> <span class='op'>&lt;-</span> <span class='fu'>fairness_pca</span>(<span class='kw'>fobject</span>)
 
-<span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'>create_fairness_object</span>(<span class='kw'>explainer_1</span>, <span class='kw'>explainer_3</span>, <span class='kw'>explainer_4</span>, <span class='kw'>explainer_5</span>, <span class='kw'>explainer_6</span>, <span class='kw'>explainer_7</span>,
-  outcome = <span class='st'>"Two_yr_Recidivism"</span>,
-  group = <span class='st'>"Ethnicity"</span>,
-  base = <span class='st'>"Caucasian"</span>
-)</div><div class='output co'>#&gt; Getting data from first ( </span><span style='color: #00BB00;'> ranger </span><span> )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>0's appear in confusion matrix for group: Native_American</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='input'>
-<span class='kw'>fpca</span> <span class='op'>&lt;-</span> <span class='fu'>fairness_pca</span>(<span class='kw'>fobject</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Found metric with NA: F1_parity_loss, omiting it</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>fpca</span>)</div><div class='img'><img src='fairness_pca-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>fpca</span>)</div><div class='img'><img src='fairness_pca-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
