@@ -3,7 +3,7 @@
 #' @param x ceteris_paribus_cutoff object
 #' @param ... other print parameters
 #'
-#' @import utils
+#' @importFrom utils head
 #'
 #' @export
 #' @rdname print_ceteris_paribus_cutoff
@@ -39,7 +39,7 @@ print.ceteris_paribus_cutoff<- function(x, ...){
 
   cat("\nCeteribus paribus cutoff for model:", x$subgroup, "\n")
   cat("\nFirst rows from data: \n")
-  print(head(data))
+  print(head(data), ...)
 
   cat("\n")
   return(invisible(NULL))

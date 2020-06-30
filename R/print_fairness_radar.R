@@ -3,7 +3,7 @@
 #' @param x fairness_radar object
 #' @param ... other print parameters
 #'
-#' @import utils
+#' @importFrom utils head
 #'
 #' @export
 #' @rdname print_fairness_radar
@@ -45,7 +45,7 @@ print.fairness_radar <- function(x, ...){
   cat("\nFairness radar for: ", paste(unique(data$model), collapse = ", "), "\n")
 
   cat("First rows from data: \n")
-  print(head(data))
+  print(head(data), ...)
   cat("\n")
   return(invisible(NULL))
 }

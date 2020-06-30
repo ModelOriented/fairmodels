@@ -59,7 +59,7 @@ fobject_big <- quiet(fairness_check(explainer_gbm, explainer_glm, explainer_rang
                                       explainer_gbm4, explainer_ranger4,
                               protected = compas$Ethnicity,
                               privileged = "Caucasian",
-                              cutoff = c(0.5,0.5,0.45,0.5,0.5,0.5)))
+                              cutoff = c(0.5,0.4,0.5,0.5,0.5,0.5)))
 
 # testthat ----------------------------------------------------------------
 error_message <- function(title, failed_values = NULL) paste0("Error! ", title, paste0(failed_values, collapse = ", "))

@@ -6,7 +6,7 @@
 #' @param x \code{chosen_metric} object
 #' @param ... other \code{chosen_metric} object
 #'
-#' @import utils
+#' @importFrom utils head
 #'
 #' @export
 #' @rdname print_chosen_metric
@@ -41,7 +41,7 @@ print.chosen_metric <- function(x,...){
 
   cat("\nchoosen metric:\n", x$metric)
   cat("\ndata:\n")
-  print(head(data,nrow(data)))
+  print(head(data,nrow(data)), ...)
 
   cat("\n")
   return(invisible(NULL))

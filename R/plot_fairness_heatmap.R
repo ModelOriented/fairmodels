@@ -19,6 +19,12 @@
 #' @import patchwork
 #' @import ggplot2
 #' @import ggdendro
+#' @importFrom stats hclust
+#' @importFrom stats dist
+#' @importFrom ggdendro dendro_data
+#' @importFrom ggdendro segment
+#'
+#'
 #'
 #' @examples
 #'
@@ -92,8 +98,8 @@ plot.fairness_heatmap <- function(x, ..., midpoint = NULL, title = NULL, subtitl
     # Dendograms -----------------------------------------
 
     # making top dendogram
-    model1 <- stats::hclust(stats::dist(matrix_model))
-    dhc1   <- as.dendrogram(model1)
+    model1 <- hclust(dist(matrix_model))
+    dhc1   <- stats::as.dendrogram(model1)
 
 
     # dendogram for models
@@ -112,7 +118,7 @@ plot.fairness_heatmap <- function(x, ..., midpoint = NULL, title = NULL, subtitl
                                 axis.title = element_blank())
 
     # dendogram for metrics
-    model2 <- stats::hclust( stats::dist( t(as.matrix(matrix_model))))
+    model2 <- hclust( dist( t(as.matrix(matrix_model))))
     dhc2   <- stats::as.dendrogram(model2)
 
     dendro_data2     <- dendro_data(dhc2, type = "rectangle")

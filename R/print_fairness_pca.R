@@ -3,9 +3,9 @@
 #' @description Print principal components after using pca on fairness object
 #'
 #' @param x \code{fairness_pca} object
-#' @param ... other \code{fairness_pca} objects
+#' @param ... other print parameters
 #'
-#' @import utils
+#'
 #'
 #' @export
 #' @rdname print_fairness_pca
@@ -49,10 +49,10 @@
 print.fairness_pca <- function(x, ...){
 
   cat("Fairness PCA : \n")
-  print(x$x)
+  print(x$x, ...)
 
   cat("\nCreated with: \n")
-  print(as.character(x$label))
+  print(as.character(x$label), ...)
 
   cat("\nFirst two components explained", sum(x$pc_1_2)*100, "% of variance.\n")
 

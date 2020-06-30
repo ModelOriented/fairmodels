@@ -3,7 +3,7 @@
 #' @param x \code{fairness_heatmap} object
 #' @param ... other print parameters
 #'
-#' @import utils
+#' @importFrom utils head
 #'
 #' @export
 #' @rdname print_fairness_heatmap
@@ -49,11 +49,11 @@ print.fairness_heatmap <- function(x, ...) {
 
   scaled <- x$scale
   cat("heatmap data top rows: \n")
-  print(head(data, 5))
+  print(head(data, 5), ...)
   cat("\n")
 
   cat("matrix model", ifelse(scaled, "scaled", "not scaled"), ":\n")
-  print(matrix_model)
+  print(matrix_model, ...)
 
 
   cat("\n")

@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{stacked_metrics object}
 
-\item{...}{other stacked_metrics objects}
+\item{...}{other print parameters}
 }
 \description{
 Stack metrics sums parity loss metrics for all models. Higher value of stacked metrics means the model is less fair (has higher bias)

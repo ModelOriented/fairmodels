@@ -12,8 +12,7 @@
 #'
 #'
 #' @import ggplot2
-#' @import DALEX
-#' @import ggrepel
+#' @importFrom ggrepel geom_text_repel
 #'
 #' @return \code{ggplot} object
 #' @export

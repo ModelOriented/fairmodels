@@ -55,8 +55,6 @@ group_matrices <- function(protected, probs, preds , cutoff){
     # cutoff is ith element of vector, threshold for group
     cm <- confusion_matrix(probabilities, observed, cutoff = cutoff[i])
 
-    if (cm$tp == 0 | cm$fp == 0 | cm$tn == 0 | cm$fn == 0) message("\n0's appear in confusion matrix for group: ", subgroup )
-
     group_confusion_metrices[[i]] <- cm
     names(group_confusion_metrices)[i] <- subgroup
   }

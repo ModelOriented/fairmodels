@@ -5,7 +5,7 @@
 #'
 #' @export
 #'
-#' @import utils
+#' @importFrom utils head
 #'
 #' @rdname print_all_cutoffs
 #'
@@ -44,7 +44,7 @@ print.all_cutoffs <- function(x, ...){
 
   cat("\nAll cutofs for model:\n", x$label, "\n")
   cat("\nFirst rows from data: \n")
-  print(head(data))
+  print(head(data), ...)
 
   cat("\n")
   return(invisible(NULL))

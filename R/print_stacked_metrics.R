@@ -4,9 +4,9 @@
 #' for subgroups from protected vector.
 #'
 #' @param x stacked_metrics object
-#' @param ... other stacked_metrics objects
+#' @param ... other print parameters
 #'
-#' @import utils
+#' @importFrom utils head
 #'
 #' @export
 #'
@@ -43,7 +43,7 @@ print.stacked_metrics <- function(x, ...){
   data <- x$stacked_data
 
   cat("\nFirst rows of stacked data: \n")
-  print(head(data))
+  print(head(data, ...))
   cat("\n")
 }
 
