@@ -114,12 +114,12 @@ There are 13 metrics based on confusion matrix :
 | F1 |  ![f1](man/figures/formulas/f1.jpg) | F1 score |
 | MCC | <img src="man/figures/formulas/mcc.jpg" alt="drawing" width="300"/> | Matthews correlation coefficient |
 
-*and their parity loss*   
-how *parity loss* is calculated? 
+*and their parity loss.*   
+How is *parity loss* calculated? 
 
-![parity_loss](man/figures/formulas/parity_loss.jpg)
+![parity_loss](man/figures/formulas/parity_loss.png)
 
-Where ![explain](man/figures/formulas/explain.jpg) denote the membership to unique subgroup from protected variable
+Where ![explain](man/figures/formulas/explain.png) denote the membership to unique subgroup from protected variable
 
 some fairness metrics like *Equalized odds* are satisfied if parity loss in both *TPR* and *FPR* is low 
 
