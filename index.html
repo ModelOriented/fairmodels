@@ -96,48 +96,20 @@
 <h2 class="hasAnchor">
 <a href="#preview" class="anchor"></a>Preview</h2>
 <p><img src="reference/figures/preview.gif" alt="preview"></p>
-<div id="used-metrics" class="section level3">
+<div id="how-to-evaluate-fairness" class="section level3">
 <h3 class="hasAnchor">
-<a href="#used-metrics" class="anchor"></a>Used metrics</h3>
-<ul>
-<li>
-<strong>TPR</strong> - True Positive Rate (Sensitivity, Recall)</li>
-<li>
-<strong>TNR</strong> - True Negative Rate (Specificity)</li>
-<li>
-<strong>PPV</strong> - Positive Predictive Value (Precision)</li>
-<li>
-<strong>NPV</strong> - Negative Predictive Value</li>
-<li>
-<strong>FNR</strong> - False Negative Rate</li>
-<li>
-<strong>FPR</strong> - False Positive Rate</li>
-<li>
-<strong>FDR</strong> - False Discovery Rate</li>
-<li>
-<strong>FOR</strong> - False Omission Rate</li>
-<li>
-<strong>TS</strong> - Threat Score</li>
-<li>
-<strong>STP</strong> - Statistical Parity</li>
-<li>
-<strong>ACC</strong> - Accuracy</li>
-<li>
-<strong>F1</strong> - F1 Score</li>
-<li>
-<strong>MCC</strong> - Matthews correlation coefficient</li>
-</ul>
-<p><em>and their parity loss</em></p>
-<p>more on those metrics : <a href="https://en.wikipedia.org/wiki/Confusion_matrix">Confusion Matrix</a></p>
+<a href="#how-to-evaluate-fairness" class="anchor"></a>How to evaluate fairness?</h3>
+<p><img src="reference/figures/flowchart.png" alt="flowchart"></p>
 </div>
-<div id="installation" class="section level3">
-<h3 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h3>
+</div>
+<div id="installation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#installation" class="anchor"></a>Installation</h2>
 <pre><code>devtools::install_github("ModelOriented/fairmodels")</code></pre>
 </div>
-<div id="example" class="section level3">
-<h3 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h3>
+<div id="example" class="section level2">
+<h2 class="hasAnchor">
+<a href="#example" class="anchor"></a>Example</h2>
 <p>Checking fairness is easy!</p>
 <pre><code>library(fairmodels)
 
@@ -187,9 +159,9 @@ fobject %&gt;% performance_and_fairness() %&gt;% plot()
 
 fobject %&gt;% all_cutoffs("lm") %&gt;% plot()
 fobject %&gt;% ceteris_paribus_cutoff("female") %&gt;% plot()</code></pre>
-<div id="fairness-checking-is-flexible" class="section level4">
-<h4 class="hasAnchor">
-<a href="#fairness-checking-is-flexible" class="anchor"></a>Fairness checking is flexible</h4>
+<div id="fairness-checking-is-flexible" class="section level3">
+<h3 class="hasAnchor">
+<a href="#fairness-checking-is-flexible" class="anchor"></a>Fairness checking is flexible</h3>
 <p><code>fairness_check</code> parameters are</p>
 <ul>
 <li>x, … - <code>explainers</code> and <code>fairness_objects</code> (products of fairness_check).<br>
@@ -209,12 +181,109 @@ fairness_object &lt;- fairness_check(explainer3, explainer4, fairness_object, ..
 <p>even with more <code>fairness_objects</code>!</p>
 <p>Tutorial: <a href="https://modeloriented.github.io/FairModels/articles/Basic_tutorial.html">Tutorial</a></p>
 </div>
-<div id="related-works" class="section level4">
-<h4 class="hasAnchor">
-<a href="#related-works" class="anchor"></a>Related works</h4>
+</div>
+<div id="metrics-used" class="section level2">
+<h2 class="hasAnchor">
+<a href="#metrics-used" class="anchor"></a>Metrics used:</h2>
+<p>There are 13 metrics based on confusion matrix :</p>
+<table class="table">
+<colgroup>
+<col width="19%">
+<col width="21%">
+<col width="26%">
+<col width="31%">
+</colgroup>
+<thead><tr class="header">
+<th>Metric</th>
+<th>Formula</th>
+<th>Full name</th>
+<th>Other names</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>TPR</td>
+<td><span class="math inline">$\frac{TP}{TP+FN}$</span></td>
+<td>true positive rate</td>
+<td>equal opportunity, sensitivity, recall</td>
+</tr>
+<tr class="even">
+<td>TNR</td>
+<td><span class="math inline">$\frac{TN}{TN+FP}$</span></td>
+<td>true negative rate</td>
+<td>specificity</td>
+</tr>
+<tr class="odd">
+<td>PPV</td>
+<td><span class="math inline">$\frac{TP}{TP+FP}$</span></td>
+<td>positive predictive value</td>
+<td>predictive parity, precision</td>
+</tr>
+<tr class="even">
+<td>NPV</td>
+<td><span class="math inline">$\frac{TN}{TN+FN}$</span></td>
+<td>negative predictive value</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>FNR</td>
+<td><span class="math inline">$\frac{FN}{FN+TP}$</span></td>
+<td>false negative rate</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>FPR</td>
+<td><span class="math inline">$\frac{FP}{FP+TN}$</span></td>
+<td>false positive rate</td>
+<td>predictive equality</td>
+</tr>
+<tr class="odd">
+<td>FOR</td>
+<td><span class="math inline">$\frac{FN}{FN+TN}$</span></td>
+<td>false omision rate</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>TS</td>
+<td><span class="math inline">$\frac{TP}{TP+FN+FP}$</span></td>
+<td>threat score</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>STP</td>
+<td><span class="math inline">$\frac{TP+FP}{TP+FN+FP+TN}$</span></td>
+<td>statistical parity</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>ACC</td>
+<td><span class="math inline">$\frac{TP+TN}{TP+FN+FP+TN}$</span></td>
+<td>accuracy</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>F1</td>
+<td><span class="math inline">$2*\frac{PPV*TPR}{PPV + TPR}$</span></td>
+<td>F1 score</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>MCC</td>
+<td><span class="math inline">$\frac{TP*TN-FP*FN}{\sqrt{(TP+FP)*(TP+FN)*(TN+FP)*(TN+FN)}}$</span></td>
+<td>Matthews correlation coefficient</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><em>and their parity loss</em> how <em>parity loss</em> is calculated?</p>
+<p><span class="math inline"><em>T</em><em>P</em><em>R</em><sub><em>p</em><em>a</em><em>r</em><em>i</em><em>t</em><em>y</em>_<em>l</em><em>o</em><em>s</em><em>s</em></sub></span> = <span class="math inline">$\sum_{i}^{k} |TPR_i - TPR_{privileged}|$</span> where <span class="math inline"><em>i</em> ∈ {<em>a</em>, <em>b</em>, ..., <em>p</em><em>r</em><em>i</em><em>v</em><em>i</em><em>l</em><em>e</em><em>g</em><em>e</em><em>d</em>, ..., <em>k</em>}</span><br>
+Where <span class="math inline">{<em>a</em>, <em>b</em>, ..., <em>p</em><em>r</em><em>i</em><em>v</em><em>i</em><em>l</em><em>e</em><em>g</em><em>e</em><em>d</em>, ..., <em>k</em>}</span> denote membership to unique subgroup from protected variable</p>
+<p>more on those metrics : <a href="https://en.wikipedia.org/wiki/Confusion_matrix">Confusion Matrix</a></p>
+<p>some fairness metrics like <em>Equalized odds</em> are satisfied if parity loss in both <em>TPR</em> and <em>FPR</em> is low</p>
+</div>
+<div id="related-works" class="section level2">
+<h2 class="hasAnchor">
+<a href="#related-works" class="anchor"></a>Related works</h2>
 <p>Zafar,Valera, Rodriguez, Gummadi (2017) <a href="https://arxiv.org/pdf/1610.08452.pdf" class="uri">https://arxiv.org/pdf/1610.08452.pdf</a></p>
-</div>
-</div>
 </div>
 </div>
   </div>
