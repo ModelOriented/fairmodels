@@ -28,11 +28,14 @@
 * **FNR** - False Negative Rate
 * **FPR** - False Positive Rate
 * **FDR** - False Discovery Rate
-* **FOR** - False Omision Rate
+* **FOR** - False Omission Rate
 * **TS**  - Threat Score
+* **STP** - Statistical Parity
 * **ACC** - Accuracy
 * **F1**  - F1 Score
 * **MCC** - Matthews correlation coefficient
+
+*and their parity loss* 
 
 more on those metrics : [Confusion Matrix](https://en.wikipedia.org/wiki/Confusion_matrix)
 
@@ -43,38 +46,48 @@ devtools::install_github("ModelOriented/fairmodels")
 ```
 
 ### Example
+Checking fairness is easy! 
 
 ```
-library(DALEX)
+library(fairmodels)
+
 library(ranger)
+library(DALEX)
 
+data("german")
 
-# load data
-data(compas)
+# ------------ step 1 - create model(s)  -----------------
 
-# making classifiers
-rf_compas <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
-lr_compas <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
-rf_compas_2 <- ranger(Two_yr_Recidivism ~ Age_Above_FourtyFive+Misdemeanor, data = compas, probability = TRUE)
+y_numeric <- as.numeric(german$Risk) -1
 
-# numeric target values
-y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
+lm_model <- glm(Risk~.,
+                data = german,
+                family=binomial(link="logit"))
 
-# explaining with dalex
-rf_explainer_1 <- explain(rf_compas, data = compas[,-1], y = y_numeric, label = "ranger")
-lr_explainer_1 <- explain(lr_compas, data = compas[,-1], y = y_numeric, label = "logistic_regresion")
-rf_explainer_2 <- explain(rf_compas_2, data = compas[,-1], y = y_numeric, label = "ranger2")
+rf_model <- ranger(Risk ~.,
+                   data = german,
+                   probability = TRUE,
+                   num.trees = 200)
 
+# ------------  step 2 - create explainer(s)  ------------
 
-# creating fairness object
-fobject <- create_fairness_object(rf_explainer_1, lr_explainer_1, rf_explainer_2,
-                                  data = compas, 
-                                  outcome = "Two_yr_Recidivism", 
-                                  group = "Ethnicity",
-                                  base = "Caucasian")
+explainer_lm <- explain(lm_model, data = german[,-1], y = y_numeric)
+explainer_rf <- explain(rf_model, data = german[,-1], y = y_numeric)
 
+# ------------  step 3 - fairness check  -----------------
+
+fobject <- fairness_check(explainer_lm, explainer_rf,
+                          protected = german$Sex,
+                          privileged = "male")
+
+# quick fairness check: 
+print(fobject)
+plot(fobject)
+
+# detailed fairness check
 library(dplyr)
 
+fobject %>% plot_density()
 fobject %>% fairness_heatmap() %>% plot() 
 fobject %>% fairness_radar() %>% plot() 
 fobject %>% stack_metrics() %>% plot() 
@@ -82,19 +95,29 @@ fobject %>% group_metric() %>% plot()
 fobject %>% choose_metric() %>% plot() 
 fobject %>% performance_and_fairness() %>% plot() 
 
+fobject %>% all_cutoffs("lm") %>% plot()
+fobject %>% ceteris_paribus_cutoff("female") %>% plot()
 ```
 
 
-#### Fairness object
+#### Fairness checking is flexible
 
-`fairness object` consists of 
-* x, ...  - explainer or list of explainers
-* data    - full data (different explainers can be trained on different data)
-* outcome - target variable
-* group   - protected variable, usually race, sex, etc...
-* base    - subgroup, base on which to calculate metrics. Metric on base subgroup is always 1. Usually specific race, sex etc...
-* cutoff  - custom cutoff, might be single value - cutoff same for all subgroups or vector - for each subgroup individually
+`fairness_check` parameters are    
+* x, ...  - `explainers` and `fairness_objects` (products of fairness_check).   
+* protected - factor with different subgroups as levels. Usually specific race, sex etc...   
+* privileged - subgroup, base on which to calculate parity loss metrics.    
+* cutoff  - custom cutoff, might be single value - cutoff same for all subgroups or vector - for each subgroup individually. Affecting only explainers.   
+* label - character vector for every explainer.   
 
+Models might be trained on different data, even without protected variable. May have different cutoffs which gives different values of metrics. 
+`fairness_check()` is place where `explainers` and `fairness_objects` are checked for copmatibility and then glued together.  
+So it is possible to to something like this: 
+
+```
+fairness_object <- fairness_check(explainer1, explainer2, ...)
+fairness_object <- fairness_check(explainer3, explainer4, fairness_object, ...)
+```
+even with more `fairness_objects`!
 
 Tutorial: [Tutorial](https://modeloriented.github.io/FairModels/articles/Basic_tutorial.html)
 

@@ -192,7 +192,7 @@ fairness_check <- function(x,
 
 
   # explainers must have equal y
-  verbose_cat("-> Checking explainers\t\t:")
+  verbose_cat("-> Checking explainers\t\t: ")
   y_to_compare <- all_explainers[[1]]$y
   for (exp in all_explainers){
     if(length(y_to_compare) != length(exp$y)){
