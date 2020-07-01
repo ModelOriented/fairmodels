@@ -6,24 +6,14 @@
   <!-- badges: end -->
   
   
-
-
 ## Overview
 
 `fairmodels` is package for fairness audit and visualization. Uses models explained with [DALEX](https://modeloriented.github.io/DALEX) and calculates fairness metrics based on confusion matrix for protected group.  Allows to compare and gain information about various machine learning models. *Make sure your models are classifying protected groups similarly*.
 
 
-
 ## Preview
 
 ![preview](man/figures/preview.gif)
-
-
-### How to evaluate fairness? 
-
-<p align="center">
-<img src="man/figures/flowchart.png" alt="drawing" width="700"/>
-</p>
 
 ## Installation
 
@@ -36,15 +26,12 @@ Checking fairness is easy!
 
 ```
 library(fairmodels)
-
 library(ranger)
 library(DALEX)
 
 data("german")
 
 # ------------ step 1 - create model(s)  -----------------
-
-y_numeric <- as.numeric(german$Risk) -1
 
 lm_model <- glm(Risk~.,
                 data = german,
@@ -57,6 +44,9 @@ rf_model <- ranger(Risk ~.,
 
 # ------------  step 2 - create explainer(s)  ------------
 
+# numeric y for explain function
+y_numeric <- as.numeric(german$Risk) -1
+
 explainer_lm <- explain(lm_model, data = german[,-1], y = y_numeric)
 explainer_rf <- explain(rf_model, data = german[,-1], y = y_numeric)
 
@@ -66,24 +56,20 @@ fobject <- fairness_check(explainer_lm, explainer_rf,
                           protected = german$Sex,
                           privileged = "male")
 
-# quick fairness check: 
+ 
 print(fobject)
 plot(fobject)
 
-# detailed fairness check
-library(dplyr)
-
-fobject %>% plot_density()
-fobject %>% fairness_heatmap() %>% plot() 
-fobject %>% fairness_radar() %>% plot() 
-fobject %>% stack_metrics() %>% plot() 
-fobject %>% group_metric() %>% plot() 
-fobject %>% choose_metric() %>% plot() 
-fobject %>% performance_and_fairness() %>% plot() 
-
-fobject %>% all_cutoffs("lm") %>% plot()
-fobject %>% ceteris_paribus_cutoff("female") %>% plot()
 ```
+
+Compas recidivism data use case [Tutorial](https://modeloriented.github.io/FairModels/articles/Basic_tutorial.html)
+
+
+## How to evaluate fairness? 
+
+<p align="center">
+<img src="man/figures/flowchart.png" alt="drawing" width="700"/>
+</p>
 
 
 ### Fairness checking is flexible
@@ -105,7 +91,8 @@ fairness_object <- fairness_check(explainer3, explainer4, fairness_object, ...)
 ```
 even with more `fairness_objects`!
 
-Tutorial: [Tutorial](https://modeloriented.github.io/FairModels/articles/Basic_tutorial.html)
+If one is even more keen to know how `fairmodels` works and what are relations between objects, please look at this diagram [class diagram](https://github.com/ModelOriented/fairmodels/blob/master/man/figures/class_diagram.png)
+
 
 ## Metrics used
 
@@ -133,9 +120,6 @@ how *parity loss* is calculated?
 ![parity_loss](man/figures/formulas/parity_loss.jpg)
 
 Where ![explain](man/figures/formulas/explain.jpg) denote the membership to unique subgroup from protected variable
-
-
-more on those metrics : [Confusion Matrix](https://en.wikipedia.org/wiki/Confusion_matrix)
 
 some fairness metrics like *Equalized odds* are satisfied if parity loss in both *TPR* and *FPR* is low 
 
