@@ -19,33 +19,17 @@
 ![preview](man/figures/preview.gif)
 
 
-### Used metrics
+### How to evaluate fairness? 
 
-* **TPR** - True Positive Rate (Sensitivity, Recall)
-* **TNR** - True Negative Rate (Specificity)
-* **PPV** - Positive Predictive Value (Precision)
-* **NPV** - Negative Predictive Value
-* **FNR** - False Negative Rate
-* **FPR** - False Positive Rate
-* **FDR** - False Discovery Rate
-* **FOR** - False Omission Rate
-* **TS**  - Threat Score
-* **STP** - Statistical Parity
-* **ACC** - Accuracy
-* **F1**  - F1 Score
-* **MCC** - Matthews correlation coefficient
+![flowchart](man/figures/flowchart.png)
 
-*and their parity loss* 
-
-more on those metrics : [Confusion Matrix](https://en.wikipedia.org/wiki/Confusion_matrix)
-
-### Installation
+## Installation
 
 ```
 devtools::install_github("ModelOriented/fairmodels")
 ```
 
-### Example
+## Example
 Checking fairness is easy! 
 
 ```
@@ -100,7 +84,7 @@ fobject %>% ceteris_paribus_cutoff("female") %>% plot()
 ```
 
 
-#### Fairness checking is flexible
+### Fairness checking is flexible
 
 `fairness_check` parameters are    
 * x, ...  - `explainers` and `fairness_objects` (products of fairness_check).   
@@ -121,6 +105,36 @@ even with more `fairness_objects`!
 
 Tutorial: [Tutorial](https://modeloriented.github.io/FairModels/articles/Basic_tutorial.html)
 
-#### Related works
+## Metrics used: 
+
+There are 13 metrics based on confusion matrix : 
+
+| Metric | Formula | Full name | Other names |
+|--------|---------|-----------|-------------|
+| TPR | $\frac{TP}{TP+FN}$ | true positive rate | equal opportunity, sensitivity, recall
+| TNR | $\frac{TN}{TN+FP}$ | true negative rate | specificity
+| PPV | $\frac{TP}{TP+FP}$ | positive predictive value | predictive parity, precision
+| NPV | $\frac{TN}{TN+FN}$ | negative predictive value | 
+| FNR | $\frac{FN}{FN+TP}$ | false negative rate |
+| FPR | $\frac{FP}{FP+TN}$ | false positive rate | predictive equality
+| FOR | $\frac{FN}{FN+TN}$ | false omision rate |
+| TS | $\frac{TP}{TP+FN+FP}$ | threat score |
+| STP | $\frac{TP+FP}{TP+FN+FP+TN}$ | statistical parity |
+| ACC | $\frac{TP+TN}{TP+FN+FP+TN}$ | accuracy |
+| F1 | $2*\frac{PPV*TPR}{PPV + TPR}$ | F1 score |
+| MCC |$\frac{TP*TN-FP*FN}{\sqrt{(TP+FP)*(TP+FN)*(TN+FP)*(TN+FN)}}$ | Matthews correlation coefficient |
+
+*and their parity loss*
+how *parity loss* is calculated? 
+
+$TPR_{parity\_loss}$ = $\sum_{i}^{k} |TPR_i - TPR_{privileged}|$ where $i \in \{a, b, ..., privileged, ..., k \}$   
+Where $\{a, b, ..., privileged, ..., k \}$ denote membership to unique subgroup from protected variable
+
+
+more on those metrics : [Confusion Matrix](https://en.wikipedia.org/wiki/Confusion_matrix)
+
+some fairness metrics like *Equalized odds* are satisfied if parity loss in both *TPR* and *FPR* is low 
+
+## Related works
 
 Zafar,Valera, Rodriguez, Gummadi (2017)  https://arxiv.org/pdf/1610.08452.pdf

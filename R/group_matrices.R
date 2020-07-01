@@ -27,7 +27,7 @@
 #'
 #' y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
 #'
-#' gm <- group_matrices(as.numeric(compas$Ethnicity),
+#' gm <- group_matrices(compas$Ethnicity,
 #'                      y_prob,
 #'                      y_numeric,
 #'                      cutoff = rep(0.45,6))
