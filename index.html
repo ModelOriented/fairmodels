@@ -99,7 +99,8 @@
 <div id="how-to-evaluate-fairness" class="section level3">
 <h3 class="hasAnchor">
 <a href="#how-to-evaluate-fairness" class="anchor"></a>How to evaluate fairness?</h3>
-<p><img src="reference/figures/flowchart.png" alt="flowchart"></p>
+<p align="center">
+<img src="reference/figures/flowchart.png" alt="drawing" width="700"></p>
 </div>
 </div>
 <div id="installation" class="section level2">
@@ -184,15 +185,9 @@ fairness_object &lt;- fairness_check(explainer3, explainer4, fairness_object, ..
 </div>
 <div id="metrics-used" class="section level2">
 <h2 class="hasAnchor">
-<a href="#metrics-used" class="anchor"></a>Metrics used:</h2>
+<a href="#metrics-used" class="anchor"></a>Metrics used</h2>
 <p>There are 13 metrics based on confusion matrix :</p>
 <table class="table">
-<colgroup>
-<col width="19%">
-<col width="21%">
-<col width="26%">
-<col width="31%">
-</colgroup>
 <thead><tr class="header">
 <th>Metric</th>
 <th>Formula</th>
@@ -202,81 +197,87 @@ fairness_object &lt;- fairness_check(explainer3, explainer4, fairness_object, ..
 <tbody>
 <tr class="odd">
 <td>TPR</td>
-<td><span class="math inline">$\frac{TP}{TP+FN}$</span></td>
+<td><img src="reference/figures/formulas/tpr.jpg" alt="tpr"></td>
 <td>true positive rate</td>
 <td>equal opportunity, sensitivity, recall</td>
 </tr>
 <tr class="even">
 <td>TNR</td>
-<td><span class="math inline">$\frac{TN}{TN+FP}$</span></td>
+<td><img src="reference/figures/formulas/tnr.jpg" alt="tnr"></td>
 <td>true negative rate</td>
 <td>specificity</td>
 </tr>
 <tr class="odd">
 <td>PPV</td>
-<td><span class="math inline">$\frac{TP}{TP+FP}$</span></td>
+<td><img src="reference/figures/formulas/ppv.jpg" alt="ppv"></td>
 <td>positive predictive value</td>
 <td>predictive parity, precision</td>
 </tr>
 <tr class="even">
 <td>NPV</td>
-<td><span class="math inline">$\frac{TN}{TN+FN}$</span></td>
+<td><img src="reference/figures/formulas/npv.jpg" alt="npv"></td>
 <td>negative predictive value</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>FNR</td>
-<td><span class="math inline">$\frac{FN}{FN+TP}$</span></td>
+<td><img src="reference/figures/formulas/fnr.jpg" alt="fnr"></td>
 <td>false negative rate</td>
 <td></td>
 </tr>
 <tr class="even">
 <td>FPR</td>
-<td><span class="math inline">$\frac{FP}{FP+TN}$</span></td>
+<td><img src="reference/figures/formulas/fpr.jpg" alt="fpr"></td>
 <td>false positive rate</td>
 <td>predictive equality</td>
 </tr>
 <tr class="odd">
+<td>FDR</td>
+<td><img src="reference/figures/formulas/fdr.jpg" alt="fdr"></td>
+<td>false discovery rate</td>
+<td></td>
+</tr>
+<tr class="even">
 <td>FOR</td>
-<td><span class="math inline">$\frac{FN}{FN+TN}$</span></td>
+<td><img src="reference/figures/formulas/for.jpg" alt="for"></td>
 <td>false omision rate</td>
 <td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>TS</td>
-<td><span class="math inline">$\frac{TP}{TP+FN+FP}$</span></td>
+<td><img src="reference/figures/formulas/ts.jpg" alt="ts"></td>
 <td>threat score</td>
 <td></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>STP</td>
-<td><span class="math inline">$\frac{TP+FP}{TP+FN+FP+TN}$</span></td>
+<td><img src="reference/figures/formulas/stp.jpg" alt="stp"></td>
 <td>statistical parity</td>
 <td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>ACC</td>
-<td><span class="math inline">$\frac{TP+TN}{TP+FN+FP+TN}$</span></td>
+<td><img src="reference/figures/formulas/acc.jpg" alt="acc"></td>
 <td>accuracy</td>
 <td></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>F1</td>
-<td><span class="math inline">$2*\frac{PPV*TPR}{PPV + TPR}$</span></td>
+<td><img src="reference/figures/formulas/f1.jpg" alt="f1"></td>
 <td>F1 score</td>
 <td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>MCC</td>
-<td><span class="math inline">$\frac{TP*TN-FP*FN}{\sqrt{(TP+FP)*(TP+FN)*(TN+FP)*(TN+FN)}}$</span></td>
+<td><img src="reference/figures/formulas/mcc.jpg" alt="drawing" width="300"></td>
 <td>Matthews correlation coefficient</td>
 <td></td>
 </tr>
 </tbody>
 </table>
 <p><em>and their parity loss</em> how <em>parity loss</em> is calculated?</p>
-<p><span class="math inline"><em>T</em><em>P</em><em>R</em><sub><em>p</em><em>a</em><em>r</em><em>i</em><em>t</em><em>y</em>_<em>l</em><em>o</em><em>s</em><em>s</em></sub></span> = <span class="math inline">$\sum_{i}^{k} |TPR_i - TPR_{privileged}|$</span> where <span class="math inline"><em>i</em> ∈ {<em>a</em>, <em>b</em>, ..., <em>p</em><em>r</em><em>i</em><em>v</em><em>i</em><em>l</em><em>e</em><em>g</em><em>e</em><em>d</em>, ..., <em>k</em>}</span><br>
-Where <span class="math inline">{<em>a</em>, <em>b</em>, ..., <em>p</em><em>r</em><em>i</em><em>v</em><em>i</em><em>l</em><em>e</em><em>g</em><em>e</em><em>d</em>, ..., <em>k</em>}</span> denote membership to unique subgroup from protected variable</p>
+<p><img src="reference/figures/formulas/parity_loss.jpg" alt="parity_loss"></p>
+<p>Where <img src="reference/figures/formulas/explain.jpg" alt="explain"> denote the membership to unique subgroup from protected variable</p>
 <p>more on those metrics : <a href="https://en.wikipedia.org/wiki/Confusion_matrix">Confusion Matrix</a></p>
 <p>some fairness metrics like <em>Equalized odds</em> are satisfied if parity loss in both <em>TPR</em> and <em>FPR</em> is low</p>
 </div>
