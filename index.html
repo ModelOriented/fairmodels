@@ -96,12 +96,6 @@
 <h2 class="hasAnchor">
 <a href="#preview" class="anchor"></a>Preview</h2>
 <p><img src="reference/figures/preview.gif" alt="preview"></p>
-<div id="how-to-evaluate-fairness" class="section level3">
-<h3 class="hasAnchor">
-<a href="#how-to-evaluate-fairness" class="anchor"></a>How to evaluate fairness?</h3>
-<p align="center">
-<img src="reference/figures/flowchart.png" alt="drawing" width="700"></p>
-</div>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -113,15 +107,12 @@
 <a href="#example" class="anchor"></a>Example</h2>
 <p>Checking fairness is easy!</p>
 <pre><code>library(fairmodels)
-
 library(ranger)
 library(DALEX)
 
 data("german")
 
 # ------------ step 1 - create model(s)  -----------------
-
-y_numeric &lt;- as.numeric(german$Risk) -1
 
 lm_model &lt;- glm(Risk~.,
                 data = german,
@@ -134,6 +125,9 @@ rf_model &lt;- ranger(Risk ~.,
 
 # ------------  step 2 - create explainer(s)  ------------
 
+# numeric y for explain function
+y_numeric &lt;- as.numeric(german$Risk) -1
+
 explainer_lm &lt;- explain(lm_model, data = german[,-1], y = y_numeric)
 explainer_rf &lt;- explain(rf_model, data = german[,-1], y = y_numeric)
 
@@ -143,23 +137,17 @@ fobject &lt;- fairness_check(explainer_lm, explainer_rf,
                           protected = german$Sex,
                           privileged = "male")
 
-# quick fairness check: 
+ 
 print(fobject)
 plot(fobject)
-
-# detailed fairness check
-library(dplyr)
-
-fobject %&gt;% plot_density()
-fobject %&gt;% fairness_heatmap() %&gt;% plot() 
-fobject %&gt;% fairness_radar() %&gt;% plot() 
-fobject %&gt;% stack_metrics() %&gt;% plot() 
-fobject %&gt;% group_metric() %&gt;% plot() 
-fobject %&gt;% choose_metric() %&gt;% plot() 
-fobject %&gt;% performance_and_fairness() %&gt;% plot() 
-
-fobject %&gt;% all_cutoffs("lm") %&gt;% plot()
-fobject %&gt;% ceteris_paribus_cutoff("female") %&gt;% plot()</code></pre>
+</code></pre>
+<p>Compas recidivism data use case <a href="https://modeloriented.github.io/FairModels/articles/Basic_tutorial.html">Tutorial</a></p>
+</div>
+<div id="how-to-evaluate-fairness" class="section level2">
+<h2 class="hasAnchor">
+<a href="#how-to-evaluate-fairness" class="anchor"></a>How to evaluate fairness?</h2>
+<p align="center">
+<img src="reference/figures/flowchart.png" alt="drawing" width="700"></p>
 <div id="fairness-checking-is-flexible" class="section level3">
 <h3 class="hasAnchor">
 <a href="#fairness-checking-is-flexible" class="anchor"></a>Fairness checking is flexible</h3>
@@ -180,7 +168,7 @@ So it is possible to to something like this:</p>
 <pre><code>fairness_object &lt;- fairness_check(explainer1, explainer2, ...)
 fairness_object &lt;- fairness_check(explainer3, explainer4, fairness_object, ...)</code></pre>
 <p>even with more <code>fairness_objects</code>!</p>
-<p>Tutorial: <a href="https://modeloriented.github.io/FairModels/articles/Basic_tutorial.html">Tutorial</a></p>
+<p>If one is even more keen to know how <code>fairmodels</code> works and what are relations between objects, please look at this diagram <a href="https://github.com/ModelOriented/fairmodels/blob/master/man/figures/class_diagram.png">class diagram</a></p>
 </div>
 </div>
 <div id="metrics-used" class="section level2">
@@ -278,7 +266,6 @@ fairness_object &lt;- fairness_check(explainer3, explainer4, fairness_object, ..
 <p><em>and their parity loss</em> how <em>parity loss</em> is calculated?</p>
 <p><img src="reference/figures/formulas/parity_loss.jpg" alt="parity_loss"></p>
 <p>Where <img src="reference/figures/formulas/explain.jpg" alt="explain"> denote the membership to unique subgroup from protected variable</p>
-<p>more on those metrics : <a href="https://en.wikipedia.org/wiki/Confusion_matrix">Confusion Matrix</a></p>
 <p>some fairness metrics like <em>Equalized odds</em> are satisfied if parity loss in both <em>TPR</em> and <em>FPR</em> is low</p>
 </div>
 <div id="related-works" class="section level2">
