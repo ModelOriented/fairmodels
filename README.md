@@ -114,7 +114,7 @@ There are 13 metrics based on confusion matrix :
 | F1 |  ![f1](man/figures/formulas/f1.jpg) | F1 score |
 | MCC | <img src="man/figures/formulas/mcc.jpg" alt="drawing" width="300"/> | Matthews correlation coefficient |
 
-*and their parity loss*
+*and their parity loss*   
 how *parity loss* is calculated? 
 
 ![parity_loss](man/figures/formulas/parity_loss.jpg)
