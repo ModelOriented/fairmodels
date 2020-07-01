@@ -157,9 +157,9 @@
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( [33m default [39m ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( [33m default [39m )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1463914 , mean =  0.5453962 , max =  0.8622244  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.155109 , mean =  0.5447096 , max =  0.8674138  
 #&gt;   -&gt; residual function :  difference between y and yhat ( [33m default [39m )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8480787 , mean =  -0.0005161133 , max =  0.7869458  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8483209 , mean =  0.0001704848 , max =  0.7849856  
 #&gt;  [32m A new explainer has been created! [39m</code></pre>
 <div id="fairness-check" class="section level3">
 <h3 class="hasAnchor">
@@ -175,7 +175,7 @@
 #&gt; -&gt; Privileged subgroup       : character ([32m Ok [39m )
 #&gt; -&gt; Protected varaible        : factor ([32m Ok [39m ) 
 #&gt; -&gt; Fairness objects      : compatible
-#&gt; -&gt; Checking explainers       :compatible
+#&gt; -&gt; Checking explainers       : compatible
 #&gt; -&gt; Metric calculation        : successful
 #&gt; [32m Fairness object created succesfully [39m</code></pre>
 <p>Let’s see if our ranger model has bias.</p>
@@ -186,7 +186,7 @@
 #&gt; Fairness check for models: ranger 
 #&gt; 
 #&gt; [31mranger passes 0/5 metrics
-#&gt; [39mTotal loss:  2.655967</code></pre>
+#&gt; [39mTotal loss:  2.430205</code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fobject</span>)
 </pre></div>
@@ -201,7 +201,7 @@
 #&gt; -&gt; Privileged subgroup       : character ([32m Ok [39m )
 #&gt; -&gt; Protected varaible        : factor ([32m Ok [39m ) 
 #&gt; -&gt; Fairness objects      : compatible
-#&gt; -&gt; Checking explainers       :compatible
+#&gt; -&gt; Checking explainers       : compatible
 #&gt; -&gt; Metric calculation        : successful
 #&gt; [32m Fairness object created succesfully [39m</code></pre>
 <div class="sourceCode" id="cb13"><pre class="downlit">
@@ -256,7 +256,7 @@
 #&gt; -&gt; Privileged subgroup       : character ([32m Ok [39m )
 #&gt; -&gt; Protected varaible        : factor ([32m Ok [39m ) 
 #&gt; -&gt; Fairness objects      : compatible
-#&gt; -&gt; Checking explainers       :compatible
+#&gt; -&gt; Checking explainers       : compatible
 #&gt; -&gt; Metric calculation        : successful
 #&gt; [32m Fairness object created succesfully [39m</code></pre>
 <p>As we can see there is some parameters in fairness_check such as:<br>
@@ -272,24 +272,24 @@
 <pre><code>#&gt;   TPR_parity_loss TNR_parity_loss PPV_parity_loss NPV_parity_loss
 #&gt; 1       0.4876338       0.5782997       0.3219684       0.3001712
 #&gt; 2       0.4459198       1.1219620       0.1131800       0.8675808
-#&gt; 3       0.3913643       0.6727904       0.3763923       0.6552432
+#&gt; 3       0.4774770       0.7357111       0.3219561       0.6425116
 #&gt; 4       0.3734750       0.3902308       0.4881695       0.3647346
-#&gt; 5       0.3195857       0.9864891       0.2708668       0.6030314
-#&gt; 6       0.4445724       0.7611212       0.3079939       0.4082694
+#&gt; 5       0.4924950       0.9856395       0.2386479       0.4826985
+#&gt; 6       0.4409070       0.7297952       0.3345491       0.4616660
 #&gt;   FNR_parity_loss FPR_parity_loss FDR_parity_loss FOR_parity_loss
 #&gt; 1       0.4876338       0.5782997       0.3219684       0.3001712
 #&gt; 2       0.4459198       1.1219620       0.1131800       0.8675808
-#&gt; 3       0.3913643       0.6727904       0.3763923       0.6552432
+#&gt; 3       0.4774770       0.7357111       0.3219561       0.6425116
 #&gt; 4       0.3734750       0.3902308       0.4881695       0.3647346
-#&gt; 5       0.3195857       0.9864891       0.2708668       0.6030314
-#&gt; 6       0.4445724       0.7611212       0.3079939       0.4082694
+#&gt; 5       0.4924950       0.9856395       0.2386479       0.4826985
+#&gt; 6       0.4409070       0.7297952       0.3345491       0.4616660
 #&gt;   TS_parity_loss STP_parity_loss ACC_parity_loss F1_parity_loss MCC_parity_loss
 #&gt; 1      0.3960287       0.6602397       0.2868008      0.3094422       0.5158728
 #&gt; 2      0.3203605       0.7852645       0.1353720      0.2502984       0.6709033
-#&gt; 3      0.5203427       0.6196030       0.3793016      0.3749754       0.7919510
+#&gt; 3      0.5294034       0.7315431       0.3558698      0.3904095       0.6994191
 #&gt; 4      0.3814321       0.2951150       0.1960918      0.3733294       0.3505547
-#&gt; 5      0.3824187       0.6849683       0.2359889      0.2916016       0.7039652
-#&gt; 6      0.4934613       0.7152887       0.3202206      0.3681282       0.5671574</code></pre>
+#&gt; 5      0.3193028       0.7809202       0.1636874      0.2485424       0.5603298
+#&gt; 6      0.5176849       0.6823381       0.3470310      0.3822618       0.6623129</code></pre>
 <ul>
 <li>groups_data</li>
 </ul>
@@ -358,18 +358,18 @@
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">fair_pca</span>)
 </pre></div>
 <pre><code>#&gt; Fairness PCA : 
-#&gt;             PC1         PC2        PC3        PC4         PC5           PC6
-#&gt; [1,] -0.6069880 -0.43627568  1.7041590 -0.3731591  0.49498479  5.551115e-17
-#&gt; [2,]  3.5916089 -0.90002974  0.2514160  0.5860087 -0.06434225 -6.383782e-16
-#&gt; [3,] -0.8504062  2.29758492 -0.6939740  0.5179542  0.32284705 -1.887379e-15
-#&gt; [4,] -2.7369962 -2.08885819 -0.7658890  0.3023803 -0.08885989  1.110223e-16
-#&gt; [5,]  1.3492052  0.02198658 -1.3957578 -0.8753100  0.03187045  1.443290e-15
-#&gt; [6,] -0.7464237  1.10559211  0.9000458 -0.1578740 -0.69650015  1.984524e-15
+#&gt;              PC1         PC2        PC3         PC4         PC5           PC6
+#&gt; [1,] -0.58418306 -0.01155212  1.4947307 -0.11901489  0.31066482  1.110223e-16
+#&gt; [2,]  3.06830763 -1.00108539 -1.1497286 -0.03390712  0.18720076 -5.204170e-16
+#&gt; [3,] -0.09465641  2.30383819 -0.3711810 -0.38920243 -0.14423892  3.053113e-15
+#&gt; [4,] -3.38833932 -1.91757786 -0.6905109 -0.06047755 -0.05889763  8.049117e-16
+#&gt; [5,]  1.76836616 -1.07667353  1.0156532  0.10105014 -0.32819574  6.522560e-16
+#&gt; [6,] -0.76949499  1.70305072 -0.2989634  0.50155185  0.03346669 -2.900458e-15
 #&gt; 
 #&gt; Created with: 
 #&gt; [1] "ranger"   "lm"       "ranger_2" "ranger_3" "gbm"      "ranger_4"
 #&gt; 
-#&gt; First two components explained 79 % of variance.</code></pre>
+#&gt; First two components explained 86 % of variance.</code></pre>
 <p>Let’s plot!</p>
 <div class="sourceCode" id="cb28"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fair_pca</span>)
@@ -443,7 +443,7 @@
 #&gt; -&gt; Privileged subgroup       : character ([32m Ok [39m )
 #&gt; -&gt; Protected varaible        : factor ([32m Ok [39m ) 
 #&gt; -&gt; Fairness objects      : compatible
-#&gt; -&gt; Checking explainers       :compatible
+#&gt; -&gt; Checking explainers       : compatible
 #&gt; -&gt; Metric calculation        : successful
 #&gt; [32m Fairness object created succesfully [39m</code></pre>
 <div class="sourceCode" id="cb39"><pre class="downlit">
