@@ -21,7 +21,9 @@
 
 ### How to evaluate fairness? 
 
-![flowchart](man/figures/flowchart.png)
+<p align="center">
+<img src="man/figures/flowchart.png" alt="drawing" width="700"/>
+</p>
 
 ## Installation
 
@@ -105,30 +107,32 @@ even with more `fairness_objects`!
 
 Tutorial: [Tutorial](https://modeloriented.github.io/FairModels/articles/Basic_tutorial.html)
 
-## Metrics used: 
+## Metrics used
 
 There are 13 metrics based on confusion matrix : 
 
 | Metric | Formula | Full name | Other names |
 |--------|---------|-----------|-------------|
-| TPR | $\frac{TP}{TP+FN}$ | true positive rate | equal opportunity, sensitivity, recall
-| TNR | $\frac{TN}{TN+FP}$ | true negative rate | specificity
-| PPV | $\frac{TP}{TP+FP}$ | positive predictive value | predictive parity, precision
-| NPV | $\frac{TN}{TN+FN}$ | negative predictive value | 
-| FNR | $\frac{FN}{FN+TP}$ | false negative rate |
-| FPR | $\frac{FP}{FP+TN}$ | false positive rate | predictive equality
-| FOR | $\frac{FN}{FN+TN}$ | false omision rate |
-| TS | $\frac{TP}{TP+FN+FP}$ | threat score |
-| STP | $\frac{TP+FP}{TP+FN+FP+TN}$ | statistical parity |
-| ACC | $\frac{TP+TN}{TP+FN+FP+TN}$ | accuracy |
-| F1 | $2*\frac{PPV*TPR}{PPV + TPR}$ | F1 score |
-| MCC |$\frac{TP*TN-FP*FN}{\sqrt{(TP+FP)*(TP+FN)*(TN+FP)*(TN+FN)}}$ | Matthews correlation coefficient |
+| TPR | ![tpr](man/figures/formulas/tpr.jpg) | true positive rate | equal opportunity, sensitivity, recall
+| TNR | ![tnr](man/figures/formulas/tnr.jpg) | true negative rate | specificity
+| PPV | ![ppv](man/figures/formulas/ppv.jpg) | positive predictive value | predictive parity, precision
+| NPV | ![npv](man/figures/formulas/npv.jpg) | negative predictive value | 
+| FNR | ![fnr](man/figures/formulas/fnr.jpg) | false negative rate |
+| FPR | ![fpr](man/figures/formulas/fpr.jpg) | false positive rate | predictive equality
+| FDR | ![fdr](man/figures/formulas/fdr.jpg) | false discovery rate
+| FOR | ![for](man/figures/formulas/for.jpg) | false omision rate |
+| TS | ![ts](man/figures/formulas/ts.jpg)  | threat score |
+| STP | ![stp](man/figures/formulas/stp.jpg) | statistical parity |
+| ACC | ![acc](man/figures/formulas/acc.jpg) | accuracy |
+| F1 |  ![f1](man/figures/formulas/f1.jpg) | F1 score |
+| MCC | <img src="man/figures/formulas/mcc.jpg" alt="drawing" width="300"/> | Matthews correlation coefficient |
 
 *and their parity loss*
 how *parity loss* is calculated? 
 
-$TPR_{parity\_loss}$ = $\sum_{i}^{k} |TPR_i - TPR_{privileged}|$ where $i \in \{a, b, ..., privileged, ..., k \}$   
-Where $\{a, b, ..., privileged, ..., k \}$ denote membership to unique subgroup from protected variable
+![parity_loss](man/figures/formulas/parity_loss.jpg)
+
+Where ![explain](man/figures/formulas/explain.jpg) denote the membership to unique subgroup from protected variable
 
 
 more on those metrics : [Confusion Matrix](https://en.wikipedia.org/wiki/Confusion_matrix)
