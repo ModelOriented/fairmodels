@@ -157,9 +157,9 @@
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( [33m default [39m ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( [33m default [39m )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1650091 , mean =  0.5448038 , max =  0.8681259  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.162624 , mean =  0.5450384 , max =  0.8682122  
 #&gt;   -&gt; residual function :  difference between y and yhat ( [33m default [39m )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8489537 , mean =  7.628776e-05 , max =  0.7826827  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8497683 , mean =  -0.0001582519 , max =  0.7752265  
 #&gt;  [32m A new explainer has been created! [39m</code></pre>
 <div id="fairness-check" class="section level3">
 <h3 class="hasAnchor">
@@ -186,7 +186,7 @@
 #&gt; Fairness check for models: ranger 
 #&gt; 
 #&gt; [31mranger passes 0/5 metrics
-#&gt; [39mTotal loss:  2.672893</code></pre>
+#&gt; [39mTotal loss:  2.689772</code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fobject</span>)
 </pre></div>
@@ -270,26 +270,26 @@
 <span class="kw">fobject</span><span class="op">$</span><span class="kw">metric_data</span>
 </pre></div>
 <pre><code>#&gt;   TPR_parity_loss TNR_parity_loss PPV_parity_loss NPV_parity_loss
-#&gt; 1       0.3146544       0.6824922       0.3560605       0.4689762
+#&gt; 1       0.4876338       0.5782997       0.3219684       0.3001712
 #&gt; 2       0.4459198       1.1219620       0.1131800       0.8675808
-#&gt; 3       0.4118472       0.6867688       0.3691656       0.6733367
+#&gt; 3       0.3662671       0.6890737       0.3324594       0.4074415
 #&gt; 4       0.3734750       0.3902308       0.4881695       0.3647346
-#&gt; 5       0.3523725       0.9950174       0.2692718       0.6122505
-#&gt; 6       0.3823077       0.6718105       0.3640245       0.4897583
+#&gt; 5       0.3016290       0.7755782       0.1629717       0.5534574
+#&gt; 6       0.4705664       0.6975371       0.3484755       0.6297432
 #&gt;   FNR_parity_loss FPR_parity_loss FDR_parity_loss FOR_parity_loss
-#&gt; 1       0.3146544       0.6824922       0.3560605       0.4689762
+#&gt; 1       0.4876338       0.5782997       0.3219684       0.3001712
 #&gt; 2       0.4459198       1.1219620       0.1131800       0.8675808
-#&gt; 3       0.4118472       0.6867688       0.3691656       0.6733367
+#&gt; 3       0.3662671       0.6890737       0.3324594       0.4074415
 #&gt; 4       0.3734750       0.3902308       0.4881695       0.3647346
-#&gt; 5       0.3523725       0.9950174       0.2692718       0.6122505
-#&gt; 6       0.3823077       0.6718105       0.3640245       0.4897583
+#&gt; 5       0.3016290       0.7755782       0.1629717       0.5534574
+#&gt; 6       0.4705664       0.6975371       0.3484755       0.6297432
 #&gt;   TS_parity_loss STP_parity_loss ACC_parity_loss F1_parity_loss MCC_parity_loss
-#&gt; 1      0.4404909       0.5666131       0.2993959      0.3363554       0.5301407
+#&gt; 1      0.3960287       0.6602397       0.2868008      0.3094422       0.5158728
 #&gt; 2      0.3203605       0.7852645       0.1353720      0.2502984       0.6709033
-#&gt; 3      0.5261142       0.6458109       0.3801900      0.3791622       0.7964243
+#&gt; 3      0.4603966       0.6409943       0.3157363      0.3394377       0.5702854
 #&gt; 4      0.3814321       0.2951150       0.1960918      0.3733294       0.3505547
-#&gt; 5      0.3986150       0.6947996       0.2496244      0.3042259       0.7167193
-#&gt; 6      0.5011358       0.6217617       0.3562656      0.3658485       0.7021605</code></pre>
+#&gt; 5      0.2881023       0.5775693       0.1510447      0.2234160       0.5282214
+#&gt; 6      0.5538224       0.6938671       0.3818837      0.4039907       0.7749034</code></pre>
 <ul>
 <li>groups_data</li>
 </ul>
@@ -299,9 +299,9 @@
 <span class="kw">fobject</span><span class="op">$</span><span class="kw">groups_data</span><span class="op">$</span><span class="kw">ranger</span><span class="op">$</span><span class="kw">TPR</span>
 </pre></div>
 <pre><code>#&gt; African_American            Asian        Caucasian         Hispanic 
-#&gt;        0.6697490        0.8695652        0.8149883        0.8406250 
+#&gt;        0.6129458        0.8695652        0.7533177        0.8062500 
 #&gt;  Native_American            Other 
-#&gt;        0.8333333        0.8858447</code></pre>
+#&gt;        0.6666667        0.8447489</code></pre>
 <p>It is simply metrics for certain subgroup.</p>
 <p>What is relation between <code>$groups_data</code> and <code>$metric_data</code> ?</p>
 <p>If we were going only to take score from certain metric (Let’s say fpr and 0.3) we wouldn’t know if it is good or bad. But we are aiming for <strong>equal treatment over all groups</strong> so if this metric score would be the same in all groups it would be very good. But the metrics wouldn’t be comparable between each others (fpr - 0.3 in all groups and accuracy - 0.9 in all groups, both are good in terms of parity). That is why we use <strong>privileged</strong> - to set benchmark. And for example Caucasian in fpr had score of 0.3 and African American 0.6. After setting <code>privilieged = Caucasian</code> Caucasian would have score 0, and African American 0.3, because is the distance between those metrics.</p>
@@ -358,18 +358,18 @@
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">fair_pca</span>)
 </pre></div>
 <pre><code>#&gt; Fairness PCA : 
-#&gt;             PC1         PC2         PC3          PC4         PC5           PC6
-#&gt; [1,]  1.1498353 -0.29022399  1.25856715  0.333974881 -0.09006068  4.666406e-16
-#&gt; [2,] -4.0150913 -1.06881125 -0.57035177  0.145315956  0.04052689 -1.006140e-16
-#&gt; [3,]  0.3950382  2.22175122 -0.86034959  0.014882607 -0.24192157  4.406198e-16
-#&gt; [4,]  2.7193745 -2.22607328 -0.77912123 -0.101797904 -0.02366980  5.689893e-16
-#&gt; [5,] -1.1852112  0.02733807  1.02249945 -0.394893032 -0.06186641  6.834810e-16
-#&gt; [6,]  0.9360545  1.33601924 -0.07124401  0.002517492  0.37699157  6.253678e-16
+#&gt;             PC1        PC2        PC3        PC4         PC5           PC6
+#&gt; [1,] -0.8087613  0.2741830  1.4752687 -0.4280938  0.07341253 -5.828671e-16
+#&gt; [2,]  3.3680190  0.3444111  0.2351942  0.7527155 -0.15550143 -1.665335e-16
+#&gt; [3,] -0.7767510  0.4111760 -0.4852707 -0.7862507 -0.36609913 -4.432218e-16
+#&gt; [4,] -2.5737337 -1.9395718 -0.1547307  0.8866046 -0.02680164 -5.551115e-16
+#&gt; [5,]  1.6143935 -1.9945666 -0.5149972 -0.6400042  0.25466138  4.163336e-16
+#&gt; [6,] -0.8231665  2.9043683 -0.5554643  0.2150286  0.22032828 -9.992007e-16
 #&gt; 
 #&gt; Created with: 
 #&gt; [1] "ranger"   "lm"       "ranger_2" "ranger_3" "gbm"      "ranger_4"
 #&gt; 
-#&gt; First two components explained 90 % of variance.</code></pre>
+#&gt; First two components explained 87 % of variance.</code></pre>
 <p>Let’s plot!</p>
 <div class="sourceCode" id="cb28"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fair_pca</span>)
