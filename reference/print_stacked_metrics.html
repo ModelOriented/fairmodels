@@ -178,20 +178,20 @@ for subgroups from protected vector.</p>
 #&gt;   -&gt; model label       :  lm  ( <span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
-#&gt;   -&gt; model_info        :  package stats , ver. 4.0.2 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  0.1369187 , mean =  0.7 , max =  0.9832426  
+#&gt;   -&gt; model_info        :  package stats , ver. 4.0.2 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9572803 , mean =  1.940006e-17 , max =  0.8283475  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>explainer_rf</span> <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>rf_model</span>, data = <span class='kw'>german</span>[,<span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
-#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.07437698 , mean =  0.6972986 , max =  0.9985417  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.08677381 , mean =  0.6971198 , max =  0.9993846  
+#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.6987262 , mean =  0.002701419 , max =  0.6418788  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7160437 , mean =  0.002880197 , max =  0.690625  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'>fairness_check</span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
                           protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
@@ -207,11 +207,11 @@ for subgroups from protected vector.</p>
 #&gt; First rows of stacked data: 
 #&gt;            metric  model score
 #&gt; 1 TPR_parity_loss     lm 0.085
-#&gt; 2 TPR_parity_loss ranger 0.004
+#&gt; 2 TPR_parity_loss ranger 0.005
 #&gt; 3 TNR_parity_loss     lm 0.190
-#&gt; 4 TNR_parity_loss ranger 0.105
+#&gt; 4 TNR_parity_loss ranger 0.081
 #&gt; 5 PPV_parity_loss     lm 0.017
-#&gt; 6 PPV_parity_loss ranger 0.020
+#&gt; 6 PPV_parity_loss ranger 0.009
 #&gt; </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

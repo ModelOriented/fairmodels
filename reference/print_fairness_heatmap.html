@@ -176,20 +176,20 @@
 #&gt;   -&gt; model label       :  lm  ( <span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
-#&gt;   -&gt; model_info        :  package stats , ver. 4.0.2 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  0.1369187 , mean =  0.7 , max =  0.9832426  
+#&gt;   -&gt; model_info        :  package stats , ver. 4.0.2 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9572803 , mean =  1.940006e-17 , max =  0.8283475  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>explainer_rf</span> <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>rf_model</span>, data = <span class='kw'>german</span>[,<span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
-#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.06157738 , mean =  0.6978798 , max =  0.9971528  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.06739484 , mean =  0.6985956 , max =  0.9967778  
+#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7416131 , mean =  0.002120157 , max =  0.6612381  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.6897459 , mean =  0.001404426 , max =  0.6563558  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'>fairness_check</span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
                           protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
@@ -224,25 +224,25 @@
 #&gt; 
 #&gt; matrix model not scaled :
 #&gt;        TPR_parity_loss TNR_parity_loss PPV_parity_loss NPV_parity_loss
-#&gt; lm_2       0.004496555      0.02968442     0.071920809     0.070054945
-#&gt; rf_2       0.010020040      0.07762140     0.060951153     0.032679739
-#&gt; lm         0.085055684      0.19049906     0.016706407     0.004120879
-#&gt; ranger     0.005044916      0.07834190     0.006000414     0.022041441
+#&gt; lm_2       0.004496555      0.02968442      0.07192081     0.070054945
+#&gt; rf_2       0.010020040      0.08026322      0.06311990     0.033333333
+#&gt; lm         0.085055684      0.19049906      0.01670641     0.004120879
+#&gt; ranger     0.010020040      0.11239733      0.02006891     0.033333333
 #&gt;        FNR_parity_loss FPR_parity_loss FDR_parity_loss FOR_parity_loss
-#&gt; lm_2       0.004496555      0.02968442     0.071920809     0.070054945
-#&gt; rf_2       0.010020040      0.07762140     0.060951153     0.032679739
-#&gt; lm         0.085055684      0.19049906     0.016706407     0.004120879
-#&gt; ranger     0.005044916      0.07834190     0.006000414     0.022041441
+#&gt; lm_2       0.004496555      0.02968442      0.07192081     0.070054945
+#&gt; rf_2       0.010020040      0.08026322      0.06311990     0.033333333
+#&gt; lm         0.085055684      0.19049906      0.01670641     0.004120879
+#&gt; ranger     0.010020040      0.11239733      0.02006891     0.033333333
 #&gt;        TS_parity_loss STP_parity_loss ACC_parity_loss F1_parity_loss
 #&gt; lm_2       0.06157303     0.007339878      0.05053763     0.04208909
-#&gt; rf_2       0.05246476     0.023422160      0.03688640     0.02953002
+#&gt; rf_2       0.05472710     0.021318373      0.03899018     0.03100587
 #&gt; lm         0.06826626     0.142823749      0.03118280     0.04685100
-#&gt; ranger     0.01021987     0.081486676      0.01472651     0.00556466
+#&gt; ranger     0.02846170     0.089060309      0.02875175     0.01543181
 #&gt;        MCC_parity_loss
 #&gt; lm_2        0.01683718
-#&gt; rf_2        0.04987948
+#&gt; rf_2        0.05221789
 #&gt; lm          0.05466262
-#&gt; ranger      0.05734684
+#&gt; ranger      0.09004424
 #&gt; </div><div class='input'></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
