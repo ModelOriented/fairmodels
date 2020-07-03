@@ -16,13 +16,13 @@
 #'
 #' @return list of \code{ggplot} objects
 #'
-#' @import patchwork
 #' @import ggplot2
-#' @import ggdendro
+#' @import patchwork
 #' @importFrom stats hclust
 #' @importFrom stats dist
 #' @importFrom ggdendro dendro_data
 #' @importFrom ggdendro segment
+#' @importFrom DALEX theme_drwhy
 #'
 #'
 #'
@@ -65,7 +65,13 @@
 #' @rdname plot_fairness_heatmap
 
 
-plot.fairness_heatmap <- function(x, ..., midpoint = NULL, title = NULL, subtitle = NULL,   text = TRUE, text_size = 3,flip_axis = FALSE){
+plot.fairness_heatmap <- function(x, ...,
+                                  midpoint = NULL,
+                                  title = NULL,
+                                  subtitle = NULL,
+                                  text = TRUE,
+                                  text_size = 3,
+                                  flip_axis = FALSE){
 
 
     matrix_model <- x$matrix_model
@@ -192,7 +198,7 @@ plot.fairness_heatmap <- function(x, ..., midpoint = NULL, title = NULL, subtitl
   # Plot layout
   dendogram_top + plot_spacer() +
   heatmap + dendogram_right  +
-  plot_layout(ncol = 2,
+  patchwork::plot_layout(ncol = 2,
               widths = c(1,0.4),
               heights = c(0.4,1))
   }

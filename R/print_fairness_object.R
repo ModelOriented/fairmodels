@@ -5,6 +5,7 @@
 #' @param ... other parameters
 #'
 #' @importFrom utils head
+#' @importFrom stats na.omit
 #'
 #' @export
 #'

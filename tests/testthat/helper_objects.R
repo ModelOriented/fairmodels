@@ -9,15 +9,15 @@ data("compas")
 y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
 
 glm_compas    <-  glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
-ranger_compas <- ranger(Two_yr_Recidivism~., data=compas, probability = TRUE)
+ranger_compas <- ranger::ranger(Two_yr_Recidivism~., data=compas, probability = TRUE)
 
 df <- compas
 df$Two_yr_Recidivism <- as.numeric(df$Two_yr_Recidivism) -1
 gbm_compas <- gbm::gbm(Two_yr_Recidivism~., data=df , distribution = "bernoulli")
 
-explainer_glm    <- explain(glm_compas, data = compas[-1]  , y = y_numeric, verbose = FALSE)
-explainer_ranger <- explain(ranger_compas,data = compas[-1], y = y_numeric, verbose = FALSE)
-explainer_gbm    <- explain(gbm_compas,data = compas[-1]   , y = y_numeric, verbose = FALSE)
+explainer_glm    <- DALEX::explain(glm_compas, data = compas[-1]  , y = y_numeric, verbose = FALSE)
+explainer_ranger <- DALEX::explain(ranger_compas,data = compas[-1], y = y_numeric, verbose = FALSE)
+explainer_gbm    <- DALEX::explain(gbm_compas,data = compas[-1]   , y = y_numeric, verbose = FALSE)
 
 fobject <- quiet(fairness_check(explainer_gbm, explainer_glm, explainer_ranger,
                                   protected = compas$Ethnicity,

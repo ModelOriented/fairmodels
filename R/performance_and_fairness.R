@@ -9,6 +9,8 @@
 #' @param fairness_metric fairness metric, one of those in fairness_object
 #' @param performance_metric performance metric, one of
 #'
+#' @importFrom DALEX model_performance
+#'
 #' @return \code{performance_and_fairness} object
 #' @export
 #' @rdname performance_with_fairness

@@ -7,7 +7,7 @@
 #'
 #'
 #' @import ggplot2
-#' @import stats
+#' @importFrom DALEX theme_drwhy_vertical
 #'
 #' @return \code{ggplot} object
 #' @export
@@ -48,7 +48,7 @@ plot_density <- function(x, ...){
   }
 
 
-  probability <- protected <- NULL
+  probability <- protected <- label <-  NULL
   p <- ggplot(density_data, aes(probability, protected)) +
         geom_violin(color = "#ceced9", fill = "#ceced9" , alpha = 0.5) +
         geom_boxplot(aes(fill = protected) ,width = 0.3, alpha = 0.5, outlier.alpha = 0) +

@@ -173,6 +173,8 @@ fairness_check <- function(x,
    stop("Epsilon must be single, numeric value")
   }
 
+  if (epsilon <= 0 ) stop ("epsilon must be positive number")
+
   # among all fairness_objects parameters should be equal
   verbose_cat("-> Fairness objects\t\t: ")
 
@@ -193,6 +195,9 @@ fairness_check <- function(x,
 
   # explainers must have equal y
   verbose_cat("-> Checking explainers\t\t: ")
+
+  # if there are explainers
+  if (length(all_explainers) > 0){
   y_to_compare <- all_explainers[[1]]$y
   for (exp in all_explainers){
     if(length(y_to_compare) != length(exp$y)){
@@ -203,7 +208,12 @@ fairness_check <- function(x,
       verbose_cat(color_codes$red_start, "not equal", color_codes$red_end, "\n")
       stop("All explainers must have same values of target variable")
     }
-  }
+    if(length(exp$y) != length(protected)){
+      verbose_cat(color_codes$red_start, "not compatible", color_codes$red_end, "\n")
+      stop("Lengths of protected variable and target variable in explainer differ")
+    }
+  }}
+
   verbose_cat("compatible\n")
 
   if (is.null(label)){

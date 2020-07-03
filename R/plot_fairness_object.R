@@ -9,6 +9,7 @@
 #' @param ... other \code{fairness_check} objects
 #'
 #' @import ggplot2
+#' @importFrom DALEX theme_drwhy_vertical
 #'
 #' @return \code{ggplot} object
 #' @export
@@ -95,8 +96,9 @@ plot.fairness_object <- function(x, ...){
     scale_y_continuous(limits = c(lower_bound, upper_bound)) +
     coord_flip() +
     facet_wrap(vars(metric), ncol = 1) +
+    geom_text(x = 0, y = lower_bound - 0.02, label = "bias") +
     theme_drwhy_vertical() +
-    scale_fill_manual(values = DALEX::colors_discrete_drwhy(n = n_exp)) +
+    scale_fill_manual(values = colors_fairmodels(n_exp)) +
     ggtitle("Fairness check", subtitle = paste("Created with", paste(
                                                as.character(unique(data$model)), collapse = ", ")))
   plt

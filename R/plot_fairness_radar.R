@@ -51,7 +51,7 @@ plot.fairness_radar <- function(x, ...) {
   df_text <- data.frame(x = rep(data$metric[1],5), y = c(0.01, 0.25, 0.50, 0.75, 1), label = labels)
 
   # global variables
-  metric <- score <- model <- y <- NULL
+  metric <- score <- model <- y <- label <-  NULL
   # plot
   p <- ggplot(data = data, aes(x = metric, y = score)) +
     coord_radar(names_n = length(unique(data$metric))) +

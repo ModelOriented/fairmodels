@@ -13,6 +13,7 @@
 #'
 #' @import ggplot2
 #' @importFrom ggrepel geom_text_repel
+#' @importFrom DALEX theme_drwhy
 #'
 #' @return \code{ggplot} object
 #' @export

@@ -7,6 +7,7 @@
 #' @param ... other group_metric objects and other parameters
 #'
 #' @import ggplot2
+#' @importFrom DALEX theme_drwhy
 #'
 #'
 #' @return list of \code{ggplot} object
@@ -55,7 +56,7 @@ plot.group_metric <- function(x, ...){
   n <- length(unique(data$label))
 
   # global variables
-  y <- group <- value <- NULL
+  y <- group <- value <- label <- NULL
 
   plot1 <- ggplot(data, aes(x = group, y = value, fill = label)) +
             geom_bar(stat="identity",

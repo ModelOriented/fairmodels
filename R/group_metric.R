@@ -9,6 +9,9 @@
 #' @param performance_metric character, performance metric name
 #' @param parity_loss logical, if TRUE parity loss will supersede normal metric
 #'
+#'
+#' @importFrom DALEX model_performance
+#'
 #' @details
 #' Available metrics:
 #'
@@ -38,9 +41,6 @@
 #' \item auc
 #' }
 #'
-#'
-#' @import DALEX
-#' @import patchwork
 #'
 #' @examples
 #'

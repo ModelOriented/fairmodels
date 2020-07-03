@@ -8,6 +8,7 @@
 #' @param ... other plot parameters
 #'
 #' @import ggplot2
+#' @importFrom DALEX theme_drwhy
 #'
 #' @return ggplot object
 #' @export
