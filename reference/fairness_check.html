@@ -171,11 +171,11 @@ Users through print and plot methods may quickly check values of most popular fa
     </tr>
     <tr>
       <th>protected</th>
-      <td><p>vector, protected variable (also called sensitive attribute), containing privileged and unprivileged groups</p></td>
+      <td><p>factor, protected variable (also called sensitive attribute), containing privileged and unprivileged groups</p></td>
     </tr>
     <tr>
       <th>privileged</th>
-      <td><p>one value of <code>protected</code>, in regard to what subgroup parity loss is calculated</p></td>
+      <td><p>factor/character, one value of <code>protected</code>, in regard to what subgroup parity loss is calculated</p></td>
     </tr>
     <tr>
       <th>cutoff</th>
@@ -280,9 +280,10 @@ may lead to misinterpretation of the plot. More on metrics and their equivalents
                           protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
                           privileged = <span class='st'>"male"</span>)</div><div class='output co'>#&gt; Creating fairness object
 #&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
-#&gt; -&gt; Protected varaible		: factor (</span><span style='color: #00BB00;'> Ok </span><span> ) 
-#&gt; -&gt; Fairness objects		: compatible
-#&gt; -&gt; Checking explainers		: compatible
+#&gt; -&gt; Protected variable		: factor (</span><span style='color: #00BB00;'> Ok </span><span> ) 
+#&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
+#&gt; -&gt; Fairness objects		: 0 objects 
+#&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
 #&gt; -&gt; Metric calculation		: successful
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>fobject</span>)</div><div class='img'><img src='fairness_check-1.png' alt='' width='700' height='433' /></div><div class='input'></div></span></pre>

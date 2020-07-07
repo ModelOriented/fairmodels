@@ -156,10 +156,10 @@
 #&gt;   -&gt; data              :  6172  rows  6  cols 
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( [33m default [39m )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1615337 , mean =  0.5455803 , max =  0.8589858  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1630325 , mean =  0.5449484 , max =  0.8682215  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( [33m default [39m ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( [33m default [39m )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.85095 , mean =  -0.0007001654 , max =  0.771747  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8485859 , mean =  -6.829256e-05 , max =  0.7729305  
 #&gt;  [32m A new explainer has been created! [39m</code></pre>
 <div id="fairness-check" class="section level3">
 <h3 class="hasAnchor">
@@ -173,9 +173,10 @@
 </pre></div>
 <pre><code>#&gt; Creating fairness object
 #&gt; -&gt; Privileged subgroup       : character ([32m Ok [39m )
-#&gt; -&gt; Protected varaible        : factor ([32m Ok [39m ) 
-#&gt; -&gt; Fairness objects      : compatible
-#&gt; -&gt; Checking explainers       : compatible
+#&gt; -&gt; Protected variable        : factor ([32m Ok [39m ) 
+#&gt; -&gt; Cutoff values for explainers  : 0.5 ( for all subgroups )
+#&gt; -&gt; Fairness objects      : 0 objects 
+#&gt; -&gt; Checking explainers       : 1 in total ( [32m compatible [39m )
 #&gt; -&gt; Metric calculation        : successful
 #&gt; [32m Fairness object created succesfully [39m</code></pre>
 <p>Let’s see if our ranger model has bias.</p>
@@ -186,7 +187,7 @@
 #&gt; Fairness check for models: ranger 
 #&gt; 
 #&gt; [31mranger passes 0/5 metrics
-#&gt; [39mTotal loss:  2.517177</code></pre>
+#&gt; [39mTotal loss:  2.555263</code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fobject</span>)
 </pre></div>
@@ -199,9 +200,10 @@
 </pre></div>
 <pre><code>#&gt; Creating fairness object
 #&gt; -&gt; Privileged subgroup       : character ([32m Ok [39m )
-#&gt; -&gt; Protected varaible        : factor ([32m Ok [39m ) 
-#&gt; -&gt; Fairness objects      : compatible
-#&gt; -&gt; Checking explainers       : compatible
+#&gt; -&gt; Protected variable        : factor ([32m Ok [39m ) 
+#&gt; -&gt; Cutoff values for explainers  : 0.5 ( for all subgroups ) 
+#&gt; -&gt; Fairness objects      : 0 objects 
+#&gt; -&gt; Checking explainers       : 1 in total ( [32m compatible [39m )
 #&gt; -&gt; Metric calculation        : successful
 #&gt; [32m Fairness object created succesfully [39m</code></pre>
 <div class="sourceCode" id="cb13"><pre class="downlit">
@@ -254,9 +256,10 @@
 </pre></div>
 <pre><code>#&gt; Creating fairness object
 #&gt; -&gt; Privileged subgroup       : character ([32m Ok [39m )
-#&gt; -&gt; Protected varaible        : factor ([32m Ok [39m ) 
-#&gt; -&gt; Fairness objects      : compatible
-#&gt; -&gt; Checking explainers       : compatible
+#&gt; -&gt; Protected variable        : factor ([32m Ok [39m ) 
+#&gt; -&gt; Cutoff values for explainers  : 0.5 ( for all subgroups ) 
+#&gt; -&gt; Fairness objects      : 0 objects 
+#&gt; -&gt; Checking explainers       : 6 in total ( [32m compatible [39m )
 #&gt; -&gt; Metric calculation        : successful
 #&gt; [32m Fairness object created succesfully [39m</code></pre>
 <p>As we can see there is some parameters in fairness_check such as:<br>
@@ -270,26 +273,26 @@
 <span class="kw">fobject</span><span class="op">$</span><span class="kw">metric_data</span>
 </pre></div>
 <pre><code>#&gt;   TPR_parity_loss TNR_parity_loss PPV_parity_loss NPV_parity_loss
-#&gt; 1       0.3146544       0.6824922       0.3560605       0.4689762
+#&gt; 1       0.4876338       0.5782997       0.3219684       0.3001712
 #&gt; 2       0.4459198       1.1219620       0.1131800       0.8675808
-#&gt; 3       0.3753971       0.7087680       0.3247258       0.4203855
+#&gt; 3       0.4069807       0.6532484       0.3686804       0.6563713
 #&gt; 4       0.3734750       0.3902308       0.4881695       0.3647346
-#&gt; 5       0.4964006       1.0120101       0.2290037       0.4785396
-#&gt; 6       0.3623677       0.6860350       0.3623230       0.4834030
+#&gt; 5       0.3203687       0.9853570       0.2740677       0.6097799
+#&gt; 6       0.3746164       0.6705940       0.3609451       0.4744798
 #&gt;   FNR_parity_loss FPR_parity_loss FDR_parity_loss FOR_parity_loss
-#&gt; 1       0.3146544       0.6824922       0.3560605       0.4689762
+#&gt; 1       0.4876338       0.5782997       0.3219684       0.3001712
 #&gt; 2       0.4459198       1.1219620       0.1131800       0.8675808
-#&gt; 3       0.3753971       0.7087680       0.3247258       0.4203855
+#&gt; 3       0.4069807       0.6532484       0.3686804       0.6563713
 #&gt; 4       0.3734750       0.3902308       0.4881695       0.3647346
-#&gt; 5       0.4964006       1.0120101       0.2290037       0.4785396
-#&gt; 6       0.3623677       0.6860350       0.3623230       0.4834030
+#&gt; 5       0.3203687       0.9853570       0.2740677       0.6097799
+#&gt; 6       0.3746164       0.6705940       0.3609451       0.4744798
 #&gt;   TS_parity_loss STP_parity_loss ACC_parity_loss F1_parity_loss MCC_parity_loss
-#&gt; 1      0.4404909       0.5666131       0.2993959      0.3363554       0.5301407
+#&gt; 1      0.3960287       0.6602397       0.2868008      0.3094422       0.5158728
 #&gt; 2      0.3203605       0.7852645       0.1353720      0.2502984       0.6709033
-#&gt; 3      0.4623875       0.6539572       0.3133589      0.3409534       0.5600676
+#&gt; 3      0.5277365       0.6373237       0.3806363      0.3803749       0.7916706
 #&gt; 4      0.3814321       0.2951150       0.1960918      0.3733294       0.3505547
-#&gt; 5      0.3148975       0.7931207       0.1544651      0.2452805       0.5371959
-#&gt; 6      0.4861331       0.6039492       0.3450789      0.3549353       0.6760392</code></pre>
+#&gt; 5      0.3855066       0.6860447       0.2416949      0.2938836       0.7170848
+#&gt; 6      0.4942720       0.6173572       0.3499590      0.3608886       0.6844386</code></pre>
 <ul>
 <li>groups_data</li>
 </ul>
@@ -299,9 +302,9 @@
 <span class="kw">fobject</span><span class="op">$</span><span class="kw">groups_data</span><span class="op">$</span><span class="kw">ranger</span><span class="op">$</span><span class="kw">TPR</span>
 </pre></div>
 <pre><code>#&gt; African_American            Asian        Caucasian         Hispanic 
-#&gt;        0.6697490        0.8695652        0.8149883        0.8406250 
+#&gt;        0.6129458        0.8695652        0.7533177        0.8062500 
 #&gt;  Native_American            Other 
-#&gt;        0.8333333        0.8858447</code></pre>
+#&gt;        0.6666667        0.8447489</code></pre>
 <p>It is simply metrics for certain subgroup.</p>
 <p>What is relation between <code>$groups_data</code> and <code>$metric_data</code> ?</p>
 <p>If we were going only to take score from certain metric (Let’s say fpr and 0.3) we wouldn’t know if it is good or bad. But we are aiming for <strong>equal treatment over all groups</strong> so if this metric score would be the same in all groups it would be very good. But the metrics wouldn’t be comparable between each others (fpr - 0.3 in all groups and accuracy - 0.9 in all groups, both are good in terms of parity). That is why we use <strong>privileged</strong> - to set benchmark. And for example Caucasian in fpr had score of 0.3 and African American 0.6. After setting <code>privilieged = Caucasian</code> Caucasian would have score 0, and African American 0.3, because is the distance between those metrics.</p>
@@ -317,7 +320,23 @@
 <span class="co"># for first model</span>
 <span class="kw">fobject</span><span class="op">$</span><span class="kw">cutoff</span><span class="op">$</span><span class="kw">ranger</span>
 </pre></div>
-<pre><code>#&gt; [1] 0.5 0.5 0.5 0.5 0.5 0.5</code></pre>
+<pre><code>#&gt; $African_American
+#&gt; [1] 0.5
+#&gt; 
+#&gt; $Asian
+#&gt; [1] 0.5
+#&gt; 
+#&gt; $Caucasian
+#&gt; [1] 0.5
+#&gt; 
+#&gt; $Hispanic
+#&gt; [1] 0.5
+#&gt; 
+#&gt; $Native_American
+#&gt; [1] 0.5
+#&gt; 
+#&gt; $Other
+#&gt; [1] 0.5</code></pre>
 <p>list of cutoff values for each model</p>
 <ul>
 <li><p>fairness_check_data data used in print and plot of <code>fairness_object</code>. It is already processed data and ready to plot. If someone were to use <code><a href="https://rdrr.io/r/base/MathFun.html">abs()</a></code> metrics there would be equal to particular metrics in <code>$metric_data</code>. It means that it allows negative values. So when value is negative it means that score of privileged group in this metric was better.</p></li>
@@ -358,18 +377,18 @@
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">fair_pca</span>)
 </pre></div>
 <pre><code>#&gt; Fairness PCA : 
-#&gt;             PC1        PC2         PC3         PC4         PC5           PC6
-#&gt; [1,]  1.3611344 -0.5910989  0.29416206  0.66759640  0.13580011  7.632783e-17
-#&gt; [2,] -3.6838167 -0.1782797  1.00730086 -0.06999146 -0.06115137  7.216450e-16
-#&gt; [3,]  0.9532134 -0.8559111 -0.52864417  0.09718292 -0.29443488  2.425143e-15
-#&gt; [4,]  2.6332501  2.2262507  0.43945226 -0.20695387 -0.02181316 -8.326673e-17
-#&gt; [5,] -2.4925114  1.1179533 -1.11430406  0.03084523  0.09912666 -5.412337e-16
-#&gt; [6,]  1.2287303 -1.7189142 -0.09796695 -0.51867921  0.14247265  8.326673e-17
+#&gt;             PC1        PC2         PC3        PC4          PC5           PC6
+#&gt; [1,]  0.4316339 -0.8462791 -1.84520659  0.5376436  0.048758424 -4.753142e-16
+#&gt; [2,] -3.6937993 -0.8560968 -0.14556359 -0.5638410 -0.051385293 -1.804112e-16
+#&gt; [3,]  0.8670317  2.2370397 -0.22894637 -0.6445642  0.104671990 -5.134781e-16
+#&gt; [4,]  2.6689149 -2.1247671  0.79258417 -0.3864841  0.005098461 -2.151057e-16
+#&gt; [5,] -1.2982774  0.2991182  1.34328917  0.7781965  0.088448505 -7.042977e-16
+#&gt; [6,]  1.0244962  1.2909851  0.08384321  0.2790492 -0.195592086 -3.885781e-16
 #&gt; 
 #&gt; Created with: 
 #&gt; [1] "ranger"   "lm"       "ranger_2" "ranger_3" "gbm"      "ranger_4"
 #&gt; 
-#&gt; First two components explained 92 % of variance.</code></pre>
+#&gt; First two components explained 82 % of variance.</code></pre>
 <p>Let’s plot!</p>
 <div class="sourceCode" id="cb28"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fair_pca</span>)
@@ -441,9 +460,10 @@
 </pre></div>
 <pre><code>#&gt; Creating fairness object
 #&gt; -&gt; Privileged subgroup       : character ([32m Ok [39m )
-#&gt; -&gt; Protected varaible        : factor ([32m Ok [39m ) 
-#&gt; -&gt; Fairness objects      : compatible
-#&gt; -&gt; Checking explainers       : compatible
+#&gt; -&gt; Protected variable        : factor ([32m Ok [39m ) 
+#&gt; -&gt; Cutoff values for explainers  : 0.5 ( for all subgroups ) 
+#&gt; -&gt; Fairness objects      : 0 objects 
+#&gt; -&gt; Checking explainers       : 2 in total ( [32m compatible [39m )
 #&gt; -&gt; Metric calculation        : successful
 #&gt; [32m Fairness object created succesfully [39m</code></pre>
 <div class="sourceCode" id="cb39"><pre class="downlit">

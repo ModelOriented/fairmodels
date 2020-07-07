@@ -186,20 +186,25 @@
 <span class='kw'>gm</span> <span class='op'>&lt;-</span> <span class='fu'>group_matrices</span>(<span class='kw'>compas</span><span class='op'>$</span><span class='kw'>Ethnicity</span>,
                      <span class='kw'>y_prob</span>,
                      <span class='kw'>y_numeric</span>,
-                     cutoff = <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0.45</span>,<span class='fl'>6</span>))
+                     cutoff = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(Asian = <span class='fl'>0.45</span>,
+                     African_American = <span class='fl'>0.5</span>,
+                     Other = <span class='fl'>0.5</span>,
+                     Hispanic = <span class='fl'>0.5</span>,
+                     Caucasian = <span class='fl'>0.4</span>,
+                     Native_American = <span class='fl'>0.5</span>))
 
 <span class='kw'>gm</span></div><div class='output co'>#&gt; $African_American
 #&gt; $tp
-#&gt; [1] 1301
+#&gt; [1] 1142
 #&gt; 
 #&gt; $fp
-#&gt; [1] 699
+#&gt; [1] 533
 #&gt; 
 #&gt; $tn
-#&gt; [1] 815
+#&gt; [1] 981
 #&gt; 
 #&gt; $fn
-#&gt; [1] 360
+#&gt; [1] 519
 #&gt; 
 #&gt; attr(,"class")
 #&gt; [1] "confusion_matrix"
@@ -222,32 +227,32 @@
 #&gt; 
 #&gt; $Caucasian
 #&gt; $tp
-#&gt; [1] 392
+#&gt; [1] 454
 #&gt; 
 #&gt; $fp
-#&gt; [1] 282
+#&gt; [1] 371
 #&gt; 
 #&gt; $tn
-#&gt; [1] 999
+#&gt; [1] 910
 #&gt; 
 #&gt; $fn
-#&gt; [1] 430
+#&gt; [1] 368
 #&gt; 
 #&gt; attr(,"class")
 #&gt; [1] "confusion_matrix"
 #&gt; 
 #&gt; $Hispanic
 #&gt; $tp
-#&gt; [1] 88
-#&gt; 
-#&gt; $fp
 #&gt; [1] 59
 #&gt; 
+#&gt; $fp
+#&gt; [1] 37
+#&gt; 
 #&gt; $tn
-#&gt; [1] 261
+#&gt; [1] 283
 #&gt; 
 #&gt; $fn
-#&gt; [1] 101
+#&gt; [1] 130
 #&gt; 
 #&gt; attr(,"class")
 #&gt; [1] "confusion_matrix"
@@ -270,16 +275,16 @@
 #&gt; 
 #&gt; $Other
 #&gt; $tp
-#&gt; [1] 52
+#&gt; [1] 31
 #&gt; 
 #&gt; $fp
-#&gt; [1] 30
+#&gt; [1] 17
 #&gt; 
 #&gt; $tn
-#&gt; [1] 189
+#&gt; [1] 202
 #&gt; 
 #&gt; $fn
-#&gt; [1] 72
+#&gt; [1] 93
 #&gt; 
 #&gt; attr(,"class")
 #&gt; [1] "confusion_matrix"
