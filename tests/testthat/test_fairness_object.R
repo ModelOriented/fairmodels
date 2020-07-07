@@ -24,10 +24,12 @@ test_that("test fairness object", {
   fn_C <- sum(true10_C != preds10_C & true10_C == 1)
 
 
+  custom_cutoff <- as.list(rep(0.5,6))
+  names(custom_cutoff) <- levels(compas$Ethnicity)
   gm <- group_matrices(protected = compas$Ethnicity,
                        probs     = explainer_ranger$y_hat,
                        preds     = explainer_ranger$y,
-                       cutoff = rep(0.5,6))
+                       cutoff    = custom_cutoff)
 
   expect_equal(gm$Caucasian$tp, tp_C)
   expect_equal(gm$Caucasian$fp, fp_C)
@@ -110,7 +112,7 @@ test_that("test fairness object", {
   expect_error(fairness_check(explainer_ranger,
                               protected  = compas$Ethnicity,
                               privileged = "Caucasian",
-                              cutoff = c(1.3)))
+                              cutoff = 1.3))
 
   expect_error(fairness_check(explainer_ranger,
                               protected  = compas$Ethnicity,

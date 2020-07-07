@@ -18,7 +18,7 @@ ceteris_paribus_cutoff(
 
 \item{subgroup}{character, name of subgroup (level in protected variable)}
 
-\item{new_cutoffs}{numeric, vector of new cutoffs, length should be equal to number of group levels.
+\item{new_cutoffs}{list of cutoffs with names matching those of subgroups. Each value should represent cutoff for particular subgroup.
 Position corresponding to subgroups in levels will be changed. Default is NULL}
 
 \item{fairness_metrics}{character, name of metric or vector of multiple metrics}

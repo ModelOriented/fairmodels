@@ -8,7 +8,7 @@
 #'
 #' @param x fairness_object
 #' @param subgroup character, name of subgroup (level in protected variable)
-#' @param new_cutoffs numeric, vector of new cutoffs, length should be equal to number of group levels.
+#' @param new_cutoffs list of cutoffs with names matching those of subgroups. Each value should represent cutoff for particular subgroup.
 #' Position corresponding to subgroups in levels will be changed. Default is NULL
 #' @param fairness_metrics character, name of metric or vector of multiple metrics
 #' @param grid_points numeric, grid for cutoffs to test. Number of points between 0 and 1 spread evenly.
@@ -67,18 +67,24 @@ ceteris_paribus_cutoff <- function(x,
   n_subgroups <- length(levels(protected))
   cutoff_data <- data.frame()
 
-  group_levels <- levels(protected)
+  protected_levels <- levels(protected)
 
-  if (! subgroup %in% group_levels) stop("subgroup is not present in group's levels")
+  if (is.list(new_cutoffs)){
 
-  if (! is.null(new_cutoffs)){
-    if (! is.numeric(new_cutoffs) |  length(new_cutoffs) != length(cutoff) ){
-      stop("new_cutoffs must be numeric vector of lenght standard cutoffs -1")
+    if (length(unique(names(new_cutoffs))) != length(names(new_cutoffs))) stop("Names of new_cutoffs list must be unique")
+    if (! names(new_cutoffs) %in% protected_levels)  stop("Names of new_cutoffs list does not match levels in protected")
+    if (any(! is.numeric(unlist(new_cutoffs)))) stop("Elements of new_cutoffs list must be numeric")
+    if ( any(unlist(new_cutoffs) > 1) | any(unlist(new_cutoffs) < 0)) stop("new_cutoffs value must be between 0 and 1")
+
+
+    # if only few new_cutoffs were provided, fill rest with default 0.5
+    if (! all(protected_levels %in% names(new_cutoffs))){
+      rest_of_levels <- protected_levels[- (protected_levels == names(new_cutoffs))]
+      for (rl in rest_of_levels){
+        new_cutoffs[[rl]] <- 0.5
+      }
     }
-  }
-
-  # position of subgroup in group (for cutoff position)
-  position_of_subgroup <-  which(subgroup == group_levels)
+ }
 
   # custom cutoffs will give messages (0 in matrices, NA in metrics)  numerous times,
   # so for code below they will be suppressed
@@ -92,11 +98,11 @@ ceteris_paribus_cutoff <- function(x,
         explainer <- explainers[[i]]
 
         if (is.null(new_cutoffs)){
-          custom_cutoff_vec  <- x$cutoff[[i]]
-          custom_cutoff_vec[position_of_subgroup] <- custom_cutoff
+          custom_cutoff_vec             <- x$cutoff[[i]]
+          custom_cutoff_vec[[subgroup]] <- custom_cutoff
         } else {
           custom_cutoff_vec <- new_cutoffs
-          custom_cutoff_vec[position_of_subgroup] <- custom_cutoff
+          custom_cutoff_vec[[subgroup]] <- custom_cutoff
         }
 
         label <- x$label[i]

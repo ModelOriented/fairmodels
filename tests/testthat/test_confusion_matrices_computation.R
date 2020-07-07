@@ -11,7 +11,7 @@ test_that("confusion_matrices_for_groups", {
   gm <- group_matrices(protected = test_data$sex,
                        preds = test_data$target,
                        probs = test_data$probabilities,
-                       cutoff = c(0.6,0.4))
+                       cutoff = list(male = 0.6, female = 0.4))
 
   expect_equal(gm$female$tp, 3)
   expect_equal(gm$female$tn, 1)

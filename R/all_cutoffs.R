@@ -71,9 +71,10 @@ all_cutoffs <- function(x,
   suppressMessages(
   for (custom_cutoff in cutoffs){
 
-      custom_cutoff_vec      <- rep(custom_cutoff, n_subgroups)
-      i                      <- match(label, x$label)
-      explainer              <- explainers[[i]]
+      custom_cutoff_vec        <- as.list(rep(custom_cutoff, n_subgroups))
+      names(custom_cutoff_vec) <- levels(protected)
+      i                        <- match(label, x$label)
+      explainer                <- explainers[[i]]
 
 
       group_matrices <- group_matrices(protected = protected,
