@@ -7,8 +7,8 @@
 #'
 #' @param x \code{DALEX explainer}/\code{fairness_object}
 #' @param ... possibly more \code{DALEX explainers}/\code{fairness_objects}
-#' @param protected vector, protected variable (also called sensitive attribute), containing privileged and unprivileged groups
-#' @param privileged one value of \code{protected}, in regard to what subgroup parity loss is calculated
+#' @param protected factor, protected variable (also called sensitive attribute), containing privileged and unprivileged groups
+#' @param privileged factor/character, one value of \code{protected}, in regard to what subgroup parity loss is calculated
 #' @param cutoff numeric, vector of cutoffs (thresholds) for each value of protected variable, affecting only explainers.
 #' @param label character, vector of labels to be assigned for explainers, default is explainer label.
 #' @param epsilon numeric, boundary for fairness checking
@@ -113,36 +113,38 @@ fairness_check <- function(x,
                         green_start = "", green_end = "")
   }
 
-  verbose_cat("Creating fairness object\n")
 
-  verbose_cat("-> Privileged subgroup\t\t: ")
+
+  verbose_cat("Creating fairness object\n", verbose = verbose)
+
+  verbose_cat("-> Privileged subgroup\t\t: ", verbose = verbose)
 
   # if protected and privileged are not characters, changing them
-  verbose_cat(class(privileged), "(")
-  if (is.character(privileged)){
+  if (is.character(privileged) | is.factor(privileged)){
+    verbose_cat(class(privileged) ,"(", verbose = verbose)
     verbose_cat(color_codes$green_start,
-        "Ok", color_codes$green_end, ")\n")
+        "Ok", color_codes$green_end, ")\n", verbose = verbose)
   } else {
-
+    verbose_cat("character (", verbose = verbose)
     verbose_cat(color_codes$yellow_start,
-        "changed to character",  color_codes$yellow_end, ")\n")
+        "changed from", class(privileged), color_codes$yellow_end, ")\n", verbose = verbose)
   }
 
-  verbose_cat("-> Protected varaible\t\t:", class(protected), "(")
+  verbose_cat("-> Protected variable\t\t:", "factor", "(", verbose = verbose)
 
   if (is.factor(protected)){
     verbose_cat(color_codes$green_start,
-        "Ok", color_codes$green_end, ") \n")
+        "Ok", color_codes$green_end, ") \n", verbose = verbose)
   } else {
-    protected <- as.factor(protected)
-
     # if different cutoffs were provided print info in red
     if (length(unique(cutoff)) <= 1){
       verbose_cat(color_codes$yellow_start,
-          "changed to factor", color_codes$yellow_end, ")\n")
+          "changed from", class(protected),  color_codes$yellow_end, ")\n", verbose = verbose)
     } else
     verbose_cat(color_codes$red_start,
-        "changed to factor, check if levels match cutoff values ", color_codes$red_end, ")\n")
+        "changed to factor, check if levels match cutoff values ", color_codes$red_end, ")\n", verbose = verbose)
+    protected <- as.factor(protected)
+
   }
 
   ################  data extraction  ###############
@@ -163,48 +165,112 @@ fairness_check <- function(x,
 
   ###############  error handling  ###############
 
+  verbose_cat("-> Cutoff values for explainers\t: ", verbose = verbose)
+
+  #### cutoff handling- if cutoff is null than 0.5 for all subgroups
+  protected_levels <- levels(protected)
+  n_lvl        <- length(protected_levels)
+
+
+
+  if (is.numeric(cutoff) & length(cutoff) > 1) stop("Please provide cutoff as list with the same names as levels in protected factor")
+
+  if (is.list(cutoff)){
+
+    if (length(unique(names(cutoff))) != length(names(cutoff))) stop("Names of cutoff list must be unique")
+    if (! names(cutoff) %in% protected_levels)  stop("Names of cutoff list does not match levels in protected")
+    if (any(! is.numeric(unlist(cutoff)))) stop("Elements of cutoff list must be numeric")
+    if ( any(unlist(cutoff) > 1) | any(unlist(cutoff) < 0)) stop("Cutoff value must be between 0 and 1")
+
+
+    # if only few cutoffs were provided, fill rest with default 0.5
+    if (! all(protected_levels %in% names(cutoff))){
+      rest_of_levels <- protected_levels[ ! (protected_levels == names(cutoff))]
+      for (rl in rest_of_levels){
+        cutoff[[rl]] <- 0.5
+      }
+    }
+
+   verbose_cat(paste(names(cutoff), ": ", cutoff, collapse = ", ", sep = ""), "\n", verbose = verbose)
+
+  }
+
+  if (is.numeric(cutoff) & length(cutoff) == 1){
+
+    if ( cutoff > 1 | cutoff < 0) stop("Cutoff value must be between 0 and 1")
+    cutoff <- as.list(rep(cutoff, n_lvl))
+    names(cutoff) <- protected_levels
+    verbose_cat(cutoff[[1]], "( for all subgroups )\n", verbose = verbose)
+  }
+
+  if (is.null(cutoff)){
+    cutoff <- as.list(rep(0.5, n_lvl))
+    names(cutoff) <- protected_levels
+    verbose_cat("0.5 ( for all subgroups ) \n", verbose = verbose)
+  }
+
+
+  ### epsilon
+  if(is.null(epsilon)) epsilon <- 0.1
+
+  if(! is.numeric(epsilon) | length(epsilon) > 1){
+    stop("Epsilon must be single, numeric value")
+  }
+
+  if (epsilon <= 0 ) stop ("epsilon must be positive number")
+
+  ### protected and privileged
   if (! privileged %in% protected){
    stop("privileged subgroup is not in protected variable vector")
   }
 
-  if(is.null(epsilon)) epsilon <- 0.1
-
-  if(! is.numeric(epsilon) | length(epsilon) > 1){
-   stop("Epsilon must be single, numeric value")
-  }
-
+  ### fairness objects
   # among all fairness_objects parameters should be equal
-  verbose_cat("-> Fairness objects\t\t: ")
+  verbose_cat("-> Fairness objects\t\t:", length(fobjects), "objects ", verbose = verbose)
 
+  if (length(fobjects) > 0){
   for (i in seq_along(fobjects)){
     if(! all(fobjects[[i]]$protected  == protected)){
-       verbose_cat(color_codes$red_start, "not compatible" ,color_codes$red_end, "\n")
+       verbose_cat("(",color_codes$red_start, "not compatible" ,color_codes$red_end, ") \n", verbose = verbose)
        stop("fairness objects must have the same
             protected vector as one passed in fairness check")
     }
     if(! fobjects[[i]]$privileged == privileged) {
-      verbose_cat(color_codes$red_start, "not compatible" ,color_codes$red_end, "\n")
+      verbose_cat("(", color_codes$red_start, "not compatible" ,color_codes$red_end, ") \n", verbose = verbose)
       stop("fairness objects must have the same
            privlieged argument as one passed in fairness check")
     }}
 
-  verbose_cat("compatible\n")
+  verbose_cat("(", color_codes$green_start, "compatible", color_codes$yellow_end,  ")\n", verbose = verbose)
+  } else {
+    verbose_cat("\n", verbose = verbose)
 
+  }
 
-  # explainers must have equal y
-  verbose_cat("-> Checking explainers\t\t: ")
+  ### explainers
+  # must have equal y
+  verbose_cat("-> Checking explainers\t\t:", length(all_explainers),
+              "in total ", verbose = verbose)
+
+  # if there are explainers
+  if (length(all_explainers) > 0){
   y_to_compare <- all_explainers[[1]]$y
   for (exp in all_explainers){
     if(length(y_to_compare) != length(exp$y)){
-      verbose_cat(color_codes$red_start, "not equal", color_codes$red_end, "\n")
+      verbose_cat(color_codes$red_start, "y not equal", color_codes$red_end, "\n", verbose = verbose)
       stop("All explainer predictions (y) must have same length")
     }
     if(! all(y_to_compare == exp$y)){
-      verbose_cat(color_codes$red_start, "not equal", color_codes$red_end, "\n")
+      verbose_cat(color_codes$red_start, "y not equal", color_codes$red_end, "\n", verbose = verbose)
       stop("All explainers must have same values of target variable")
     }
-  }
-  verbose_cat("compatible\n")
+    if(length(exp$y) != length(protected)){
+      verbose_cat(color_codes$red_start, "not compatible", color_codes$red_end, "\n", verbose = verbose)
+      stop("Lengths of protected variable and target variable in explainer differ")
+    }
+  }}
+
+  verbose_cat("(", color_codes$green_start, "compatible", color_codes$yellow_end,  ")\n", verbose = verbose)
 
   if (is.null(label)){
     label     <- sapply(explainers, function(x) x$label)
@@ -224,20 +290,11 @@ fairness_check <- function(x,
    stop("Explainer has the same label as label in fairness_object")
   }
 
-  # cutoff handling- if cutoff is null than 0.5 for all subgroups
-  group_levels <- levels(protected)
-  n_lvl        <- length(group_levels)
-  if (is.null(cutoff))                    cutoff <- rep(0.5, n_lvl)
-  if (! is.numeric(cutoff))               stop("cutoff must be numeric scalar/ vector")
-  if ( any(cutoff > 1) | any(cutoff < 0)) stop("cutoff must have values between 0 and 1")
-  if (length(cutoff) == 1 & n_lvl != 1)    cutoff <- rep(cutoff, n_lvl)
-  if (length(cutoff) != n_lvl)    stop("cutoff must be same length as number of subgroups (or lenght 1) ")
-
 
 
   ###############  fairness metric calculation  ###############
 
-  verbose_cat("-> Metric calculation\t\t: ")
+  verbose_cat("-> Metric calculation\t\t: ", verbose = verbose)
 
   created_na <- FALSE
   # number of metrics must be fixed. If changed add metric to metric labels
@@ -294,7 +351,7 @@ fairness_check <- function(x,
     predictive_equality_loss  <- fairness_check_data$FPR
     accuracy_equality_loss    <- fairness_check_data$ACC
 
-    n_sub <- length(unique(protected)) -1
+    n_sub <- n_lvl -1
     n_exp <- length(x$explainers)
 
     # creating data frames
@@ -331,12 +388,17 @@ fairness_check <- function(x,
                 statistical_parity_data)
   }
 
-  if (any(is.na(metric_data))) created_na <- TRUE
+  rownames(df) <- NULL
+
+  if (any(is.na(metric_data))){
+    created_na <- TRUE
+
+  }
 
   if (created_na){
-    verbose_cat("successful (", color_codes$yellow_start, "NA created", color_codes$yellow_end, ")\n")
+    verbose_cat("successful (", color_codes$yellow_start, "NA created", color_codes$yellow_end, ")\n", verbose = verbose)
   } else {
-    verbose_cat("successful\n")
+    verbose_cat("successful\n", verbose = verbose)
 
   }
 
@@ -387,7 +449,7 @@ fairness_check <- function(x,
 
   class(fairness_object) <- "fairness_object"
 
-  verbose_cat(color_codes$green_start, "Fairness object created succesfully", color_codes$green_end, "\n")
+  verbose_cat(color_codes$green_start, "Fairness object created succesfully", color_codes$green_end, "\n", verbose = verbose)
 
   return(fairness_object)
 }
@@ -398,12 +460,12 @@ color_codes <- list(yellow_start = "\033[33m", yellow_end = "\033[39m",
                     green_start = "\033[32m", green_end = "\033[39m")
 
 
+
 verbose_cat <- function(..., verbose = TRUE) {
   if (verbose) {
     cat(...)
   }
 }
-
 
 
 

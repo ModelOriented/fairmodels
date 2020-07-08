@@ -9,7 +9,6 @@
 #' @export
 #'
 #' @import ggplot2
-#' @import DALEX
 #'
 #' @rdname plot_stacked_barplot
 #'

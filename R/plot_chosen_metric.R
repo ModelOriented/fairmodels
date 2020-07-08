@@ -7,6 +7,7 @@
 #' @param ... other objects of class \code{chosen_metric}
 #'
 #' @import ggplot2
+#' @importFrom DALEX theme_drwhy_vertical
 #'
 #' @return \code{ggplot2} object
 #' @export

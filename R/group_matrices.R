@@ -30,7 +30,12 @@
 #' gm <- group_matrices(compas$Ethnicity,
 #'                      y_prob,
 #'                      y_numeric,
-#'                      cutoff = rep(0.45,6))
+#'                      cutoff = list(Asian = 0.45,
+#'                      African_American = 0.5,
+#'                      Other = 0.5,
+#'                      Hispanic = 0.5,
+#'                      Caucasian = 0.4,
+#'                      Native_American = 0.5))
 #'
 #' gm
 #'
@@ -52,8 +57,7 @@ group_matrices <- function(protected, probs, preds , cutoff){
     observed      <- sub_data$preds
     probabilities <- sub_data$probs
 
-    # cutoff is ith element of vector, threshold for group
-    cm <- confusion_matrix(probabilities, observed, cutoff = cutoff[i])
+    cm <- confusion_matrix(probabilities, observed, cutoff = cutoff[[subgroup]])
 
     group_confusion_metrices[[i]] <- cm
     names(group_confusion_metrices)[i] <- subgroup

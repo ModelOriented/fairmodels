@@ -21,9 +21,9 @@ fairness_check(
 
 \item{...}{possibly more \code{DALEX explainers}/\code{fairness_objects}}
 
-\item{protected}{vector, protected variable (also called sensitive attribute), containing privileged and unprivileged groups}
+\item{protected}{factor, protected variable (also called sensitive attribute), containing privileged and unprivileged groups}
 
-\item{privileged}{one value of \code{protected}, in regard to what subgroup parity loss is calculated}
+\item{privileged}{factor/character, one value of \code{protected}, in regard to what subgroup parity loss is calculated}
 
 \item{cutoff}{numeric, vector of cutoffs (thresholds) for each value of protected variable, affecting only explainers.}
 

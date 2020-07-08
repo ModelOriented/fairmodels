@@ -6,22 +6,14 @@
   <!-- badges: end -->
   
   
-
-
 ## Overview
 
 `fairmodels` is package for fairness audit and visualization. Uses models explained with [DALEX](https://modeloriented.github.io/DALEX) and calculates fairness metrics based on confusion matrix for protected group.  Allows to compare and gain information about various machine learning models. *Make sure your models are classifying protected groups similarly*.
 
 
-
 ## Preview
 
 ![preview](man/figures/preview.gif)
-
-
-### How to evaluate fairness? 
-
-![flowchart](man/figures/flowchart.png)
 
 ## Installation
 
@@ -34,15 +26,12 @@ Checking fairness is easy!
 
 ```
 library(fairmodels)
-
 library(ranger)
 library(DALEX)
 
 data("german")
 
 # ------------ step 1 - create model(s)  -----------------
-
-y_numeric <- as.numeric(german$Risk) -1
 
 lm_model <- glm(Risk~.,
                 data = german,
@@ -55,6 +44,9 @@ rf_model <- ranger(Risk ~.,
 
 # ------------  step 2 - create explainer(s)  ------------
 
+# numeric y for explain function
+y_numeric <- as.numeric(german$Risk) -1
+
 explainer_lm <- explain(lm_model, data = german[,-1], y = y_numeric)
 explainer_rf <- explain(rf_model, data = german[,-1], y = y_numeric)
 
@@ -64,24 +56,20 @@ fobject <- fairness_check(explainer_lm, explainer_rf,
                           protected = german$Sex,
                           privileged = "male")
 
-# quick fairness check: 
+ 
 print(fobject)
 plot(fobject)
 
-# detailed fairness check
-library(dplyr)
-
-fobject %>% plot_density()
-fobject %>% fairness_heatmap() %>% plot() 
-fobject %>% fairness_radar() %>% plot() 
-fobject %>% stack_metrics() %>% plot() 
-fobject %>% group_metric() %>% plot() 
-fobject %>% choose_metric() %>% plot() 
-fobject %>% performance_and_fairness() %>% plot() 
-
-fobject %>% all_cutoffs("lm") %>% plot()
-fobject %>% ceteris_paribus_cutoff("female") %>% plot()
 ```
+
+Compas recidivism data use case [Tutorial](https://modeloriented.github.io/FairModels/articles/Basic_tutorial.html)
+
+
+## How to evaluate fairness? 
+
+<p align="center">
+<img src="man/figures/flowchart.png" alt="drawing" width="700"/>
+</p>
 
 
 ### Fairness checking is flexible
@@ -103,35 +91,35 @@ fairness_object <- fairness_check(explainer3, explainer4, fairness_object, ...)
 ```
 even with more `fairness_objects`!
 
-Tutorial: [Tutorial](https://modeloriented.github.io/FairModels/articles/Basic_tutorial.html)
+If one is even more keen to know how `fairmodels` works and what are relations between objects, please look at this diagram [class diagram](https://github.com/ModelOriented/fairmodels/blob/master/man/figures/class_diagram.png)
 
-## Metrics used: 
+
+## Metrics used
 
 There are 13 metrics based on confusion matrix : 
 
 | Metric | Formula | Full name | Other names |
 |--------|---------|-----------|-------------|
-| TPR | $\frac{TP}{TP+FN}$ | true positive rate | equal opportunity, sensitivity, recall
-| TNR | $\frac{TN}{TN+FP}$ | true negative rate | specificity
-| PPV | $\frac{TP}{TP+FP}$ | positive predictive value | predictive parity, precision
-| NPV | $\frac{TN}{TN+FN}$ | negative predictive value | 
-| FNR | $\frac{FN}{FN+TP}$ | false negative rate |
-| FPR | $\frac{FP}{FP+TN}$ | false positive rate | predictive equality
-| FOR | $\frac{FN}{FN+TN}$ | false omision rate |
-| TS | $\frac{TP}{TP+FN+FP}$ | threat score |
-| STP | $\frac{TP+FP}{TP+FN+FP+TN}$ | statistical parity |
-| ACC | $\frac{TP+TN}{TP+FN+FP+TN}$ | accuracy |
-| F1 | $2*\frac{PPV*TPR}{PPV + TPR}$ | F1 score |
-| MCC |$\frac{TP*TN-FP*FN}{\sqrt{(TP+FP)*(TP+FN)*(TN+FP)*(TN+FN)}}$ | Matthews correlation coefficient |
+| TPR | ![tpr](man/figures/formulas/tpr.jpg) | true positive rate | equal opportunity, sensitivity, recall
+| TNR | ![tnr](man/figures/formulas/tnr.jpg) | true negative rate | specificity
+| PPV | ![ppv](man/figures/formulas/ppv.jpg) | positive predictive value | predictive parity, precision
+| NPV | ![npv](man/figures/formulas/npv.jpg) | negative predictive value | 
+| FNR | ![fnr](man/figures/formulas/fnr.jpg) | false negative rate |
+| FPR | ![fpr](man/figures/formulas/fpr.jpg) | false positive rate | predictive equality
+| FDR | ![fdr](man/figures/formulas/fdr.jpg) | false discovery rate
+| FOR | ![for](man/figures/formulas/for.jpg) | false omision rate |
+| TS | ![ts](man/figures/formulas/ts.jpg)  | threat score |
+| STP | ![stp](man/figures/formulas/stp.jpg) | statistical parity |
+| ACC | ![acc](man/figures/formulas/acc.jpg) | accuracy |
+| F1 |  ![f1](man/figures/formulas/f1.jpg) | F1 score |
+| MCC | <img src="man/figures/formulas/mcc.jpg" alt="drawing" width="300"/> | Matthews correlation coefficient |
 
-*and their parity loss*
-how *parity loss* is calculated? 
+*and their parity loss.*   
+How is *parity loss* calculated? 
 
-$TPR_{parity\_loss}$ = $\sum_{i}^{k} |TPR_i - TPR_{privileged}|$ where $i \in \{a, b, ..., privileged, ..., k \}$   
-Where $\{a, b, ..., privileged, ..., k \}$ denote membership to unique subgroup from protected variable
+![parity_loss](man/figures/formulas/parity_loss.png)
 
-
-more on those metrics : [Confusion Matrix](https://en.wikipedia.org/wiki/Confusion_matrix)
+Where ![explain](man/figures/formulas/explain.png) denote the membership to unique subgroup from protected variable
 
 some fairness metrics like *Equalized odds* are satisfied if parity loss in both *TPR* and *FPR* is low 
 

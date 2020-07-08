@@ -9,6 +9,8 @@
 #' @param fairness_metric fairness metric, one of those in fairness_object
 #' @param performance_metric performance metric, one of
 #'
+#' @importFrom DALEX model_performance
+#'
 #' @return \code{performance_and_fairness} object
 #' @export
 #' @rdname performance_with_fairness
@@ -39,7 +41,7 @@
 #' fobject <- fairness_check(explainer_lm, explainer_rf, fobject,
 #'                           protected = german$Sex,
 #'                           privileged = "male",
-#'                           cutoff = c(0.4,0.5),
+#'                           cutoff = list( female = 0.4),
 #'                           label = c("lm_2", "rf_2"))
 #'
 #' paf <- performance_and_fairness(fobject)

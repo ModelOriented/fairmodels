@@ -37,10 +37,15 @@ y_prob <- glm_compas$fitted.values
 
 y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
 
-gm <- group_matrices(as.numeric(compas$Ethnicity),
+gm <- group_matrices(compas$Ethnicity,
                      y_prob,
                      y_numeric,
-                     cutoff = rep(0.45,6))
+                     cutoff = list(Asian = 0.45,
+                     African_American = 0.5,
+                     Other = 0.5,
+                     Hispanic = 0.5,
+                     Caucasian = 0.4,
+                     Native_American = 0.5))
 
 gm
 
