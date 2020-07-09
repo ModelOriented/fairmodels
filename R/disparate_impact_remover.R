@@ -1,9 +1,16 @@
 #' Disparate impact remover
 #'
+#' @description Disparate impact remover is a method of bias mitigation. It changes distribution ordinal features of data with regard to earth mover distance.
+#'
+#' @references https://arxiv.org/pdf/1412.3756.pdf
+#'
 #' @param data data.frame, data to be transformed
-#' @param protected_colname factor, vector containing sensitive information
+#' @param protected factor, vector containing sensitive information
 #' @param features_to_transform character, vector of column names to be transformed. Columns must have numerical, ordinal values
 #' @param lambda numeric, amount of repair desired. Value from 0 to 1, where 0 will return unchanged dataset and 1 fully repaired dataset
+#'
+#'
+#' @importFrom stats ecdf median quantile
 #'
 #' @return data.frame
 #' @export
