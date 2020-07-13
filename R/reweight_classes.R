@@ -8,18 +8,16 @@
 #' on empirical data. Finally the weight is quotient of those probabilities
 #'
 #'
-#' @references This method is implementation of Kamiran, Calders \url{https://link.springer.com/content/pdf/10.1007/s10115-011-0463-8.pdf}
+#' @references This method was implemented based on Kamiran, Calders 2011 \url{https://link.springer.com/content/pdf/10.1007/s10115-011-0463-8.pdf}
 #'
-#' @param protected factor, protected variables (sensitive attributes factor)
-#' @param y numeric, vector with classes 0 and 1, where 1 means favourable class.
+#' @param protected factor, protected variables with subgroups as levels (sensitive attributes)
+#' @param y numeric, vector with classes 0 and 1, where 1 means favorable class.
 #'
 #' @return numeric, vector of weights
 #' @export
 #'
 #'
-#'
-#'
-#'
+
 
 
 reweight_classes <- function(protected, y){

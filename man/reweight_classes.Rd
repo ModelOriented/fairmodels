@@ -7,9 +7,9 @@
 reweight_classes(protected, y)
 }
 \arguments{
-\item{protected}{factor, protected variables (sensitive attributes factor)}
+\item{protected}{factor, protected variables with subgroups as levels (sensitive attributes)}
 
-\item{y}{numeric, vector with classes 0 and 1, where 1 means favourable class.}
+\item{y}{numeric, vector with classes 0 and 1, where 1 means favorable class.}
 }
 \value{
 numeric, vector of weights
@@ -24,5 +24,5 @@ calculates expected probability of this certain event (that subgroup == a and cl
 on empirical data. Finally the weight is quotient of those probabilities
 }
 \references{
-This method is implementation of Kamiran, Calders \url{https://link.springer.com/content/pdf/10.1007/s10115-011-0463-8.pdf}
+This method was implemented based on Kamiran, Calders 2011 \url{https://link.springer.com/content/pdf/10.1007/s10115-011-0463-8.pdf}
 }
