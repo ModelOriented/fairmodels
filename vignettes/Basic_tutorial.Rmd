@@ -320,7 +320,7 @@ All cutoffs measures where metrics exist (are not NA) and how they change if we 
 
 In this plot `NA` values are natural, so warnings are to be expected. 
 ```{r}
-ac <- all_cutoffs(fobject2, label = 'lm')
+ac <- all_cutoffs(fobject2)
 
 plot(ac)
 ```

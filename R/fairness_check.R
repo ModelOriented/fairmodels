@@ -226,7 +226,14 @@ fairness_check <- function(x,
 
   ### fairness objects
   # among all fairness_objects parameters should be equal
-  verbose_cat("-> Fairness objects\t\t:", length(fobjects), "objects ", verbose = verbose)
+
+  verbose_cat("-> Fairness objects\t\t:", length(fobjects), verbose = verbose)
+  if (length(fobjects) > 1){
+    verbose_cat(" objects ", verbose = verbose)
+  } else {
+    verbose_cat(" object ", verbose = verbose)
+  }
+
 
   if (length(fobjects) > 0){
   for (i in seq_along(fobjects)){
@@ -282,7 +289,7 @@ fairness_check <- function(x,
   # explainers must have unique labels
   if (length(unique(label)) != length(label) ){
    stop("Explainers don't have unique labels
-        (use 'label' parameter while creating dalex explainer)")
+        ( pass paramter \'label\' to fairness_check() )")
   }
 
   # labels must be unique for all explainers, those in fairness objects too
@@ -392,11 +399,11 @@ fairness_check <- function(x,
 
   if (any(is.na(metric_data))){
     created_na <- TRUE
-
+    num_NA <- sum(is.na(metric_data))
   }
 
   if (created_na){
-    verbose_cat("successful (", color_codes$yellow_start, "NA created", color_codes$yellow_end, ")\n", verbose = verbose)
+    verbose_cat("successful (", color_codes$yellow_start, num_NA,  "NA created", color_codes$yellow_end, ")\n", verbose = verbose)
   } else {
     verbose_cat("successful\n", verbose = verbose)
 

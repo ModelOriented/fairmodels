@@ -24,7 +24,7 @@ test_that("test prints",{
   fr <- fairness_radar(fobject)
   print(fr)
 
-  ac <- all_cutoffs(fobject, "ranger")
+  ac <- all_cutoffs(fobject)
   print(ac)
 
   cpc <- ceteris_paribus_cutoff(fobject, "Asian")

@@ -6,6 +6,7 @@
 #'
 #' @param x all_cutoffs object
 #' @param ... other plot parameters
+#' @param label character, label of model to plot. Default NULL. If default prints all models.
 #'
 #' @import ggplot2
 #' @importFrom DALEX theme_drwhy
@@ -37,17 +38,22 @@
 #'                           privileged = "male")
 #'
 #' ac <- all_cutoffs(fobject,
-#'                   label = "lm",
 #'                   fairness_metrics = c("TPR_parity_loss",
 #'                                        "FPR_parity_loss"))
 #' plot(ac)
 #'
 #'
 
-plot.all_cutoffs <- function(x, ...){
+plot.all_cutoffs <- function(x, ..., label = NULL){
 
-  data   <- x$cutoff_data
-  label  <- unique(data$label)
+  if (is.null(label)){
+    data <- x$cutoff_data
+  } else {
+    if (! is.character(label) | length(label) > 1)  stop("label must be character")
+    data <- x$cutoff_data[x$cutoff_data$label == label, ]
+  }
+
+  label <- unique(data$label)
   n_met  <- length(data$metric)
 
   cutoff <- parity_loss <- metric <- NULL
@@ -56,6 +62,7 @@ plot.all_cutoffs <- function(x, ...){
     theme_drwhy() +
     scale_color_manual(values = c(colors_fairmodels(n_met))) +
     ggtitle("All cutoffs plot", subtitle = paste("created with", paste(label, collapse = ", "), collapse = " ")) +
+    facet_wrap(vars(label), nrow = length(label)) +
     xlab("value of cutoff") +
     ylab("Metric's parity loss")
 

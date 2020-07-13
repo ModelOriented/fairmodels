@@ -9,6 +9,7 @@
 #'
 #' @import ggplot2
 #' @importFrom DALEX theme_drwhy
+#' @importFrom ggrepel geom_text_repel
 #'
 #' @return ggplot object
 #' @rdname plot_ceteris_paribus_cutoff
@@ -16,31 +17,30 @@
 #'
 #' @examples
 #'
-#' data("compas")
+#' data("german")
 #'
-#' # positive outcome - not being recidivist
-#' two_yr_recidivism <- factor(compas$Two_yr_Recidivism, levels = c(1,0))
-#' compas$T
-#' y_numeric <- as.numeric(two_yr_recidivism) -1
+#' y_numeric <- as.numeric(german$Risk) -1
 #'
-#' lm_model <- glm(Two_yr_Recidivism~.,
-#'                 data=compas,
+#' lm_model <- glm(Risk~.,
+#'                 data = german,
 #'                 family=binomial(link="logit"))
 #'
-#' rf_model <- ranger::ranger(Two_yr_Recidivism ~.,
-#'                            data = compas,
+#' rf_model <- ranger::ranger(Risk ~.,
+#'                            data = german,
 #'                            probability = TRUE,
 #'                            num.trees = 200)
 #'
-#' explainer_lm <- DALEX::explain(lm_model, data = compas[,-1], y = y_numeric)
-#' explainer_rf <- DALEX::explain(rf_model, data = compas[,-1], y = y_numeric)
+#' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+#' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
 #'
 #' fobject <- fairness_check(explainer_lm, explainer_rf,
-#'                           protected = compas$Ethnicity,
-#'                           privileged = "Caucasian")
+#'                           protected = german$Sex,
+#'                           privileged = "male")
 #'
-#' cpc <- ceteris_paribus_cutoff(fobject, "African_American")
+#' cpc <- ceteris_paribus_cutoff(fobject, "female")
+#' plot(cpc)
 #'
+#' cpc <- ceteris_paribus_cutoff(fobject, "female", cumulated = TRUE)
 #' plot(cpc)
 #'
 
@@ -48,12 +48,22 @@
 plot.ceteris_paribus_cutoff <- function(x, ...){
 
   data       <- x$cutoff_data
-  n_models   <- length(unique(data$model))
+
+  models     <- unique(data$model)
+  n_models   <- length(models)
   subgroup   <- x$subgroup
   cumulated  <- x$cumulated
   n_metrics  <- length(unique(data$metric))
 
-  cutoff <- parity_loss <- metric <- model <- NULL
+
+  min_data      <- x$min_data
+  min_data$y    <- rep(min(na.omit(data$parity_loss)), n_models)
+  min_data$yend <- rep(max(na.omit(data$parity_loss)), n_models)
+
+  min_data$yend <- min_data$yend - min_data$yend/20
+  min_data$y    <- min_data$y - min_data$yend/20
+
+  cutoff <- parity_loss <- metric <- model <- mins <- y <- yend <-  NULL
   plt <- ggplot(data)
 
   if (! cumulated){
@@ -69,7 +79,14 @@ plot.ceteris_paribus_cutoff <- function(x, ...){
                         ) +
                       xlab("value of cutoff") +
                       ylab("parity loss")
-
+      plt <- plt + geom_segment(data = min_data, aes(x = mins , xend = mins, y = y, yend = yend), linetype = "dashed") +
+        geom_text_repel(data = min_data, aes(x = mins,
+                                             y = yend,
+                                             label = mins,
+                                             hjust = 0.5,
+                                             vjust = -0.5),
+                                             size = 4,
+                                             segment.color = "lightgrey")
 
   } else {
 
@@ -81,6 +98,16 @@ plot.ceteris_paribus_cutoff <- function(x, ...){
                     xlab("value of cutoff") +
                     ylab("cummulated parity loss")
 
+
+    plt <- plt + geom_segment(data = min_data, aes(x = mins , xend = mins, y = y, yend = yend, color = model), linetype = "dashed") +
+                 geom_text_repel(data = min_data, aes(x = mins,
+                                                y = yend,
+                                                label = mins,
+                                                hjust = 0.5,
+                                                vjust = -0.5,
+                                                color = model),
+                                                size = 4,
+                                                segment.color = "lightgrey")
 
   }
   plt

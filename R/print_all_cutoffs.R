@@ -2,6 +2,7 @@
 #'
 #' @param x all_cuttofs object
 #' @param ... other print parameters
+#' @param label character, label of model to plot. Default NULL. If default prints all models.
 #'
 #' @export
 #'
@@ -32,17 +33,23 @@
 #'                           privileged = "male")
 #'
 #' ac <- all_cutoffs(fobject,
-#'                   label = "lm",
 #'                   fairness_metrics = c("TPR_parity_loss",
 #'                                        "FPR_parity_loss"))
 #' print(ac)
 #'
 
-print.all_cutoffs <- function(x, ...){
+print.all_cutoffs <- function(x, ..., label = NULL){
 
-  data <- x$cutoff_data
+  if (is.null(label)){
+    data <- x$cutoff_data
+  } else {
+    if (! is.character(label) | length(label) > 1)  stop("label must be character")
+    data <- x$cutoff_data[x$cutoff_data$label == label, ]
+  }
 
-  cat("\nAll cutofs for model:\n", x$label, "\n")
+  label <- unique(data$label)
+
+  cat("\nAll cutofs for models:\n", paste(label, collapse = ", "), "\n")
   cat("\nFirst rows from data: \n")
   print(head(data), ...)
 

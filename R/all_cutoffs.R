@@ -6,7 +6,6 @@
 #' @param x fairness_object
 #' @param grid_points numeric, grid for cutoffs to test. Number of points between 0 and 1 spread evenly.
 #' @param fairness_metrics character, name of metric or vector of multiple metrics
-#' @param label label of model to be calculated
 #'
 #' @return all_cutoffs object
 #' @export
@@ -35,14 +34,12 @@
 #'
 #'
 #' ac <- all_cutoffs(fobject,
-#'                   label = "lm",
 #'                   fairness_metrics = c("TPR_parity_loss",
 #'                                        "FPR_parity_loss"))
 #' plot(ac)
 #'
 
 all_cutoffs <- function(x,
-                        label,
                         grid_points = 101,
                         fairness_metrics = unique_metrics()){
 
@@ -52,9 +49,7 @@ all_cutoffs <- function(x,
   lapply(fairness_metrics, assert_parity_metrics)
 
   if (! is.numeric(grid_points) | length(grid_points) > 1) stop("grid points must be single numeric value")
-  if (! is.character(label) | length(label) > 1)  stop("label must be character")
 
-  if (! label %in% x$label ) stop ("label not in provided labels")
 
 
   explainers <- x$explainers
@@ -69,11 +64,11 @@ all_cutoffs <- function(x,
   # so for code below they will be suppressed
 
   suppressMessages(
+  for (i in seq_along(explainers)){
   for (custom_cutoff in cutoffs){
 
       custom_cutoff_vec        <- as.list(rep(custom_cutoff, n_subgroups))
       names(custom_cutoff_vec) <- levels(protected)
-      i                        <- match(label, x$label)
       explainer                <- explainers[[i]]
 
 
@@ -93,13 +88,14 @@ all_cutoffs <- function(x,
       to_add <- data.frame(parity_loss = as.numeric(gmm_loss_unique),
                            metric      = names(gmm_loss_unique),
                            cutoff      = rep(custom_cutoff, length(gmm_loss_unique)),
-                           label       = label)
+                           label       = x$label[i])
 
       cutoff_data <- rbind(cutoff_data , to_add)
 
-    })
+    }
+  })
 
-  all_cutoffs <- list(cutoff_data = cutoff_data, label = label)
+  all_cutoffs <- list(cutoff_data = cutoff_data)
   class(all_cutoffs) <- "all_cutoffs"
 
   return(all_cutoffs)
