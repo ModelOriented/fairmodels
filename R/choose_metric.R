@@ -49,23 +49,23 @@
 #'                           protected = german$Sex,
 #'                           privileged = "male")
 #'
-#' cm <- choose_metric(fobject, "TPR_parity_loss")
+#' cm <- choose_metric(fobject, "TPR")
 #' plot(cm)
 #'
 
 
-choose_metric <- function(x, fairness_metric = "FPR_parity_loss"){
+choose_metric <- function(x, fairness_metric = "FPR"){
 
   stopifnot(class(x) == "fairness_object")
   assert_parity_metrics(fairness_metric)
 
-  data           <- cbind(x$metric_data[,fairness_metric], x$label)
-  data           <- as.data.frame(data)
-  colnames(data) <- c("metric", "label")
-  data$metric    <- as.numeric(data$metric)
+  data                       <- cbind(x$parity_loss_metric_data[,fairness_metric], x$label)
+  data                       <- as.data.frame(data)
+  colnames(data)             <- c("parity_loss_metric", "label")
+  data$parity_loss_metric    <- as.numeric(data$parity_loss_metric)
 
 
-  choosen_metric <- list(metric_data = data,
+  choosen_metric <- list(parity_loss_metric_data = data,
                          metric = fairness_metric,
                          label  = x$label)
 

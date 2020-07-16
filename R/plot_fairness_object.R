@@ -2,11 +2,10 @@
 #'
 #' @description Plot fairness check enables to look how big differences are between base subgroup (privileged) and unprivileged ones.
 #' If barplot reaches red zone it means that for this subgroup fairness goal is not satisfied. Multiple subgroups and models can be plotted.
-#' Red and green zone boundary can be moved through epsilon parameter, that needs to be passed through \code{fairness_check}. Plot can receive many objects that
-#' will be plotted together with condition of equal parameters (number of subgroups, epsilon, etc...).
+#' Red and green zone boundary can be moved through epsilon parameter, that needs to be passed through \code{fairness_check}.
 #'
 #' @param x \code{fairness_check} object
-#' @param ... other \code{fairness_check} objects
+#' @param ... other plot parameters
 #'
 #' @import ggplot2
 #' @importFrom DALEX theme_drwhy_vertical

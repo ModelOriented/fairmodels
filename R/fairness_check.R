@@ -26,7 +26,7 @@
 #'
 #' @return An object of class \code{fairness_object} which is a list with elements:
 #' \itemize{
-#' \item metric_data - data.frame containing parity loss for various fairness metrics. Created with following metrics:
+#' \item parity_loss_metric_data - data.frame containing parity loss for various fairness metrics. Created with following metrics:
 #' \itemize{
 #'
 #' \item TPR - True Positive Rate (Sensitivity, Recall, Equal Odds)
@@ -156,7 +156,7 @@ fairness_check <- function(x,
   explainers_from_fobjects <- sapply(fobjects, function(x) x$explainers)
   all_explainers           <- append(explainers, explainers_from_fobjects)
 
-  fobjects_metric_data <- extract_data(fobjects, "metric_data")
+  fobjects_metric_data <- extract_data(fobjects, "parity_loss_metric_data")
   fobjects_groups_data <- extract_data(fobjects, "groups_data")
   fobjects_fcheck_data <- extract_data(fobjects, "fairness_check_data")
   fobjects_label       <- sapply(fobjects, function(x) x$label)
@@ -306,7 +306,7 @@ fairness_check <- function(x,
   created_na <- FALSE
   # number of metrics must be fixed. If changed add metric to metric labels
   # and change in calculate group fairness metrics
-  metric_data   <- matrix(nrow = n_exp, ncol = 13)
+  parity_loss_metric_data   <- matrix(nrow = n_exp, ncol = 13)
 
   explainers_groups <- list(rep(0,n_exp))
   df                <- data.frame()
@@ -333,9 +333,8 @@ fairness_check <- function(x,
     gmm_scaled      <- apply(gmm, 2 , function(x) x  - gmm[, privileged])
     gmm_abs         <- abs(gmm_scaled)
     gmm_loss        <- rowSums(gmm_abs)
-    names(gmm_loss) <- paste0(names(gmm_loss),"_parity_loss")
 
-    metric_data[i, ] <- gmm_loss
+    parity_loss_metric_data[i, ] <- gmm_loss
 
 
     # every group value for every metric for every explainer
@@ -397,9 +396,9 @@ fairness_check <- function(x,
 
   rownames(df) <- NULL
 
-  if (any(is.na(metric_data))){
+  if (any(is.na(parity_loss_metric_data))){
     created_na <- TRUE
-    num_NA <- sum(is.na(metric_data))
+    num_NA <- sum(is.na(parity_loss_metric_data))
   }
 
   if (created_na){
@@ -412,29 +411,12 @@ fairness_check <- function(x,
   ###############  Merging with fairness objects  ###############
 
   # as data frame and making numeric
-  metric_data   <- as.data.frame(metric_data)
-
-
-  metric_labels   <- paste0(c("TPR",
-                              "TNR",
-                              "PPV",
-                              "NPV",
-                              "FNR",
-                              "FPR",
-                              "FDR",
-                              "FOR",
-                              "TS",
-                              "STP",
-                              "ACC",
-                              "F1",
-                              "MCC"),
-                              "_parity_loss")
-
-  colnames(metric_data) <- metric_labels
+  parity_loss_metric_data           <- as.data.frame(parity_loss_metric_data)
+  colnames(parity_loss_metric_data) <- names(gmm_loss)
 
 
   # merge explainers data with fobjects
-  metric_data       <- rbind(metric_data, fobjects_metric_data)
+  parity_loss_metric_data       <- rbind(parity_loss_metric_data, fobjects_metric_data)
   explainers_groups <- append(explainers_groups, fobjects_groups_data)
   df                <- rbind(df, fobjects_fcheck_data)
   cutoffs           <- append(cutoffs, fobjects_cuttofs)
@@ -444,7 +426,7 @@ fairness_check <- function(x,
 
 
   # S3 object
-  fairness_object <- list(metric_data = metric_data,
+  fairness_object <- list(parity_loss_metric_data = parity_loss_metric_data,
                           groups_data = explainers_groups,
                           explainers  = all_explainers,
                           privileged  = privileged,

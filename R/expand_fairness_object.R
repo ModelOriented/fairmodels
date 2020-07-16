@@ -41,26 +41,26 @@ expand_fairness_object <- function(x, scale = FALSE, drop_metrics_with_na = FALS
   stopifnot(class(x) == "fairness_object")
 
   n_exp          <- length(x$explainers)
-  metric_data    <- x$metric_data
+  parity_loss_metric_data    <- x$parity_loss_metric_data
   labels         <- x$label
 
   if (drop_metrics_with_na) {
-    metric_data <- drop_metrics_with_na(metric_data)
+    parity_loss_metric_data <- drop_metrics_with_na(parity_loss_metric_data)
   }
 
-  if (scale) metric_data <- as.data.frame(scale(as.matrix(metric_data)))
+  if (scale) parity_loss_metric_data <- as.data.frame(scale(as.matrix(parity_loss_metric_data)))
 
 
   # rows = metrics * explainers
   expanded_data <- data.frame()
-  column_names <- colnames(metric_data)
+  column_names <- colnames(parity_loss_metric_data)
 
-  n_metrics <- ncol(metric_data)
+  n_metrics <- ncol(parity_loss_metric_data)
 
   for (i in seq_len(n_metrics)){
     to_add <- data.frame(metric = rep(column_names[i], n_exp),
                          model  = labels,
-                         score  = metric_data[,i])
+                         score  = parity_loss_metric_data[,i])
     expanded_data <- rbind(expanded_data, to_add)
   }
 

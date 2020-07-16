@@ -44,8 +44,8 @@ fobject <- fairness_check(explainer_lm, explainer_rf,
 
 
 ac <- all_cutoffs(fobject,
-                  fairness_metrics = c("TPR_parity_loss",
-                                       "FPR_parity_loss"))
+                  fairness_metrics = c("TPR",
+                                       "FPR"))
 plot(ac)
 
 }

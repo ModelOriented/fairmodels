@@ -104,8 +104,7 @@ plot.ceteris_paribus_cutoff <- function(x, ...){
                                                 y = yend,
                                                 label = mins,
                                                 hjust = 0.5,
-                                                vjust = -0.5,
-                                                color = model),
+                                                vjust = -0.5),
                                                 size = 4,
                                                 segment.color = "lightgrey")
 

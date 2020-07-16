@@ -56,7 +56,7 @@ plot.performance_and_fairness <- function(x , ...){
 
   n <- length(unique(data$labels))
 
-  inversed_fairness_metric <- paste("inversed", fairness_metric, collapse = " " )
+  inversed_fairness_metric <- paste("inversed", fairness_metric, "parity loss", collapse = " " )
 
   ggplot(data, aes(x = performance_metric, y = fairness_metric)) +
     geom_text_repel(aes(label = labels),

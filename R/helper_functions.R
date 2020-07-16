@@ -2,7 +2,7 @@
 
 
 unique_metrics <- function(){
-  out <- paste0(c("TPR", 'TNR', 'PPV', 'NPV','TS','STP','ACC','F1','MCC'), "_parity_loss")
+  out <- c("TPR", 'TNR', 'PPV', 'NPV','TS','STP','ACC','F1','MCC')
   return(out)
 }
 
@@ -18,10 +18,7 @@ return(data)
 }
 
 assert_base_metrics <- function(metric){
-  if( !( is.character(metric)    & length(metric) ==1 )) stop("metric must be character")
-  metrics <- c("TPR","TNR","PPV","NPV","FNR","FPR","FDR","FOR","TS","STP","ACC","F1", "MCC")
-  if (! metric %in% metrics) stop ("Metric not in available metrics")
-  invisible(return())
+  assert_parity_metrics(metric)
 }
 
 assert_performance_metrics <- function(metric){
@@ -35,7 +32,6 @@ assert_parity_metrics <- function(metric){
 
   if( !( is.character(metric)    & length(metric) ==1 )) stop("metric must be character")
   metrics <- c("TPR","TNR","PPV","NPV","FNR","FPR","FDR","FOR","TS","STP","ACC","F1", "MCC")
-  metrics <- paste0(metrics, "_parity_loss")
   if (! metric %in% metrics) stop ("Metric not in available metrics")
 
   invisible(return())

@@ -163,7 +163,7 @@ It is S3 object consisting of:
 * Parity loss metrics 
 Popular confusion matrix metrics with parity loss - sum of distances of metric values between unprivileged subgroups and privlieged one. If model would have 0 in certain parity loss metric it would mean that it treats all subgroups equally. 
 ```{r}
-fobject$metric_data
+fobject$parity_loss_metric_data
 ```
 * groups_data
 
@@ -174,7 +174,7 @@ fobject$groups_data$ranger$TPR
 ```
 It is simply metrics for certain subgroup.
 
-What is relation between `$groups_data` and `$metric_data` ? 
+What is relation between `$groups_data` and `$parity_loss_metric_data` ? 
 
 If we were going only to take score from certain metric (Let's say fpr and 0.3) we wouldn't know if it is good or bad. But we are aiming for **equal treatment over all groups** so if this metric score would be the same in all groups it would be very good. But the metrics wouldn't be comparable between each others (fpr - 0.3 in all groups and accuracy - 0.9 in all groups, both are good in terms of parity). That is why we use **privileged** - to set benchmark. And for example Caucasian in fpr had score of 0.3 and African American 0.6. After setting `privilieged = Caucasian` Caucasian would have score 0, and African American 0.3, because is the distance between those metrics.
 
@@ -194,7 +194,7 @@ fobject$cutoff$ranger
 list of cutoff values for each model
 
 * fairness_check_data 
-data used in print and plot of `fairness_object`. It is already processed data and ready to plot. If someone were to use `abs()` metrics there would be equal to particular metrics in `$metric_data`. It means that it allows negative values. So when value is negative it means that score of privileged group in this metric was better.  
+data used in print and plot of `fairness_object`. It is already processed data and ready to plot. If someone were to use `abs()` metrics there would be equal to particular metrics in `$parity_loss_metric_data`. It means that it allows negative values. So when value is negative it means that score of privileged group in this metric was better.  
 
 
 * ... - other parameters passed to `fairness_check()`
@@ -264,7 +264,7 @@ Now we know what those scores are and how "similar" models are to each other
 Sometimes we would like to know how good are models in performance metrics and in fairness metrics at the same time, to see the tradeoff between them.
 
 ```{r}
-fap <- performance_and_fairness(fobject, fairness_metric = "FPR_parity_loss")
+fap <- performance_and_fairness(fobject, fairness_metric = "FPR")
 plot(fap)
 ```
 
@@ -274,10 +274,10 @@ We can add plots with help of `patchwork`
 library(patchwork)
 library(ggplot2)
 
-p1 <- plot(performance_and_fairness(fobject,  "TPR_parity_loss", "accuracy"))
-p2 <- plot(performance_and_fairness(fobject,  "FPR_parity_loss", "auc"))     + ggtitle(" ") + theme(legend.position = "none")
-p3 <- plot(performance_and_fairness(fobject,  "NPV_parity_loss", "recall"))  + ggtitle(" ") + theme(legend.position = "none")
-p4 <- plot(performance_and_fairness(fobject,  "TS_parity_loss", "f1"))+ ggtitle(" ") + theme(legend.position = "none")
+p1 <- plot(performance_and_fairness(fobject,  "TPR", "accuracy"))
+p2 <- plot(performance_and_fairness(fobject,  "FPR", "auc"))     + ggtitle(" ") + theme(legend.position = "none")
+p3 <- plot(performance_and_fairness(fobject,  "NPV", "recall"))  + ggtitle(" ") + theme(legend.position = "none")
+p4 <- plot(performance_and_fairness(fobject,  "TS", "f1"))+ ggtitle(" ") + theme(legend.position = "none")
 
 ```
 ```{r}

@@ -2,12 +2,12 @@ test_that("Test_fairness_radar_and_plot", {
 
   fradar <- fairness_radar(fobject)
 
-  metrics <- fobject$metric_data
+  metrics <- fobject$parity_loss_metric_data
   models  <- fobject$labels
 
   for (metric in unique_metrics()){
     for (model in models){
-      actual <- fobject$metric_data[fobject$labels == model, metric]
+      actual <- fobject$parity_loss_metric_data[fobject$labels == model, metric]
       to_check <- as.character(fradar$data$metric) == metric & as.character(fradar$data$model) == model
       expect_equal(fradar$data[to_check,"score"], actual)
     }
@@ -15,11 +15,11 @@ test_that("Test_fairness_radar_and_plot", {
 
   expect_error(fairness_radar(fobject, fairness_metrics = 1))
   fo <- fobject
-  fo$metric_data[2,2] <- NA
+  fo$parity_loss_metric_data[2,2] <- NA
 
   expect_warning(fairness_radar(fo))
 
-  fo$metric_data[2,1:11] <- NA
+  fo$parity_loss_metric_data[2,1:11] <- NA
 
   # both warning and error
   expect_warning(expect_error(fairness_radar(fo)))

@@ -12,7 +12,8 @@
 #'
 #' @return numeric vector of indexes
 #' @export
-#'
+
+
 resample <- function(protected, y, type = "uniform",  probs = NULL){
 
   stopifnot(is.factor(protected))

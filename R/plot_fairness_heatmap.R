@@ -1,7 +1,7 @@
 #' Plot Heatmap
 #'
 #' @description
-#' Heatmap shows all metrics across all models while displaying similarity between variables (in form of dendograms).
+#' Heatmap shows all parity loss metrics across all models while displaying similarity between variables (in form of dendograms).
 #' Heatmap is flexible and is always longer than wider for esthetic reasons. It flips axis while number of explainers exceeds
 #' number of metrics. NA's in metrics are gray.
 #'
@@ -99,7 +99,7 @@ plot.fairness_heatmap <- function(x, ...,
     stopifnot(text_size > 0)
 
     # prepare variables
-    y <- xend <- yend <- metric <- model <- score <- NULL
+    y <- xend <- yend <- parity_loss_metric <- model <- score <- NULL
 
     # Dendograms -----------------------------------------
 
@@ -152,13 +152,13 @@ plot.fairness_heatmap <- function(x, ...,
 
   # releveling
   data$model  <- factor(data$model,  levels = model_levels)
-  data$metric <- factor(data$metric, levels = metric_levels)
+  data$parity_loss_metric <- factor(data$parity_loss_metric, levels = metric_levels)
   data$score  <- as.numeric(data$score)
 
   # heatmap
     ifelse(!flip_axis,
-           p <- ggplot(data, aes(metric, model, fill = score)),
-           p <- ggplot(data, aes(model, metric, fill = score)))
+           p <- ggplot(data, aes(parity_loss_metric, model, fill = score)),
+           p <- ggplot(data, aes(model, parity_loss_metric, fill = score)))
 
     heatmap <- p +    geom_tile(colour = "white",
                                 size = 2,

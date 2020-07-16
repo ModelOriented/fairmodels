@@ -39,6 +39,6 @@ fobject <- fairness_check(explainer_lm, explainer_rf,
                           protected = german$Sex,
                           privileged = "male")
 
-cm <- choose_metric(fobject, "TPR_parity_loss")
+cm <- choose_metric(fobject, "TPR")
 plot(cm)
 }

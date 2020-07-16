@@ -38,7 +38,7 @@ fairness_check(
 \value{
 An object of class \code{fairness_object} which is a list with elements:
 \itemize{
-\item metric_data - data.frame containing parity loss for various fairness metrics. Created with following metrics:
+\item parity_loss_metric_data - data.frame containing parity loss for various fairness metrics. Created with following metrics:
 \itemize{
 
 \item TPR - True Positive Rate (Sensitivity, Recall, Equal Odds)

@@ -38,8 +38,8 @@
 #'                           privileged = "male")
 #'
 #' ac <- all_cutoffs(fobject,
-#'                   fairness_metrics = c("TPR_parity_loss",
-#'                                        "FPR_parity_loss"))
+#'                   fairness_metrics = c("TPR",
+#'                                        "FPR"))
 #' plot(ac)
 #'
 #'
@@ -61,6 +61,7 @@ plot.all_cutoffs <- function(x, ..., label = NULL){
     geom_line() +
     theme_drwhy() +
     scale_color_manual(values = c(colors_fairmodels(n_met))) +
+    labs(color = "parity loss metric") +
     ggtitle("All cutoffs plot", subtitle = paste("created with", paste(label, collapse = ", "), collapse = " ")) +
     facet_wrap(vars(label), nrow = length(label)) +
     xlab("value of cutoff") +

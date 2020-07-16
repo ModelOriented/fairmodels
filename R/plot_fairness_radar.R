@@ -48,13 +48,13 @@ plot.fairness_radar <- function(x, ...) {
   data$score<- data$score/max_score
   labels    <- round(seq(0, 1, 0.25)*max_score, 2)
 
-  df_text <- data.frame(x = rep(data$metric[1],5), y = c(0.01, 0.25, 0.50, 0.75, 1), label = labels)
+  df_text <- data.frame(x = rep(data$parity_loss_metric[1],5), y = c(0.01, 0.25, 0.50, 0.75, 1), label = labels)
 
   # global variables
-  metric <- score <- model <- y <- label <-  NULL
+  parity_loss_metric <- score <- model <- y <- label <-  NULL
   # plot
-  p <- ggplot(data = data, aes(x = metric, y = score)) +
-    coord_radar(names_n = length(unique(data$metric))) +
+  p <- ggplot(data = data, aes(x = parity_loss_metric, y = score)) +
+    coord_radar(names_n = length(unique(data$parity_loss_metric))) +
     geom_polygon(aes(group = model, color = model), fill = NA, show.legend = FALSE) +
     geom_point(aes(group = model, color = model)) +
     geom_text(data = df_text, aes(x = x, y = y, label = label), size = 3, fontface = "bold") +
@@ -62,7 +62,7 @@ plot.fairness_radar <- function(x, ...) {
     scale_color_manual(values = DALEX::colors_discrete_drwhy(n = n)) +
     xlab("") +
     ylab("") +
-    ggtitle("Fairness metric radar plot") +
+    ggtitle("Parity loss metric radar plot") +
     theme_minimal() +
     theme(axis.text.y = element_blank(),
           axis.text.x = element_text(size = 8),

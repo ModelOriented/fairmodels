@@ -1,12 +1,12 @@
 test_that("Test all_cutoffs with plot", {
 
-  ac <- all_cutoffs(fobject, fairness_metrics = c("TPR_parity_loss", "ACC_parity_loss"))
+  ac <- all_cutoffs(fobject, fairness_metrics = c("TPR", "ACC"))
 
   tmp <- ac$cutoff_data[ac$cutoff_data$cutoff == 0.5,]
   tmp <- tmp["metric"]
   tmp <- unique(as.character(unlist(tmp)))
   names(tmp) <- NULL
-  expect_equal(tmp, c("TPR_parity_loss", "ACC_parity_loss" ))
+  expect_equal(tmp, c("TPR", "ACC" ))
 
 
   #################### plot #########################

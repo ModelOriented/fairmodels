@@ -34,8 +34,8 @@
 #'
 #'
 #' ac <- all_cutoffs(fobject,
-#'                   fairness_metrics = c("TPR_parity_loss",
-#'                                        "FPR_parity_loss"))
+#'                   fairness_metrics = c("TPR",
+#'                                        "FPR"))
 #' plot(ac)
 #'
 
@@ -81,7 +81,6 @@ all_cutoffs <- function(x,
       gmm             <- calculate_group_fairness_metrics(group_matrices)
       gmm_scaled      <- abs(apply(gmm, 2 , function(x) x  - gmm[,privileged]))
       gmm_loss        <- rowSums(gmm_scaled)
-      names(gmm_loss) <- paste0(names(gmm_loss),"_parity_loss")
 
       gmm_loss_unique <- gmm_loss[names(gmm_loss) %in% fairness_metrics]
 

@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{\code{chosen_metric} object}
 
-\item{...}{other \code{chosen_metric} object}
+\item{...}{other print parameters}
 }
 \description{
 Choose metric from parity loss metrics and plot it for every model.
@@ -37,6 +37,6 @@ fobject <- fairness_check(explainer_lm, explainer_rf,
                           protected = german$Sex,
                           privileged = "male")
 
-cm <- choose_metric(fobject, "TPR_parity_loss")
+cm <- choose_metric(fobject, "TPR")
 print(cm)
 }
