@@ -36,7 +36,7 @@ roc_pivot <- function(x, protected, privileged,  cutoff = 0.5, theta = 0.1){
   if (!is.numeric(probs) | any(probs > 1) | any(probs < 0) ) stop("probs must be numeric vector with values between 0 and 1")
 
   protected_levels <- levels(protected)
-  if(! (is.character(privileged)|is.factor(privileged)) | !(privileged %in% protected_levels) )
+  if(! (is.character(privileged)|is.factor(privileged)) | !(privileged %in% protected_levels) ) stop("privileged must be character/factor denoting privileged subgroup level in protected variable")
 
   # ROC affecting only probs close (within +/- theta) to cutoff threshold
   is_close <- abs(probs - cutoff) < theta

@@ -107,6 +107,8 @@ fairness_check <- function(x,
                            verbose = TRUE,
                            colorize = TRUE){
 
+
+
   if (!colorize) {
     color_codes <- list(yellow_start = "", yellow_end = "",
                         red_start = "", red_end = "",

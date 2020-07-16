@@ -1,4 +1,4 @@
-#' Reweight classes
+#' Reweight
 #'
 #' @description Function returns weights for model training. The purpose of this weights is to mitigate bias in statistical parity w
 #' In fact this could worsen the performance in other fairness metrics. This affects also model's performance metrics (accuracy).
@@ -20,7 +20,7 @@
 
 
 
-reweight_classes <- function(protected, y){
+reweight <- function(protected, y){
   stopifnot(is.factor(protected))
   stopifnot(is.numeric(y))
   stopifnot(length(y) == length(protected))
