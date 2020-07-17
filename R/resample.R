@@ -12,6 +12,33 @@
 #'
 #' @return numeric vector of indexes
 #' @export
+#'
+#' @examples
+#' data("german")
+#' data <- german
+#' data$Age <- as.factor(ifelse(data$Age <= 25, "young", "old"))
+#' y_numeric <- as.numeric(data$Risk) -1
+#'
+#' rf <- ranger::ranger(Risk ~., data = data, probability = TRUE, seed = 123)
+#'
+#' u_indexes <- resample(data$Age, y = y_numeric)
+#' rf_u <- ranger::ranger(Risk ~., data = data[u_indexes, ], probability = TRUE, seed = 123)
+#'
+#' explainer_rf   <- DALEX::explain(rf, data = data[, -1], y = y_numeric, label = "not_sampled")
+#' explainer_rf_u <- DALEX::explain(rf_u, data = data[, -1], y = y_numeric, label = "sampled_uniform")
+#'
+#' p_indexes <- resample(data$Age, y = y_numeric, type = "preferential", probs = explainer_rf$y_hat)
+#' rf_p <- ranger::ranger(Risk ~., data = data[p_indexes, ], probability = TRUE, seed = 123)
+#'
+#' explainer_rf_p <- DALEX::explain(rf_p, data = data[, -1], y = y_numeric,
+#'                                  label = "sampled_preferential")
+#'
+#' fobject <- fairness_check(explainer_rf, explainer_rf_u, explainer_rf_p,
+#'                           protected = data$Age,
+#'                           privileged = "old")
+#'
+#' fobject
+#' plot(fobject)
 
 
 resample <- function(protected, y, type = "uniform",  probs = NULL){
@@ -27,6 +54,8 @@ resample <- function(protected, y, type = "uniform",  probs = NULL){
   weight_vector    <- rep(NA, n)
 
   if (type == "preferential"){
+  if (is.null(probs)) stop("probs were not provided")
+  if (length(probs) != length(y)) stop("probs and y have different lengths")
   if ( any(probs < 0) | any(probs > 1)) stop("probs have values outside [0,1]")
   }
 

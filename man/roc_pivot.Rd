@@ -32,6 +32,32 @@ probabilities (y_hat) are assigned value in equal distance but other side of cut
 1. When unprivileged subgroup is within (cutoff - theta, cutoff)
 2. When privileged subgroup is within (cutoff, cutoff + theta)
 }
+\examples{
+
+data("german")
+data <- german
+data$Age <- as.factor(ifelse(data$Age <= 25, "young", "old"))
+y_numeric <- as.numeric(data$Risk) -1
+
+lr_model     <- stats::glm(Risk ~., data = data, family = binomial())
+lr_explainer <- DALEX::explain(lr_model, data = data[,-1], y = y_numeric)
+
+fobject <- fairness_check(lr_explainer,
+                          protected = data$Age,
+                          privileged = "old")
+plot(fobject)
+
+lr_explainer_fixed <- roc_pivot(lr_explainer,
+                                protected = data$Age,
+                                privileged = "old")
+
+fobject2 <- fairness_check(lr_explainer_fixed, fobject,
+                           protected = data$Age,
+                           privileged = "old",
+                           label = "lr_fixed")
+fobject2
+plot(fobject2)
+}
 \references{
 Kamiran, Karim, Zhang 2012 \url{https://ieeexplore.ieee.org/document/6413831/} ROC method
 }

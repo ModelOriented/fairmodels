@@ -22,6 +22,33 @@ numeric vector of indexes
 Method of bias mitigation. Similarly to \code{reweight_classes} this method computes desired number of observations if the protected variable is independent
 from y and on this basis decides if this subgroup with certain class (+ or -) should be more or less numerous. Than performs oversampling or undersampling depending on the case.
 }
+\examples{
+data("german")
+data <- german
+data$Age <- as.factor(ifelse(data$Age <= 25, "young", "old"))
+y_numeric <- as.numeric(data$Risk) -1
+
+rf <- ranger::ranger(Risk ~., data = data, probability = TRUE, seed = 123)
+
+u_indexes <- resample(data$Age, y = y_numeric)
+rf_u <- ranger::ranger(Risk ~., data = data[u_indexes, ], probability = TRUE, seed = 123)
+
+explainer_rf   <- DALEX::explain(rf, data = data[, -1], y = y_numeric, label = "not_sampled")
+explainer_rf_u <- DALEX::explain(rf_u, data = data[, -1], y = y_numeric, label = "sampled_uniform")
+
+p_indexes <- resample(data$Age, y = y_numeric, type = "preferential", probs = explainer_rf$y_hat)
+rf_p <- ranger::ranger(Risk ~., data = data[p_indexes, ], probability = TRUE, seed = 123)
+
+explainer_rf_p <- DALEX::explain(rf_p, data = data[, -1], y = y_numeric,
+                                 label = "sampled_preferential")
+
+fobject <- fairness_check(explainer_rf, explainer_rf_u, explainer_rf_p,
+                          protected = data$Age,
+                          privileged = "old")
+
+fobject
+plot(fobject)
+}
 \references{
 This method was implemented based on Kamiran, Calders 2011 \url{https://link.springer.com/content/pdf/10.1007/s10115-011-0463-8.pdf}
 }
