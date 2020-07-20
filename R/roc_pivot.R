@@ -5,7 +5,7 @@
 #' By this potentially wrongfully labbeled observations are assigned different labels.
 #' Note that in y in DALEX explainer 1 should indicate favourable outcome.
 #'
-#' @param x DALEX explainer
+#' @param explainer DALEX explainer
 #' @param protected factor, protected variables with subgroups as levels (sensitive attributes)
 #' @param privileged factor/character, level in protected denoting privileged subgroup
 #' @param cutoff numeric, threshold for all subgroups
@@ -47,11 +47,19 @@
 #' fobject2
 #' plot(fobject2)
 
-roc_pivot <- function(x, protected, privileged,  cutoff = 0.5, theta = 0.1){
+roc_pivot <- function(explainer, protected, privileged,  cutoff = 0.5, theta = 0.1){
 
+  stopifnot(class(explainer) == "explainer")
+  stopifnot(explainer$model_info$type == "classification")
+
+  x <- explainer
   probs <- x$y_hat
   y     <- x$y
 
+  if (is.character(protected)){
+    cat("changing protected to factor \n")
+    protected <- as.factor(protected)
+  }
   stopifnot(is.factor(protected))
   stopifnot(is.numeric(y))
   stopifnot(length(y) == length(protected) & length(y) == length(probs))

@@ -11,7 +11,7 @@
 #' the distribution is discrete with small number of variables then there will be small number of pigeonholes and it will affect data significantly.
 #'
 #' @param data data.frame, data to be transformed
-#' @param protected factor, vector containing sensitive information
+#' @param protected factor, vector containing sensitive information. If character it will transform it to factor.
 #' @param features_to_transform character, vector of column names to be transformed. Columns must have numerical, ordinal values
 #' @param lambda numeric, amount of repair desired. Value from 0 to 1, where 0 will return almost unchanged dataset and 1 fully repaired dataset
 #'
@@ -71,6 +71,7 @@ disparate_impact_remover <- function(data,
   if (! all(features_to_transform %in% colnames(data))) stop("features to transform must be array with column names to repair")
 
   if (! all(apply(data[features_to_transform], 2, function(x) is.numeric(x)))) stop("features to transform must be numeric columns in data")
+  if (is.character(protected)) protected <- as.factor(protected)
   if (! is.factor(protected)) stop("protected must be factor with levels acting as different protected subgroups")
   if (length(lambda) != 1) stop ("lambda must be single numeric value")
   if (lambda > 1 | lambda < 0  ) stop ("lambda values must be between 0 and 1")

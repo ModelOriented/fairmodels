@@ -4,7 +4,7 @@
 \alias{resample}
 \title{Resample}
 \usage{
-resample(protected, y, type = "uniform", probs = NULL)
+resample(protected, y, type = "uniform", probs = NULL, cutoff = 0.5)
 }
 \arguments{
 \item{protected}{factor, protected variables with subgroups as levels (sensitive attributes)}
@@ -14,13 +14,17 @@ resample(protected, y, type = "uniform", probs = NULL)
 \item{type}{character, either (default) 'uniform' or 'preferential'}
 
 \item{probs}{numeric, vector with probabilities for preferential sampling}
+
+\item{cutoff}{numeric, threshold for probabilities}
 }
 \value{
 numeric vector of indexes
 }
 \description{
-Method of bias mitigation. Similarly to \code{reweight_classes} this method computes desired number of observations if the protected variable is independent
+Method of bias mitigation. Similarly to \code{reweight} this method computes desired number of observations if the protected variable is independent
 from y and on this basis decides if this subgroup with certain class (+ or -) should be more or less numerous. Than performs oversampling or undersampling depending on the case.
+If type of sampling is set to 'preferential' and probs are provided than instead of uniform sampling preferential sampling will be performed. Preferential sampling depending on the case
+will sample observations close to border or far from border.
 }
 \examples{
 data("german")

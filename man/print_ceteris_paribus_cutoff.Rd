@@ -18,6 +18,7 @@ Print ceteris paribus cutoff
 
 data("german")
 
+german <- german[1:500,]
 y_numeric <- as.numeric(german$Risk) -1
 
 lm_model <- glm(Risk~.,

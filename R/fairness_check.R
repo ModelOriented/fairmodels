@@ -138,16 +138,9 @@ fairness_check <- function(x,
     verbose_cat(color_codes$green_start,
         "Ok", color_codes$green_end, ") \n", verbose = verbose)
   } else {
-    # if different cutoffs were provided print info in red
-    if (length(unique(cutoff)) <= 1){
       verbose_cat(color_codes$yellow_start,
           "changed from", class(protected),  color_codes$yellow_end, ")\n", verbose = verbose)
-    } else
-    verbose_cat(color_codes$red_start,
-        "changed to factor, check if levels match cutoff values ", color_codes$red_end, ")\n", verbose = verbose)
-    protected <- as.factor(protected)
-
-  }
+    }
 
   ################  data extraction  ###############
 

@@ -4,10 +4,10 @@
 \alias{roc_pivot}
 \title{Reject Option based Classification pivot}
 \usage{
-roc_pivot(x, protected, privileged, cutoff = 0.5, theta = 0.1)
+roc_pivot(explainer, protected, privileged, cutoff = 0.5, theta = 0.1)
 }
 \arguments{
-\item{x}{DALEX explainer}
+\item{explainer}{DALEX explainer}
 
 \item{protected}{factor, protected variables with subgroups as levels (sensitive attributes)}
 

@@ -9,7 +9,7 @@ disparate_impact_remover(data, protected, features_to_transform, lambda = 1)
 \arguments{
 \item{data}{data.frame, data to be transformed}
 
-\item{protected}{factor, vector containing sensitive information}
+\item{protected}{factor, vector containing sensitive information. If character it will transform it to factor.}
 
 \item{features_to_transform}{character, vector of column names to be transformed. Columns must have numerical, ordinal values}
 

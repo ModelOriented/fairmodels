@@ -1,7 +1,9 @@
 #' Resample
 #'
-#' @description Method of bias mitigation. Similarly to \code{reweight_classes} this method computes desired number of observations if the protected variable is independent
+#' @description Method of bias mitigation. Similarly to \code{reweight} this method computes desired number of observations if the protected variable is independent
 #' from y and on this basis decides if this subgroup with certain class (+ or -) should be more or less numerous. Than performs oversampling or undersampling depending on the case.
+#' If type of sampling is set to 'preferential' and probs are provided than instead of uniform sampling preferential sampling will be performed. Preferential sampling depending on the case
+#' will sample observations close to border or far from border.
 #'
 #' @references This method was implemented based on Kamiran, Calders 2011 \url{https://link.springer.com/content/pdf/10.1007/s10115-011-0463-8.pdf}
 #'
@@ -9,6 +11,7 @@
 #' @param y numeric, vector with classes 0 and 1, where 1 means favorable class.
 #' @param type character, either (default) 'uniform' or 'preferential'
 #' @param probs numeric, vector with probabilities for preferential sampling
+#' @param cutoff numeric, threshold for probabilities
 #'
 #' @return numeric vector of indexes
 #' @export
@@ -41,13 +44,19 @@
 #' plot(fobject)
 
 
-resample <- function(protected, y, type = "uniform",  probs = NULL){
+resample <- function(protected, y, type = "uniform",  probs = NULL, cutoff = 0.5){
 
+  if (is.character(protected)){
+    cat("changing protected to factor \n")
+    protected <- as.factor(protected)
+  }
   stopifnot(is.factor(protected))
   stopifnot(is.numeric(y))
   stopifnot(length(y) == length(protected))
   stopifnot(type == 'uniform' | type == 'preferential')
   if (! (all(unique(y) == c(1,0)) | all(unique(y) == c(0,1)) )) stop("y must be numeric vector with values 0 and 1")
+  if (length(cutoff) != 1) stop ("cutoff must be single numeric value")
+  if (cutoff < 0 | cutoff > 1) stop("cutoff must be between 0 and 1")
 
   protected_levels <- levels(protected)
   n                <- length(y)
@@ -131,27 +140,27 @@ resample <- function(protected, y, type = "uniform",  probs = NULL){
             # if i == 1 than class == 0 and we get indexes closest to border
            if (rest == 0) rest_of_indexes <- integer(0)
            else{
-           part_of_probs           <- probs[probs < 0.5 & protected == subgroup]
+           part_of_probs           <- probs[probs < cutoff & protected == subgroup]
 
            if (expected_size[[subgroup]][i] >= num_sc[[subgroup]][i]){
              part_of_rest_of_indexes <- order(part_of_probs)[(length(part_of_probs)-rest + 1):(length(part_of_probs))]
            } else {
              part_of_rest_of_indexes <- order(part_of_probs)[1:rest]
            }
-           rest_of_indexes         <- seq_len(length(y))[probs < 0.5 & protected == subgroup][part_of_rest_of_indexes]
+           rest_of_indexes         <- seq_len(length(y))[probs < cutoff & protected == subgroup][part_of_rest_of_indexes]
            }
           } else {
             if (rest == 0) rest_of_indexes <- integer(0)
             else{
             # else closest to border, but upper side
-            part_of_probs           <- probs[probs >= 0.5 & protected == subgroup]
+            part_of_probs           <- probs[probs >= cutoff & protected == subgroup]
 
             if (expected_size[[subgroup]][i] >= num_sc[[subgroup]][i]){
               part_of_rest_of_indexes <- order(part_of_probs)[1:rest]
             } else {
               part_of_rest_of_indexes <- order(part_of_probs)[(length(part_of_probs)-rest + 1):(length(part_of_probs))]
             }
-            rest_of_indexes         <- seq_len(length(y))[probs >= 0.5 & protected == subgroup][part_of_rest_of_indexes]
+            rest_of_indexes         <- seq_len(length(y))[probs >= cutoff & protected == subgroup][part_of_rest_of_indexes]
             }}
           indexes_pool <- append(indexes_pool, rest_of_indexes)
           index_vec <- append(index_vec, indexes_pool)
