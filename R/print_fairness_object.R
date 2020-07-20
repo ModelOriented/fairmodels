@@ -3,6 +3,7 @@
 #'
 #' @param x \code{fairness object}
 #' @param ... other parameters
+#' @param colorize logical, whether information about metrics should be in color or not
 #'
 #' @importFrom utils head
 #' @importFrom stats na.omit
@@ -36,7 +37,14 @@
 #'
 
 
-print.fairness_object <- function(x, ...){
+print.fairness_object <- function(x, ..., colorize = TRUE){
+
+  if (colorize) {
+    color_codes <- list(yellow_start = "", yellow_end = "",
+                        red_start = "", red_end = "",
+                        green_start = "", green_end = "")
+  }
+
 
   data <- x$fairness_check_data
 

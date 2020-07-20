@@ -1,0 +1,240 @@
+---
+title: "Advanced Tutorial"
+author: "Jakub Wiśniewski"
+output: 
+  html_document: 
+    df_print: paged
+    toc: true
+    toc_float: true
+    number_sections: true      
+vignette: >
+  %\VignetteIndexEntry{Advanced tutorial}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+# Model, explanation & bias
+In this tutorial you will learn how to tackle bias using the bias mitigation techniques supported by `fairmodels`. As always we will start from the data.
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = FALSE,
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE
+)
+
+```
+
+```{r}
+library(fairmodels)
+
+data("adult")
+head(adult)
+
+```
+
+We will use adult data to predict whether certain person has yearly salary exceeding 50 000 or not. Our protected variable will be sex. For this tutorial we will be using `gbm` and of course we will explain it with `DALEX`.
+
+```{r}
+library(gbm)
+library(DALEX)
+
+data          <- adult
+data$salary   <- as.numeric(data$salary) -1 # 0 if bad and 1 if good risk
+data <- data[colnames(data) != "sex"] # sex not specified
+
+# making model
+set.seed(1)
+gbm_model <-gbm(salary ~. , data = data)
+
+# making explainer
+gbm_explainer <- explain(gbm_model, data = data[,-1], y = data$salary, colorize = FALSE)
+
+model_performance(gbm_explainer)
+```
+
+Our model has around 86% accuracy. And how about bias? Sex is our protected variable and we should suspect that men will be more frequently assigned better annual income. 
+
+```{r}
+fobject <- fairness_check(gbm_explainer, 
+                          protected = adult$sex, 
+                          privileged = "Male", 
+                          colorize = FALSE)
+```
+
+```{r}
+print(fobject, colorize = FALSE)
+```
+Our model passes only few metrics, how big is the bias? 
+```{r}
+plot(fobject)
+```
+
+The biggest bias is in `Statistical parity loss` metric. It is metric that is frequently look at because it gives answer how much difference is there in positive label rates in model within protected variable. Let's say that it will be metric that we will try to mitigate.
+
+# Bias mitigation strategies
+
+## Pre-processing techniques
+Pre-processing techniques focus on changing data **before** model is trained. This reduces bias in data.
+
+### Distribution changing
+
+Firs technique you will learn about is `disparate_impact_remover`. It is somehow limited as it works on ordinal, numeric data. This techniqie returns "fixed" data frame. Through parameter `lambda` we can manipulate with how much the distribution will be fixed. `lambda = 1` (default) will return data with identical distributions for all levels of protected variable whereas `lambda = 0` will bearly change anything. We will transform a few features.
+
+```{r}
+data_fixed <- disparate_impact_remover(data = data, 
+                                       protected = adult$sex, 
+                                       features_to_transform = c("age", "hours_per_week", "capital_loss", "capital_gain"))
+
+set.seed(1)
+gbm_model     <- gbm(salary ~. , data = data_fixed)
+gbm_explainer_dir <- explain(gbm_model, data = data_fixed[,-1], y = data$salary, label = "gbm_dir", verbose = FALSE)
+```
+Now we will compare old explainer and new one.
+```{r}
+fobject <- fairness_check(gbm_explainer, gbm_explainer_dir,
+                          protected = adult$sex, 
+                          privileged = "Male",
+                          verbose = FALSE)
+plot(fobject)
+```
+As we can see bias has diminished. But it is not on acceptable level for us. Let's try something else. As for now we will add explainers to existing `fairness_object` to compare methods among themselves.
+
+### Reweighting
+Reweighting is straightforward bias mitigation technique. It produces weights based on data to pass them to model so it can learn what to be careful about. As there can be multiple subgroups weights will come in form of vector.
+
+```{r}
+weights <- reweight(protected = adult$sex, y = data$salary)
+
+set.seed(1)
+gbm_model     <- gbm(salary ~. , data = data, weights = weights)
+gbm_explainer_w <- explain(gbm_model, data = data[,-1], y = data$salary, label = "gbm_weighted", verbose = FALSE)
+
+fobject <- fairness_check(fobject, gbm_explainer_w,
+                          protected = adult$sex, 
+                          privileged = "Male",
+                          verbose = FALSE)
+
+plot(fobject)
+```
+
+Our metric of interest (`Statistical parity loss`) has been diminished but in this process we exceeded acceptable limit for predictive parity loss. It is not something uncommon. To lower the statistical parity the model must classify some unfavorable cases from unprivileged subgroup as favorable and the opposite for privileged subgroup. Similar outcome will be visible in the next method
+
+### Resampling
+This method derives from reweighting the data but instead of weights it chooses observations from data the outcome of metrics. There is 2 types of resampling: 
+1. **uniform** - takes random observation from particular subgroup (in particular case - y == 1 or y == 0)
+2. **preferential** - takes/omits observations either close to cutoff or as far from cutoff as possible. It needs probabilities (`probs`)
+
+```{r}
+# to obtain probs we will use simple linear regression
+probs <- glm(salary ~., data = data, family = binomial())$fitted.values
+
+uniform_indexes      <- resample(protected = adult$sex, y = data$salary)
+preferential_indexes <- resample(protected = adult$sex, y = data$salary, type = "preferential", probs = probs)
+
+set.seed(1)
+gbm_model     <- gbm(salary ~. , data = data[uniform_indexes,])
+gbm_explainer_u <- explain(gbm_model, data = data[,-1], y = data$salary, label = "gbm_uniform", verbose = FALSE)
+
+set.seed(1)
+gbm_model     <- gbm(salary ~. , data = data[preferential_indexes,])
+gbm_explainer_p <- explain(gbm_model, data = data[,-1], y = data$salary, label = "gbm_preferential", verbose = FALSE)
+
+fobject <- fairness_check(fobject, gbm_explainer_u, gbm_explainer_p, 
+                          protected = adult$sex, 
+                          privileged = "Male",
+                          verbose = FALSE)
+plot(fobject)
+```
+
+
+As we can see `preferential` sampling is best at mitigating statistical parity loss. As biproduct it also affects other metrics significantly.
+
+## Post-processing techniques
+Post-processing techniques focus on changing the output of model after model is generated
+
+### ROC pivot
+ROC stands for Reject Option based Classification and pivot for the behaviour of `probs`/`y_hat` as it pivots around the cutoff when it is in close zone. Close zone is defined by the `theta` parameter equal to 0.1 by default. In simple words depending on whether subgroup is privileged or not certain observations will change their probabilities to the opposite (but in equal distance) side of cutoff. For exaple if observation is unprivileged and unfavorable with probability 0.45 (assuming the `cutoff = 0.5`) probability will change it's value to 0.55.
+
+```{r}
+# we will need normal explainer 
+set.seed(1)
+gbm_model <-gbm(salary ~. , data = data)
+gbm_explainer <- explain(gbm_model, data = data[,-1], y = data$salary, verbose = FALSE)
+
+gbm_explainer_r <- roc_pivot(gbm_explainer, protected = adult$sex, privileged = "Male")
+
+
+fobject <- fairness_check(fobject, gbm_explainer_r, 
+                          protected = adult$sex, 
+                          privileged = "Male", 
+                          label = "gbm_roc",  # label as vector for explainers
+                          verbose = FALSE) 
+
+plot(fobject)
+```
+`gmb_roc` is the best so far
+```{r}
+print(fobject, colorize = FALSE)
+```
+
+
+### Cutoff manipulation
+Cutoff manipulation is simple technique that enables to set different cutoff for different subgroups.
+
+```{r}
+set.seed(1)
+gbm_model <-gbm(salary ~. , data = data)
+gbm_explainer <- explain(gbm_model, data = data[,-1], y = data$salary, verbose = FALSE)
+
+# test fairness object
+fobject_test <- fairness_check(gbm_explainer, 
+                          protected = adult$sex, 
+                          privileged = "Male",
+                          verbose = FALSE) 
+
+plot(ceteris_paribus_cutoff(fobject_test, subgroup = "Female"))
+
+```
+It is possible to minimize all metrics or only few metrics of our intrest. In this case it is also 0.35 but feel free to experiment!
+
+```{r}
+plot(ceteris_paribus_cutoff(fobject_test, subgroup = "Female", fairness_metrics = c("ACC","TPR","STP")))
+```
+
+```{r}
+fc <- fairness_check(gbm_explainer, fobject,
+                     protected = adult$sex, 
+                     privileged = "Male", 
+                     label = "gbm_cutoff",
+                     cutoff = list(Female = 0.35),
+                     verbose = FALSE)
+
+plot(fc)
+
+```
+```{r}
+print(fc, , colorize = FALSE)
+```
+
+
+
+# Tradeoff between bias and accuracy
+There is significant tradeoff between bias and accuracy one way to visualize it is to use `performance_and_fairness` function
+
+```{r}
+plot(performance_and_fairness(fc, fairness_metric = "STP", performance_metric = "accuracy"))
+```
+
+The tradeoff is significant and it should be always be taken into consideration. 
+
+# Summary
+
+There is many ways to tackle bias in models. Thanks to `fairmodels` it is easy to compare changes and experiment with new models and bias mitigation techniques. It is also good idea to combine few techniques (for exaple minimizing once with weights and then with cutoff). `fairness_check` interface is flexible and allows combining models that were trained on different features, encodings etc. Please if you encounter some bug or you have an idea for new feature please write and issue [here](https://github.com/ModelOriented/fairmodels/issues). 
+
+
+
+
+

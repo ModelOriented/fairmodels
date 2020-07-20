@@ -355,8 +355,9 @@ fairness_check <- function(x,
     n_sub <- n_lvl -1
     n_exp <- length(x$explainers)
 
-    # creating data frames
-    statistical_parity_data  <- data.frame(score    = unlist(statistical_parity_loss),
+    # creating data frames for fairness check
+
+    statistical_parity_data  <- data.frame(score   = unlist(statistical_parity_loss),
                                           subgroup = names(statistical_parity_loss),
                                           metric   = rep("Statistical parity loss   (TP + FP)/(TP + FP + TN + FN)", n_sub),
                                           model    = rep(label[i], n_sub))

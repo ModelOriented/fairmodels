@@ -75,8 +75,9 @@ plot.ceteris_paribus_cutoff <- function(x, ...){
                                                subgroup,
                                                collapse = " ")) +
                       scale_color_manual(
-                        values = colors_fairmodels(n_metrics)
+                        values = colors_fairmodels(n_metrics),
                         ) +
+                      labs(color = "parity loss metric") +
                       xlab("value of cutoff") +
                       ylab("parity loss")
       plt <- plt + geom_segment(data = min_data, aes(x = mins , xend = mins, y = y, yend = yend), linetype = "dashed") +

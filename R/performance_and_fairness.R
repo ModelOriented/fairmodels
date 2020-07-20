@@ -76,13 +76,12 @@ performance_and_fairness <- function(x, fairness_metric = NULL, performance_metr
 
   for(i in seq_along(x$explainers)){
 
-    # for auc get it from DALEX
+    # if auc get it from DALEX
     if (performance_metric == "auc"){
       mod_perf[i]  <- model_performance(x$explainers[[i]])$measures[performance_metric][[1]]
 
     } else {
       # if else use custom cutoff function implemented in fairmodels
-
       mod_perf[i] <- group_model_performance(x         = x$explainers[[i]],
                                              protected = x$protected,
                                              cutoff    = x$cutoff[[x$label[i]]],
