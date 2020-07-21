@@ -99,8 +99,8 @@
 
 fairness_check <- function(x,
                            ...,
-                           protected,
-                           privileged,
+                           protected = NULL,
+                           privileged = NULL,
                            cutoff = NULL,
                            label = NULL,
                            epsilon = NULL,
@@ -115,34 +115,6 @@ fairness_check <- function(x,
 
   verbose_cat("Creating fairness object\n", verbose = verbose)
   verbose_cat("-> Privileged subgroup\t\t: ", verbose = verbose)
-
-  ### protected & privileged
-  # if protected and privileged are not characters, changing them
-  if (is.character(privileged) | is.factor(privileged)){
-    verbose_cat(class(privileged) ,"(", verbose = verbose)
-    verbose_cat(color_codes$green_start,
-        "Ok", color_codes$green_end, ")\n", verbose = verbose)
-  } else {
-    verbose_cat("character (", verbose = verbose)
-    verbose_cat(color_codes$yellow_start,
-        "changed from", class(privileged), color_codes$yellow_end, ")\n", verbose = verbose)
-  }
-
-  verbose_cat("-> Protected variable\t\t:", "factor", "(", verbose = verbose)
-
-  if (is.factor(protected)){
-    verbose_cat(color_codes$green_start,
-        "Ok", color_codes$green_end, ") \n", verbose = verbose)
-  } else {
-      verbose_cat(color_codes$yellow_start,
-          "changed from", class(protected),  color_codes$yellow_end, ")\n", verbose = verbose)
-  }
-
-  protected_levels <- levels(protected)
-  n_lvl            <- length(protected_levels)
-
-  if (! privileged %in% protected_levels) stop("privileged subgroup is not in protected variable vector")
-
 
   ################  data extraction  ###############
 
@@ -164,19 +136,68 @@ fairness_check <- function(x,
 
   ###############  error handling  ###############
 
-  verbose_cat("-> Cutoff values for explainers\t: ", verbose = verbose)
+  ### protected & privileged
+
+  if (is.null(privileged)){
+    if (length(fobjects) > 0){
+      # getting from first explainer - checking is later
+      privileged <- fobjects[[1]][["privileged"]]
+      verbose_cat(class(privileged) ,"(", verbose = verbose)
+      verbose_cat(color_codes$yellow_start,
+                  "from first fairness object", color_codes$yellow_end, ") \n", verbose = verbose)
+    } else{
+      stop("\nPrivileged cannot be NULL if fairness_objects are not provided")
+    }} else {
+        # if protected and privileged are not characters, changing them
+        if (is.character(privileged) | is.factor(privileged)){
+          verbose_cat(class(privileged) ,"(", verbose = verbose)
+          verbose_cat(color_codes$green_start,
+                      "Ok", color_codes$green_end, ")\n", verbose = verbose)
+        } else {
+          verbose_cat("character (", verbose = verbose)
+          verbose_cat(color_codes$yellow_start,
+                      "changed from", class(privileged), color_codes$yellow_end, ")\n", verbose = verbose)
+        }
+      }
+
+  verbose_cat("-> Protected variable\t\t:", "factor", "(", verbose = verbose)
+
+
+  if (is.null(protected)){
+    if (length(fobjects) > 0){
+      # getting from first explainer - checking is later
+      protected <- fobjects[[1]][["protected"]]
+      verbose_cat(color_codes$yellow_start,
+                  "from first fairness object", color_codes$yellow_end, ") \n", verbose = verbose)
+    } else{
+        stop("\nProtected cannot be NULL if fairness_objects are not provided")
+    }} else {
+        if (is.factor(protected)){
+          verbose_cat(color_codes$green_start,
+                      "Ok", color_codes$green_end, ") \n", verbose = verbose)
+        } else {
+          verbose_cat(color_codes$yellow_start,
+                      "changed from", class(protected),  color_codes$yellow_end, ")\n", verbose = verbose)
+        }}
+
+  protected_levels <- levels(protected)
+  n_lvl            <- length(protected_levels)
+
+  if (! privileged %in% protected_levels) stop("privileged subgroup is not in protected variable vector")
 
   #### cutoff handling- if cutoff is null than 0.5 for all subgroups
+
+  verbose_cat("-> Cutoff values for explainers\t: ", verbose = verbose)
 
 
   if (is.numeric(cutoff) & length(cutoff) > 1) stop("Please provide cutoff as list with the same names as levels in protected factor")
 
   if (is.list(cutoff)){
 
-    if (!  check_unique_names(cutoff))                             stop("Names of cutoff list must be unique")
+    if (!  check_unique_names(cutoff))                            stop("Names of cutoff list must be unique")
     if (! check_names_in_names_vector(cutoff, protected_levels))  stop("Names of cutoff list does not match levels in protected")
     if (! check_list_elements_numeric(cutoff))                    stop("Elements of cutoff list must be numeric")
-    if (! check_values(unlist(cutoff), 0, 1))                        stop("Cutoff value must be between 0 and 1")
+    if (! check_values(unlist(cutoff), 0, 1))                     stop("Cutoff value must be between 0 and 1")
 
 
     # if only few cutoffs were provided, fill rest with default 0.5
