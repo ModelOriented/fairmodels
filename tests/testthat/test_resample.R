@@ -48,7 +48,8 @@ test_that("test resample", {
   df <- data.frame(sex = as.factor(c(rep("M",5),rep("F",5),rep("N",5))),
                    target = c(1,1,1,1,0,0,0,1,0,1, 0,0,0,0,1),
                    name = as.character(1:15),
-                   probs = c(0.9, 0.82, 0.56, 0.78, 0.45, 0.12, 0.48,0.63,0.48, 0.88, 0.34, 0.12, 0.34, 0.49, 0.9 ))
+                   probs = c(0.9, 0.82, 0.56, 0.78, 0.45, 0.12, 0.48,0.63,0.48, 0.88, 0.34, 0.12, 0.34, 0.49, 0.9 ),
+                   stringsAsFactors = FALSE)
 
   df_3 <- df[resample(df$sex, df$target, type = "preferential", probs = df$probs),]
 
