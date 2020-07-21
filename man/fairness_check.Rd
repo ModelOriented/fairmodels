@@ -17,9 +17,9 @@ fairness_check(
 )
 }
 \arguments{
-\item{x}{\code{DALEX explainer}/\code{fairness_object}}
+\item{x}{object created with \code{\link[DALEX]{explain}} or \code{fairness_object}}
 
-\item{...}{possibly more \code{DALEX explainers}/\code{fairness_objects}}
+\item{...}{possibly more objects created with \code{\link[DALEX]{explain}} and/or \code{fairness_objects}}
 
 \item{protected}{factor, protected variable (also called sensitive attribute), containing privileged and unprivileged groups}
 

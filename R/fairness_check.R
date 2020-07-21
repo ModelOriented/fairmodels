@@ -5,8 +5,8 @@
 #' While other fairness objects values are not changed, fairness check assigns cutoffs and labels to provided explainers so same explainers with changed labels/cutoffs might be gradually added to fairness object.
 #' Users through print and plot methods may quickly check values of most popular fairness metrics. More on that topic in details/
 #'
-#' @param x \code{DALEX explainer}/\code{fairness_object}
-#' @param ... possibly more \code{DALEX explainers}/\code{fairness_objects}
+#' @param x object created with \code{\link[DALEX]{explain}} or \code{fairness_object}
+#' @param ... possibly more objects created with \code{\link[DALEX]{explain}} and/or \code{fairness_objects}
 #' @param protected factor, protected variable (also called sensitive attribute), containing privileged and unprivileged groups
 #' @param privileged factor/character, one value of \code{protected}, in regard to what subgroup parity loss is calculated
 #' @param cutoff numeric, vector of cutoffs (thresholds) for each value of protected variable, affecting only explainers.
@@ -107,20 +107,16 @@ fairness_check <- function(x,
                            verbose = TRUE,
                            colorize = TRUE){
 
-
-
   if (!colorize) {
     color_codes <- list(yellow_start = "", yellow_end = "",
                         red_start = "", red_end = "",
                         green_start = "", green_end = "")
   }
 
-
-
   verbose_cat("Creating fairness object\n", verbose = verbose)
-
   verbose_cat("-> Privileged subgroup\t\t: ", verbose = verbose)
 
+  ### protected & privileged
   # if protected and privileged are not characters, changing them
   if (is.character(privileged) | is.factor(privileged)){
     verbose_cat(class(privileged) ,"(", verbose = verbose)
@@ -140,7 +136,13 @@ fairness_check <- function(x,
   } else {
       verbose_cat(color_codes$yellow_start,
           "changed from", class(protected),  color_codes$yellow_end, ")\n", verbose = verbose)
-    }
+  }
+
+  protected_levels <- levels(protected)
+  n_lvl            <- length(protected_levels)
+
+  if (! privileged %in% protected_levels) stop("privileged subgroup is not in protected variable vector")
+
 
   ################  data extraction  ###############
 
@@ -154,6 +156,8 @@ fairness_check <- function(x,
   fobjects_metric_data <- extract_data(fobjects, "parity_loss_metric_data")
   fobjects_groups_data <- extract_data(fobjects, "groups_data")
   fobjects_fcheck_data <- extract_data(fobjects, "fairness_check_data")
+  fobjects_protected   <- extract_data(fobjects, "protected")
+
   fobjects_label       <- sapply(fobjects, function(x) x$label)
   fobjects_cuttofs     <- extract_data(fobjects, "cutoff")
   n_exp                <- length(explainers)
@@ -163,19 +167,16 @@ fairness_check <- function(x,
   verbose_cat("-> Cutoff values for explainers\t: ", verbose = verbose)
 
   #### cutoff handling- if cutoff is null than 0.5 for all subgroups
-  protected_levels <- levels(protected)
-  n_lvl        <- length(protected_levels)
-
 
 
   if (is.numeric(cutoff) & length(cutoff) > 1) stop("Please provide cutoff as list with the same names as levels in protected factor")
 
   if (is.list(cutoff)){
 
-    if (length(unique(names(cutoff))) != length(names(cutoff))) stop("Names of cutoff list must be unique")
-    if (! names(cutoff) %in% protected_levels)  stop("Names of cutoff list does not match levels in protected")
-    if (any(! is.numeric(unlist(cutoff)))) stop("Elements of cutoff list must be numeric")
-    if ( any(unlist(cutoff) > 1) | any(unlist(cutoff) < 0)) stop("Cutoff value must be between 0 and 1")
+    if (!  check_unique_names(cutoff))                             stop("Names of cutoff list must be unique")
+    if (! check_names_in_names_vector(cutoff, protected_levels))  stop("Names of cutoff list does not match levels in protected")
+    if (! check_list_elements_numeric(cutoff))                    stop("Elements of cutoff list must be numeric")
+    if (! check_values(unlist(cutoff), 0, 1))                        stop("Cutoff value must be between 0 and 1")
 
 
     # if only few cutoffs were provided, fill rest with default 0.5
@@ -185,14 +186,12 @@ fairness_check <- function(x,
         cutoff[[rl]] <- 0.5
       }
     }
-
    verbose_cat(paste(names(cutoff), ": ", cutoff, collapse = ", ", sep = ""), "\n", verbose = verbose)
-
   }
 
-  if (is.numeric(cutoff) & length(cutoff) == 1){
 
-    if ( cutoff > 1 | cutoff < 0) stop("Cutoff value must be between 0 and 1")
+  if (check_if_numeric_and_single(cutoff)){
+    if (! check_values(cutoff, 0,1)) stop("Cutoff value must be between 0 and 1")
     cutoff <- as.list(rep(cutoff, n_lvl))
     names(cutoff) <- protected_levels
     verbose_cat(cutoff[[1]], "( for all subgroups )\n", verbose = verbose)
@@ -206,18 +205,9 @@ fairness_check <- function(x,
 
 
   ### epsilon
-  if(is.null(epsilon)) epsilon <- 0.1
-
-  if(! is.numeric(epsilon) | length(epsilon) > 1){
-    stop("Epsilon must be single, numeric value")
-  }
-
-  if (epsilon <= 0 ) stop ("epsilon must be positive number")
-
-  ### protected and privileged
-  if (! privileged %in% protected){
-   stop("privileged subgroup is not in protected variable vector")
-  }
+  if (is.null(epsilon)) epsilon <- 0.1
+  if (! check_if_numeric_and_single(epsilon)) stop("Epsilon must be single, numeric value")
+  if (! check_values(epsilon, 0, Inf) ) stop ("epsilon must be positive number")
 
   ### fairness objects
   # among all fairness_objects parameters should be equal
@@ -232,7 +222,7 @@ fairness_check <- function(x,
 
   if (length(fobjects) > 0){
   for (i in seq_along(fobjects)){
-    if(! all(fobjects[[i]]$protected  == protected)){
+      if(! all(fobjects[[i]]$protected  == protected)){
        verbose_cat("(",color_codes$red_start, "not compatible" ,color_codes$red_end, ") \n", verbose = verbose)
        stop("fairness objects must have the same
             protected vector as one passed in fairness check")
@@ -257,34 +247,37 @@ fairness_check <- function(x,
   # if there are explainers
   if (length(all_explainers) > 0){
   y_to_compare <- all_explainers[[1]]$y
-  for (exp in all_explainers){
-    if(length(y_to_compare) != length(exp$y)){
-      verbose_cat(color_codes$red_start, "y not equal", color_codes$red_end, "\n", verbose = verbose)
-      stop("All explainer predictions (y) must have same length")
-    }
-    if(! all(y_to_compare == exp$y)){
-      verbose_cat(color_codes$red_start, "y not equal", color_codes$red_end, "\n", verbose = verbose)
-      stop("All explainers must have same values of target variable")
-    }
-    if(length(exp$y) != length(protected)){
-      verbose_cat(color_codes$red_start, "not compatible", color_codes$red_end, "\n", verbose = verbose)
-      stop("Lengths of protected variable and target variable in explainer differ")
-    }
-  }}
+
+  if(! all(sapply(all_explainers, function(x) length(y_to_compare) == length(x$y)))){
+    verbose_cat(color_codes$red_start, "y not equal", color_codes$red_end, "\n", verbose = verbose)
+    stop("All explainer predictions (y) must have same length")
+  }
+
+  if(! all(sapply(all_explainers, function(x) y_to_compare == x$y))){
+    verbose_cat(color_codes$red_start, "y not equal", color_codes$red_end, "\n", verbose = verbose)
+    stop("All explainers must have same values of target variable")
+  }
+
+  if(! all(sapply(all_explainers, function(x) length(x$y) == length(protected)))){
+    verbose_cat(color_codes$red_start, "not compatible", color_codes$red_end, "\n", verbose = verbose)
+    stop("Lengths of protected variable and target variable in explainer differ")
+  } } else {
+    verbose_cat(color_codes$red_start, "no explainers", color_codes$red_end, "\n", verbose = verbose)
+    stop("At least one explainer must be provided")
+  }
 
   verbose_cat("(", color_codes$green_start, "compatible", color_codes$yellow_end,  ")\n", verbose = verbose)
 
   if (is.null(label)){
     label     <- sapply(explainers, function(x) x$label)
   } else {
-    if (length(label) != n_exp) stop("Number of labels must be equal
-                                     to number of explainers")
+    if (length(label) != n_exp) stop("Number of labels must be equal to number of explainers (outside fairness objects)")
   }
 
   # explainers must have unique labels
   if (length(unique(label)) != length(label) ){
    stop("Explainers don't have unique labels
-        ( pass paramter \'label\' to fairness_check() )")
+        ( pass paramter \'label\' to fairness_check() or before to explain() function)")
   }
 
   # labels must be unique for all explainers, those in fairness objects too
@@ -343,8 +336,7 @@ fairness_check <- function(x,
     fairness_check_data <- lapply(metric_list, function(y) y - y[privileged])
 
     # omit base metric because it is always 0
-    fairness_check_data <- lapply(fairness_check_data,
-                                  function(x) x[names(x) != privileged])
+    fairness_check_data <- lapply(fairness_check_data, function(x) x[names(x) != privileged])
 
     statistical_parity_loss   <- fairness_check_data$STP
     equal_oportunity_loss     <- fairness_check_data$TPR
@@ -357,37 +349,29 @@ fairness_check <- function(x,
 
     # creating data frames for fairness check
 
-    statistical_parity_data  <- data.frame(score   = unlist(statistical_parity_loss),
-                                          subgroup = names(statistical_parity_loss),
-                                          metric   = rep("Statistical parity loss   (TP + FP)/(TP + FP + TN + FN)", n_sub),
-                                          model    = rep(label[i], n_sub))
+    metric <- c(rep("Accuracy equality loss    (TP + FN)/(TP + FP + TN + FN) ", n_sub),
+                rep("Predictive parity loss     TP/(TP + FP)", n_sub),
+                rep("Predictive equality loss   FP/(FP + TN)", n_sub),
+                rep("Equal opportynity loss     TP/(TP + FN) ", n_sub),
+                rep("Statistical parity loss   (TP + FP)/(TP + FP + TN + FN)", n_sub))
 
-    predictive_parity_data   <- data.frame(score    = unlist(predictive_parity_loss),
-                                          subgroup = names(predictive_parity_loss),
-                                          metric   = rep("Predictive parity loss    TP/(TP + FP)", n_sub),
-                                          model    = rep(label[i], n_sub))
+    score <- c(unlist(accuracy_equality_loss),
+               unlist(predictive_parity_loss),
+               unlist(predictive_equality_loss),
+               unlist(equal_oportunity_loss),
+               unlist(statistical_parity_loss))
 
-    equal_opportunity_data   <- data.frame(score    = unlist(equal_oportunity_loss),
-                                          subgroup = names(equal_oportunity_loss),
-                                          metric   = rep("Equal opportynity loss    TP/(TP + FN) ", n_sub),
-                                          model    = rep(label[i], n_sub))
+    # 5 is number of metrics
+    subgroup <- rep(names(accuracy_equality_loss), 5)
+    model    <- rep(rep(label[i], n_sub),5)
 
-    predictive_equality_data <- data.frame(score    = unlist(predictive_equality_loss),
-                                          subgroup = names(predictive_equality_loss),
-                                          metric   = rep("Predictive equality loss   FP/(FP + TN)", n_sub),
-                                          model    = rep(label[i], n_sub))
+    df_to_add <- data.frame(score = score,
+                            subgroup = subgroup,
+                            metric = metric,
+                            model = model)
 
-    accuracy_equality_data   <- data.frame(score    = unlist(accuracy_equality_loss),
-                                          subgroup = names(accuracy_equality_loss),
-                                          metric   = rep("Accuracy equality loss   (TP + FN)/(TP + FP + TN + FN) ", n_sub),
-                                          model    = rep(label[i], n_sub))
     # add metrics to dataframe
-    df <- rbind(df,
-                equal_opportunity_data,
-                predictive_parity_data,
-                predictive_equality_data,
-                accuracy_equality_data,
-                statistical_parity_data)
+    df <- rbind(df, df_to_add)
   }
 
   rownames(df) <- NULL

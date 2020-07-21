@@ -148,6 +148,63 @@ quiet <- function(x) {
 }
 
 
+############# checks #############
+
+check_unique_names <- function(x){
+  return(length(unique(names(x))) == length(names(x)))
+}
+
+check_names_in_names_vector <- function(x, y){
+  return(names(x) %in% y)
+}
+
+
+check_list_elements_numeric <- function(x){
+  stopifnot(is.list(x))
+  return(all(is.numeric(unlist(x))))
+}
+
+
+check_values <- function(x, lower, upper){
+  return((all(x >= lower) & all(unlist(x) <= upper)))
+}
+
+check_if_numeric_and_single <- function(x){
+  return((is.numeric(x) & length(x) == 1))
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

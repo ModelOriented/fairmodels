@@ -335,7 +335,10 @@ cpc <- ceteris_paribus_cutoff(fobject2, subgroup = "African_American")
 plot(cpc)
 ```
 
-In future there will be advanced tutorial showing mitigation techniques and how to compare models after mitigation of bias.
+
+# Summary 
+`fairmodels` is powerful and flexible tool for detecting bias and asserting fairness in models. Many metrics are avibile (there are tools to create own metrics based on confusion matrix). Besides bias detection `fairmodels` offers also bias mitigation. It is set of pre-processing and post-processing algorithms working either on data or on explainer which function is to lower parity loss in certain metrics. If you are interested in this and adult data case study, please check Advanced Tutorial. If you encountered a bug or you have cool idea for a new feature please write and issue [here](https://github.com/ModelOriented/fairmodels/issues). 
+
 
 
 
