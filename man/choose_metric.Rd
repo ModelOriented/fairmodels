@@ -4,7 +4,7 @@
 \alias{choose_metric}
 \title{Choose metric}
 \usage{
-choose_metric(x, fairness_metric = "FPR_parity_loss")
+choose_metric(x, fairness_metric = "FPR")
 }
 \arguments{
 \item{x}{\code{fairness_object}}
@@ -59,7 +59,7 @@ fobject <- fairness_check(explainer_lm, explainer_rf,
                           protected = german$Sex,
                           privileged = "male")
 
-cm <- choose_metric(fobject, "TPR_parity_loss")
+cm <- choose_metric(fobject, "TPR")
 plot(cm)
 
 }

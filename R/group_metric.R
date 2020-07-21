@@ -99,7 +99,7 @@ group_metric <- function(x, fairness_metric = NULL, performance_metric = NULL, p
 
   # output for creating object
   cat("\nCreating object with: \nFairness metric", fairness_metric,
-      "\nPerformance metric ", performance_metric, "\n")
+      "\nPerformance metric ", performance_metric, "\n\n")
 
 
   # Fairness metric
@@ -146,10 +146,11 @@ group_metric <- function(x, fairness_metric = NULL, performance_metric = NULL, p
   performance_data <- data.frame(x = x$label, y = mod_perf)
 
   if (parity_loss){
-    fairness_metric <- paste0(fairness_metric, "_parity_loss")
+    fairness_metric <- paste0(fairness_metric, " parity loss")
     group_metric_data <- group_metric_data[group_metric_data$group != x$privileged,]
   }
-  group_metric <-  list(group_metric_data      = group_metric_data,
+
+  group_metric <-  list(group_metric_data  = group_metric_data,
                         performance_data   = performance_data,
                         fairness_metric    = fairness_metric,
                         performance_metric = performance_metric,

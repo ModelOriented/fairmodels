@@ -30,11 +30,11 @@
 #'                           privileged = "male")
 #'
 #'
-#' fradar <- fairness_radar(fobject, fairness_metrics = c("ACC_parity_loss",
-#'                                                        "STP_parity_loss",
-#'                                                        "TNR_parity_loss",
-#'                                                        "TPR_parity_loss",
-#'                                                        "PPV_parity_loss"))
+#' fradar <- fairness_radar(fobject, fairness_metrics = c("ACC",
+#'                                                        "STP",
+#'                                                        "TNR",
+#'                                                        "TPR",
+#'                                                        "PPV"))
 #'
 #' plot(fradar)
 
@@ -43,7 +43,7 @@ fairness_radar <- function(x, fairness_metrics = NULL){
 
   stopifnot(class(x) == "fairness_object")
 
-  data <- x$metric_data
+  data <- x$parity_loss_metric_data
   m <- ncol(data)
 
   # metrics
@@ -79,6 +79,7 @@ fairness_radar <- function(x, fairness_metrics = NULL){
   rownames(expanded_data)  <- NULL
   levels_sorted            <- levels(sort(expanded_data$metric))
   expanded_data$metric     <- factor(expanded_data$metric, levels = levels_sorted )
+  colnames(expanded_data)[1]  <- "parity_loss_metric"
 
   fairness_radar <- list(radar_data = expanded_data ,
                          label      = x$label)

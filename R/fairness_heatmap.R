@@ -55,14 +55,14 @@ fairness_heatmap <- function(x, scale = FALSE){
   data <- expand_fairness_object(x, scale = scale)
   data <- as.data.frame(data)
 
-  colnames(data) <- c("metric","model","score")
+  colnames(data) <- c("parity_loss_metric","model","score")
 
-  data$metric <- as.factor(data$metric)
+  data$parity_loss_metric <- as.factor(data$parity_loss_metric)
   data$model  <- as.factor(data$model)
   data$score  <- round(as.numeric(data$score),2)
 
   # getting numerical data and if scale, scaling it
-  matrix_model            <- as.matrix(x$metric_data)
+  matrix_model            <- as.matrix(x$parity_loss_metric_data)
   if (scale) matrix_model <- scale(matrix_model)
 
   rownames(matrix_model)  <- x$label
@@ -70,7 +70,7 @@ fairness_heatmap <- function(x, scale = FALSE){
   fairness_heatmap <- list(heatmap_data    = data,
                            matrix_model    = matrix_model,
                            scale           = scale,
-                           label = x$label)
+                           label           = x$label)
 
   class(fairness_heatmap) <- "fairness_heatmap"
   return(fairness_heatmap)

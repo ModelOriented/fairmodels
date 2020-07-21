@@ -50,8 +50,8 @@ plot.stacked_metrics <- function(x, ...){
     theme_drwhy_vertical() +
     scale_fill_manual(values = colors_fairmodels(13)) +
     xlab("model") +
-    ylab("Acummulated metric score") +
-    labs(fill = "Metric") +
+    ylab("Acummulated parity loss metrics value") +
+    labs(fill = "parity loss of metrics") +
     ggtitle("Stacked Metric plot")
 
 }

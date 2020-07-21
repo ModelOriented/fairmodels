@@ -17,9 +17,9 @@ fairness_check(
 )
 }
 \arguments{
-\item{x}{\code{DALEX explainer}/\code{fairness_object}}
+\item{x}{object created with \code{\link[DALEX]{explain}} or \code{fairness_object}}
 
-\item{...}{possibly more \code{DALEX explainers}/\code{fairness_objects}}
+\item{...}{possibly more objects created with \code{\link[DALEX]{explain}} and/or \code{fairness_objects}}
 
 \item{protected}{factor, protected variable (also called sensitive attribute), containing privileged and unprivileged groups}
 
@@ -38,7 +38,7 @@ fairness_check(
 \value{
 An object of class \code{fairness_object} which is a list with elements:
 \itemize{
-\item metric_data - data.frame containing parity loss for various fairness metrics. Created with following metrics:
+\item parity_loss_metric_data - data.frame containing parity loss for various fairness metrics. Created with following metrics:
 \itemize{
 
 \item TPR - True Positive Rate (Sensitivity, Recall, Equal Odds)

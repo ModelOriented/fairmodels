@@ -4,12 +4,14 @@
 \alias{plot.all_cutoffs}
 \title{Plot all cutoffs}
 \usage{
-\method{plot}{all_cutoffs}(x, ...)
+\method{plot}{all_cutoffs}(x, ..., label = NULL)
 }
 \arguments{
 \item{x}{all_cutoffs object}
 
 \item{...}{other plot parameters}
+
+\item{label}{character, label of model to plot. Default NULL. If default prints all models.}
 }
 \value{
 ggplot object
@@ -41,9 +43,8 @@ fobject <- fairness_check(explainer_lm, explainer_rf,
                           privileged = "male")
 
 ac <- all_cutoffs(fobject,
-                  label = "lm",
-                  fairness_metrics = c("TPR_parity_loss",
-                                       "FPR_parity_loss"))
+                  fairness_metrics = c("TPR",
+                                       "FPR"))
 plot(ac)
 
 

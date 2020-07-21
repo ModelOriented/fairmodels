@@ -50,7 +50,7 @@ fairness_pca <- function(x, omit_models_with_NA = FALSE) {
   stopifnot(class(x) == "fairness_object")
 
   # extracting metric data from object
-  data        <- x$metric_data
+  data        <- x$parity_loss_metric_data
   labels      <- x$label
 
   data <- data[, colnames(data) %in% unique_metrics()]

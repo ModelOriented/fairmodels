@@ -2,7 +2,7 @@
 
 
 unique_metrics <- function(){
-  out <- paste0(c("TPR", 'TNR', 'PPV', 'NPV','TS','STP','ACC','F1','MCC'), "_parity_loss")
+  out <- c("TPR", 'TNR', 'PPV', 'NPV','TS','STP','ACC','F1','MCC')
   return(out)
 }
 
@@ -18,10 +18,7 @@ return(data)
 }
 
 assert_base_metrics <- function(metric){
-  if( !( is.character(metric)    & length(metric) ==1 )) stop("metric must be character")
-  metrics <- c("TPR","TNR","PPV","NPV","FNR","FPR","FDR","FOR","TS","STP","ACC","F1", "MCC")
-  if (! metric %in% metrics) stop ("Metric not in available metrics")
-  invisible(return())
+  assert_parity_metrics(metric)
 }
 
 assert_performance_metrics <- function(metric){
@@ -35,7 +32,6 @@ assert_parity_metrics <- function(metric){
 
   if( !( is.character(metric)    & length(metric) ==1 )) stop("metric must be character")
   metrics <- c("TPR","TNR","PPV","NPV","FNR","FPR","FDR","FOR","TS","STP","ACC","F1", "MCC")
-  metrics <- paste0(metrics, "_parity_loss")
   if (! metric %in% metrics) stop ("Metric not in available metrics")
 
   invisible(return())
@@ -150,6 +146,63 @@ quiet <- function(x) {
   on.exit(sink())
   invisible(force(x))
 }
+
+
+############# checks #############
+
+check_unique_names <- function(x){
+  return(length(unique(names(x))) == length(names(x)))
+}
+
+check_names_in_names_vector <- function(x, y){
+  return(names(x) %in% y)
+}
+
+
+check_list_elements_numeric <- function(x){
+  stopifnot(is.list(x))
+  return(all(is.numeric(unlist(x))))
+}
+
+
+check_values <- function(x, lower, upper){
+  return((all(x >= lower) & all(unlist(x) <= upper)))
+}
+
+check_if_numeric_and_single <- function(x){
+  return((is.numeric(x) & length(x) == 1))
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

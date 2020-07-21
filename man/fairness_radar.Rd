@@ -39,11 +39,11 @@ fobject <- fairness_check(explainer_lm, explainer_rf,
                           privileged = "male")
 
 
-fradar <- fairness_radar(fobject, fairness_metrics = c("ACC_parity_loss",
-                                                       "STP_parity_loss",
-                                                       "TNR_parity_loss",
-                                                       "TPR_parity_loss",
-                                                       "PPV_parity_loss"))
+fradar <- fairness_radar(fobject, fairness_metrics = c("ACC",
+                                                       "STP",
+                                                       "TNR",
+                                                       "TPR",
+                                                       "PPV"))
 
 plot(fradar)
 }

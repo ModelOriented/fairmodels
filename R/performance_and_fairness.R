@@ -55,8 +55,8 @@ performance_and_fairness <- function(x, fairness_metric = NULL, performance_metr
   stopifnot(class(x) == "fairness_object")
 
   if (is.null(fairness_metric)) {
-    fairness_metric = "TPR_parity_loss"
-    cat("Fairness Metric is NULL, setting deafult (", fairness_metric,")  \n")
+    fairness_metric = "TPR"
+    cat("Fairness Metric is NULL, setting deafult parity loss metric (", fairness_metric,")  \n")
   }
 
   if (is.null(performance_metric)) {
@@ -65,8 +65,8 @@ performance_and_fairness <- function(x, fairness_metric = NULL, performance_metr
   }
 
   # output for creating object
-  cat("\nCreating object with: \nFairness metric", fairness_metric,
-      "\nPerformance metric ", performance_metric, "\n")
+  cat("\nCreating object with: \nFairness metric:", fairness_metric,
+      "\nPerformance metric:", performance_metric, "\n")
 
 
   assert_parity_metrics(fairness_metric)
@@ -76,13 +76,12 @@ performance_and_fairness <- function(x, fairness_metric = NULL, performance_metr
 
   for(i in seq_along(x$explainers)){
 
-    # for auc get it from DALEX
+    # if auc get it from DALEX
     if (performance_metric == "auc"){
       mod_perf[i]  <- model_performance(x$explainers[[i]])$measures[performance_metric][[1]]
 
     } else {
       # if else use custom cutoff function implemented in fairmodels
-
       mod_perf[i] <- group_model_performance(x         = x$explainers[[i]],
                                              protected = x$protected,
                                              cutoff    = x$cutoff[[x$label[i]]],
@@ -90,17 +89,17 @@ performance_and_fairness <- function(x, fairness_metric = NULL, performance_metr
     }
   }
 
-  out <- as.data.frame(cbind(x$metric_data[fairness_metric],
+  out <- as.data.frame(cbind(x$parity_loss_metric_data[fairness_metric],
                              mod_perf,
                              x$label))
   colnames(out) <- c("fairness_metric", "performance_metric", "labels")
   out$labels <- as.factor(out$labels)
 
-  performance_and_fairness <- list( paf_data               = out,
+  performance_and_fairness <- list( paf_data           = out,
                                     fairness_metric    = fairness_metric,
                                     performance_metric = performance_metric,
                                     explainers         = x$explainers,
-                                    label    = x$label)
+                                    label              = x$label)
 
   class(performance_and_fairness) <-  "performance_and_fairness"
 

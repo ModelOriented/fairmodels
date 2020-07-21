@@ -53,7 +53,7 @@ ceteris_paribus_cutoff <- function(x,
                                    cumulated = FALSE){
 
   stopifnot(class(x) == "fairness_object")
-
+  if (! subgroup %in% x$protected) stop("subgroup is not in protected variable")
   # error if not in metrics
   lapply(fairness_metrics, assert_parity_metrics)
 
@@ -66,7 +66,7 @@ ceteris_paribus_cutoff <- function(x,
 
   n_subgroups <- length(levels(protected))
   cutoff_data <- data.frame()
-
+  cumulated_data <- data.frame()
   protected_levels <- levels(protected)
 
   if (is.list(new_cutoffs)){
@@ -116,32 +116,43 @@ ceteris_paribus_cutoff <- function(x,
         gmm             <- calculate_group_fairness_metrics(group_matrices)
         gmm_scaled      <- abs(apply(gmm, 2 , function(x) x  - gmm[,privileged]))
         gmm_loss        <- rowSums(gmm_scaled)
-        names(gmm_loss) <- paste0(names(gmm_loss),"_parity_loss")
 
         gmm_loss_unique <- gmm_loss[names(gmm_loss) %in% fairness_metrics]
 
-        if (cumulated){
-          to_add <- data.frame(parity_loss = sum(as.numeric(gmm_loss_unique)),
-                               cutoff      = rep(custom_cutoff, length(gmm_loss_unique)),
-                               model       = rep(label, length(gmm_loss_unique)))
+        cum_data <- data.frame(parity_loss = sum(as.numeric(gmm_loss_unique)),
+                             cutoff      = rep(custom_cutoff, length(gmm_loss_unique)),
+                             model       = rep(label, length(gmm_loss_unique)))
+        cumulated_data <- rbind(cumulated_data, cum_data)
 
-          cutoff_data <- rbind(cutoff_data , to_add)
-
-        } else {
         to_add <- data.frame(parity_loss = as.numeric(gmm_loss_unique),
                              metric      = names(gmm_loss_unique),
                              cutoff      = rep(custom_cutoff, length(gmm_loss_unique)),
                              model       = rep(label, length(gmm_loss_unique))   )
 
         cutoff_data <- rbind(cutoff_data , to_add)
-        }
+
     }
     })
+
+  if (cumulated) cutoff_data <- cumulated_data
+
+  models <- unique(cumulated_data$model)
+  minimums_list <- list(rep(NA, length(models)))
+
+  for (i in seq_along(models)){
+    min_arg <- which.min(cumulated_data[cumulated_data$model == models[i], "parity_loss"])
+    minimums_list[i] <- ifelse(length(min_arg) == 0, NA,  cutoff_data$cutoff[min_arg])
+  }
+
+  names(minimums_list) <- models
+
+  min_data <- data.frame(model = names(minimums_list), mins = unlist(minimums_list))
 
   ceteris_paribus_cutoff <- list(cutoff_data = cutoff_data,
                                  subgroup    = subgroup,
                                  cumulated   = cumulated,
-                                 label       = x$label)
+                                 label       = x$label,
+                                 min_data    = min_data)
   class(ceteris_paribus_cutoff) <- "ceteris_paribus_cutoff"
 
   return(ceteris_paribus_cutoff)

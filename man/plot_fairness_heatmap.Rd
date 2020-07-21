@@ -36,9 +36,9 @@
 list of \code{ggplot} objects
 }
 \description{
-Heatmap shows all metrics across all models while displaying similarity between variables (in form of dendograms).
-Heatmap is flexible and is always longer than wider for esthetic reasons. It flips axis while number of explainers exceeds
-number of metrics. NA's in metrics are gray.
+Heatmap shows all parity loss metrics across all models while displaying similarity between variables (in form of dendograms). All metrics are visible. Some have identical values
+as it should be in terms of their parity loss (eg. TPR parity loss == FNR parity loss, because TPR = 1 - FNR ).
+NA's in metrics are gray.
 }
 \examples{
 

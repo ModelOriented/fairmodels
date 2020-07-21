@@ -12,6 +12,7 @@
 #'
 #' data("german")
 #'
+#' german <- german[1:500,]
 #' y_numeric <- as.numeric(german$Risk) -1
 #'
 #' lm_model <- glm(Risk~.,
@@ -37,10 +38,11 @@ print.ceteris_paribus_cutoff<- function(x, ...){
 
   data <- x$cutoff_data
 
-  cat("\nCeteribus paribus cutoff for model:", x$subgroup, "\n")
+  cat("\nCeteribus paribus cutoff for subgroup:", x$subgroup, "\n")
   cat("\nFirst rows from data: \n")
   print(head(data), ...)
-
+  cat("\nMinimums: \n")
+  print(x$min_data, ...)
   cat("\n")
   return(invisible(NULL))
 }

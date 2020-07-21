@@ -4,12 +4,14 @@
 \alias{print.fairness_object}
 \title{Print Fairness Object}
 \usage{
-\method{print}{fairness_object}(x, ...)
+\method{print}{fairness_object}(x, ..., colorize = TRUE)
 }
 \arguments{
 \item{x}{\code{fairness object}}
 
 \item{...}{other parameters}
+
+\item{colorize}{logical, whether information about metrics should be in color or not}
 }
 \description{
 Print Fairness Object

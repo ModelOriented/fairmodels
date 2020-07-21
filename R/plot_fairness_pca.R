@@ -106,7 +106,7 @@ plot.fairness_pca <- function(x, scale = 0.5,  ...){
     theme(legend.position = "none") + #without legend
     xlab(lab_x) +
     ylab(lab_y) +
-    ggtitle("Fairness PCA plot")
+    ggtitle("Fairness PCA plot", subtitle = "created with parity loss metrics")
 
 }
 

@@ -4,12 +4,14 @@
 \alias{print.all_cutoffs}
 \title{Print all cutoffs}
 \usage{
-\method{print}{all_cutoffs}(x, ...)
+\method{print}{all_cutoffs}(x, ..., label = NULL)
 }
 \arguments{
 \item{x}{all_cuttofs object}
 
 \item{...}{other print parameters}
+
+\item{label}{character, label of model to plot. Default NULL. If default prints all models.}
 }
 \description{
 Print all cutoffs
@@ -37,9 +39,8 @@ fobject <- fairness_check(explainer_lm, explainer_rf,
                           privileged = "male")
 
 ac <- all_cutoffs(fobject,
-                  label = "lm",
-                  fairness_metrics = c("TPR_parity_loss",
-                                       "FPR_parity_loss"))
+                  fairness_metrics = c("TPR",
+                                       "FPR"))
 print(ac)
 
 }
