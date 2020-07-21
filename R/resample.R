@@ -65,7 +65,7 @@ resample <- function(protected, y, type = "uniform",  probs = NULL, cutoff = 0.5
   if ( type == "preferential"){
   if ( is.null(probs))             stop("probs were not provided")
   if ( length(probs) != length(y)) stop("probs and y have different lengths")
-  if ( check_values(probs, 0, 1))  stop("probs have values outside [0,1]")
+  if (! check_values(probs, 0, 1))  stop("probs have values outside [0,1]")
   }
 
   protected_levels <- levels(protected)
