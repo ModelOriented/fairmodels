@@ -81,7 +81,7 @@ Pre-processing techniques focus on changing data **before** model is trained. Th
 
 ### Distribution changing
 
-Firs technique you will learn about is `disparate_impact_remover`. It is somehow limited as it works on ordinal, numeric data. This techniqie returns "fixed" data frame. Through parameter `lambda` we can manipulate with how much the distribution will be fixed. `lambda = 1` (default) will return data with identical distributions for all levels of protected variable whereas `lambda = 0` will bearly change anything. We will transform a few features.
+Firs technique you will learn about is `disparate_impact_remover`. It is somehow limited as it works on ordinal, numeric data. This technique returns "fixed" data frame. Through parameter `lambda` we can manipulate with how much the distribution will be fixed. `lambda = 1` (default) will return data with identical distributions for all levels of protected variable whereas `lambda = 0` will barely change anything. We will transform a few features.
 
 ```{r}
 data_fixed <- disparate_impact_remover(data = data, 
@@ -112,10 +112,7 @@ set.seed(1)
 gbm_model     <- gbm(salary ~. , data = data, weights = weights)
 gbm_explainer_w <- explain(gbm_model, data = data[,-1], y = data$salary, label = "gbm_weighted", verbose = FALSE)
 
-fobject <- fairness_check(fobject, gbm_explainer_w,
-                          protected = adult$sex, 
-                          privileged = "Male",
-                          verbose = FALSE)
+fobject <- fairness_check(fobject, gbm_explainer_w)
 
 plot(fobject)
 ```
@@ -150,13 +147,13 @@ plot(fobject)
 ```
 
 
-As we can see `preferential` sampling is best at mitigating statistical parity loss. As biproduct it also affects other metrics significantly.
+As we can see `preferential` sampling is best at mitigating statistical parity loss. As byproduct it also affects other metrics significantly.
 
 ## Post-processing techniques
 Post-processing techniques focus on changing the output of model after model is generated
 
 ### ROC pivot
-ROC stands for Reject Option based Classification and pivot for the behaviour of `probs`/`y_hat` as it pivots around the cutoff when it is in close zone. Close zone is defined by the `theta` parameter equal to 0.1 by default. In simple words depending on whether subgroup is privileged or not certain observations will change their probabilities to the opposite (but in equal distance) side of cutoff. For exaple if observation is unprivileged and unfavorable with probability 0.45 (assuming the `cutoff = 0.5`) probability will change it's value to 0.55.
+ROC stands for Reject Option based Classification and pivot for the behavior of `probs`/`y_hat` as it pivots around the cutoff when it is in close zone. Close zone is defined by the `theta` parameter equal to 0.1 by default. In simple words depending on whether subgroup is privileged or not certain observations will change their probabilities to the opposite (but in equal distance) side of cutoff. For example if observation is unprivileged and unfavorable with probability 0.45 (assuming the `cutoff = 0.5`) probability will change it's value to 0.55.
 
 ```{r}
 # we will need normal explainer 
@@ -198,7 +195,7 @@ fobject_test <- fairness_check(gbm_explainer,
 plot(ceteris_paribus_cutoff(fobject_test, subgroup = "Female"))
 
 ```
-It is possible to minimize all metrics or only few metrics of our intrest. In this case it is also 0.35 but feel free to experiment!
+It is possible to minimize all metrics or only few metrics of our interest. In this case it is also 0.35 but feel free to experiment!
 
 ```{r}
 plot(ceteris_paribus_cutoff(fobject_test, subgroup = "Female", fairness_metrics = c("ACC","TPR","STP")))
@@ -232,7 +229,7 @@ The tradeoff is significant and it should be always be taken into consideration.
 
 # Summary
 
-There is many ways to tackle bias in models. Thanks to `fairmodels` it is easy to compare changes and experiment with new models and bias mitigation techniques. It is also good idea to combine few techniques (for exaple minimizing once with weights and then with cutoff). `fairness_check` interface is flexible and allows combining models that were trained on different features, encodings etc. Please if you encounter some bug or you have an idea for new feature please write and issue [here](https://github.com/ModelOriented/fairmodels/issues). 
+There is many ways to tackle bias in models. Thanks to `fairmodels` it is easy to compare changes and experiment with new models and bias mitigation techniques. It is also good idea to combine few techniques (for example minimizing once with weights and then with cutoff). `fairness_check` interface is flexible and allows combining models that were trained on different features, encodings etc. Please if you encounter some bug or you have an idea for new feature please write and issue [here](https://github.com/ModelOriented/fairmodels/issues). 
 
 
 

@@ -47,39 +47,39 @@
 resample <- function(protected, y, type = "uniform",  probs = NULL, cutoff = 0.5){
 
   if (is.character(protected)){
-    cat("changing protected to factor \n")
+    cat("\nchanging protected to factor \n")
     protected <- as.factor(protected)
   }
   stopifnot(is.factor(protected))
   stopifnot(is.numeric(y))
   stopifnot(length(y) == length(protected))
   stopifnot(type == 'uniform' | type == 'preferential')
-  if (! (all(unique(y) == c(1,0)) | all(unique(y) == c(0,1)) )) stop("y must be numeric vector with values 0 and 1")
-  if (length(cutoff) != 1) stop ("cutoff must be single numeric value")
-  if (cutoff < 0 | cutoff > 1) stop("cutoff must be between 0 and 1")
+  if (! (all(unique(y) == c(1,0)) | all(unique(y) == c(0,1)) )) stop ("y must be numeric vector with values 0 and 1")
+  if (!  check_if_numeric_and_single(cutoff))                   stop ("cutoff must be single numeric value")
+  if (! check_values(cutoff, 0, 1))                             stop ("cutoff must be between 0 and 1")
 
   protected_levels <- levels(protected)
   n                <- length(y)
   weight_vector    <- rep(NA, n)
 
-  if (type == "preferential"){
-  if (is.null(probs)) stop("probs were not provided")
-  if (length(probs) != length(y)) stop("probs and y have different lengths")
-  if ( any(probs < 0) | any(probs > 1)) stop("probs have values outside [0,1]")
+  if ( type == "preferential"){
+  if ( is.null(probs))             stop("probs were not provided")
+  if ( length(probs) != length(y)) stop("probs and y have different lengths")
+  if ( check_values(probs, 0, 1))  stop("probs have values outside [0,1]")
   }
 
   protected_levels <- levels(protected)
   n                <- length(y)
   weight_list      <- list()
-  # subgroup - class observations
 
+  # subgroup - class observations
   num_sc <- list()
 
-  for (subgroup in protected_levels){
+  for (subgroup in protected_levels) {
     num_c <- rep(NA, 2)
     w_vec <- rep(NA, 2)
 
-    for (actual_class in c(0,1)){
+    for (actual_class in c(0,1)) {
        # defining number of observations in groups
 
        num_c[actual_class + 1] <-  sum(protected == subgroup & y == actual_class)

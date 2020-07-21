@@ -64,15 +64,16 @@ roc_pivot <- function(explainer, protected, privileged,  cutoff = 0.5, theta = 0
   stopifnot(is.numeric(y))
   stopifnot(length(y) == length(protected) & length(y) == length(probs))
   if (! (all(unique(y) == c(1,0)) | all(unique(y) == c(0,1)) )) stop("y must be numeric vector with values 0 and 1")
-  if (cutoff < 0 | cutoff > 1 | length(cutoff) != 1) stop("cutoff must be single numeric value between 0 and 1")
-  if (theta < 0 | theta > 1 | length(theta) != 1) stop("cutoff must be single numeric value between 0 and 1")
-  if (!is.numeric(probs) | any(probs > 1) | any(probs < 0) ) stop("probs must be numeric vector with values between 0 and 1")
+  if (! check_if_numeric_and_single(cutoff)) stop("cutoff must be single numeric value")
+  if (! check_values(cutoff, 0, 1))          stop("cutoff must be between 0 and 1")
+  if (! check_if_numeric_and_single(theta))  stop("theta must be single numeric value")
+  if (! check_values(theta, 0, 1))           stop("theta must be between 0 and 1")
 
   protected_levels <- levels(protected)
-  if(! (is.character(privileged)|is.factor(privileged)) | !(privileged %in% protected_levels) ) stop("privileged must be character/factor denoting privileged subgroup level in protected variable")
+  if(! (is.character(privileged) | is.factor(privileged)) | !(privileged %in% protected_levels) ) stop("privileged must be character/factor denoting privileged subgroup level in protected variable")
 
   # ROC affecting only probs close (within +/- theta) to cutoff threshold
-  is_close <- abs(probs - cutoff) < theta
+  is_close      <- abs(probs - cutoff) < theta
   is_privileged <- privileged == protected
   is_favourable <- probs > cutoff
 

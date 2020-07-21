@@ -15,7 +15,7 @@ vignette: >
 ---
 # fairmodels
 
-In this tutorial you will get to know when, why and how to use `fairmodels`. `fairmodels` is a tool for bias testing and fairness metrics visualization. It is compatible with `DALEX` and `DALEXtra` which are model agnositic explainers. Some knowledge of how to use those explainers will be needed but in this tutorial you should grasp the idea.
+In this tutorial you will get to know when, why and how to use `fairmodels`. `fairmodels` is a tool for bias testing and fairness metrics visualization. It is compatible with `DALEX` and `DALEXtra` which are model agnostic explainers. Some knowledge of how to use those explainers will be needed but in this tutorial you should grasp the idea.
 
 For this tutorial we will use `compas` data to see if someone will become recidivist in next 2 years.
 
@@ -161,7 +161,7 @@ As we can see there is some parameters in fairness_check such as:
 `fairness_object` is output value of `fairness_check()`
 It is S3 object consisting of:
 * Parity loss metrics 
-Popular confusion matrix metrics with parity loss - sum of distances of metric values between unprivileged subgroups and privlieged one. If model would have 0 in certain parity loss metric it would mean that it treats all subgroups equally. 
+Popular confusion matrix metrics with parity loss - sum of distances of metric values between unprivileged subgroups and privileged one. If model would have 0 in certain parity loss metric it would mean that it treats all subgroups equally. 
 ```{r}
 fobject$parity_loss_metric_data
 ```
@@ -235,7 +235,7 @@ plot(fair_pca)
 
 It is done with loadings plot, which can be customized. 
 ```{r}
-plot(fair_pca, scale = 0) # deafult = 0.5
+plot(fair_pca, scale = 0) # default = 0.5
 ```
 
 ## Plot Heatmap
@@ -337,7 +337,7 @@ plot(cpc)
 
 
 # Summary 
-`fairmodels` is powerful and flexible tool for detecting bias and asserting fairness in models. Many metrics are avibile (there are tools to create own metrics based on confusion matrix). Besides bias detection `fairmodels` offers also bias mitigation. It is set of pre-processing and post-processing algorithms working either on data or on explainer which function is to lower parity loss in certain metrics. If you are interested in this and adult data case study, please check Advanced Tutorial. If you encountered a bug or you have cool idea for a new feature please write and issue [here](https://github.com/ModelOriented/fairmodels/issues). 
+`fairmodels` is powerful and flexible tool for detecting bias and asserting fairness in models. Many metrics are available (there are tools to create own metrics based on confusion matrix). Besides bias detection `fairmodels` offers also bias mitigation. It is set of pre-processing and post-processing algorithms working either on data or on explainer which function is to lower parity loss in certain metrics. If you are interested in this and adult data case study, please check Advanced Tutorial. If you encountered a bug or you have cool idea for a new feature please write and issue [here](https://github.com/ModelOriented/fairmodels/issues). 
 
 
 
