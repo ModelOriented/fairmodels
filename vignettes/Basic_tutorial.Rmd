@@ -64,7 +64,7 @@ rf_compas <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
 y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
 
 # explainer
-rf_explainer <- explain(rf_compas, data = compas[,-1], y = y_numeric)
+rf_explainer <- explain(rf_compas, data = compas[,-1], y = y_numeric, colorize = FALSE)
 ```
 
 ### fairness check
@@ -77,12 +77,13 @@ We assign object to name `fobject` which is short version of `fairness_object` -
 fobject <- fairness_check(rf_explainer,                         # explainer
                           protected = compas$Ethnicity,         # protected variable as factor
                           privileged = "Caucasian",             # level in protected variable, potentially more privileged
-                          cutoff = 0.5)                         # cutoff - optional, default = 0.5
+                          cutoff = 0.5,                         # cutoff - optional, default = 0.5
+                          colorize = FALSE)                         
 ```
 Let's see if our ranger model has bias.
 
 ```{r}
-fobject
+print(fobject, colorize = FALSE)
 ```
 ```{r}
 plot(fobject)
@@ -92,7 +93,8 @@ Of course the `protected` parameter can be changed.
 ```{r}
 fobject_tmp <- fairness_check(rf_explainer, 
                            protected = compas$Sex,
-                           privileged = "Female")
+                           privileged = "Female",
+                           verbose = FALSE)
 
 plot(fobject_tmp)
 ```
@@ -121,21 +123,32 @@ To really see what `fairness_object` is about, we need to make some more models 
 ```{r, results= "hide"}
 library(gbm)
 
-rf_compas_1 <- ranger(Two_yr_Recidivism ~Number_of_Priors+Age_Below_TwentyFive, data = compas, probability = TRUE)
-lr_compas_1 <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
+rf_compas_1 <- ranger(Two_yr_Recidivism ~Number_of_Priors+Age_Below_TwentyFive,
+                      data = compas,
+                      probability = TRUE)
+
+lr_compas_1 <- glm(Two_yr_Recidivism~.,
+                   data=compas,
+                   family=binomial(link="logit"))
+
 rf_compas_2 <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE) 
-rf_compas_3 <- ranger(Two_yr_Recidivism ~ Age_Above_FourtyFive+Misdemeanor, data = compas, probability = TRUE)
-rf_compas_4 <- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
+rf_compas_3 <- ranger(Two_yr_Recidivism ~ Age_Above_FourtyFive+Misdemeanor,
+                      data = compas,
+                      probability = TRUE)
+
+rf_compas_4 <- ranger(Two_yr_Recidivism ~.,
+                      data = compas,
+                      probability = TRUE)
 df <- compas
 df$Two_yr_Recidivism <- as.numeric(compas$Two_yr_Recidivism)-1
 gbm_compas_1<- gbm(Two_yr_Recidivism~., data = df) 
 
-explainer_1 <- DALEX::explain(rf_compas_1,  data = compas[,-1], y = y_numeric)
-explainer_2 <- DALEX::explain(lr_compas_1,  data = compas[,-1], y = y_numeric)
-explainer_3 <- DALEX::explain(rf_compas_2,  data = compas[,-1], y = y_numeric, label = "ranger_2")
-explainer_4 <- DALEX::explain(rf_compas_3,  data = compas[,-1], y = y_numeric, label = "ranger_3")
-explainer_5 <- DALEX::explain(gbm_compas_1, data = compas[,-1], y = y_numeric)
-explainer_6 <- DALEX::explain(rf_compas_4,  data = compas[,-1], y = y_numeric, label = "ranger_4")
+explainer_1 <- explain(rf_compas_1,  data = compas[,-1], y = y_numeric)
+explainer_2 <- explain(lr_compas_1,  data = compas[,-1], y = y_numeric)
+explainer_3 <- explain(rf_compas_2,  data = compas[,-1], y = y_numeric, label = "ranger_2")
+explainer_4 <- explain(rf_compas_3,  data = compas[,-1], y = y_numeric, label = "ranger_3")
+explainer_5 <- explain(gbm_compas_1, data = compas[,-1], y = y_numeric)
+explainer_6 <- explain(rf_compas_4,  data = compas[,-1], y = y_numeric, label = "ranger_4")
 
 ```
    
@@ -145,7 +158,8 @@ fobject <- fairness_check(explainer_1, explainer_2,
                             explainer_3, explainer_4,
                             explainer_5, explainer_6,
                             protected = compas$Ethnicity,
-                            privileged = "Caucasian") 
+                            privileged = "Caucasian",
+                            verbose = FALSE) 
 ```
    
 As we can see there is some parameters in fairness_check such as:    
@@ -275,9 +289,15 @@ library(patchwork)
 library(ggplot2)
 
 p1 <- plot(performance_and_fairness(fobject,  "TPR", "accuracy"))
-p2 <- plot(performance_and_fairness(fobject,  "FPR", "auc"))     + ggtitle(" ") + theme(legend.position = "none")
-p3 <- plot(performance_and_fairness(fobject,  "NPV", "recall"))  + ggtitle(" ") + theme(legend.position = "none")
-p4 <- plot(performance_and_fairness(fobject,  "TS", "f1"))+ ggtitle(" ") + theme(legend.position = "none")
+p2 <- plot(performance_and_fairness(fobject,  "FPR", "auc"))     +
+  ggtitle(" ") +
+  theme(legend.position = "none")
+p3 <- plot(performance_and_fairness(fobject,  "NPV", "recall"))  +
+  ggtitle(" ") +
+  theme(legend.position = "none")
+p4 <- plot(performance_and_fairness(fobject,  "TS", "f1")) +
+  ggtitle(" ") +
+  theme(legend.position = "none")
 
 ```
 ```{r}
@@ -293,7 +313,8 @@ When we have narrowed down our search for the best model we can use `group_metri
 ```{r}
 fobject2 <- fairness_check(explainer_1,explainer_2, 
                                    protected = compas$Ethnicity,
-                                   privileged = "Caucasian")
+                                   privileged = "Caucasian", 
+                                    verbose = FALSE)
 
 
 gm <- group_metric(fobject2, fairness_metric = "FPR")
@@ -331,6 +352,12 @@ This function shows how parity loss metrics would change if we modified cutoff o
 
 ```{r}
 cpc <- ceteris_paribus_cutoff(fobject2, subgroup = "African_American")
+
+plot(cpc)
+```
+
+```{r}
+cpc <- ceteris_paribus_cutoff(fobject2, subgroup = "African_American", cumulated = TRUE)
 
 plot(cpc)
 ```
