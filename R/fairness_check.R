@@ -171,6 +171,7 @@ fairness_check <- function(x,
           verbose_cat(color_codes$green_start, "Ok", color_codes$green_end, ") \n", verbose = verbose)
         } else {
           verbose_cat(color_codes$yellow_start, "changed from", class(protected),  color_codes$yellow_end, ")\n", verbose = verbose)
+          protected <- as.factor(protected)
         }}
 
   protected_levels <- levels(protected)
@@ -221,35 +222,31 @@ fairness_check <- function(x,
   ### epsilon
   if (is.null(epsilon)) epsilon <- 0.1
   if (! check_if_numeric_and_single(epsilon)) stop("Epsilon must be single, numeric value")
-  if (! check_values(epsilon, 0, Inf) ) stop ("epsilon must be positive number")
+  if (! check_values(epsilon, 0, Inf) )       stop ("epsilon must be positive number")
 
   ### fairness objects
   # among all fairness_objects parameters should be equal
 
   verbose_cat("-> Fairness objects\t\t:", length(fobjects), verbose = verbose)
-  if (length(fobjects) > 1){
-    verbose_cat(" objects ", verbose = verbose)
-  } else {
+  if (length(fobjects) == 1){
     verbose_cat(" object ", verbose = verbose)
+      } else {
+    verbose_cat(" objects ", verbose = verbose)
   }
 
 
   if (length(fobjects) > 0) {
-  for (i in seq_along(fobjects)) {
-      if(! all(fobjects[[i]]$protected  == protected)) {
+    if(! all(sapply(fobjects, function(x) x$protected == protected))) {
        verbose_cat("(",color_codes$red_start, "not compatible" ,color_codes$red_end, ") \n", verbose = verbose)
        stop("fairness objects must have the same protected vector as one passed in fairness check")
     }
-    if(! fobjects[[i]]$privileged == privileged) {
+    if(! all(sapply(fobjects, function(x) x$privileged == privileged))) {
       verbose_cat("(", color_codes$red_start, "not compatible" ,color_codes$red_end, ") \n", verbose = verbose)
       stop("fairness objects must have the same privlieged argument as one passed in fairness check")
-    }}
-
+    }
   verbose_cat("(", color_codes$green_start, "compatible", color_codes$yellow_end,  ")\n", verbose = verbose)
   } else {
-    verbose_cat("\n", verbose = verbose)
-
-  }
+    verbose_cat("\n", verbose = verbose)}
 
   ### explainers
   # must have equal y

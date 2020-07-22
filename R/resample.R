@@ -55,7 +55,7 @@ resample <- function(protected, y, type = "uniform",  probs = NULL, cutoff = 0.5
   stopifnot(length(y) == length(protected))
   stopifnot(type == 'uniform' | type == 'preferential')
   if (! (all(unique(y) == c(1,0)) | all(unique(y) == c(0,1)) )) stop ("y must be numeric vector with values 0 and 1")
-  if (!  check_if_numeric_and_single(cutoff))                   stop ("cutoff must be single numeric value")
+  if (! check_if_numeric_and_single(cutoff))                    stop ("cutoff must be single numeric value")
   if (! check_values(cutoff, 0, 1))                             stop ("cutoff must be between 0 and 1")
 
   protected_levels <- levels(protected)
