@@ -163,12 +163,12 @@ fobject <- fairness_check(explainer_1, explainer_2,
 ```
    
 As we can see there is some parameters in fairness_check such as:    
-1. x, ...  -  list of `DALEX` explainers, and other `fairness_object` objects   
-2. protected - factor, containing subgroups as levels. Protected stands for protected variable (or sensitive attribute)
-3. privileged - character,  level in protected, it is subgroup suspected of having better results
-4. cutoff - numeric, vector of cutoffs values matching the order of levels in protected variable. It affects only explainers so if `fairness_object` is passed it's cutoff vector won't be changed.
-5. label - character, vector of labels for explainers only. Very convenient for `fairness_check()` iterative approach - having explainer, checking for bias, mitigating bias, passing both explainer and fairness object and comparing fairness.
-6. epsilon - numeric, boundary position in `fairness_check()`. Fairness metrics are satisfied if parity loss values are between (-epsilon, epsilon)
+1. x, ...  -  list of `DALEX` explainers, and other `fairness_object` objects       
+2. protected - factor, containing subgroups as levels. Protected stands for protected variable (or sensitive attribute)   
+3. privileged - character,  level in protected, it is subgroup suspected of having better results   
+4. cutoff - numeric, vector of cutoffs values matching the order of levels in protected variable. It affects only explainers so if `fairness_object` is passed it's cutoff vector won't be changed.   
+5. label - character, vector of labels for explainers only. Very convenient for `fairness_check()` iterative approach - having explainer, checking for bias, mitigating bias, passing both explainer and fairness object and comparing fairness.   
+6. epsilon - numeric, boundary position in `fairness_check()`. Fairness metrics are satisfied if parity loss values are between (-epsilon, epsilon)   
 
 ### What consists of fairness object? 
 

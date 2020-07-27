@@ -208,6 +208,7 @@ fobject <- fairness_check(fobject, gbm_explainer_r,
 
 plot(fobject)
 ```
+   
 `gmb_roc` is the best so far
 ```{r}
 print(fobject, colorize = FALSE)
