@@ -115,6 +115,9 @@ it all in one plot. When default one is used all chosen metrics will be plotted 
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/Advanced_tutorial.html">Advanced Tutorial</a>
+    </li>
+    <li>
       <a href="../articles/Basic_tutorial.html">Basic Tutorial</a>
     </li>
   </ul>
@@ -166,210 +169,41 @@ it all in one plot. When default one is used all chosen metrics will be plotted 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"compas"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"german"</span>)
 
-<span class='co'># positive outcome - not being recidivist</span>
-<span class='kw'>two_yr_recidivism</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='kw'>compas</span><span class='op'>$</span><span class='kw'>Two_yr_Recidivism</span>, levels = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>))
-<span class='kw'>compas</span><span class='op'>$</span><span class='kw'>T</span></div><div class='output co'>#&gt;    [1] 0 1 1 0 1 0 0 0 1 0 0 1 1 0 0 1 1 1 1 1 0 1 0 0 1 1 1 1 1 0 1 1 1 1 0 0 0
-#&gt;   [38] 1 0 1 1 1 0 0 1 0 0 1 0 0 0 0 1 1 1 1 0 1 0 0 1 0 0 1 1 0 1 0 1 0 0 1 1 1
-#&gt;   [75] 1 1 0 1 1 1 1 0 1 0 0 1 0 1 1 0 0 0 0 1 1 0 1 0 1 1 1 1 0 0 1 1 0 1 0 0 0
-#&gt;  [112] 0 1 0 1 1 1 1 0 1 0 0 1 1 1 1 1 1 0 0 1 1 0 1 0 1 0 1 0 0 0 1 0 1 0 0 0 0
-#&gt;  [149] 1 1 0 0 1 0 0 1 1 1 0 0 1 1 1 1 0 1 0 0 1 0 0 0 1 1 1 0 0 1 0 0 1 0 0 1 0
-#&gt;  [186] 1 0 1 0 0 1 0 1 0 0 0 0 1 0 0 1 0 0 0 0 1 1 0 0 1 1 0 1 0 0 0 1 1 0 0 1 1
-#&gt;  [223] 0 0 0 0 0 0 1 0 0 1 1 1 0 0 0 1 0 0 0 0 1 1 1 0 0 1 1 1 0 0 0 1 0 0 1 0 0
-#&gt;  [260] 0 1 1 0 1 0 1 0 0 0 1 0 1 1 1 0 0 1 0 0 1 0 0 1 0 0 0 1 0 0 0 1 0 0 0 0 0
-#&gt;  [297] 1 0 1 0 0 0 1 0 0 0 0 1 1 1 0 1 1 1 0 0 0 0 1 1 0 1 0 0 0 1 0 1 0 0 0 1 0
-#&gt;  [334] 1 0 0 1 1 0 0 0 0 0 0 0 1 0 0 0 1 1 1 0 1 1 1 0 1 0 1 0 0 1 0 0 1 1 0 0 0
-#&gt;  [371] 1 1 1 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 0 0 0 0 1 1 1 0 1 1 0 1 0 0 0 0 1 0 1
-#&gt;  [408] 1 0 0 0 1 1 1 0 0 1 0 1 0 0 1 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 1 0 1 1
-#&gt;  [445] 0 0 0 1 0 1 1 1 0 0 0 0 1 1 1 0 1 1 1 0 0 0 0 0 0 1 1 0 1 0 0 0 1 0 0 1 0
-#&gt;  [482] 0 1 0 1 0 0 0 0 0 1 1 1 0 1 0 0 1 0 0 0 0 0 1 0 0 0 1 1 0 1 0 1 0 1 0 0 1
-#&gt;  [519] 0 1 1 0 1 0 1 0 0 1 0 0 1 0 1 1 0 0 1 0 1 1 0 1 1 0 0 0 1 0 0 1 1 1 1 1 1
-#&gt;  [556] 0 0 1 1 1 0 0 0 0 0 0 1 0 0 0 0 1 1 0 0 1 1 1 0 1 1 0 0 1 0 1 1 1 0 0 0 0
-#&gt;  [593] 0 1 1 0 1 0 0 0 0 1 1 0 0 1 0 1 0 0 1 0 0 0 0 0 1 1 1 0 1 0 0 0 0 1 0 0 0
-#&gt;  [630] 1 1 0 1 0 0 0 0 1 0 1 1 1 1 0 1 0 0 0 0 1 0 0 1 0 1 0 0 1 0 0 0 0 1 1 1 0
-#&gt;  [667] 0 0 0 0 1 0 1 1 0 0 0 0 1 0 0 0 1 0 0 0 1 1 0 0 0 1 0 1 1 0 1 1 0 0 1 0 0
-#&gt;  [704] 1 0 1 0 1 1 1 1 1 1 0 0 1 0 1 0 0 1 1 1 0 1 1 1 0 1 0 0 0 0 1 0 1 0 1 1 0
-#&gt;  [741] 1 0 0 0 0 0 0 1 0 1 1 0 0 0 1 0 1 0 1 0 0 1 1 1 0 0 1 1 1 1 0 1 0 0 0 0 0
-#&gt;  [778] 1 1 1 0 0 1 1 1 1 1 0 0 0 1 0 0 0 0 0 1 1 0 1 0 0 0 1 1 0 0 1 1 1 0 0 0 1
-#&gt;  [815] 0 1 0 1 1 0 1 1 1 1 1 0 1 0 0 0 1 1 0 1 0 1 0 1 0 1 0 0 0 1 0 1 0 0 0 0 1
-#&gt;  [852] 0 0 0 1 0 0 0 1 1 0 1 0 0 1 0 0 1 0 0 1 1 1 0 0 1 1 0 0 0 0 0 1 1 0 0 1 1
-#&gt;  [889] 0 0 1 0 1 0 0 1 1 0 0 0 0 0 0 0 1 1 1 0 0 1 1 0 0 1 0 0 0 0 1 0 0 1 0 0 1
-#&gt;  [926] 0 0 0 1 0 1 0 1 1 0 0 0 0 0 1 1 1 0 0 0 0 0 1 1 1 0 1 0 0 1 1 1 1 0 1 0 0
-#&gt;  [963] 0 0 0 1 1 0 1 0 0 0 0 1 0 0 1 1 0 1 0 0 0 0 0 1 1 0 0 0 1 1 0 0 0 1 1 1 0
-#&gt; [1000] 0 1 1 0 0 0 1 0 0 1 0 0 0 1 1 0 0 1 1 1 1 0 0 0 1 1 1 1 0 0 0 0 0 0 1 0 0
-#&gt; [1037] 1 0 1 0 0 0 0 1 0 1 1 1 0 1 0 0 0 1 1 0 1 0 0 1 0 1 1 1 0 0 1 0 1 0 0 0 1
-#&gt; [1074] 0 0 1 0 0 0 0 0 1 1 0 1 0 1 1 0 0 0 0 0 0 0 1 0 0 0 1 1 1 1 0 0 1 1 0 0 0
-#&gt; [1111] 0 0 1 1 0 0 1 0 0 0 0 0 0 1 1 0 0 0 0 0 1 1 0 1 0 0 1 0 0 0 0 1 0 0 1 0 1
-#&gt; [1148] 0 1 1 0 0 0 0 0 1 0 0 0 1 1 0 1 0 0 0 0 1 0 0 0 1 0 1 0 1 0 1 1 0 1 0 1 1
-#&gt; [1185] 0 1 1 1 1 0 1 0 1 1 0 0 0 0 1 1 0 0 0 0 1 1 0 1 1 1 0 1 1 1 1 0 1 0 0 0 0
-#&gt; [1222] 0 1 1 1 1 1 0 0 0 1 1 0 0 0 1 1 1 1 0 0 1 0 0 1 0 0 1 0 1 0 0 1 0 0 1 0 0
-#&gt; [1259] 1 0 1 1 0 1 1 0 0 0 1 1 1 0 0 0 0 1 1 1 0 0 0 1 0 1 0 1 1 1 1 0 1 0 1 0 1
-#&gt; [1296] 0 1 1 1 0 0 0 1 0 1 0 0 1 1 1 1 0 0 0 0 0 0 0 1 1 1 0 1 1 1 0 0 1 1 0 1 0
-#&gt; [1333] 0 1 0 0 1 0 0 1 0 0 0 0 0 0 1 0 1 1 0 1 0 0 0 0 1 0 0 1 1 1 0 1 0 0 0 0 1
-#&gt; [1370] 0 0 0 1 0 1 1 0 1 0 0 0 0 0 1 1 0 1 1 1 0 0 0 1 0 0 1 1 0 1 0 1 1 1 0 0 1
-#&gt; [1407] 0 0 0 0 0 1 1 0 1 1 0 0 0 0 0 0 1 0 1 0 0 0 1 1 0 1 0 0 1 0 1 1 1 0 1 1 1
-#&gt; [1444] 0 0 0 0 0 0 0 1 1 0 0 0 0 1 0 0 1 0 0 0 0 0 0 0 1 0 1 1 0 1 0 0 1 1 1 0 0
-#&gt; [1481] 0 0 0 1 0 0 0 0 0 0 0 1 0 0 1 1 0 1 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 1 0 0 1
-#&gt; [1518] 0 1 0 0 1 1 1 0 1 0 1 1 0 0 1 1 1 0 0 1 0 0 0 0 0 1 0 0 0 0 1 0 0 1 1 0 0
-#&gt; [1555] 1 1 1 0 0 0 1 0 1 0 0 0 0 1 1 0 0 1 1 0 1 0 1 0 0 1 1 1 0 0 1 0 0 1 0 1 1
-#&gt; [1592] 1 1 0 0 1 1 0 0 1 0 1 1 1 1 0 0 1 1 1 1 1 0 0 1 1 1 0 1 0 0 1 0 0 1 0 1 0
-#&gt; [1629] 0 0 0 1 0 0 0 0 1 1 0 0 1 0 0 1 1 0 0 1 0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 1 1
-#&gt; [1666] 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 1 0 0 1 0 0 1 1 1 0 1 0 1 0 1 1 1 0 0 0 0 0
-#&gt; [1703] 0 1 0 1 0 0 0 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 1 1 0 0 0 1 0 0 0 0 1 0 1 1 1
-#&gt; [1740] 1 0 1 0 0 1 1 1 0 0 1 0 1 1 0 0 0 1 0 0 0 0 1 0 1 0 1 1 1 1 0 1 1 1 0 1 1
-#&gt; [1777] 0 1 0 0 0 0 0 0 1 0 0 0 0 0 0 1 1 0 0 0 1 1 0 1 0 0 0 1 0 0 0 0 0 1 0 0 1
-#&gt; [1814] 1 0 0 0 1 1 1 1 0 1 1 1 0 1 1 1 1 0 0 1 0 0 1 0 0 1 0 1 0 0 1 0 0 0 0 1 0
-#&gt; [1851] 0 0 1 1 0 0 1 1 0 1 1 1 0 0 1 0 1 1 0 1 1 0 1 1 0 0 1 1 1 1 1 1 0 1 0 0 1
-#&gt; [1888] 1 0 1 1 0 1 0 1 1 1 0 1 0 1 1 0 1 0 1 0 0 0 0 1 1 0 1 1 0 1 0 1 1 0 1 0 1
-#&gt; [1925] 0 1 0 1 1 0 1 0 1 1 0 0 0 0 1 1 0 1 0 1 0 1 0 1 0 1 1 0 0 0 0 0 1 1 0 1 1
-#&gt; [1962] 0 0 0 0 1 0 1 1 1 0 0 0 0 1 0 1 0 0 0 1 1 1 0 0 1 1 0 0 0 0 1 1 0 1 1 0 1
-#&gt; [1999] 0 0 1 0 1 0 0 1 0 1 0 0 1 1 1 0 0 1 1 0 1 0 0 1 0 0 1 1 0 0 0 0 0 0 1 1 0
-#&gt; [2036] 1 0 1 1 1 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 0 0 1 0 1 1 1 1 0 0 0 0 0 1 1 0 0
-#&gt; [2073] 0 0 1 1 1 0 0 1 0 1 1 0 0 0 1 0 0 0 0 0 0 0 0 1 0 1 1 1 1 0 0 1 1 1 1 0 0
-#&gt; [2110] 1 1 0 0 0 1 0 0 1 0 0 1 0 0 0 1 1 0 0 1 0 1 0 1 1 1 1 1 0 1 1 0 0 0 1 0 1
-#&gt; [2147] 0 0 0 1 0 0 0 1 1 1 0 1 0 0 1 1 0 0 0 0 0 0 0 1 0 0 1 1 0 1 1 0 1 1 1 1 0
-#&gt; [2184] 0 1 0 1 1 0 0 1 1 0 0 1 1 0 1 0 0 1 0 1 0 1 1 1 0 0 1 0 0 0 0 0 0 1 1 0 1
-#&gt; [2221] 0 0 1 0 0 1 1 0 1 1 1 1 0 1 0 1 1 1 0 1 1 0 0 0 0 0 0 0 0 1 1 0 1 0 0 1 0
-#&gt; [2258] 1 0 0 0 0 1 1 0 0 1 1 1 0 0 1 0 0 0 1 0 1 1 0 1 0 0 0 0 0 1 0 0 1 0 0 1 0
-#&gt; [2295] 0 1 1 1 1 1 1 0 0 0 1 0 0 0 0 1 1 1 0 1 1 0 1 1 0 0 0 0 1 1 1 1 1 0 0 0 0
-#&gt; [2332] 1 0 0 1 1 0 0 1 0 1 1 1 1 0 1 0 1 0 1 0 0 1 1 0 1 0 1 1 1 1 1 1 1 0 1 0 1
-#&gt; [2369] 1 0 1 0 0 0 0 0 0 1 0 0 1 0 1 1 0 1 1 0 0 0 1 0 0 0 1 0 1 0 0 0 1 0 1 1 1
-#&gt; [2406] 1 1 0 0 0 0 1 0 1 0 1 1 1 0 0 0 0 1 1 1 1 1 1 1 0 1 0 0 1 1 1 0 0 1 0 1 1
-#&gt; [2443] 0 1 1 1 1 1 0 0 0 0 1 1 0 0 0 0 0 1 0 0 0 1 0 0 0 1 0 0 0 1 1 0 0 1 0 1 0
-#&gt; [2480] 0 0 0 0 0 0 0 1 0 0 0 1 1 1 0 1 0 1 0 0 0 1 0 1 0 0 1 1 1 1 1 1 0 0 0 0 0
-#&gt; [2517] 1 1 0 0 1 0 0 1 1 0 1 0 1 1 0 0 1 1 0 0 1 0 0 0 0 1 1 1 0 0 0 0 0 1 0 0 1
-#&gt; [2554] 1 1 1 0 0 1 1 1 0 1 0 1 1 0 1 0 0 1 1 0 1 0 1 0 1 1 0 0 1 1 0 1 1 1 1 1 1
-#&gt; [2591] 1 0 1 0 0 0 0 0 1 1 0 0 0 0 0 1 0 1 0 0 1 1 1 0 0 0 0 1 0 0 1 0 0 0 0 0 0
-#&gt; [2628] 0 1 1 1 1 1 1 0 1 0 0 1 0 1 0 1 1 0 0 0 1 0 0 0 0 0 1 1 0 0 1 0 0 0 0 0 1
-#&gt; [2665] 1 1 0 1 0 0 1 0 1 1 0 0 1 0 1 1 1 0 0 0 1 1 1 1 0 0 0 0 0 0 0 0 1 0 1 0 1
-#&gt; [2702] 1 1 1 0 1 1 0 0 1 0 1 0 1 1 1 0 0 0 1 1 0 1 0 0 1 0 0 1 1 0 0 0 1 0 0 1 0
-#&gt; [2739] 0 1 1 0 0 0 1 0 1 1 0 1 1 1 1 0 0 0 0 1 1 1 0 1 1 1 1 1 0 1 0 0 1 1 1 0 1
-#&gt; [2776] 0 0 1 1 1 1 0 1 0 0 1 1 1 1 1 0 1 0 1 1 1 1 0 0 1 1 0 0 0 1 1 0 0 0 1 0 0
-#&gt; [2813] 0 0 1 0 0 1 1 1 1 1 1 1 0 1 0 1 1 0 0 1 0 0 1 0 1 1 0 1 0 1 1 1 1 1 0 0 1
-#&gt; [2850] 1 0 0 0 0 1 0 1 1 1 1 1 1 0 0 1 1 1 0 0 1 1 1 1 0 0 0 1 0 1 1 0 0 1 0 0 1
-#&gt; [2887] 0 1 0 0 0 0 0 0 0 1 0 1 1 1 0 0 1 1 0 0 1 0 0 1 1 0 1 1 1 1 1 1 1 1 0 0 1
-#&gt; [2924] 0 0 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 1 1 0 1 0 1 0 0 0 1 1 0 1 0 0 1 1 0 0
-#&gt; [2961] 1 1 1 0 1 1 1 1 0 0 0 0 0 1 1 1 0 0 0 0 1 1 1 0 1 1 1 0 0 0 0 1 1 0 1 0 0
-#&gt; [2998] 1 0 1 0 0 1 0 1 1 0 1 0 0 0 1 0 0 0 1 1 0 0 0 1 0 0 0 1 0 1 0 1 1 1 1 1 1
-#&gt; [3035] 0 1 1 1 0 0 1 0 1 0 0 0 1 1 0 1 1 0 0 1 1 1 0 0 0 1 0 0 1 0 0 1 1 0 1 0 0
-#&gt; [3072] 0 0 1 1 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0 1 1 0 1 1 1 0 1 0 1 0 1 0 1 0 0 1 1
-#&gt; [3109] 0 0 0 1 1 0 0 0 1 1 1 0 1 0 1 0 1 1 1 1 0 0 0 1 0 1 0 0 0 1 1 1 1 0 0 1 1
-#&gt; [3146] 0 0 1 0 0 0 0 0 1 1 1 0 0 1 0 0 1 1 0 0 0 0 0 1 0 1 1 0 1 1 0 1 1 1 1 0 0
-#&gt; [3183] 0 1 0 1 1 0 0 0 0 1 1 0 1 1 0 1 0 0 0 1 1 0 0 1 1 1 0 1 0 0 1 0 0 0 0 1 0
-#&gt; [3220] 0 1 0 0 0 0 0 1 0 0 0 0 1 0 0 0 1 1 1 0 0 0 1 1 0 0 1 1 1 1 0 1 1 0 1 1 1
-#&gt; [3257] 1 0 1 0 0 1 0 1 1 0 0 0 1 0 1 1 0 0 1 1 0 1 0 1 0 0 1 1 1 0 0 0 1 1 0 1 0
-#&gt; [3294] 0 1 1 1 0 1 1 1 0 1 0 0 0 1 1 1 0 0 0 1 1 1 1 0 0 0 1 1 0 1 1 1 1 0 1 0 0
-#&gt; [3331] 0 0 0 0 1 1 0 1 0 1 1 0 0 1 0 0 1 0 1 1 0 0 1 0 0 0 0 1 0 1 0 1 1 0 0 0 0
-#&gt; [3368] 0 0 1 1 1 0 1 0 0 1 0 0 1 0 1 0 1 0 0 0 0 1 1 1 0 0 0 0 1 1 0 0 0 1 0 1 0
-#&gt; [3405] 0 0 1 1 1 1 1 1 0 0 0 0 1 0 0 0 1 1 0 1 1 0 0 0 0 0 1 0 0 1 0 1 0 1 0 0 0
-#&gt; [3442] 0 0 0 1 0 0 0 1 1 1 1 0 1 0 0 0 1 0 0 1 0 0 0 0 1 1 0 0 0 1 0 1 0 1 0 1 0
-#&gt; [3479] 0 1 0 1 0 0 1 0 1 0 0 0 0 0 0 0 0 1 1 0 1 1 0 1 0 1 0 1 0 0 1 0 0 0 1 0 1
-#&gt; [3516] 1 0 1 0 0 1 0 0 0 1 0 0 1 1 1 1 1 1 1 1 1 0 1 0 0 1 0 1 0 1 1 0 0 1 0 0 1
-#&gt; [3553] 1 1 0 0 1 1 1 1 1 1 1 1 0 1 0 0 1 0 1 1 1 0 1 1 1 1 0 0 0 0 1 0 0 1 0 0 1
-#&gt; [3590] 0 0 0 1 1 0 1 0 1 0 1 0 1 0 1 0 1 1 0 1 1 0 1 1 0 0 0 0 1 1 1 1 1 1 1 0 1
-#&gt; [3627] 0 0 0 0 0 1 1 1 0 0 0 1 0 0 1 1 0 0 1 0 0 0 1 1 0 1 0 0 1 1 1 0 0 1 0 1 0
-#&gt; [3664] 0 1 1 1 1 0 1 0 1 0 1 0 1 0 1 0 1 1 0 0 0 0 1 1 1 0 1 0 0 0 0 0 1 1 1 0 1
-#&gt; [3701] 0 0 1 0 0 0 0 1 1 1 0 1 1 1 0 0 1 0 1 0 0 1 1 1 0 0 1 0 1 1 0 1 0 0 0 0 0
-#&gt; [3738] 1 1 1 1 1 1 1 0 1 1 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 1 0
-#&gt; [3775] 0 1 1 1 0 1 1 0 0 1 0 1 1 1 1 0 0 1 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 1 0
-#&gt; [3812] 0 0 0 1 1 1 0 0 1 1 0 0 0 0 1 1 0 0 1 1 0 1 0 1 1 1 1 0 1 1 1 1 0 0 1 0 0
-#&gt; [3849] 1 0 0 0 0 1 0 1 0 0 1 1 0 1 1 0 0 1 0 1 0 0 0 1 1 1 1 0 1 0 0 0 1 1 1 0 0
-#&gt; [3886] 1 0 1 0 0 1 1 0 1 1 0 1 0 0 1 1 0 0 1 0 0 0 1 1 1 0 1 0 1 1 1 0 0 1 1 1 0
-#&gt; [3923] 1 0 1 0 1 1 0 0 0 1 1 0 0 1 0 1 1 1 0 0 0 1 1 1 1 0 1 0 0 0 1 0 0 0 0 1 1
-#&gt; [3960] 1 1 1 1 0 0 0 0 0 0 0 1 0 1 0 1 1 1 0 1 1 1 0 0 0 1 0 1 0 0 0 1 1 1 0 0 0
-#&gt; [3997] 0 0 1 0 0 1 0 0 0 0 1 0 1 1 1 0 0 0 0 0 0 0 1 0 1 0 0 1 1 1 0 0 0 1 0 0 0
-#&gt; [4034] 0 1 1 0 1 1 1 0 1 0 1 1 1 0 1 0 0 0 0 1 0 0 1 1 0 1 0 1 1 1 1 1 0 1 0 0 0
-#&gt; [4071] 0 0 0 0 1 1 0 0 0 1 0 1 1 0 0 1 0 0 1 1 1 0 1 1 0 0 1 1 0 1 1 0 1 1 0 0 0
-#&gt; [4108] 1 1 1 1 1 0 1 1 1 1 1 0 1 1 0 0 0 0 0 1 0 0 1 0 1 0 1 1 1 0 1 1 1 1 0 0 1
-#&gt; [4145] 0 1 1 0 0 0 1 1 1 0 0 1 1 0 0 0 1 0 0 1 0 0 0 0 1 0 0 1 1 0 0 1 0 0 1 0 0
-#&gt; [4182] 0 1 1 1 0 1 1 1 1 1 0 0 0 1 1 0 0 0 1 0 1 1 1 0 1 0 1 0 0 1 0 0 1 0 0 0 1
-#&gt; [4219] 1 0 1 1 0 0 1 1 0 1 0 1 1 0 1 1 0 1 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 1 1 1
-#&gt; [4256] 0 0 1 0 0 1 1 1 1 0 0 0 1 0 0 1 1 0 1 1 0 0 0 0 1 1 1 0 0 0 0 1 0 1 0 1 0
-#&gt; [4293] 0 1 1 0 1 1 0 0 0 0 1 0 0 0 0 1 0 0 1 1 0 1 1 0 1 0 0 0 1 1 0 1 0 0 1 1 1
-#&gt; [4330] 1 0 0 0 1 1 0 0 1 1 1 1 1 0 0 0 1 0 1 1 1 0 0 0 0 0 1 1 1 0 1 0 1 1 0 1 1
-#&gt; [4367] 1 1 0 1 0 0 1 1 0 1 1 1 0 1 1 1 0 1 0 1 1 1 0 1 1 1 0 1 0 1 0 0 1 1 0 1 1
-#&gt; [4404] 1 1 0 1 0 1 0 0 1 0 0 1 0 1 1 1 1 0 0 0 1 0 1 1 0 1 1 0 1 0 0 1 1 0 0 0 0
-#&gt; [4441] 0 1 1 0 0 1 0 0 0 0 1 0 0 1 0 1 0 0 0 1 1 0 0 0 0 0 0 0 1 0 1 0 0 0 1 1 0
-#&gt; [4478] 1 0 0 1 1 0 1 0 0 0 1 1 1 1 1 1 0 0 1 0 0 1 0 1 1 1 0 0 1 0 1 1 1 1 1 1 0
-#&gt; [4515] 1 0 0 0 0 1 0 1 1 0 0 0 0 1 0 0 0 0 0 1 0 1 1 0 1 0 1 1 1 1 1 0 0 1 1 0 0
-#&gt; [4552] 1 0 1 1 0 0 1 0 1 0 1 0 0 0 0 1 0 0 1 1 1 1 0 1 0 1 0 1 0 1 0 0 0 0 0 0 0
-#&gt; [4589] 0 0 1 0 1 0 0 1 1 0 1 0 1 1 1 1 0 0 1 0 1 0 1 1 1 0 1 1 0 0 0 1 0 0 0 0 1
-#&gt; [4626] 1 0 0 0 1 0 0 1 1 0 0 0 0 0 0 1 1 0 0 0 1 0 1 0 1 1 1 0 0 1 0 1 0 0 1 1 1
-#&gt; [4663] 1 1 0 1 1 0 0 0 0 0 1 0 1 0 0 0 1 0 1 1 0 1 1 1 1 1 1 0 0 0 1 1 1 0 1 1 0
-#&gt; [4700] 1 1 0 1 0 0 1 0 0 1 0 1 0 1 1 0 0 1 1 1 1 1 1 1 0 1 1 0 1 0 0 0 0 0 1 0 1
-#&gt; [4737] 1 0 1 1 1 0 1 0 1 0 0 1 1 0 1 0 0 0 1 0 0 0 1 0 1 1 1 1 0 0 0 1 0 1 1 0 0
-#&gt; [4774] 1 0 1 1 1 0 1 1 0 0 0 0 1 1 1 1 0 0 0 1 0 0 0 0 1 1 0 1 1 0 0 1 1 1 0 1 1
-#&gt; [4811] 1 0 0 0 1 0 1 0 1 0 0 0 1 1 1 0 0 0 1 0 0 0 1 1 0 0 0 0 0 0 1 0 1 0 0 1 1
-#&gt; [4848] 0 0 1 1 0 0 0 0 0 0 0 1 0 0 1 1 0 0 1 1 1 1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0
-#&gt; [4885] 0 0 1 1 1 0 1 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 0 1 1 1 0 0 1 1 1 0 0 1 1 0 1
-#&gt; [4922] 0 1 1 0 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 0 1 0 0 0 1 1 0 0 0 0 0 1 0 0 0
-#&gt; [4959] 0 1 1 1 0 0 1 0 1 0 0 1 0 1 1 0 1 1 0 1 0 0 0 1 0 1 0 0 0 0 0 1 1 0 0 0 1
-#&gt; [4996] 1 0 1 1 0 0 0 0 1 0 0 1 0 0 1 1 1 1 1 0 1 0 1 1 1 0 0 0 0 1 1 0 0 0 0 0 1
-#&gt; [5033] 1 1 0 1 0 1 1 0 1 0 0 0 0 0 1 1 0 0 0 1 1 0 0 0 0 0 0 1 0 1 1 0 0 0 1 0 0
-#&gt; [5070] 1 0 0 0 0 0 1 1 0 0 0 0 1 1 1 1 0 1 0 1 0 1 0 0 1 0 1 1 0 0 1 1 0 1 1 0 1
-#&gt; [5107] 0 1 1 1 1 1 1 0 1 0 1 0 0 0 0 0 0 0 1 1 0 1 0 1 1 1 1 1 1 0 1 0 0 0 1 0 1
-#&gt; [5144] 0 0 1 1 1 1 0 1 1 0 1 0 1 0 1 0 1 1 1 0 1 1 1 0 0 0 0 0 0 1 0 1 1 0 0 0 0
-#&gt; [5181] 1 0 0 1 1 0 0 0 1 0 0 1 0 0 0 0 1 1 0 0 1 0 1 0 0 0 0 1 0 0 1 0 0 0 0 0 0
-#&gt; [5218] 1 0 0 1 0 1 0 1 0 0 1 0 1 1 1 0 1 0 1 1 1 1 1 1 0 0 1 0 0 1 1 0 1 0 0 0 0
-#&gt; [5255] 0 1 0 0 1 0 1 0 0 1 0 1 0 0 1 0 0 1 1 0 0 0 1 0 1 1 1 0 1 1 1 0 0 1 1 0 0
-#&gt; [5292] 1 0 0 0 1 0 0 1 0 1 0 1 1 1 0 0 0 1 1 1 0 0 0 1 0 0 1 0 0 0 1 0 1 1 0 0 0
-#&gt; [5329] 0 1 0 1 0 1 1 0 0 0 0 0 0 1 1 0 0 1 0 1 1 1 1 0 1 1 1 0 0 0 1 1 0 0 0 0 1
-#&gt; [5366] 1 0 1 0 1 0 1 0 0 0 0 0 1 1 0 0 1 0 0 0 1 1 1 1 1 0 1 1 1 1 0 1 0 0 1 1 1
-#&gt; [5403] 0 0 0 0 0 0 0 1 1 0 0 0 1 0 0 0 1 1 1 0 0 0 0 1 0 1 0 0 0 0 1 0 0 1 1 0 0
-#&gt; [5440] 0 0 0 0 1 0 1 0 0 1 1 0 1 1 0 1 0 1 0 0 0 1 0 0 1 1 0 0 1 1 0 1 0 1 1 0 1
-#&gt; [5477] 0 1 1 1 1 0 0 0 1 1 1 0 1 0 0 0 1 1 0 1 0 1 1 0 0 1 1 0 1 0 1 1 1 0 1 0 0
-#&gt; [5514] 0 0 1 1 0 0 0 0 0 0 1 0 1 1 1 1 1 0 0 1 0 0 1 1 0 0 0 1 1 1 0 1 0 0 0 0 0
-#&gt; [5551] 1 1 1 1 1 1 1 1 0 1 0 0 0 1 0 0 1 1 0 1 1 1 0 1 0 1 1 0 0 0 1 0 1 0 0 0 0
-#&gt; [5588] 1 1 1 1 0 0 1 1 0 1 1 1 0 0 1 0 1 0 0 1 0 1 1 1 1 1 0 1 0 0 1 1 0 1 0 1 1
-#&gt; [5625] 1 1 0 1 1 1 0 1 0 0 0 0 0 0 1 0 0 0 0 0 0 1 0 1 0 1 1 0 1 1 0 0 0 1 0 1 0
-#&gt; [5662] 1 0 1 1 1 1 1 0 1 0 0 1 0 1 1 0 1 0 1 1 1 1 0 0 0 1 1 0 1 1 1 0 0 0 0 0 0
-#&gt; [5699] 1 1 0 1 0 0 1 0 1 1 1 0 0 0 0 0 1 1 1 0 0 0 0 1 0 0 0 1 0 1 0 1 0 1 0 0 1
-#&gt; [5736] 0 0 0 0 0 0 1 0 0 0 0 0 1 0 0 1 1 0 1 0 1 0 1 0 0 0 1 0 0 1 0 1 1 1 0 1 1
-#&gt; [5773] 0 1 0 0 1 1 1 0 0 0 0 0 1 0 1 0 1 0 0 0 1 0 1 1 0 0 1 0 0 0 0 1 1 1 0 0 1
-#&gt; [5810] 1 0 0 1 1 0 1 1 0 1 0 1 1 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 1 1 0 0 0 1 1 0
-#&gt; [5847] 0 0 1 0 0 0 0 1 0 0 1 0 1 1 0 1 0 1 1 0 0 1 0 0 1 0 0 1 1 0 0 0 1 0 0 0 1
-#&gt; [5884] 1 0 1 0 0 1 0 0 0 1 1 0 0 1 1 1 0 1 1 0 0 1 1 1 1 0 1 1 1 0 0 0 1 0 0 0 1
-#&gt; [5921] 1 1 0 0 1 0 1 0 0 0 0 0 1 1 0 1 1 0 1 1 0 1 1 1 1 0 0 0 1 0 1 1 1 1 1 1 1
-#&gt; [5958] 0 1 0 0 0 1 1 0 0 1 0 0 1 1 0 0 1 0 0 0 0 1 1 1 1 1 1 0 1 0 1 0 0 1 1 1 0
-#&gt; [5995] 0 0 0 1 0 1 1 1 1 1 0 0 1 0 0 1 0 0 0 1 0 1 1 1 0 1 0 0 1 0 0 0 1 0 0 1 0
-#&gt; [6032] 1 1 0 0 0 1 1 0 0 1 1 0 0 0 0 0 0 0 1 1 1 1 1 0 1 1 0 0 1 1 1 1 1 1 1 0 1
-#&gt; [6069] 0 1 0 1 1 1 0 1 1 1 0 1 0 0 0 1 1 0 1 1 0 1 0 1 0 1 0 0 0 1 0 1 1 1 0 0 0
-#&gt; [6106] 1 0 1 1 0 1 0 1 1 0 1 0 0 0 0 1 0 0 1 0 0 0 1 1 0 0 1 0 1 0 1 1 0 0 0 0 1
-#&gt; [6143] 0 1 1 0 0 1 0 1 1 0 0 1 1 0 0 0 0 1 1 0 0 0 1 1 0 0 0 0 0 1
-#&gt; Levels: 0 1</div><div class='input'><span class='kw'>y_numeric</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='kw'>two_yr_recidivism</span>) <span class='op'>-</span><span class='fl'>1</span>
+<span class='kw'>y_numeric</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='kw'>german</span><span class='op'>$</span><span class='kw'>Risk</span>) <span class='op'>-</span><span class='fl'>1</span>
 
-<span class='kw'>lm_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='kw'>Two_yr_Recidivism</span><span class='op'>~</span><span class='kw'>.</span>,
-                data=<span class='kw'>compas</span>,
+<span class='kw'>lm_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='kw'>Risk</span><span class='op'>~</span><span class='kw'>.</span>,
+                data = <span class='kw'>german</span>,
                 family=<span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(link=<span class='st'>"logit"</span>))
 
-<span class='kw'>rf_model</span> <span class='op'>&lt;-</span> <span class='kw'>ranger</span>::<span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>Two_yr_Recidivism</span> <span class='op'>~</span><span class='kw'>.</span>,
-                           data = <span class='kw'>compas</span>,
+<span class='kw'>rf_model</span> <span class='op'>&lt;-</span> <span class='kw'>ranger</span>::<span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>Risk</span> <span class='op'>~</span><span class='kw'>.</span>,
+                           data = <span class='kw'>german</span>,
                            probability = <span class='fl'>TRUE</span>,
                            num.trees = <span class='fl'>200</span>)
 
-<span class='kw'>explainer_lm</span> <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>lm_model</span>, data = <span class='kw'>compas</span>[,<span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+<span class='kw'>explainer_lm</span> <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>lm_model</span>, data = <span class='kw'>german</span>[,<span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( <span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; data              :  6172  rows  6  cols 
-#&gt;   -&gt; target variable   :  6172  values 
+#&gt;   -&gt; data              :  1000  rows  9  cols 
+#&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1144574 , mean =  0.4551199 , max =  0.995477  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1369187 , mean =  0.7 , max =  0.9832426  
 #&gt;   -&gt; model_info        :  package stats , ver. 4.0.2 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.995477 , mean =  0.08976021 , max =  0.8855426  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>explainer_rf</span> <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>rf_model</span>, data = <span class='kw'>compas</span>[,<span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; residuals         :  numerical, min =  -0.9572803 , mean =  1.940006e-17 , max =  0.8283475  
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>explainer_rf</span> <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>rf_model</span>, data = <span class='kw'>german</span>[,<span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; data              :  6172  rows  6  cols 
-#&gt;   -&gt; target variable   :  6172  values 
+#&gt;   -&gt; data              :  1000  rows  9  cols 
+#&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1378207 , mean =  0.4547567 , max =  0.8322698  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.06213294 , mean =  0.6972147 , max =  0.9985417  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8322698 , mean =  0.09012339 , max =  0.8621793  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7215377 , mean =  0.002785339 , max =  0.6310615  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'>fairness_check</span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
-                          protected = <span class='kw'>compas</span><span class='op'>$</span><span class='kw'>Ethnicity</span>,
-                          privileged = <span class='st'>"Caucasian"</span>)</div><div class='output co'>#&gt; Creating fairness object
+<span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
+                          protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
+                          privileged = <span class='st'>"male"</span>)</div><div class='output co'>#&gt; Creating fairness object
 #&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
 #&gt; -&gt; Protected variable		: factor (</span><span style='color: #00BB00;'> Ok </span><span> ) 
 #&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
@@ -377,9 +211,10 @@ it all in one plot. When default one is used all chosen metrics will be plotted 
 #&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
 #&gt; -&gt; Metric calculation		: successful
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
-<span class='kw'>cpc</span> <span class='op'>&lt;-</span> <span class='fu'>ceteris_paribus_cutoff</span>(<span class='kw'>fobject</span>, <span class='st'>"African_American"</span>)
-
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>cpc</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 87 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='plot_ceteris_paribus_cutoff-1.png' alt='' width='700' height='433' /></div><div class='input'></div></span></pre>
+<span class='kw'>cpc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ceteris_paribus_cutoff.html'>ceteris_paribus_cutoff</a></span>(<span class='kw'>fobject</span>, <span class='st'>"female"</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>cpc</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 31 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='plot_ceteris_paribus_cutoff-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>cpc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ceteris_paribus_cutoff.html'>ceteris_paribus_cutoff</a></span>(<span class='kw'>fobject</span>, <span class='st'>"female"</span>, cumulated = <span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>cpc</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 270 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='plot_ceteris_paribus_cutoff-2.png' alt='' width='700' height='433' /></div><div class='input'></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

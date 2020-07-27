@@ -113,6 +113,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/Advanced_tutorial.html">Advanced Tutorial</a>
+    </li>
+    <li>
       <a href="../articles/Basic_tutorial.html">Basic Tutorial</a>
     </li>
   </ul>
@@ -189,12 +192,12 @@
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.07484325 , mean =  0.6977011 , max =  0.9980556  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.04864286 , mean =  0.6963437 , max =  0.9955556  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7263166 , mean =  0.002298935 , max =  0.6368631  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7585476 , mean =  0.003656338 , max =  0.6813942  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'>fairness_check</span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
+<span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
                           protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
                           privileged = <span class='st'>"male"</span>)</div><div class='output co'>#&gt; Creating fairness object
 #&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
@@ -204,33 +207,33 @@
 #&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
 #&gt; -&gt; Metric calculation		: successful
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
-<span class='fu'>expand_fairness_object</span>(<span class='kw'>fobject</span>, drop_metrics_with_na = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;             metric  model       score
-#&gt; 1  TPR_parity_loss     lm 0.085055684
-#&gt; 2  TPR_parity_loss ranger 0.010020040
-#&gt; 3  TNR_parity_loss     lm 0.190499063
-#&gt; 4  TNR_parity_loss ranger 0.071809405
-#&gt; 5  PPV_parity_loss     lm 0.016706407
-#&gt; 6  PPV_parity_loss ranger 0.005461923
-#&gt; 7  NPV_parity_loss     lm 0.004120879
-#&gt; 8  NPV_parity_loss ranger 0.032051282
-#&gt; 9  FNR_parity_loss     lm 0.085055684
-#&gt; 10 FNR_parity_loss ranger 0.010020040
-#&gt; 11 FPR_parity_loss     lm 0.190499063
-#&gt; 12 FPR_parity_loss ranger 0.071809405
-#&gt; 13 FDR_parity_loss     lm 0.016706407
-#&gt; 14 FDR_parity_loss ranger 0.005461923
-#&gt; 15 FOR_parity_loss     lm 0.004120879
-#&gt; 16 FOR_parity_loss ranger 0.032051282
-#&gt; 17  TS_parity_loss     lm 0.068266261
-#&gt; 18  TS_parity_loss ranger 0.014043496
-#&gt; 19 STP_parity_loss     lm 0.142823749
-#&gt; 20 STP_parity_loss ranger 0.077138850
-#&gt; 21 ACC_parity_loss     lm 0.031182796
-#&gt; 22 ACC_parity_loss ranger 0.016830295
-#&gt; 23  F1_parity_loss     lm 0.046850998
-#&gt; 24  F1_parity_loss ranger 0.007591216
-#&gt; 25 MCC_parity_loss     lm 0.054662618
-#&gt; 26 MCC_parity_loss ranger 0.060915367</div><div class='input'></div></span></pre>
+<span class='fu'>expand_fairness_object</span>(<span class='kw'>fobject</span>, drop_metrics_with_na = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;    metric  model        score
+#&gt; 1     TPR     lm 0.0850556835
+#&gt; 2     TPR ranger 0.0080160321
+#&gt; 3     TNR     lm 0.1904990634
+#&gt; 4     TNR ranger 0.0442864691
+#&gt; 5     PPV     lm 0.0167064067
+#&gt; 6     PPV ranger 0.0074254257
+#&gt; 7     NPV     lm 0.0041208791
+#&gt; 8     NPV ranger 0.0258064516
+#&gt; 9     FNR     lm 0.0850556835
+#&gt; 10    FNR ranger 0.0080160321
+#&gt; 11    FPR     lm 0.1904990634
+#&gt; 12    FPR ranger 0.0442864691
+#&gt; 13    FDR     lm 0.0167064067
+#&gt; 14    FDR ranger 0.0074254257
+#&gt; 15    FOR     lm 0.0041208791
+#&gt; 16    FOR ranger 0.0258064516
+#&gt; 17     TS     lm 0.0682662608
+#&gt; 18     TS ranger 0.0005591278
+#&gt; 19    STP     lm 0.1428237494
+#&gt; 20    STP ranger 0.0689107059
+#&gt; 21    ACC     lm 0.0311827957
+#&gt; 22    ACC ranger 0.0057035998
+#&gt; 23     F1     lm 0.0468509985
+#&gt; 24     F1 ranger 0.0003039514
+#&gt; 25    MCC     lm 0.0546626183
+#&gt; 26    MCC ranger 0.0363923429</div><div class='input'></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -114,6 +114,9 @@ for subgroups from protected vector." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/Advanced_tutorial.html">Advanced Tutorial</a>
+    </li>
+    <li>
       <a href="../articles/Basic_tutorial.html">Basic Tutorial</a>
     </li>
   </ul>
@@ -188,12 +191,12 @@ for subgroups from protected vector.</p>
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.08677381 , mean =  0.6971198 , max =  0.9993846  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.05112103 , mean =  0.697292 , max =  0.9984524  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7160437 , mean =  0.002880197 , max =  0.690625  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7416003 , mean =  0.002708007 , max =  0.6776488  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'>fairness_check</span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
+<span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
                           protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
                           privileged = <span class='st'>"male"</span>)</div><div class='output co'>#&gt; Creating fairness object
 #&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
@@ -203,16 +206,16 @@ for subgroups from protected vector.</p>
 #&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
 #&gt; -&gt; Metric calculation		: successful
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
-<span class='kw'>sm</span> <span class='op'>&lt;-</span> <span class='fu'>stack_metrics</span>(<span class='kw'>fobject</span>)
+<span class='kw'>sm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='stack_metrics.html'>stack_metrics</a></span>(<span class='kw'>fobject</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>sm</span>)</div><div class='output co'>#&gt; 
 #&gt; First rows of stacked data: 
-#&gt;            metric  model score
-#&gt; 1 TPR_parity_loss     lm 0.085
-#&gt; 2 TPR_parity_loss ranger 0.005
-#&gt; 3 TNR_parity_loss     lm 0.190
-#&gt; 4 TNR_parity_loss ranger 0.081
-#&gt; 5 PPV_parity_loss     lm 0.017
-#&gt; 6 PPV_parity_loss ranger 0.009
+#&gt;   metric  model score
+#&gt; 1    TPR     lm 0.085
+#&gt; 2    TPR ranger 0.012
+#&gt; 3    TNR     lm 0.190
+#&gt; 4    TNR ranger 0.067
+#&gt; 5    PPV     lm 0.017
+#&gt; 6    PPV ranger 0.004
 #&gt; </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

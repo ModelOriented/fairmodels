@@ -113,6 +113,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/Advanced_tutorial.html">Advanced Tutorial</a>
+    </li>
+    <li>
       <a href="../articles/Basic_tutorial.html">Basic Tutorial</a>
     </li>
   </ul>
@@ -177,7 +180,7 @@
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9767658 , mean =  5.070175e-13 , max =  0.8822826  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='kw'>fobject</span> <span class='op'>&lt;-</span>  <span class='fu'>fairness_check</span>(<span class='kw'>explainer_glm</span>,
+<span class='kw'>fobject</span> <span class='op'>&lt;-</span>  <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_glm</span>,
                              protected = <span class='kw'>compas</span><span class='op'>$</span><span class='kw'>Ethnicity</span>,
                              privileged = <span class='st'>"Caucasian"</span>)</div><div class='output co'>#&gt; Creating fairness object
 #&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
@@ -185,7 +188,7 @@
 #&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
 #&gt; -&gt; Fairness objects		: 0 objects 
 #&gt; -&gt; Checking explainers		: 1 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
-#&gt; -&gt; Metric calculation		: successful ( </span><span style='color: #BBBB00;'> NA created </span><span> )
+#&gt; -&gt; Metric calculation		: successful ( </span><span style='color: #BBBB00;'> 1 NA created </span><span> )
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
 <span class='fu'>plot_density</span>(<span class='kw'>fobject</span>)</div><div class='img'><img src='plot_density-1.png' alt='' width='700' height='433' /></div></span></pre>
   </div>

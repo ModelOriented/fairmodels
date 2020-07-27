@@ -114,6 +114,9 @@ The one with the least parity loss is more fair in terms of this particular metr
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/Advanced_tutorial.html">Advanced Tutorial</a>
+    </li>
+    <li>
       <a href="../articles/Basic_tutorial.html">Basic Tutorial</a>
     </li>
   </ul>
@@ -154,7 +157,7 @@ The one with the least parity loss is more fair in terms of this particular metr
     </tr>
     <tr>
       <th>...</th>
-      <td><p>other <code>chosen_metric</code> object</p></td>
+      <td><p>other print parameters</p></td>
     </tr>
     </table>
 
@@ -188,12 +191,12 @@ The one with the least parity loss is more fair in terms of this particular metr
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.0727381 , mean =  0.6963849 , max =  0.9963333  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.08860653 , mean =  0.6965404 , max =  1  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7596137 , mean =  0.003615125 , max =  0.661248  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7149325 , mean =  0.003459649 , max =  0.6633513  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'>fairness_check</span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
+<span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
                           protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
                           privileged = <span class='st'>"male"</span>)</div><div class='output co'>#&gt; Creating fairness object
 #&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
@@ -203,14 +206,14 @@ The one with the least parity loss is more fair in terms of this particular metr
 #&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
 #&gt; -&gt; Metric calculation		: successful
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
-<span class='kw'>cm</span> <span class='op'>&lt;-</span> <span class='fu'>choose_metric</span>(<span class='kw'>fobject</span>, <span class='st'>"TPR_parity_loss"</span>)
+<span class='kw'>cm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='choose_metric.html'>choose_metric</a></span>(<span class='kw'>fobject</span>, <span class='st'>"TPR"</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>cm</span>)</div><div class='output co'>#&gt; 
 #&gt; choosen metric:
-#&gt;  TPR_parity_loss
+#&gt;  TPR
 #&gt; data:
-#&gt;        metric  label
-#&gt; 1 0.085055684     lm
-#&gt; 2 0.005044916 ranger
+#&gt;   parity_loss_metric  label
+#&gt; 1         0.08505568     lm
+#&gt; 2         0.01002004 ranger
 #&gt; </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

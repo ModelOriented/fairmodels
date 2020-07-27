@@ -113,6 +113,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/Advanced_tutorial.html">Advanced Tutorial</a>
+    </li>
+    <li>
       <a href="../articles/Basic_tutorial.html">Basic Tutorial</a>
     </li>
   </ul>
@@ -186,12 +189,12 @@
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.058875 , mean =  0.6971408 , max =  0.9984444  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.06672809 , mean =  0.6971553 , max =  0.9964444  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7210456 , mean =  0.002859185 , max =  0.6919437  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7095725 , mean =  0.002844653 , max =  0.6486032  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'>fairness_check</span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
+<span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
                           protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
                           privileged = <span class='st'>"male"</span>)</div><div class='output co'>#&gt; Creating fairness object
 #&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
@@ -202,7 +205,7 @@
 #&gt; -&gt; Metric calculation		: successful
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
  <span class='co'># same explainers with different cutoffs for female</span>
-<span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'>fairness_check</span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>, <span class='kw'>fobject</span>,
+<span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>, <span class='kw'>fobject</span>,
                           protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
                           privileged = <span class='st'>"male"</span>,
                           cutoff = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(female = <span class='fl'>0.4</span>),
@@ -210,25 +213,25 @@
 #&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
 #&gt; -&gt; Protected variable		: factor (</span><span style='color: #00BB00;'> Ok </span><span> ) 
 #&gt; -&gt; Cutoff values for explainers	: female: 0.4, male: 0.5 
-#&gt; -&gt; Fairness objects		: 1 objects ( </span><span style='color: #00BB00;'> compatible </span><span> )
+#&gt; -&gt; Fairness objects		: 1 object ( </span><span style='color: #00BB00;'> compatible </span><span> )
 #&gt; -&gt; Checking explainers		: 4 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
 #&gt; -&gt; Metric calculation		: successful
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
-<span class='kw'>paf</span> <span class='op'>&lt;-</span> <span class='fu'>performance_and_fairness</span>(<span class='kw'>fobject</span>)</div><div class='output co'>#&gt; Fairness Metric is NULL, setting deafult ( TPR_parity_loss )  
+<span class='kw'>paf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='performance_and_fairness.html'>performance_and_fairness</a></span>(<span class='kw'>fobject</span>)</div><div class='output co'>#&gt; Fairness Metric is NULL, setting deafult parity loss metric ( TPR )  
 #&gt; Performace metric is NULL, setting deafult ( accuracy )  
 #&gt; 
 #&gt; Creating object with: 
-#&gt; Fairness metric TPR_parity_loss 
-#&gt; Performance metric  accuracy </div><div class='input'>
+#&gt; Fairness metric: TPR 
+#&gt; Performance metric: accuracy </div><div class='input'>
 <span class='kw'>paf</span></div><div class='output co'>#&gt; performance_and_fairness object created for: 
 #&gt; [1] "lm_2"   "rf_2"   "lm"     "ranger"
 #&gt; 
 #&gt; data: 
 #&gt;   fairness_metric performance_metric labels
 #&gt; 1     0.004496555              0.751   lm_2
-#&gt; 2     0.006012024              0.923   rf_2
+#&gt; 2     0.008016032              0.917   rf_2
 #&gt; 3     0.085055684              0.757     lm
-#&gt; 4     0.006012024              0.941 ranger</div></span></pre>
+#&gt; 4     0.008016032              0.938 ranger</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

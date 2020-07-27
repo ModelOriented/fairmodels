@@ -113,6 +113,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/Advanced_tutorial.html">Advanced Tutorial</a>
+    </li>
+    <li>
       <a href="../articles/Basic_tutorial.html">Basic Tutorial</a>
     </li>
   </ul>
@@ -186,12 +189,12 @@
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.06739484 , mean =  0.6985956 , max =  0.9967778  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.06637698 , mean =  0.6975417 , max =  0.9975694  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.6897459 , mean =  0.001404426 , max =  0.6563558  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7003433 , mean =  0.002458253 , max =  0.6324524  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'>fairness_check</span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
+<span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
                           protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
                           privileged = <span class='st'>"male"</span>)</div><div class='output co'>#&gt; Creating fairness object
 #&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
@@ -202,7 +205,7 @@
 #&gt; -&gt; Metric calculation		: successful
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
  <span class='co'># same explainers with different cutoffs for female</span>
- <span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'>fairness_check</span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>, <span class='kw'>fobject</span>,
+ <span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>, <span class='kw'>fobject</span>,
                           protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
                           privileged = <span class='st'>"male"</span>,
                           cutoff = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>( female = <span class='fl'>0.4</span>),
@@ -210,41 +213,36 @@
 #&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
 #&gt; -&gt; Protected variable		: factor (</span><span style='color: #00BB00;'> Ok </span><span> ) 
 #&gt; -&gt; Cutoff values for explainers	: female: 0.4, male: 0.5 
-#&gt; -&gt; Fairness objects		: 1 objects ( </span><span style='color: #00BB00;'> compatible </span><span> )
+#&gt; -&gt; Fairness objects		: 1 object ( </span><span style='color: #00BB00;'> compatible </span><span> )
 #&gt; -&gt; Checking explainers		: 4 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
 #&gt; -&gt; Metric calculation		: successful
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
 
-<span class='kw'>fh</span> <span class='op'>&lt;-</span> <span class='fu'>fairness_heatmap</span>(<span class='kw'>fobject</span>)
+<span class='kw'>fh</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_heatmap.html'>fairness_heatmap</a></span>(<span class='kw'>fobject</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>fh</span>)</div><div class='output co'>#&gt; heatmap data top rows: 
-#&gt;            metric  model score
-#&gt; 1 TPR_parity_loss   lm_2  0.00
-#&gt; 2 TPR_parity_loss   rf_2  0.01
-#&gt; 3 TPR_parity_loss     lm  0.09
-#&gt; 4 TPR_parity_loss ranger  0.01
-#&gt; 5 TNR_parity_loss   lm_2  0.03
+#&gt;   parity_loss_metric  model score
+#&gt; 1                TPR   lm_2  0.00
+#&gt; 2                TPR   rf_2  0.01
+#&gt; 3                TPR     lm  0.09
+#&gt; 4                TPR ranger  0.01
+#&gt; 5                TNR   lm_2  0.03
 #&gt; 
 #&gt; matrix model not scaled :
-#&gt;        TPR_parity_loss TNR_parity_loss PPV_parity_loss NPV_parity_loss
-#&gt; lm_2       0.004496555      0.02968442      0.07192081     0.070054945
-#&gt; rf_2       0.010020040      0.08026322      0.06311990     0.033333333
-#&gt; lm         0.085055684      0.19049906      0.01670641     0.004120879
-#&gt; ranger     0.010020040      0.11239733      0.02006891     0.033333333
-#&gt;        FNR_parity_loss FPR_parity_loss FDR_parity_loss FOR_parity_loss
-#&gt; lm_2       0.004496555      0.02968442      0.07192081     0.070054945
-#&gt; rf_2       0.010020040      0.08026322      0.06311990     0.033333333
-#&gt; lm         0.085055684      0.19049906      0.01670641     0.004120879
-#&gt; ranger     0.010020040      0.11239733      0.02006891     0.033333333
-#&gt;        TS_parity_loss STP_parity_loss ACC_parity_loss F1_parity_loss
-#&gt; lm_2       0.06157303     0.007339878      0.05053763     0.04208909
-#&gt; rf_2       0.05472710     0.021318373      0.03899018     0.03100587
-#&gt; lm         0.06826626     0.142823749      0.03118280     0.04685100
-#&gt; ranger     0.02846170     0.089060309      0.02875175     0.01543181
-#&gt;        MCC_parity_loss
-#&gt; lm_2        0.01683718
-#&gt; rf_2        0.05221789
-#&gt; lm          0.05466262
-#&gt; ranger      0.09004424
+#&gt;                TPR        TNR         PPV         NPV         FNR        FPR
+#&gt; lm_2   0.004496555 0.02968442 0.071920809 0.070054945 0.004496555 0.02968442
+#&gt; rf_2   0.012024048 0.10644123 0.071526059 0.038461538 0.012024048 0.10644123
+#&gt; lm     0.085055684 0.19049906 0.016706407 0.004120879 0.085055684 0.19049906
+#&gt; ranger 0.012024048 0.07704501 0.007334582 0.038461538 0.012024048 0.07704501
+#&gt;                FDR         FOR         TS         STP        ACC          F1
+#&gt; lm_2   0.071920809 0.070054945 0.06157303 0.007339878 0.05053763 0.042089094
+#&gt; rf_2   0.071526059 0.038461538 0.06126805 0.012622721 0.04478728 0.034592985
+#&gt; lm     0.016706407 0.004120879 0.06826626 0.142823749 0.03118280 0.046850998
+#&gt; ranger 0.007334582 0.038461538 0.01759259 0.077138850 0.01972885 0.009527325
+#&gt;               MCC
+#&gt; lm_2   0.01683718
+#&gt; rf_2   0.06675871
+#&gt; lm     0.05466262
+#&gt; ranger 0.06865908
 #&gt; </div><div class='input'></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

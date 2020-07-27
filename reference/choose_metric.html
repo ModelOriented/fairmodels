@@ -114,6 +114,9 @@ It allows to visualize and compare it's values of chosen metric across all model
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/Advanced_tutorial.html">Advanced Tutorial</a>
+    </li>
+    <li>
       <a href="../articles/Basic_tutorial.html">Basic Tutorial</a>
     </li>
   </ul>
@@ -142,7 +145,7 @@ It allows to visualize and compare it's values of chosen metric across all model
 It allows to visualize and compare it's values of chosen metric across all models.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>choose_metric</span>(<span class='kw'>x</span>, fairness_metric = <span class='st'>"FPR_parity_loss"</span>)</pre>
+    <pre class="usage"><span class='fu'>choose_metric</span>(<span class='kw'>x</span>, fairness_metric = <span class='st'>"FPR"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -207,12 +210,12 @@ It allows to visualize and compare it's values of chosen metric across all model
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.07726587 , mean =  0.6957245 , max =  0.999375  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.06623214 , mean =  0.6963843 , max =  0.9973333  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7287816 , mean =  0.004275459 , max =  0.6337968  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7239763 , mean =  0.00361569 , max =  0.6313452  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'>fairness_check</span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
+<span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
                           protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
                           privileged = <span class='st'>"male"</span>)</div><div class='output co'>#&gt; Creating fairness object
 #&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
@@ -222,7 +225,7 @@ It allows to visualize and compare it's values of chosen metric across all model
 #&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
 #&gt; -&gt; Metric calculation		: successful
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
-<span class='kw'>cm</span> <span class='op'>&lt;-</span> <span class='fu'>choose_metric</span>(<span class='kw'>fobject</span>, <span class='st'>"TPR_parity_loss"</span>)
+<span class='kw'>cm</span> <span class='op'>&lt;-</span> <span class='fu'>choose_metric</span>(<span class='kw'>fobject</span>, <span class='st'>"TPR"</span>)
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>cm</span>)</div><div class='img'><img src='choose_metric-1.png' alt='' width='700' height='433' /></div><div class='input'></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

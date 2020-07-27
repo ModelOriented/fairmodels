@@ -116,6 +116,9 @@ Users through print and plot methods may quickly check values of most popular fa
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/Advanced_tutorial.html">Advanced Tutorial</a>
+    </li>
+    <li>
       <a href="../articles/Basic_tutorial.html">Basic Tutorial</a>
     </li>
   </ul>
@@ -149,8 +152,8 @@ Users through print and plot methods may quickly check values of most popular fa
     <pre class="usage"><span class='fu'>fairness_check</span>(
   <span class='kw'>x</span>,
   <span class='kw'>...</span>,
-  <span class='kw'>protected</span>,
-  <span class='kw'>privileged</span>,
+  protected = <span class='kw'>NULL</span>,
+  privileged = <span class='kw'>NULL</span>,
   cutoff = <span class='kw'>NULL</span>,
   label = <span class='kw'>NULL</span>,
   epsilon = <span class='kw'>NULL</span>,
@@ -163,11 +166,11 @@ Users through print and plot methods may quickly check values of most popular fa
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p><code>DALEX explainer</code>/<code>fairness_object</code></p></td>
+      <td><p>object created with <code><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></code> or <code>fairness_object</code></p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>possibly more <code>DALEX explainers</code>/<code>fairness_objects</code></p></td>
+      <td><p>possibly more objects created with <code><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></code> and/or <code>fairness_objects</code></p></td>
     </tr>
     <tr>
       <th>protected</th>
@@ -202,7 +205,7 @@ Users through print and plot methods may quickly check values of most popular fa
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An object of class <code>fairness_object</code> which is a list with elements:</p><ul>
-<li><p>metric_data - data.frame containing parity loss for various fairness metrics. Created with following metrics:</p><ul>
+<li><p>parity_loss_metric_data - data.frame containing parity loss for various fairness metrics. Created with following metrics:</p><ul>
 <li><p>TPR - True Positive Rate (Sensitivity, Recall, Equal Odds)</p></li>
 <li><p>TNR - True Negative Rate (Specificity)</p></li>
 <li><p>PPV - Positive Predictive Value (Precision)</p></li>
@@ -271,10 +274,10 @@ may lead to misinterpretation of the plot. More on metrics and their equivalents
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.0720377 , mean =  0.698797 , max =  0.9952857  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.0801369 , mean =  0.6975478 , max =  0.9979524  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7165234 , mean =  0.001203048 , max =  0.6393294  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7406364 , mean =  0.002452163 , max =  0.6816389  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'>fairness_check</span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
                           protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,

@@ -114,6 +114,9 @@ are the same for all subgroups (levels of protected variable) no matter what cut
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/Advanced_tutorial.html">Advanced Tutorial</a>
+    </li>
+    <li>
       <a href="../articles/Basic_tutorial.html">Basic Tutorial</a>
     </li>
   </ul>
@@ -143,7 +146,7 @@ are the same for all subgroups (levels of protected variable) no matter what cut
     </div>
 
     <pre class="usage"><span class='co'># S3 method for all_cutoffs</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>x</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>x</span>, <span class='kw'>...</span>, label = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -155,6 +158,10 @@ are the same for all subgroups (levels of protected variable) no matter what cut
     <tr>
       <th>...</th>
       <td><p>other plot parameters</p></td>
+    </tr>
+    <tr>
+      <th>label</th>
+      <td><p>character, label of model to plot. Default NULL. If default prints all models.</p></td>
     </tr>
     </table>
 
@@ -191,12 +198,12 @@ are the same for all subgroups (levels of protected variable) no matter what cut
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.08862698 , mean =  0.6984057 , max =  1  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.07669841 , mean =  0.6965455 , max =  0.9955417  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7139901 , mean =  0.00159427 , max =  0.6600084  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7141429 , mean =  0.0034545 , max =  0.6469167  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'>fairness_check</span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
+<span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
                           protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
                           privileged = <span class='st'>"male"</span>)</div><div class='output co'>#&gt; Creating fairness object
 #&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
@@ -206,10 +213,9 @@ are the same for all subgroups (levels of protected variable) no matter what cut
 #&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
 #&gt; -&gt; Metric calculation		: successful
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
-<span class='kw'>ac</span> <span class='op'>&lt;-</span> <span class='fu'>all_cutoffs</span>(<span class='kw'>fobject</span>,
-                  label = <span class='st'>"lm"</span>,
-                  fairness_metrics = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"TPR_parity_loss"</span>,
-                                       <span class='st'>"FPR_parity_loss"</span>))
+<span class='kw'>ac</span> <span class='op'>&lt;-</span> <span class='fu'><a href='all_cutoffs.html'>all_cutoffs</a></span>(<span class='kw'>fobject</span>,
+                  fairness_metrics = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"TPR"</span>,
+                                       <span class='st'>"FPR"</span>))
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>ac</span>)</div><div class='img'><img src='plot_all_cutoffs-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></span></pre>
   </div>

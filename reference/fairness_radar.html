@@ -113,6 +113,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/Advanced_tutorial.html">Advanced Tutorial</a>
+    </li>
+    <li>
       <a href="../articles/Basic_tutorial.html">Basic Tutorial</a>
     </li>
   </ul>
@@ -187,12 +190,12 @@
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.06423214 , mean =  0.6976171 , max =  0.9995946  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.07922619 , mean =  0.6970723 , max =  0.9978333  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7223359 , mean =  0.002382949 , max =  0.6468355  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7046627 , mean =  0.00292767 , max =  0.6368572  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'>fairness_check</span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
+<span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
                           protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
                           privileged = <span class='st'>"male"</span>)</div><div class='output co'>#&gt; Creating fairness object
 #&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
@@ -203,11 +206,11 @@
 #&gt; -&gt; Metric calculation		: successful
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
 
-<span class='kw'>fradar</span> <span class='op'>&lt;-</span> <span class='fu'>fairness_radar</span>(<span class='kw'>fobject</span>, fairness_metrics = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ACC_parity_loss"</span>,
-                                                       <span class='st'>"STP_parity_loss"</span>,
-                                                       <span class='st'>"TNR_parity_loss"</span>,
-                                                       <span class='st'>"TPR_parity_loss"</span>,
-                                                       <span class='st'>"PPV_parity_loss"</span>))
+<span class='kw'>fradar</span> <span class='op'>&lt;-</span> <span class='fu'>fairness_radar</span>(<span class='kw'>fobject</span>, fairness_metrics = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ACC"</span>,
+                                                       <span class='st'>"STP"</span>,
+                                                       <span class='st'>"TNR"</span>,
+                                                       <span class='st'>"TPR"</span>,
+                                                       <span class='st'>"PPV"</span>))
 
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>fradar</span>)</div><div class='img'><img src='fairness_radar-1.png' alt='' width='700' height='433' /></div></span></pre>
   </div>
