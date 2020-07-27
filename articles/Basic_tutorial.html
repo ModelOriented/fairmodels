@@ -159,10 +159,10 @@
 #&gt;   -&gt; data              :  6172  rows  6  cols 
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used (  default  )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1683827 , mean =  0.5443698 , max =  0.8533086  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.155743 , mean =  0.5449514 , max =  0.8652504  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification (  default  ) 
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8419053 , mean =  0.0005102607 , max =  0.7756062  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.847891 , mean =  -7.125184e-05 , max =  0.7818969  
 #&gt;   A new explainer has been created!</code></pre>
 <div id="fairness-check" class="section level3">
 <h3 class="hasAnchor">
@@ -191,7 +191,7 @@
 #&gt; Fairness check for models: ranger 
 #&gt; 
 #&gt; ranger passes 0/5 metrics
-#&gt; Total loss:  2.678114</code></pre>
+#&gt; Total loss:  2.378559</code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fobject</span>)
 </pre></div>
@@ -264,7 +264,11 @@
 </pre></div>
 <p>As we can see there is some parameters in fairness_check such as:<br>
 1. x, … - list of <code>DALEX</code> explainers, and other <code>fairness_object</code> objects<br>
-2. protected - factor, containing subgroups as levels. Protected stands for protected variable (or sensitive attribute) 3. privileged - character, level in protected, it is subgroup suspected of having better results 4. cutoff - numeric, vector of cutoffs values matching the order of levels in protected variable. It affects only explainers so if <code>fairness_object</code> is passed it’s cutoff vector won’t be changed. 5. label - character, vector of labels for explainers only. Very convenient for <code><a href="../reference/fairness_check.html">fairness_check()</a></code> iterative approach - having explainer, checking for bias, mitigating bias, passing both explainer and fairness object and comparing fairness. 6. epsilon - numeric, boundary position in <code><a href="../reference/fairness_check.html">fairness_check()</a></code>. Fairness metrics are satisfied if parity loss values are between (-epsilon, epsilon)</p>
+2. protected - factor, containing subgroups as levels. Protected stands for protected variable (or sensitive attribute)<br>
+3. privileged - character, level in protected, it is subgroup suspected of having better results<br>
+4. cutoff - numeric, vector of cutoffs values matching the order of levels in protected variable. It affects only explainers so if <code>fairness_object</code> is passed it’s cutoff vector won’t be changed.<br>
+5. label - character, vector of labels for explainers only. Very convenient for <code><a href="../reference/fairness_check.html">fairness_check()</a></code> iterative approach - having explainer, checking for bias, mitigating bias, passing both explainer and fairness object and comparing fairness.<br>
+6. epsilon - numeric, boundary position in <code><a href="../reference/fairness_check.html">fairness_check()</a></code>. Fairness metrics are satisfied if parity loss values are between (-epsilon, epsilon)</p>
 <div id="what-consists-of-fairness-object" class="section level3">
 <h3 class="hasAnchor">
 <a href="#what-consists-of-fairness-object" class="anchor"></a>What consists of fairness object?</h3>
@@ -275,17 +279,17 @@
 <pre><code>#&gt;         TPR       TNR       PPV       NPV       FNR       FPR       FDR
 #&gt; 1 0.3146544 0.6824922 0.3560605 0.4689762 0.3146544 0.6824922 0.3560605
 #&gt; 2 0.4459198 1.1219620 0.1131800 0.8675808 0.4459198 1.1219620 0.1131800
-#&gt; 3 0.4138075 0.7085632 0.3511654 0.4400814 0.4138075 0.7085632 0.3511654
+#&gt; 3 0.4244649 0.7143994 0.3321402 0.6801705 0.4244649 0.7143994 0.3321402
 #&gt; 4 0.3734750 0.3902308 0.4881695 0.3647346 0.3734750 0.3902308 0.4881695
-#&gt; 5 0.2688419 0.9705856 0.2679913 0.6940875 0.2688419 0.9705856 0.2679913
-#&gt; 6 0.4309964 0.7496196 0.3401969 0.4313821 0.4309964 0.7496196 0.3401969
+#&gt; 5 0.2758054 0.9592492 0.2766564 0.7050999 0.2758054 0.9592492 0.2766564
+#&gt; 6 0.4911756 0.7623377 0.3139548 0.6565943 0.4911756 0.7623377 0.3139548
 #&gt;         FOR        TS       STP       ACC        F1       MCC
 #&gt; 1 0.4689762 0.4404909 0.5666131 0.2993959 0.3363554 0.5301407
 #&gt; 2 0.8675808 0.3203605 0.7852645 0.1353720 0.2502984 0.6709033
-#&gt; 3 0.4400814 0.5148829 0.6439899 0.3524787 0.3805636 0.6808763
+#&gt; 3 0.6801705 0.5009545 0.6919544 0.3483783 0.3648550 0.6945722
 #&gt; 4 0.3647346 0.3814321 0.2951150 0.1960918 0.3733294 0.3505547
-#&gt; 5 0.6940875 0.3496704 0.6423901 0.2090239 0.2680900 0.7791214
-#&gt; 6 0.4313821 0.5118702 0.6747301 0.3459555 0.3783300 0.6702605</code></pre>
+#&gt; 5 0.7050999 0.3596583 0.6365833 0.2280443 0.2756893 0.8056924
+#&gt; 6 0.6565943 0.5304528 0.7499869 0.3530168 0.3910123 0.6879400</code></pre>
 <ul>
 <li>groups_data</li>
 </ul>
@@ -370,18 +374,18 @@
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">fair_pca</span>)
 </pre></div>
 <pre><code>#&gt; Fairness PCA : 
-#&gt;             PC1        PC2         PC3         PC4          PC5           PC6
-#&gt; [1,]  0.8804433 -0.2323086  0.73232243  0.61470053 -0.002715113  5.273559e-16
-#&gt; [2,] -3.6524765 -0.3210136 -1.28366155  0.10678215 -0.008902714 -4.440892e-16
-#&gt; [3,]  1.1458080  1.6870720 -0.05942153 -0.15523831 -0.092113797  6.106227e-16
-#&gt; [4,]  2.6563522 -2.2527330 -0.66151603 -0.17968118  0.002211561  7.216450e-16
-#&gt; [5,] -2.0073826 -0.6665797  1.59193378 -0.29542984  0.009940053  1.665335e-16
-#&gt; [6,]  0.9772556  1.7855628 -0.31965710 -0.09113335  0.091580010  6.591949e-16
+#&gt;             PC1        PC2        PC3         PC4          PC5           PC6
+#&gt; [1,]  1.1732702 -0.3245997  0.7344861  0.67296632 -0.005152003 -5.065393e-16
+#&gt; [2,] -3.3378098 -1.0009807 -1.1699537  0.14664728  0.027799010 -1.179612e-16
+#&gt; [3,]  0.2447365  1.6747202  0.2085784 -0.16094853  0.230420406 -2.428613e-16
+#&gt; [4,]  3.2262190 -1.7301522 -0.7699674 -0.24372315 -0.005596037 -4.440892e-16
+#&gt; [5,] -1.5438589 -1.0575598  1.4430420 -0.35037783 -0.066947991 -6.522560e-16
+#&gt; [6,]  0.2374429  2.4385720 -0.4461854 -0.06456408 -0.180523384  3.469447e-17
 #&gt; 
 #&gt; Created with: 
 #&gt; [1] "ranger"   "lm"       "ranger_2" "ranger_3" "gbm"      "ranger_4"
 #&gt; 
-#&gt; First two components explained 87 % of variance.</code></pre>
+#&gt; First two components explained 88 % of variance.</code></pre>
 <p>Let’s plot!</p>
 <div class="sourceCode" id="cb25"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fair_pca</span>)
