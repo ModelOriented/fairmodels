@@ -7,8 +7,8 @@
 fairness_check(
   x,
   ...,
-  protected,
-  privileged,
+  protected = NULL,
+  privileged = NULL,
   cutoff = NULL,
   label = NULL,
   epsilon = NULL,

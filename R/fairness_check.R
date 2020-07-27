@@ -128,6 +128,7 @@ fairness_check <- function(x,
   fobjects_metric_data <- extract_data(fobjects, "parity_loss_metric_data")
   fobjects_groups_data <- extract_data(fobjects, "groups_data")
   fobjects_fcheck_data <- extract_data(fobjects, "fairness_check_data")
+  fobjects_cf          <- extract_data(fobjects, "groups_confusion_matrices")
 
   fobjects_label       <- sapply(fobjects, function(x) x$label)
   fobjects_cuttofs     <- extract_data(fobjects, "cutoff")
@@ -302,7 +303,8 @@ fairness_check <- function(x,
   created_na <- FALSE
   # number of metrics must be fixed. If changed add metric to metric labels
   # and change in calculate group fairness metrics
-  parity_loss_metric_data   <- matrix(nrow = n_exp, ncol = 13)
+  parity_loss_metric_data       <- matrix(nrow = n_exp, ncol = 13)
+  explainers_confusion_matrices <- list(rep(0,n_exp))
 
   explainers_groups <- list(rep(0,n_exp))
   df                <- data.frame()
@@ -316,6 +318,8 @@ fairness_check <- function(x,
                                      probs = explainers[[i]]$y_hat,
                                      preds = explainers[[i]]$y,
                                      cutoff = cutoff)
+
+    explainers_confusion_matrices[[i]] <- group_matrices
 
     # storing cutoffs for explainers
     cutoffs[[label[i]]] <- cutoff
@@ -339,6 +343,7 @@ fairness_check <- function(x,
     names(metric_list)          <- rownames(gmm)
     explainers_groups[[i]]      <- metric_list
     names(explainers_groups)[i] <- label[i]
+    names(explainers_confusion_matrices)[i] <- label[i]
 
     ###############  fairness check  ###############
 
@@ -358,11 +363,11 @@ fairness_check <- function(x,
 
     # creating data frames for fairness check
 
-    metric <- c(rep("Accuracy equality loss    (TP + FN)/(TP + FP + TN + FN) ", n_sub),
-                rep("Predictive parity loss     TP/(TP + FP)", n_sub),
-                rep("Predictive equality loss   FP/(FP + TN)", n_sub),
-                rep("Equal opportynity loss     TP/(TP + FN) ", n_sub),
-                rep("Statistical parity loss   (TP + FP)/(TP + FP + TN + FN)", n_sub))
+    metric <- c(rep("Accuracy equality difference    (TP + FN)/(TP + FP + TN + FN) ", n_sub),
+                rep("Predictive parity difference     TP/(TP + FP)", n_sub),
+                rep("Predictive equality difference   FP/(FP + TN)", n_sub),
+                rep("Equal opportynity difference     TP/(TP + FN) ", n_sub),
+                rep("Statistical parity difference   (TP + FP)/(TP + FP + TN + FN)", n_sub))
 
     score <- c(unlist(accuracy_equality_loss),
                unlist(predictive_parity_loss),
@@ -407,16 +412,18 @@ fairness_check <- function(x,
   # merge explainers data with fobjects
   parity_loss_metric_data       <- rbind(parity_loss_metric_data, fobjects_metric_data)
   explainers_groups <- append(explainers_groups, fobjects_groups_data)
+  explainers_confusion_matrices <- append(explainers_confusion_matrices, fobjects_cf)
   df                <- rbind(df, fobjects_fcheck_data)
   cutoffs           <- append(cutoffs, fobjects_cuttofs)
   label             <- unlist(c(label, fobjects_label))
   names(cutoffs)           <- label
   names(explainers_groups) <- label
-
+  names(explainers_confusion_matrices) <- label
 
   # S3 object
   fairness_object <- list(parity_loss_metric_data = parity_loss_metric_data,
                           groups_data = explainers_groups,
+                          groups_confusion_matrices = explainers_confusion_matrices,
                           explainers  = all_explainers,
                           privileged  = privileged,
                           protected   = protected,
