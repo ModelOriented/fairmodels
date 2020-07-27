@@ -93,7 +93,7 @@
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
-<p><code>fairmodels</code> is package for fairness audit and visualization. Uses models explained with <a href="https://modeloriented.github.io/DALEX">DALEX</a> and calculates fairness metrics based on confusion matrix for protected group. Allows to compare and gain information about various machine learning models. <em>Make sure your models are classifying protected groups similarly</em>.</p>
+<p><code>fairmodels</code> is package for fairness audit and visualization. Uses models explained with <a href="https://modeloriented.github.io/DALEX">DALEX</a> and calculates fairness metrics based on confusion matrix for protected group. Allows to compare and gain information about various machine learning models. Mitigate bias with various pre-processing and post-processing techniques. <em>Make sure your models are classifying protected groups similarly</em>.</p>
 </div>
 <div id="preview" class="section level2">
 <h2 class="hasAnchor">
@@ -144,7 +144,8 @@ fobject &lt;- fairness_check(explainer_lm, explainer_rf,
 print(fobject)
 plot(fobject)
 </code></pre>
-<p>Compas recidivism data use case <a href="https://modeloriented.github.io/FairModels/articles/Basic_tutorial.html">Tutorial</a></p>
+<p>Compas recidivism data use case: <a href="https://modeloriented.github.io/fairmodels/articles/Basic_tutorial.html">Basic tutorial</a><br>
+Bias mitigation techniques on Adult data: <a href="https://modeloriented.github.io/fairmodels/articles/Advanced_tutorial.html">Advanced tutorial</a></p>
 </div>
 <div id="how-to-evaluate-fairness" class="section level2">
 <h2 class="hasAnchor">
