@@ -42,6 +42,7 @@ data("compas")
 # positive outcome - not being recidivist
 two_yr_recidivism <- factor(compas$Two_yr_Recidivism, levels = c(1,0))
 y_numeric <- as.numeric(two_yr_recidivism) -1
+compas$Two_yr_Recidivism <- two_yr_recidivism
 
 lm_model <- glm(Two_yr_Recidivism~.,
                 data=compas,

@@ -128,6 +128,7 @@ fairness_check <- function(x,
   fobjects_metric_data <- extract_data(fobjects, "parity_loss_metric_data")
   fobjects_groups_data <- extract_data(fobjects, "groups_data")
   fobjects_fcheck_data <- extract_data(fobjects, "fairness_check_data")
+  fobjects_cf          <- extract_data(fobjects, "groups_confusion_matrices")
 
   fobjects_label       <- sapply(fobjects, function(x) x$label)
   fobjects_cuttofs     <- extract_data(fobjects, "cutoff")
@@ -171,6 +172,7 @@ fairness_check <- function(x,
           verbose_cat(color_codes$green_start, "Ok", color_codes$green_end, ") \n", verbose = verbose)
         } else {
           verbose_cat(color_codes$yellow_start, "changed from", class(protected),  color_codes$yellow_end, ")\n", verbose = verbose)
+          protected <- as.factor(protected)
         }}
 
   protected_levels <- levels(protected)
@@ -221,35 +223,31 @@ fairness_check <- function(x,
   ### epsilon
   if (is.null(epsilon)) epsilon <- 0.1
   if (! check_if_numeric_and_single(epsilon)) stop("Epsilon must be single, numeric value")
-  if (! check_values(epsilon, 0, Inf) ) stop ("epsilon must be positive number")
+  if (! check_values(epsilon, 0, Inf) )       stop ("epsilon must be positive number")
 
   ### fairness objects
   # among all fairness_objects parameters should be equal
 
   verbose_cat("-> Fairness objects\t\t:", length(fobjects), verbose = verbose)
-  if (length(fobjects) > 1){
-    verbose_cat(" objects ", verbose = verbose)
-  } else {
+  if (length(fobjects) == 1){
     verbose_cat(" object ", verbose = verbose)
+      } else {
+    verbose_cat(" objects ", verbose = verbose)
   }
 
 
   if (length(fobjects) > 0) {
-  for (i in seq_along(fobjects)) {
-      if(! all(fobjects[[i]]$protected  == protected)) {
+    if(! all(sapply(fobjects, function(x) x$protected == protected))) {
        verbose_cat("(",color_codes$red_start, "not compatible" ,color_codes$red_end, ") \n", verbose = verbose)
        stop("fairness objects must have the same protected vector as one passed in fairness check")
     }
-    if(! fobjects[[i]]$privileged == privileged) {
+    if(! all(sapply(fobjects, function(x) x$privileged == privileged))) {
       verbose_cat("(", color_codes$red_start, "not compatible" ,color_codes$red_end, ") \n", verbose = verbose)
       stop("fairness objects must have the same privlieged argument as one passed in fairness check")
-    }}
-
+    }
   verbose_cat("(", color_codes$green_start, "compatible", color_codes$yellow_end,  ")\n", verbose = verbose)
   } else {
-    verbose_cat("\n", verbose = verbose)
-
-  }
+    verbose_cat("\n", verbose = verbose)}
 
   ### explainers
   # must have equal y
@@ -305,7 +303,8 @@ fairness_check <- function(x,
   created_na <- FALSE
   # number of metrics must be fixed. If changed add metric to metric labels
   # and change in calculate group fairness metrics
-  parity_loss_metric_data   <- matrix(nrow = n_exp, ncol = 13)
+  parity_loss_metric_data       <- matrix(nrow = n_exp, ncol = 13)
+  explainers_confusion_matrices <- list(rep(0,n_exp))
 
   explainers_groups <- list(rep(0,n_exp))
   df                <- data.frame()
@@ -319,6 +318,8 @@ fairness_check <- function(x,
                                      probs = explainers[[i]]$y_hat,
                                      preds = explainers[[i]]$y,
                                      cutoff = cutoff)
+
+    explainers_confusion_matrices[[i]] <- group_matrices
 
     # storing cutoffs for explainers
     cutoffs[[label[i]]] <- cutoff
@@ -342,6 +343,7 @@ fairness_check <- function(x,
     names(metric_list)          <- rownames(gmm)
     explainers_groups[[i]]      <- metric_list
     names(explainers_groups)[i] <- label[i]
+    names(explainers_confusion_matrices)[i] <- label[i]
 
     ###############  fairness check  ###############
 
@@ -361,11 +363,11 @@ fairness_check <- function(x,
 
     # creating data frames for fairness check
 
-    metric <- c(rep("Accuracy equality loss    (TP + FN)/(TP + FP + TN + FN) ", n_sub),
-                rep("Predictive parity loss     TP/(TP + FP)", n_sub),
-                rep("Predictive equality loss   FP/(FP + TN)", n_sub),
-                rep("Equal opportynity loss     TP/(TP + FN) ", n_sub),
-                rep("Statistical parity loss   (TP + FP)/(TP + FP + TN + FN)", n_sub))
+    metric <- c(rep("Accuracy equality difference    (TP + FN)/(TP + FP + TN + FN) ", n_sub),
+                rep("Predictive parity difference     TP/(TP + FP)", n_sub),
+                rep("Predictive equality difference   FP/(FP + TN)", n_sub),
+                rep("Equal opportynity difference     TP/(TP + FN) ", n_sub),
+                rep("Statistical parity difference   (TP + FP)/(TP + FP + TN + FN)", n_sub))
 
     score <- c(unlist(accuracy_equality_loss),
                unlist(predictive_parity_loss),
@@ -410,16 +412,18 @@ fairness_check <- function(x,
   # merge explainers data with fobjects
   parity_loss_metric_data       <- rbind(parity_loss_metric_data, fobjects_metric_data)
   explainers_groups <- append(explainers_groups, fobjects_groups_data)
+  explainers_confusion_matrices <- append(explainers_confusion_matrices, fobjects_cf)
   df                <- rbind(df, fobjects_fcheck_data)
   cutoffs           <- append(cutoffs, fobjects_cuttofs)
   label             <- unlist(c(label, fobjects_label))
   names(cutoffs)           <- label
   names(explainers_groups) <- label
-
+  names(explainers_confusion_matrices) <- label
 
   # S3 object
   fairness_object <- list(parity_loss_metric_data = parity_loss_metric_data,
                           groups_data = explainers_groups,
+                          groups_confusion_matrices = explainers_confusion_matrices,
                           explainers  = all_explainers,
                           privileged  = privileged,
                           protected   = protected,
