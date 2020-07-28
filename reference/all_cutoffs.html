@@ -46,8 +46,8 @@
 
 
 <meta property="og:title" content="All cutoffs — all_cutoffs" />
-<meta property="og:description" content="Create all_cutoffs object and to show how with change of cutoffs parity metrics change for single model/explainer.
-It is highly suggested to pick small number of metrics. With value of cutoff all subgroup cutoffs change." />
+<meta property="og:description" content="Create all_cutoffs object and see how with the change of cutoffs parity loss of fairness metrics changes. Value of cutoff changes equally for all subgroups.
+User can pick which fairness metrics to create the object with via fairness_metrics vector." />
 
 
 
@@ -141,8 +141,8 @@ It is highly suggested to pick small number of metrics. With value of cutoff all
     </div>
 
     <div class="ref-description">
-    <p>Create all_cutoffs object and to show how with change of cutoffs parity metrics change for single model/explainer.
-It is highly suggested to pick small number of metrics. With value of cutoff all subgroup cutoffs change.</p>
+    <p>Create all_cutoffs object and see how with the change of cutoffs parity loss of fairness metrics changes. Value of cutoff changes equally for all subgroups.
+User can pick which fairness metrics to create the object with via fairness_metrics vector.</p>
     </div>
 
     <pre class="usage"><span class='fu'>all_cutoffs</span>(<span class='kw'>x</span>, grid_points = <span class='fl'>101</span>, fairness_metrics = <span class='fu'>unique_metrics</span>())</pre>
@@ -156,11 +156,11 @@ It is highly suggested to pick small number of metrics. With value of cutoff all
     </tr>
     <tr>
       <th>grid_points</th>
-      <td><p>numeric, grid for cutoffs to test. Number of points between 0 and 1 spread evenly.</p></td>
+      <td><p>numeric, grid for cutoffs to test. Number of points between 0 and 1 spread evenly</p></td>
     </tr>
     <tr>
       <th>fairness_metrics</th>
-      <td><p>character, name of metric or vector of multiple metrics</p></td>
+      <td><p>character, name of metric or vector of multiple metrics names</p></td>
     </tr>
     </table>
 
