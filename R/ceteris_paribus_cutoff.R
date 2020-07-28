@@ -58,7 +58,7 @@ ceteris_paribus_cutoff <- function(x,
   # error if not in metrics
   lapply(fairness_metrics, assert_parity_metrics)
 
-  if (! is.numeric(grid_points) | length(grid_points) > 1) stop("grid points must be single numeric value")
+  if (! check_if_numeric_and_single(grid_points)) stop("grid points must be single numeric value")
 
   explainers <- x$explainers
   cutoffs    <- seq(0,1, length.out =  grid_points)
@@ -73,14 +73,14 @@ ceteris_paribus_cutoff <- function(x,
   if (is.list(new_cutoffs)){
 
     if (length(unique(names(new_cutoffs))) != length(names(new_cutoffs))) stop("Names of new_cutoffs list must be unique")
-    if (! names(new_cutoffs) %in% protected_levels)  stop("Names of new_cutoffs list does not match levels in protected")
+    if (! check_names_in_names_vector(new_cutoffs, protected_levels))  stop("Names of new_cutoffs list does not match levels in protected")
     if (any(! is.numeric(unlist(new_cutoffs)))) stop("Elements of new_cutoffs list must be numeric")
-    if ( any(unlist(new_cutoffs) > 1) | any(unlist(new_cutoffs) < 0)) stop("new_cutoffs value must be between 0 and 1")
+    if (! check_values(unlist(new_cutoffs), 0, 1)) stop("new_cutoffs value must be between 0 and 1")
 
 
     # if only few new_cutoffs were provided, fill rest with default 0.5
     if (! all(protected_levels %in% names(new_cutoffs))){
-      rest_of_levels <- protected_levels[- (protected_levels == names(new_cutoffs))]
+      rest_of_levels <- protected_levels[! (protected_levels == names(new_cutoffs))]
       for (rl in rest_of_levels){
         new_cutoffs[[rl]] <- 0.5
       }
@@ -111,7 +111,7 @@ ceteris_paribus_cutoff <- function(x,
         group_matrices <- group_matrices(protected = protected,
                                          preds     = explainer$y,
                                          probs     = explainer$y_hat,
-                                         cutoff = custom_cutoff_vec)
+                                         cutoff    = custom_cutoff_vec)
 
         # like in create fairness_check
         gmm             <- calculate_group_fairness_metrics(group_matrices)
