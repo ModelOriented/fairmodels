@@ -1,7 +1,7 @@
 #' Choose metric
 #'
-#' @description Choose metric creates \code{chosen_metric} object. It is visualization of metric data from fairness object.
-#' It allows to visualize and compare it's values of chosen metric across all models.
+#' @description Choose metric creates \code{chosen_metric} object. It extract metric from metric data from fairness object.
+#' It allows to visualize and compare chosen metric values across all models.
 #'
 #' @param x \code{fairness_object}
 #' @param fairness_metric \code{char}, name of fairness metric, one of metrics:

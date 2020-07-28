@@ -19,12 +19,12 @@ disparate_impact_remover(data, protected, features_to_transform, lambda = 1)
 data.frame
 }
 \description{
-Disparate impact remover is a method of pre-processing bias mitigation from data. It changes distribution of ordinal features of data with regard to
+Disparate impact remover is a pre-processing bias mitigation method. It removes bias hidden in numeric columns in data. It changes distribution of ordinal features of data with regard to
 earth mover distance. It works best if among subgroups there is similar number of observations.
 }
 \details{
-This is implementation of geometric method which preserves ranks unlike combinatorial repair. Lambda close to 1 signifies that distributions will be very close to each other
-and lambda close to 0 means that densities will barely change. Note that although lambda equal 0 should mean that original data will be returned, it should change slightly due to
+This is implementation of geometric method which preserves ranks unlike combinatorial repair. Lambda close to 1 denotes that distributions will be very close to each other
+and lambda close to 0 means that densities will barely change. Note that although lambda equal 0 should mean that original data will be returned, it usually changes distributions slightly due to
 pigeonholing. The number of pigeonholes is fixed and is equal to min{101, unique(a)}, where a is vector with values for subgroup. So if some subgroup is not numerous and
 the distribution is discrete with small number of variables then there will be small number of pigeonholes and it will affect data significantly.
 }

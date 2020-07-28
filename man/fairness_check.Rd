@@ -74,7 +74,7 @@ base_metric - scalar, value of metric for base subgroup
 }
 }
 \description{
-Fairness check creates fairness object which measures different fairness metrics and wraps data, explainers and parameters in useful object. This is fundamental object in this package
+Fairness check creates fairness object which measures different fairness metrics and wraps data, explainers and parameters in useful object. This is fundamental object in this package.
 It allows to visualize fairness metrics in many ways and compare models on both fairness and performance level. Fairness check acts as merger and wrapper for explainers and fairness objects.
 While other fairness objects values are not changed, fairness check assigns cutoffs and labels to provided explainers so same explainers with changed labels/cutoffs might be gradually added to fairness object.
 Users through print and plot methods may quickly check values of most popular fairness metrics. More on that topic in details/

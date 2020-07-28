@@ -19,5 +19,5 @@ group_model_performance(x, protected, cutoff, performance_metric)
 score from 0 to 1
 }
 \description{
-Special method for model performance evaluation. Counts number of tp, tn, fp, fn for each subgroup and therefore cutoff, sums afterwards.
+Special method for model performance evaluation. Counts number of tp, tn, fp, fn for each subgroup (and therefore potentialy distinct cutoff), sums afterwards.
 }

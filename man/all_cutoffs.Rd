@@ -9,16 +9,16 @@ all_cutoffs(x, grid_points = 101, fairness_metrics = unique_metrics())
 \arguments{
 \item{x}{fairness_object}
 
-\item{grid_points}{numeric, grid for cutoffs to test. Number of points between 0 and 1 spread evenly.}
+\item{grid_points}{numeric, grid for cutoffs to test. Number of points between 0 and 1 spread evenly}
 
-\item{fairness_metrics}{character, name of metric or vector of multiple metrics}
+\item{fairness_metrics}{character, name of metric or vector of multiple metrics names}
 }
 \value{
 all_cutoffs object
 }
 \description{
-Create all_cutoffs object and to show how with change of cutoffs parity metrics change for single model/explainer.
-It is highly suggested to pick small number of metrics. With value of cutoff all subgroup cutoffs change.
+Create all_cutoffs object and see how with the change of cutoffs parity loss of fairness metrics changes. Value of cutoff changes equally for all subgroups.
+User can pick which fairness metrics to create the object with via fairness_metrics vector.
 }
 \examples{
 

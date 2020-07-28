@@ -1,6 +1,6 @@
 #' Group model performance
 #'
-#' @description Special method for model performance evaluation. Counts number of tp, tn, fp, fn for each subgroup and therefore cutoff, sums afterwards.
+#' @description Special method for model performance evaluation. Counts number of tp, tn, fp, fn for each subgroup (and therefore potentialy distinct cutoff), sums afterwards.
 #'
 #' @param x DALEX explainer
 #' @param protected factor, vector with levels as subgroups

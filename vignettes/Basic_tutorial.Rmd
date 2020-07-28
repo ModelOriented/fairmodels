@@ -225,6 +225,7 @@ Let's see how they perform in different metrics.
 sm <- stack_metrics(fobject)
 plot(sm)
 ```
+
 It displays accumulated (Stacked) metric scores for each model. The least metric score the better.   
 
 ## Plot metric

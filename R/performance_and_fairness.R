@@ -1,6 +1,6 @@
 #' Performance and fairness
 #'
-#' @description measure model performance and model fairness metric at the same time. Choose best model according to both metrics. When plotted y axis is inversed to accentuate
+#' @description Creates \code{perfomance_and_fairness} object. Measure model performance and model fairness metric at the same time. Choose best model according to both metrics. When plotted y axis is inversed to accentuate
 #' that models in top right corner are the best according to both metrics.
 #'
 #' @description Measure performance in both fairness metric and
@@ -13,7 +13,7 @@
 #'
 #' @return \code{performance_and_fairness} object
 #' @export
-#' @rdname performance_with_fairness
+#' @rdname performance_and_fairness
 #'
 #' @examples
 #'

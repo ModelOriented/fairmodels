@@ -15,7 +15,8 @@ fairness_pca(x, omit_models_with_NA = FALSE)
 \code{fairness_pca} object
 }
 \description{
-Calculate PC for metric_matrix to see similarities between models and metrics.
+Calculate PC for metric_matrix to see similarities between models and metrics. If omit_models_with_NA is set to true models with NA will be omitted as opposed
+to default behavior, when metrics are omitted.
 }
 \examples{
 

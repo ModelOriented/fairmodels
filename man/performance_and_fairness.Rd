@@ -17,7 +17,7 @@ performance_and_fairness(x, fairness_metric = NULL, performance_metric = NULL)
 \code{performance_and_fairness} object
 }
 \description{
-measure model performance and model fairness metric at the same time. Choose best model according to both metrics. When plotted y axis is inversed to accentuate
+Creates \code{perfomance_and_fairness} object. Measure model performance and model fairness metric at the same time. Choose best model according to both metrics. When plotted y axis is inversed to accentuate
 that models in top right corner are the best according to both metrics.
 
 Measure performance in both fairness metric and

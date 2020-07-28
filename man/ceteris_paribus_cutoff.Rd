@@ -31,10 +31,11 @@ Position corresponding to subgroups in levels will be changed. Default is NULL}
 \code{ceteris_paribus_cutoff} object
 }
 \description{
-Ceteris paribus cutoff is way to check how will parity loss behave if we changed only cutoff in one subgroup.
+Ceteris paribus cutoff is way to check how will parity loss behave if only cutoff for one subgroup was changed.
 By using parameter new_cutoffs parity loss for metric's with new cutoffs will be calculated. Note that cutoff for subgroup (passed as parameter) will
 change no matter new_cutoff's value at that position. When parameter cumulated is set to true, all metrics will be summed and facets will
-collapse to one plot with different models on it. Sometimes due to NA's present in certain metrics it is advised that those should be omitted.
+collapse to one plot with different models on it. Sometimes due to the fact that some metric might contain NA for all cutoff values, cumulated plot might be present without
+this model.
 }
 \examples{
 data("compas")

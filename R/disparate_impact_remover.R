@@ -1,12 +1,12 @@
 #' Disparate impact remover
 #'
-#' @description Disparate impact remover is a method of pre-processing bias mitigation from data. It changes distribution of ordinal features of data with regard to
+#' @description Disparate impact remover is a pre-processing bias mitigation method. It removes bias hidden in numeric columns in data. It changes distribution of ordinal features of data with regard to
 #' earth mover distance. It works best if among subgroups there is similar number of observations.
 #'
 #' @references This method was implemented based on Feldman, Friedler, Moeller, Scheidegger, Venkatasubramanian 2015 \url{https://arxiv.org/pdf/1412.3756.pdf}
 #'
-#' @details This is implementation of geometric method which preserves ranks unlike combinatorial repair. Lambda close to 1 signifies that distributions will be very close to each other
-#' and lambda close to 0 means that densities will barely change. Note that although lambda equal 0 should mean that original data will be returned, it should change slightly due to
+#' @details This is implementation of geometric method which preserves ranks unlike combinatorial repair. Lambda close to 1 denotes that distributions will be very close to each other
+#' and lambda close to 0 means that densities will barely change. Note that although lambda equal 0 should mean that original data will be returned, it usually changes distributions slightly due to
 #' pigeonholing. The number of pigeonholes is fixed and is equal to min{101, unique(a)}, where a is vector with values for subgroup. So if some subgroup is not numerous and
 #' the distribution is discrete with small number of variables then there will be small number of pigeonholes and it will affect data significantly.
 #'
@@ -73,8 +73,7 @@ disparate_impact_remover <- function(data,
   if (! all(apply(data[features_to_transform], 2, function(x) is.numeric(x)))) stop("features to transform must be numeric columns in data")
   if (is.character(protected)) protected <- as.factor(protected)
   if (! is.factor(protected)) stop("protected must be factor with levels acting as different protected subgroups")
-  if (length(lambda) != 1) stop ("lambda must be single numeric value")
-  if (lambda > 1 | lambda < 0  ) stop ("lambda values must be between 0 and 1")
+  if (! check_if_numeric_and_single(lambda)  ) stop ("lambda must be single numeric value between 0 and 1")
 
   data_repaired <- data
   protected_levels <- levels(protected)

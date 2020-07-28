@@ -31,8 +31,8 @@ choose_metric(x, fairness_metric = "FPR")
 choose_metric object
 }
 \description{
-Choose metric creates \code{chosen_metric} object. It is visualization of metric data from fairness object.
-It allows to visualize and compare it's values of chosen metric across all models.
+Choose metric creates \code{chosen_metric} object. It extract metric from metric data from fairness object.
+It allows to visualize and compare chosen metric values across all models.
 }
 \details{
 some of metrics give same parity loss as others (for example TPR and FNR and that is because TPR = 1 - FNR)

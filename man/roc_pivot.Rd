@@ -21,16 +21,17 @@ roc_pivot(explainer, protected, privileged, cutoff = 0.5, theta = 0.1)
 DALEX explainer (with changed y_hat)
 }
 \description{
-Reject Option based Classifier is postprocessing bias mitigation method. Method changes labels of favourable, privileged and close to cutoff observations to unfavourable
-and the opposite for unprivileged observations (changing unfavourable and close to cutoff observations to favourable, more in details).
-By this potentially wrongfully labbeled observations are assigned different labels.
-Note that in y in DALEX explainer 1 should indicate favourable outcome.
+Reject Option based Classifier is post-processing bias mitigation method. Method changes labels of favorable, privileged and close to cutoff observations to unfavourable
+and the opposite for unprivileged observations (changing unfavorable and close to cutoff observations to favorable, more in details).
+By this potentially wrongfully labeled observations are assigned different labels.
+Note that in y in DALEX explainer 1 should indicate favorable outcome.
 }
 \details{
 Method implemented implemented based on article (Kamiran, Karim, Zhang 2012). In original implementation labels should be switched. Due to specific DALEX methods
 probabilities (y_hat) are assigned value in equal distance but other side of cutoff. The method changes explainers y_hat values in two cases.
-1. When unprivileged subgroup is within (cutoff - theta, cutoff)
-2. When privileged subgroup is within (cutoff, cutoff + theta)
+\cr
+1. When unprivileged subgroup is within (cutoff - theta, cutoff)\cr
+2. When privileged subgroup is within (cutoff, cutoff + theta)\cr
 }
 \examples{
 
