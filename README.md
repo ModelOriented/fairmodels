@@ -119,7 +119,7 @@ How is *parity loss* calculated?
 
 ![parity_loss](man/figures/formulas/parity_loss.png)
 
-Where ![explain](man/figures/formulas/explain.png) denote the membership to unique subgroup from protected variable
+Where ![explain](man/figures/formulas/explain.jpg) denote the membership to unique subgroup from protected variable
 
 some fairness metrics like *Equalized odds* are satisfied if parity loss in both *TPR* and *FPR* is low 
 
