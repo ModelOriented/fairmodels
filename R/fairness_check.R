@@ -363,7 +363,7 @@ fairness_check <- function(x,
 
     # creating data frames for fairness check
 
-    metric <- c(rep("Accuracy equality difference    (TP + FN)/(TP + FP + TN + FN) ", n_sub),
+    metric <- c(rep("Accuracy equality difference    (TP + TN)/(TP + FP + TN + FN) ", n_sub),
                 rep("Predictive parity difference     TP/(TP + FP)", n_sub),
                 rep("Predictive equality difference   FP/(FP + TN)", n_sub),
                 rep("Equal opportynity difference     TP/(TP + FN) ", n_sub),
