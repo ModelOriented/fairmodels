@@ -62,13 +62,12 @@ plot.performance_and_fairness <- function(x , ...){
     geom_text_repel(aes(label = labels),
                     segment.size  = 0.2,
                     segment.color = "grey50",
-                    direction     = "x",
                     size = 4) +
     geom_point(aes(color = labels)) +
     theme_drwhy() +
     scale_color_manual(values = colors_fairmodels(n) ) +
     scale_y_reverse() +
-    ggtitle("Fairness and performance plot") +
+    ggtitle("Performance and fairness plot") +
     xlab(performance_metric) +
     ylab(inversed_fairness_metric)
 
