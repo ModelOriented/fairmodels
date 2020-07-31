@@ -41,18 +41,18 @@ We will use adult data to predict whether certain person has yearly salary excee
 library(gbm)
 library(DALEX)
 
-data          <- adult
-data$salary   <- as.numeric(data$salary) -1 # 0 if bad and 1 if good risk
-data <- data[colnames(data) != "sex"] # sex not specified
+adult$salary   <- as.numeric(adult$salary) -1 # 0 if bad and 1 if good risk
+protected     <- adult$sex
+adult <- adult[colnames(adult) != "sex"] # sex not specified
 
 # making model
 set.seed(1)
-gbm_model <-gbm(salary ~. , data = data, distribution = "bernoulli")
+gbm_model <-gbm(salary ~. , data = adult, distribution = "bernoulli")
 
 # making explainer
 gbm_explainer <- explain(gbm_model,
-                         data = data[,-1],
-                         y = data$salary,
+                         data = adult[,-1],
+                         y = adult$salary,
                          colorize = FALSE)
 
 model_performance(gbm_explainer)
@@ -62,7 +62,7 @@ Our model has around 86% accuracy. And how about bias? Sex is our protected vari
 
 ```{r}
 fobject <- fairness_check(gbm_explainer, 
-                          protected = adult$sex, 
+                          protected  = protected, 
                           privileged = "Male", 
                           colorize = FALSE)
 ```
@@ -87,7 +87,7 @@ Pre-processing techniques focus on changing data **before** model is trained. Th
 Firs technique you will learn about is `disparate_impact_remover`. It is somehow limited as it works on ordinal, numeric data. This technique returns "fixed" data frame. Through parameter `lambda` we can manipulate with how much the distribution will be fixed. `lambda = 1` (default) will return data with identical distributions for all levels of protected variable whereas `lambda = 0` will barely change anything. We will transform a few features.
 
 ```{r}
-data_fixed <- disparate_impact_remover(data = data, protected = adult$sex, 
+data_fixed <- disparate_impact_remover(data = adult, protected = protected, 
                             features_to_transform = c("age", "hours_per_week",
                                                       "capital_loss",
                                                       "capital_gain"))
@@ -96,14 +96,14 @@ set.seed(1)
 gbm_model     <- gbm(salary ~. , data = data_fixed, distribution = "bernoulli")
 gbm_explainer_dir <- explain(gbm_model,
                              data = data_fixed[,-1],
-                             y = data$salary,
+                             y = adult$salary,
                              label = "gbm_dir",
                              verbose = FALSE)
 ```
 Now we will compare old explainer and new one.
 ```{r}
 fobject <- fairness_check(gbm_explainer, gbm_explainer_dir,
-                          protected = adult$sex, 
+                          protected = protected, 
                           privileged = "Male",
                           verbose = FALSE)
 plot(fobject)
@@ -115,17 +115,17 @@ As we can see bias has diminished. But it is not on acceptable level for us. Let
 Reweighting is straightforward bias mitigation technique. It produces weights based on data to pass them to model so it can learn what to be careful about. As there can be multiple subgroups weights will come in form of vector.
 
 ```{r}
-weights <- reweight(protected = adult$sex, y = data$salary)
+weights <- reweight(protected = protected, y = adult$salary)
 
 set.seed(1)
 gbm_model     <- gbm(salary ~. ,
-                     data = data,
+                     data = adult,
                      weights = weights,
                      distribution = "bernoulli")
 
 gbm_explainer_w <- explain(gbm_model,
-                           data = data[,-1],
-                           y = data$salary,
+                           data = adult[,-1],
+                           y = adult$salary,
                            label = "gbm_weighted",
                            verbose = FALSE)
 
@@ -143,34 +143,34 @@ This method derives from reweighting the data but instead of weights it chooses 
 
 ```{r}
 # to obtain probs we will use simple linear regression
-probs <- glm(salary ~., data = data, family = binomial())$fitted.values
+probs <- glm(salary ~., data = adult, family = binomial())$fitted.values
 
-uniform_indexes      <- resample(protected = adult$sex,
-                                 y = data$salary)
-preferential_indexes <- resample(protected = adult$sex,
-                                 y = data$salary,
+uniform_indexes      <- resample(protected = protected,
+                                 y = adult$salary)
+preferential_indexes <- resample(protected = protected,
+                                 y = adult$salary,
                                  type = "preferential",
                                  probs = probs)
 
 set.seed(1)
 gbm_model     <- gbm(salary ~. ,
-                     data = data[uniform_indexes,],
+                     data = adult[uniform_indexes,],
                      distribution = "bernoulli")
 
 gbm_explainer_u <- explain(gbm_model,
-                           data = data[,-1],
-                           y = data$salary,
+                           data = adult[,-1],
+                           y = adult$salary,
                            label = "gbm_uniform",
                            verbose = FALSE)
 
 set.seed(1)
 gbm_model     <- gbm(salary ~. ,
-                     data = data[preferential_indexes,],
+                     data = adult[preferential_indexes,],
                      distribution = "bernoulli")
 
 gbm_explainer_p <- explain(gbm_model,
-                           data = data[,-1],
-                           y = data$salary,
+                           data = adult[,-1],
+                           y = adult$salary,
                            label = "gbm_preferential",
                            verbose = FALSE)
 
@@ -191,14 +191,14 @@ ROC stands for Reject Option based Classification and pivot for the behavior of 
 ```{r}
 # we will need normal explainer 
 set.seed(1)
-gbm_model <-gbm(salary ~. , data = data, distribution = "bernoulli")
+gbm_model <-gbm(salary ~. , data = adult, distribution = "bernoulli")
 gbm_explainer <- explain(gbm_model,
-                         data = data[,-1],
-                         y = data$salary,
+                         data = adult[,-1],
+                         y = adult$salary,
                          verbose = FALSE)
 
 gbm_explainer_r <- roc_pivot(gbm_explainer,
-                             protected = adult$sex,
+                             protected = protected,
                              privileged = "Male")
 
 
@@ -220,21 +220,22 @@ Cutoff manipulation is simple technique that enables to set different cutoff for
 
 ```{r}
 set.seed(1)
-gbm_model <-gbm(salary ~. , data = data, distribution = "bernoulli")
+gbm_model <-gbm(salary ~. , data = adult, distribution = "bernoulli")
 gbm_explainer <- explain(gbm_model,
-                         data = data[,-1],
-                         y = data$salary,
+                         data = adult[,-1],
+                         y = adult$salary,
                          verbose = FALSE)
 
 # test fairness object
 fobject_test <- fairness_check(gbm_explainer, 
-                          protected = adult$sex, 
+                          protected = protected, 
                           privileged = "Male",
                           verbose = FALSE) 
 
 plot(ceteris_paribus_cutoff(fobject_test, subgroup = "Female"))
 
 ```
+
 It is possible to minimize all metrics or only few metrics of our interest. In this case it is also 0.35 but feel free to experiment!
 
 ```{r}

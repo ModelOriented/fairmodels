@@ -1,13 +1,17 @@
 Package: fairmodels
 Type: Package
-Title: Fairness Metrics for Models
+Title: Flexible tool for bias detection, visualization, and mitigation
 Version: 0.1.0
 Authors@R:
     c(person("Jakub", "Wiśniewski", role = c("aut", "cre"),
              email = "jakwisn@gmail.com"),
       person("Przemysław", "Biecek", role = c("aut"), 
              comment = c(ORCID = "0000-0001-8423-1823")))
-Description: Measure all fairness metrics in one place for many models. Check how big is model's bias towards different races, sex, nationalities etc.  Use measures such as Statistical Parity, Equal odds and many many more.  Visualize those metrics using heatmap, radar plot, biplot, barchart (and more!) to better understand the type of bias, how big it is and what can one do to mitigate that bias.
+Description: Measure fairness metrics in one place for many models.
+Check how big is model's bias towards different races, sex, nationalities etc.
+Use measures such as Statistical Parity, Equal odds to detect the discrimination against unprivileged groups.
+Visualize the bias using heatmap, radar plot, biplot, barchart (and more!).
+There are various pre-processing and post-processing bias mitigation algorithms implemented.   
 License: GPL
 Encoding: UTF-8
 LazyData: true
