@@ -22,8 +22,13 @@ knitr::opts_chunk$set(
   collapse = FALSE,
   comment = "#>",
   warning = FALSE,
-  message = FALSE
-)
+  message = FALSE,
+  cache      = FALSE,
+  dpi = 72,
+  fig.width  = 10,
+  fig.height = 7,
+  fig.align  = 'center'
+  )
 
 ```
 
@@ -32,6 +37,8 @@ library(fairmodels)
 
 data("adult")
 head(adult)
+# for this vignette data will be truncated
+
 
 ```
 

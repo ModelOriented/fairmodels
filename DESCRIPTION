@@ -1,6 +1,6 @@
 Package: fairmodels
 Type: Package
-Title: Flexible tool for bias detection, visualization, and mitigation
+Title: Flexible Tool for Bias Detection, Visualization, and Mitigation
 Version: 0.1.0
 Authors@R:
     c(person("Jakub", "Wiśniewski", role = c("aut", "cre"),
@@ -26,5 +26,5 @@ Suggests:
     rmarkdown,
     covr,
     testthat
-RoxygenNote: 7.1.0.9000
+RoxygenNote: 7.1.1.9000
 VignetteBuilder: knitr
