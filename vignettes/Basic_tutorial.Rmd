@@ -246,7 +246,7 @@ Another way to deal with grouped data is using heatmap.
 
 ```{r}
 fheatmap <- fairness_heatmap(fobject)
-plot(fheatmap, text_size = 2.5)
+plot(fheatmap, text_size = 3)
 ```
    
 For both models and metrics dendograms are created. This way through hierarchical clustering we can look on similarities between models/metrics. It should give similar but more detailed information than PCA
