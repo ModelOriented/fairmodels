@@ -189,10 +189,10 @@
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.04942857 , mean =  0.6973082 , max =  0.9987302  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.06672809 , mean =  0.6971553 , max =  0.9964444  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7147004 , mean =  0.002691756 , max =  0.6238358  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7095725 , mean =  0.002844653 , max =  0.6486032  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
                           protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
@@ -212,11 +212,11 @@
 #&gt; First rows from data: 
 #&gt;   parity_loss_metric  model       score
 #&gt; 1                ACC     lm 0.031182796
-#&gt; 2                ACC ranger 0.018279570
+#&gt; 2                ACC ranger 0.015053763
 #&gt; 3                 F1     lm 0.046850998
-#&gt; 4                 F1 ranger 0.008259546
+#&gt; 4                 F1 ranger 0.006124032
 #&gt; 5                MCC     lm 0.054662618
-#&gt; 6                MCC ranger 0.063308165
+#&gt; 6                MCC ranger 0.057414270
 #&gt; </div><div class='input'></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

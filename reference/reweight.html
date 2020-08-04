@@ -188,19 +188,19 @@ on empirical data. Finally the weight is quotient of those probabilities</p>
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.gbm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1595599 , mean =  0.6981031 , max =  0.9700894  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1337463 , mean =  0.7028056 , max =  0.9773583  
 #&gt;   -&gt; model_info        :  package gbm , ver. 2.1.8 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.9328371 , mean =  0.001896871 , max =  0.7957835  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.9380011 , mean =  -0.002805598 , max =  0.8001999  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>gbm_weighted_explainer</span> <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>gbm_model_weighted</span>, data = <span class='kw'>data</span>[,<span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>data</span><span class='op'>$</span><span class='kw'>Risk</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  gbm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.gbm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1469815 , mean =  0.7038687 , max =  0.9732456  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1129629 , mean =  0.704774 , max =  0.9808088  
 #&gt;   -&gt; model_info        :  package gbm , ver. 2.1.8 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.9355619 , mean =  -0.003868699 , max =  0.7719457  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.9470691 , mean =  -0.004773991 , max =  0.8444002  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>gbm_explainer</span>, <span class='kw'>gbm_weighted_explainer</span>,
                           protected = <span class='kw'>data</span><span class='op'>$</span><span class='kw'>Age</span>,
@@ -216,11 +216,11 @@ on empirical data. Finally the weight is quotient of those probabilities</p>
 <span class='kw'>fobject</span></div><div class='output co'>#&gt; 
 #&gt; Fairness check for models: original, weighted 
 #&gt; 
-#&gt; </span><span style='color: #BB0000;'>original passes 0/5 metrics
-#&gt; </span><span>Total loss:  0.7002452 
+#&gt; </span><span style='color: #BB0000;'>original passes 2/5 metrics
+#&gt; </span><span>Total loss:  0.7008719 
 #&gt; 
 #&gt; </span><span style='color: #BB0000;'>weighted passes 3/5 metrics
-#&gt; </span><span>Total loss:  0.3103204 
+#&gt; </span><span>Total loss:  0.369606 
 #&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>fobject</span>)</div><div class='img'><img src='reweight-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># radar</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='fu'><a href='fairness_radar.html'>fairness_radar</a></span>(<span class='kw'>fobject</span>))</div><div class='img'><img src='reweight-2.png' alt='' width='700' height='433' /></div></span></pre>

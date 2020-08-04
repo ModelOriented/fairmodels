@@ -208,10 +208,10 @@ will sample observations close to border or far from border.</p>
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.02378532 , mean =  0.7263153 , max =  0.9994753  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.03272652 , mean =  0.72498 , max =  0.9978712  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.9887577 , mean =  -0.02631529 , max =  0.8784738  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.9932931 , mean =  -0.02498003 , max =  0.7677545  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='kw'>p_indexes</span> <span class='op'>&lt;-</span> <span class='fu'>resample</span>(<span class='kw'>data</span><span class='op'>$</span><span class='kw'>Age</span>, y = <span class='kw'>y_numeric</span>, type = <span class='st'>"preferential"</span>, probs = <span class='kw'>explainer_rf</span><span class='op'>$</span><span class='kw'>y_hat</span>)
 <span class='kw'>rf_p</span> <span class='op'>&lt;-</span> <span class='kw'>ranger</span>::<span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>Risk</span> <span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>data</span>[<span class='kw'>p_indexes</span>, ], probability = <span class='fl'>TRUE</span>, seed = <span class='fl'>123</span>)
@@ -244,7 +244,7 @@ will sample observations close to border or far from border.</p>
 #&gt; </span><span>Total loss:  0.2756813 
 #&gt; 
 #&gt; </span><span style='color: #BBBB00;'>sampled_uniform passes 4/5 metrics
-#&gt; </span><span>Total loss:  0.3020008 
+#&gt; </span><span>Total loss:  0.4071498 
 #&gt; 
 #&gt; </span><span style='color: #BB0000;'>sampled_preferential passes 3/5 metrics
 #&gt; </span><span>Total loss:  0.3529622 

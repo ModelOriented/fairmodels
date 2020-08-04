@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Ceteris paribus cutoff plot — plot.ceteris_paribus_cutoff • fairmodels</title>
+<title>Metric scores — metric_scores • fairmodels</title>
 
 
 <!-- jquery -->
@@ -45,10 +45,10 @@
 
 
 
-<meta property="og:title" content="Ceteris paribus cutoff plot — plot.ceteris_paribus_cutoff" />
-<meta property="og:description" content="Ceteris paribus cutoff is way to check how will parity loss behave if we changed only cutoff in one subgroup.
-It plots object of class ceteric_paribus_cutoff. It might have two types - default and cumulated. Cumulated sums metrics and plots
-it all in one plot. When default one is used all chosen metrics will be plotted for each model." />
+<meta property="og:title" content="Metric scores — metric_scores" />
+<meta property="og:description" content="creates metric_scores object to facilitate visualization. Check how the metric scores differ among models, what is this score, and how it changes
+for example after applying bias mitigation technique. The vertical black lines
+denotes the score for privileged subgroup. It is best to use only few metrics (using fairness_metrics parameter)" />
 
 
 
@@ -136,74 +136,73 @@ it all in one plot. When default one is used all chosen metrics will be plotted 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Ceteris paribus cutoff plot</h1>
+    <h1>Metric scores</h1>
     
-    <div class="hidden name"><code>plot_ceteris_paribus_cutoff.Rd</code></div>
+    <div class="hidden name"><code>metric_scores.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Ceteris paribus cutoff is way to check how will parity loss behave if we changed only cutoff in one subgroup.
-It plots object of class ceteric_paribus_cutoff. It might have two types - default and cumulated. Cumulated sums metrics and plots
-it all in one plot. When default one is used all chosen metrics will be plotted for each model.</p>
+    <p>creates metric_scores object to facilitate visualization. Check how the metric scores differ among models, what is this score, and how it changes
+for example after applying bias mitigation technique. The vertical black lines
+denotes the score for privileged subgroup. It is best to use only few metrics (using <code>fairness_metrics</code> parameter)</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for ceteris_paribus_cutoff</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>x</span>, <span class='kw'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>metric_scores</span>(<span class='kw'>x</span>, fairness_metrics = <span class='fu'>unique_metrics</span>())</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>ceteris_paribus_cutoff object</p></td>
+      <td><p><code>fairness_object</code> object</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>other plot parameters</p></td>
+      <th>fairness_metrics</th>
+      <td><p>character, vector with fairness metric names</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>ggplot object</p>
+    <p><code>metric_scores</code> object</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"german"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"compas"</span>)
 
-<span class='kw'>y_numeric</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='kw'>german</span><span class='op'>$</span><span class='kw'>Risk</span>) <span class='op'>-</span><span class='fl'>1</span>
+<span class='co'># flipping outcomes, 1- favorable</span>
+<span class='kw'>compas</span><span class='op'>$</span><span class='kw'>Two_yr_Recidivism</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span>(<span class='kw'>compas</span><span class='op'>$</span><span class='kw'>Two_yr_Recidivism</span> <span class='op'>==</span> <span class='st'>'1'</span>, <span class='st'>'0'</span>, <span class='st'>'1'</span>))
 
-<span class='kw'>lm_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='kw'>Risk</span><span class='op'>~</span><span class='kw'>.</span>,
-                data = <span class='kw'>german</span>,
-                family=<span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(link=<span class='st'>"logit"</span>))
+<span class='co'># train</span>
+<span class='kw'>lm_compas</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='kw'>Two_yr_Recidivism</span> <span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>compas</span>, family = <span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>())
+<span class='kw'>rf_compas</span> <span class='op'>&lt;-</span> <span class='kw'>ranger</span>::<span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>Two_yr_Recidivism</span> <span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>compas</span>, probability = <span class='fl'>TRUE</span>)
 
-<span class='kw'>rf_model</span> <span class='op'>&lt;-</span> <span class='kw'>ranger</span>::<span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>Risk</span> <span class='op'>~</span><span class='kw'>.</span>,
-                           data = <span class='kw'>german</span>,
-                           probability = <span class='fl'>TRUE</span>,
-                           num.trees = <span class='fl'>200</span>)
+<span class='co'># numeric target values</span>
+<span class='kw'>y_numeric</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='kw'>compas</span><span class='op'>$</span><span class='kw'>Two_yr_Recidivism</span>)<span class='op'>-</span><span class='fl'>1</span>
 
-<span class='kw'>explainer_lm</span> <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>lm_model</span>, data = <span class='kw'>german</span>[,<span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  lm  ( <span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; data              :  1000  rows  9  cols 
-#&gt;   -&gt; target variable   :  1000  values 
-#&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1369187 , mean =  0.7 , max =  0.9832426  
-#&gt;   -&gt; model_info        :  package stats , ver. 4.0.2 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
-#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.9572803 , mean =  1.940006e-17 , max =  0.8283475  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>explainer_rf</span> <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>rf_model</span>, data = <span class='kw'>german</span>[,<span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; data              :  1000  rows  9  cols 
-#&gt;   -&gt; target variable   :  1000  values 
+<span class='co'># explainer</span>
+<span class='kw'>rf_explainer</span> <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>rf_compas</span>, data = <span class='kw'>compas</span>[,<span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label       :  ranger  ( <span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; data              :  6172  rows  6  cols 
+#&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.05305632 , mean =  0.6971445 , max =  0.99739  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1592782 , mean =  0.5449884 , max =  0.8702544  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7113175 , mean =  0.002855471 , max =  0.6799801  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8512536 , mean =  -0.0001083003 , max =  0.7796861  
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>lm_explainer</span> <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>lm_compas</span>, data = <span class='kw'>compas</span>[,<span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; data              :  6172  rows  6  cols 
+#&gt;   -&gt; target variable   :  6172  values 
+#&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; predicted values  :  numerical, min =  0.004522979 , mean =  0.5448801 , max =  0.8855426  
+#&gt;   -&gt; model_info        :  package stats , ver. 4.0.2 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8822826 , mean =  -5.07018e-13 , max =  0.9767658  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
-                          protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
-                          privileged = <span class='st'>"male"</span>)</div><div class='output co'>#&gt; Creating fairness object
+<span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>rf_explainer</span>, <span class='kw'>lm_explainer</span>,
+                          protected = <span class='kw'>compas</span><span class='op'>$</span><span class='kw'>Ethnicity</span>,
+                          privileged = <span class='st'>"Caucasian"</span>)</div><div class='output co'>#&gt; Creating fairness object
 #&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
 #&gt; -&gt; Protected variable		: factor (</span><span style='color: #00BB00;'> Ok </span><span> ) 
 #&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
@@ -211,10 +210,8 @@ it all in one plot. When default one is used all chosen metrics will be plotted 
 #&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
 #&gt; -&gt; Metric calculation		: successful
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
-<span class='kw'>cpc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ceteris_paribus_cutoff.html'>ceteris_paribus_cutoff</a></span>(<span class='kw'>fobject</span>, <span class='st'>"female"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>cpc</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 31 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='plot_ceteris_paribus_cutoff-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='kw'>cpc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ceteris_paribus_cutoff.html'>ceteris_paribus_cutoff</a></span>(<span class='kw'>fobject</span>, <span class='st'>"female"</span>, cumulated = <span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>cpc</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 261 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='plot_ceteris_paribus_cutoff-2.png' alt='' width='700' height='433' /></div><div class='input'></div></span></pre>
+<span class='kw'>ms</span> <span class='op'>&lt;-</span> <span class='fu'>metric_scores</span>(<span class='kw'>fobject</span>, fairness_metrics = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"TPR"</span>,<span class='st'>"STP"</span>,<span class='st'>"ACC"</span>))
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>ms</span>)</div><div class='img'><img src='metric_scores-1.png' alt='' width='700' height='433' /></div><div class='input'></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

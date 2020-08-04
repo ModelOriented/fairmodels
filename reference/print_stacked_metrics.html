@@ -191,10 +191,10 @@ for subgroups from protected vector.</p>
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.05112103 , mean =  0.697292 , max =  0.9984524  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.08031548 , mean =  0.6955488 , max =  0.99825  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7416003 , mean =  0.002708007 , max =  0.6776488  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7038762 , mean =  0.004451168 , max =  0.6178643  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
                           protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
@@ -211,11 +211,11 @@ for subgroups from protected vector.</p>
 #&gt; First rows of stacked data: 
 #&gt;   metric  model score
 #&gt; 1    TPR     lm 0.085
-#&gt; 2    TPR ranger 0.012
+#&gt; 2    TPR ranger 0.008
 #&gt; 3    TNR     lm 0.190
-#&gt; 4    TNR ranger 0.067
+#&gt; 4    TNR ranger 0.071
 #&gt; 5    PPV     lm 0.017
-#&gt; 6    PPV ranger 0.004
+#&gt; 6    PPV ranger 0.006
 #&gt; </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
