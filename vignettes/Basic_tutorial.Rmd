@@ -24,7 +24,12 @@ knitr::opts_chunk$set(
   collapse = FALSE,
   comment = "#>",
   warning = FALSE,
-  message = FALSE
+  message = FALSE,
+  cache      = FALSE,
+  fig.align  = 'center',
+  dpi = 72,
+  fig.width  = 10,
+  fig.height = 7
 )
 
 ```
@@ -89,19 +94,7 @@ print(fobject, colorize = FALSE)
 plot(fobject)
 ```
 
-Of course the `protected` parameter can be changed.
-```{r}
-fobject_tmp <- fairness_check(rf_explainer, 
-                           protected = compas$Sex,
-                           privileged = "Female",
-                           verbose = FALSE)
-
-plot(fobject_tmp)
-```
-
-
-
-
+Of course the `protected` parameter can be changed, for example to binary `compas$Sex`.
 
 In many metrics `ranger` exceeds fairness threshold (which can be changed by `epsilon` parameter). If bars reach red field on the left it means that there is bias towards certain unprivileged subgroup. If they reach one on the right it means bias towards privileged (Caucasian - in all metrics here Caucasian subgroup is referenced as base - 0) subgroup. Someone can argue that some groups are statistically more likely commit a crime but `fairness_check()` takes it into account. Statistical parity loss checks if proportion of assigned positive class is equal among all subgroups. In this example Native Americans and African Americans are more likely to be classified as recidivists. Other metrics measure how equal treatment and mistreatment among subgroups is. More on those metrics: [wikipedia](https://en.wikipedia.org/wiki/Fairness_(machine_learning))
 
@@ -248,31 +241,16 @@ Let's plot!
 plot(fair_pca)
 ```
 
-It is done with loadings plot, which can be customized. 
-```{r}
-plot(fair_pca, scale = 0) # default = 0.5
-```
-
 ## Plot Heatmap
 Another way to deal with grouped data is using heatmap.
 
 ```{r}
 fheatmap <- fairness_heatmap(fobject)
-plot(fheatmap, text_size = 2.5)
+plot(fheatmap, text_size = 3)
 ```
    
 For both models and metrics dendograms are created. This way through hierarchical clustering we can look on similarities between models/metrics. It should give similar but more detailed information than PCA
-   
-It can be normalized among metrics.
-```{r}
-fheatmap <- fairness_heatmap(fobject, scale = TRUE)
-plot(fheatmap , title = "Title can be changed", subtitle = "subtitle too!", text = FALSE) # we can turn values off via text= FALSE
-```
-
 Now we know what those scores are and how "similar" models are to each other
-
-
-
 
 ## Metric and Performance Plot
 
@@ -282,30 +260,6 @@ Sometimes we would like to know how good are models in performance metrics and i
 fap <- performance_and_fairness(fobject, fairness_metric = "FPR")
 plot(fap)
 ```
-
-We can add plots with help of `patchwork` 
-
-```{r, results= "hide"}
-library(patchwork)
-library(ggplot2)
-
-p1 <- plot(performance_and_fairness(fobject,  "TPR", "accuracy"))
-p2 <- plot(performance_and_fairness(fobject,  "FPR", "auc"))     +
-  ggtitle(" ") +
-  theme(legend.position = "none")
-p3 <- plot(performance_and_fairness(fobject,  "NPV", "recall"))  +
-  ggtitle(" ") +
-  theme(legend.position = "none")
-p4 <- plot(performance_and_fairness(fobject,  "TS", "f1")) +
-  ggtitle(" ") +
-  theme(legend.position = "none")
-
-```
-```{r}
-(p1 + p2)/(p3+p4)
-```
-
-
 
 ## Group Metric
 
@@ -356,13 +310,6 @@ cpc <- ceteris_paribus_cutoff(fobject2, subgroup = "African_American")
 
 plot(cpc)
 ```
-
-```{r}
-cpc <- ceteris_paribus_cutoff(fobject2, subgroup = "African_American", cumulated = TRUE)
-
-plot(cpc)
-```
-
 
 # Summary 
 `fairmodels` is powerful and flexible tool for detecting bias and asserting fairness in models. Many metrics are available (there are tools to create own metrics based on confusion matrix). Besides bias detection `fairmodels` offers also bias mitigation. It is set of pre-processing and post-processing algorithms working either on data or on explainer which function is to lower parity loss in certain metrics. If you are interested in this and adult data case study, please check Advanced Tutorial. If you encountered a bug or you have cool idea for a new feature please write and issue [here](https://github.com/ModelOriented/fairmodels/issues). 
