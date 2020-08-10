@@ -7,18 +7,18 @@
 \method{plot}{all_cutoffs}(x, ..., label = NULL)
 }
 \arguments{
-\item{x}{all_cutoffs object}
+\item{x}{\code{all_cutoffs} object}
 
 \item{...}{other plot parameters}
 
 \item{label}{character, label of model to plot. Default NULL. If default prints all models.}
 }
 \value{
-ggplot object
+\code{ggplot2} object
 }
 \description{
 All cutoffs plot allows to check how parity loss of chosen metrics is affected by the change of cutoff. Values of cutoff
-are the same for all subgroups (levels of protected variable) no matter what cuttof values were in fairness_object.
+are the same for all subgroups (levels of protected variable) no matter what cutoff values were in \code{fairness_object}.
 }
 \examples{
 

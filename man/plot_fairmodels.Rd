@@ -27,7 +27,7 @@ plot_fairmodels(x, type, ...)
 \item{privileged}{character/factor, level in factor denoting privileged subgroup}
 }
 \value{
-\code{ggplot} object
+\code{ggplot2} object
 }
 \description{
 Easier access to all plots in fairmodels. Provide plot type (that matches to function name), pass additional parameters and plot.

@@ -1,12 +1,12 @@
 #' Fairness check
 #'
-#' @description Fairness check creates fairness object which measures different fairness metrics and wraps data, explainers and parameters in useful object. This is fundamental object in this package.
-#' It allows to visualize fairness metrics in many ways and compare models on both fairness and performance level. Fairness check acts as merger and wrapper for explainers and fairness objects.
+#' Fairness check creates \code{fairness_object} which measures different fairness metrics and wraps data, explainers and parameters in useful object. This is fundamental object in this package.
+#' It enables to visualize fairness metrics and models in many ways and compare models on both fairness and performance level. Fairness check acts as merger and wrapper for explainers and fairness objects.
 #' While other fairness objects values are not changed, fairness check assigns cutoffs and labels to provided explainers so same explainers with changed labels/cutoffs might be gradually added to fairness object.
-#' Users through print and plot methods may quickly check values of most popular fairness metrics. More on that topic in details/
+#' Users through print and plot methods may quickly check values of most popular fairness metrics. More on that topic in details.
 #'
-#' @param x object created with \code{\link[DALEX]{explain}} or \code{fairness_object}
-#' @param ... possibly more objects created with \code{\link[DALEX]{explain}} and/or \code{fairness_objects}
+#' @param x object created with \code{\link[DALEX]{explain}} or of class \code{fairness_object}
+#' @param ... possibly more objects created with \code{\link[DALEX]{explain}} and/or objects of class \code{fairness_object}
 #' @param protected factor, protected variable (also called sensitive attribute), containing privileged and unprivileged groups
 #' @param privileged factor/character, one value of \code{protected}, in regard to what subgroup parity loss is calculated
 #' @param cutoff numeric, vector of cutoffs (thresholds) for each value of protected variable, affecting only explainers.
@@ -23,27 +23,7 @@
 #' \url{https://fairware.cs.umass.edu/papers/Verma.pdf}
 #' \url{https://en.wikipedia.org/wiki/Fairness_(machine_learning)}
 #'
-#'
-#' @return An object of class \code{fairness_object} which is a list with elements:
-#' \itemize{
-#' \item parity_loss_metric_data - data.frame containing parity loss for various fairness metrics. Created with following metrics:
-#' \itemize{
-#'
-#' \item TPR - True Positive Rate (Sensitivity, Recall, Equal Odds)
-#' \item TNR - True Negative Rate (Specificity)
-#' \item PPV - Positive Predictive Value (Precision)
-#' \item NPV - Negative Predictive Value
-#' \item FNR - False Negative Rate
-#' \item FPR - False Positive Rate
-#' \item FDR - False Discovery Rate
-#' \item FOR - False Omission Rate
-#' \item TS  - Threat Score
-#' \item STP - Statistical Parity
-#' \item ACC - Accuracy
-#' \item F1  - F1 Score
-#' \item MCC - Matthews correlation coefficient
-#' }
-#'
+#' Parity loss is computed as follows:
 #' M_parity_loss = sum(abs(metric - base_metric))
 #'
 #' where:
@@ -54,11 +34,33 @@
 #'
 #' base_metric - scalar, value of metric for base subgroup
 #'
-#' \item groups_data - metrics across levels in protected variable
 #'
-#' \item explainers  - list of DALEX explainers used to create object
+#' @return An object of class \code{fairness_object} which is a list with elements:
+#' \itemize{
+#' \item parity_loss_metric_data - data.frame containing parity loss for various fairness metrics. Created with following metrics:
+#' \itemize{
 #'
-#' \item ...         - other parameters passed to function
+#' \item{TPR}{ - True Positive Rate (Sensitivity, Recall, Equal Odds)}
+#' \item{TNR}{ - True Negative Rate (Specificity)}
+#' \item{PPV}{ - Positive Predictive Value (Precision)}
+#' \item{NPV}{ - Negative Predictive Value}
+#' \item{FNR}{ - False Negative Rate}
+#' \item{FPR}{ - False Positive Rate}
+#' \item{FDR}{ - False Discovery Rate}
+#' \item{FOR}{ - False Omission Rate}
+#' \item{TS}{ - Threat Score}
+#' \item{STP}{ - Statistical Parity}
+#' \item{ACC}{ - Accuracy}
+#' \item{F1}{ - F1 Score}
+#' \item{MCC}{ - Matthews correlation coefficient}
+#' }
+#'
+#' \item{groups_data}{ - metrics across levels in protected variable}
+#' \item{groups_confusion_metrices}{ - confusion matrices for each subgroup}
+#' \item{explainers}{ - list of \code{DALEX} explainers used to create object}
+#' \item{cutoffs}{ - list of cutoffs for each explainer and subgroup}
+#' \item{fairness_check_data}{ - \code{data.frame} used for for plotting \code{fairness_object}}
+#' \item{...}{ - other parameters passed to function}
 #' }
 #'
 #' @references

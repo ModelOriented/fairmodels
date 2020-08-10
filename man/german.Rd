@@ -26,5 +26,5 @@ Data from kaggle \url{https://www.kaggle.com/kabure/german-credit-data-with-risk
 data(german)
 }
 \description{
-\code{german}
+\code{german} dataset. Data contains information about people and their credit risks.
 }

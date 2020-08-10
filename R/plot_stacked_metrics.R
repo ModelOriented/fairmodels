@@ -1,6 +1,6 @@
 #' Plot stacked Metrics
 #'
-#' @description Stacked metrics is like plot for \code{choosen_metric} but with all unique metrics stacked on top of each other.
+#' @description Stacked metrics is like plot for \code{chosen_metric} but with all unique metrics stacked on top of each other.
 #' Metrics containing NA's will be dropped to enable fair comparison.
 #'
 #' @param x \code{stacked_metrics} object
@@ -35,6 +35,7 @@
 #'
 #' @export
 #' @rdname plot_stacked_metrics
+#' @return \code{ggplot2} object
 #'
 
 plot.stacked_metrics <- function(x, ...){

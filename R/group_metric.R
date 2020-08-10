@@ -1,14 +1,14 @@
 #' Group metric
 #'
-#' @description Group metric enables to extract data from metrics generated for each subgroup (values in protected variable)
-#' The closer metric values are to each other, the less bias particular model has. If parity_loss parameter is set to TRUE, distance between
+#' Group metric enables to extract data from metrics generated for each subgroup (values in protected variable)
+#' The closer metric values are to each other, the less bias particular model has. If \code{parity_loss} parameter is set to \code{TRUE}, distance between
 #' privileged and unprivileged subgroups will be measured. When plotted shows both fairness metric and chosen performance metric.
 #'
 #' @param x object of class \code{fairness_object}
 #' @param fairness_metric character, fairness metric name
 #' @param performance_metric character, performance metric name
-#' @param parity_loss logical, if TRUE parity loss will supersede normal metric
-#'
+#' @param parity_loss logical, if \code{TRUE} parity loss will supersede basic metric
+#' @param verbose logical, whether to print information about metrics on console or not. Default \code{TRUE}
 #'
 #' @importFrom DALEX model_performance
 #'
@@ -68,12 +68,21 @@
 #'
 #' plot(gm)
 #'
-#' @return \code{group_metric} object
+#' @return \code{group_metric} object.
+#' It is a list with following items:
+#' \itemize{
+#' \item{group_metric_data}{ - \code{data.frame} containing fairness metric scores for each model}
+#' \item{performance_data}{ - \code{data.frame} containing performance metric scores for each model}
+#' \item{fairness_metric}{ - name of fairness metric}
+#' \item{performance_metric}{ - name of performance metric}
+#'
+#' }
+#'
 #' @export
 #' @rdname group_metric
 #'
 
-group_metric <- function(x, fairness_metric = NULL, performance_metric = NULL, parity_loss = FALSE){
+group_metric <- function(x, fairness_metric = NULL, performance_metric = NULL, parity_loss = FALSE, verbose = TRUE){
 
   stopifnot(class(x) == "fairness_object")
   stopifnot(is.logical(parity_loss))
@@ -84,12 +93,12 @@ group_metric <- function(x, fairness_metric = NULL, performance_metric = NULL, p
 
   if (is.null(fairness_metric)) {
     fairness_metric <-  "TPR"
-    cat("Fairness Metric not given, setting deafult (", fairness_metric,")  \n")
+    verbose_cat("Fairness Metric not given, setting deafult (", fairness_metric,")  \n", verbose = verbose)
   }
 
   if (is.null(performance_metric)) {
     performance_metric <-  "accuracy"
-    cat("Performace metric not given, setting deafult (", performance_metric,")  \n")
+    verbose_cat("Performace metric not given, setting deafult (", performance_metric,")  \n", verbose = verbose)
   }
 
 
@@ -98,8 +107,8 @@ group_metric <- function(x, fairness_metric = NULL, performance_metric = NULL, p
 
 
   # output for creating object
-  cat("\nCreating object with: \nFairness metric", fairness_metric,
-      "\nPerformance metric ", performance_metric, "\n\n")
+  verbose_cat("\nCreating object with: \nFairness metric: ", fairness_metric,
+      "\nPerformance metric: ", performance_metric, "\n\n", verbose = verbose)
 
 
   # Fairness metric
@@ -121,8 +130,8 @@ group_metric <- function(x, fairness_metric = NULL, performance_metric = NULL, p
   labels_rep          <- rep(labels, each = n)
 
   group_metric_data <- data.frame(group = row_names,
-                              value = unlisted_group_data,
-                              label = labels_rep)
+                              score = unlisted_group_data,
+                              model = labels_rep)
 
   # performance metric
   cutoff   <- x$cutoff
@@ -143,7 +152,7 @@ group_metric <- function(x, fairness_metric = NULL, performance_metric = NULL, p
 
   }
 
-  performance_data <- data.frame(x = x$label, y = mod_perf)
+  performance_data <- data.frame(model = x$label, score = mod_perf)
 
   if (parity_loss){
     fairness_metric <- paste0(fairness_metric, " parity loss")

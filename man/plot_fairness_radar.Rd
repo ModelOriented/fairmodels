@@ -12,7 +12,7 @@
 \item{...}{other plot parameters}
 }
 \value{
-\code{ggplot} object
+\code{ggplot2} object
 }
 \description{
 Makes radar plot showing different fairness metrics that allow to compare models.
@@ -45,5 +45,5 @@ plot(fradar)
 
 }
 \references{
-code from ModelOriented auditor package, thanks agosiewska!  \url{https://modeloriented.github.io/auditor/}
+code based on ModelOriented auditor package, thanks agosiewska!  \url{https://modeloriented.github.io/auditor/}
 }

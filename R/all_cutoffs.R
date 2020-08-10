@@ -1,17 +1,16 @@
 #' All cutoffs
 #'
-#' @description Create all_cutoffs object and see how with the change of cutoffs parity loss of fairness metrics changes. Value of cutoff changes equally for all subgroups.
+#' Create \code{all_cutoffs} object and see how with the change of cutoffs parity loss of fairness metrics changes. Value of cutoff changes equally for all subgroups.
 #' User can pick which fairness metrics to create the object with via fairness_metrics vector.
 #'
-#' @param x fairness_object
+#' @param x object of class \code{fairness_object}
 #' @param grid_points numeric, grid for cutoffs to test. Number of points between 0 and 1 spread evenly
 #' @param fairness_metrics character, name of metric or vector of multiple metrics names
 #'
-#' @return all_cutoffs object
+#' @return \code{all_cutoffs} object, \code{data.frame} containing information about label, metric and parity_loss at particular cutoff
 #' @export
 #'
 #' @examples
-#'
 #' data("german")
 #'
 #' y_numeric <- as.numeric(german$Risk) -1

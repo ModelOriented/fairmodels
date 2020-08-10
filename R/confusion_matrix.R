@@ -1,12 +1,19 @@
 #' Confusion matrix
 #'
-#' @description Calculates confusion matrix for given cutoff
+#' Calculates confusion matrix for given cutoff
 #'
-#' @param probs probabilities given by model
-#' @param observed actual values from outcome
-#' @param cutoff cutoff
+#' @param probs numeric, vector with probabilities given by model
+#' @param observed numeric, vector with actual values from outcome, either 0 or 1
+#' @param cutoff numeric, single value denoting cutoff/threshold
 #'
-#' @return list that creates confusion matrix, of class \code{confussion_matrix}
+#' @return object of class \code{confussion_matrix}
+#' It is a list with following fields:
+#' \itemize{
+#' \item{tp}{number of True Positives}
+#' \item{fp}{number of False Positives}
+#' \item{tn}{number of True Negatives}
+#' \item{fn}{number of False Negatives}
+#' }
 #'
 #' @export
 #' @rdname confusion_matrx

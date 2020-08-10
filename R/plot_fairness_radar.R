@@ -7,11 +7,11 @@
 #'
 #' @import ggplot2
 #'
-#' @return \code{ggplot} object
+#' @return \code{ggplot2} object
 #' @export
 #' @rdname plot_fairness_radar
 #'
-#' @references code from ModelOriented auditor package, thanks agosiewska!  \url{https://modeloriented.github.io/auditor/}
+#' @references code based on ModelOriented auditor package, thanks agosiewska!  \url{https://modeloriented.github.io/auditor/}
 #'
 #' @examples
 #' data("german")

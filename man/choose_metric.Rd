@@ -7,7 +7,7 @@
 choose_metric(x, fairness_metric = "FPR")
 }
 \arguments{
-\item{x}{\code{fairness_object}}
+\item{x}{object of class \code{fairness_object}}
 
 \item{fairness_metric}{\code{char}, name of fairness metric, one of metrics:
 
@@ -28,17 +28,22 @@ choose_metric(x, fairness_metric = "FPR")
 }}
 }
 \value{
-choose_metric object
+\code{chosen_metric} object
+It is a list with following fields:
+\itemize{
+\item{parity_loss_metric_data}{ \code{data.frame} with columns: parity_loss_metric and label}
+\item{metric}{ chosen metric}
+\item{label}{ character, vector of model labels}
+}
 }
 \description{
-Choose metric creates \code{chosen_metric} object. It extract metric from metric data from fairness object.
+Extracts metrics from \code{metric_data} from fairness object.
 It allows to visualize and compare chosen metric values across all models.
 }
 \details{
 some of metrics give same parity loss as others (for example TPR and FNR and that is because TPR = 1 - FNR)
 }
 \examples{
-
 data("german")
 
 y_numeric <- as.numeric(german$Risk) -1

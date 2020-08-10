@@ -2,14 +2,14 @@
 #'
 #' @description Plot distribution for models output probabilities. See how being in particular subgroup affects models decision.
 #'
-#' @param x fairness_object
+#' @param x object of class \code{fairness_object}
 #' @param ... other plot parameters
 #'
 #'
 #' @import ggplot2
 #' @importFrom DALEX theme_drwhy_vertical
 #'
-#' @return \code{ggplot} object
+#' @return \code{ggplot2} object
 #' @export
 #' @rdname plot_density
 #'

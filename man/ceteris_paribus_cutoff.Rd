@@ -14,7 +14,7 @@ ceteris_paribus_cutoff(
 )
 }
 \arguments{
-\item{x}{fairness_object}
+\item{x}{object of class \code{fairness_object}}
 
 \item{subgroup}{character, name of subgroup (level in protected variable)}
 
@@ -28,12 +28,12 @@ Position corresponding to subgroups in levels will be changed. Default is NULL}
 \item{cumulated}{logical, if \code{TRUE}  facets will collapse to one plot and parity loss for each model will be summed. Default \code{FALSE}.}
 }
 \value{
-\code{ceteris_paribus_cutoff} object
+\code{ceteris_paribus_cutoff} \code{data.frame} containing information about label, metric and parity_loss at particular cutoff
 }
 \description{
 Ceteris paribus cutoff is way to check how will parity loss behave if only cutoff for one subgroup was changed.
-By using parameter new_cutoffs parity loss for metric's with new cutoffs will be calculated. Note that cutoff for subgroup (passed as parameter) will
-change no matter new_cutoff's value at that position. When parameter cumulated is set to true, all metrics will be summed and facets will
+By using parameter \code{new_cutoffs} parity loss for metrics with new cutoffs will be calculated. Note that cutoff for subgroup (passed as parameter) will
+change no matter \code{new_cutoff}'s value at that position. When parameter \code{cumulated} is set to true, all metrics will be summed and facets will
 collapse to one plot with different models on it. Sometimes due to the fact that some metric might contain NA for all cutoff values, cumulated plot might be present without
 this model.
 }

@@ -1,7 +1,6 @@
 #' Modified German Credit data dataset
 #'
-#' @description
-#' \code{german}
+#' \code{german} dataset. Data contains information about people and their credit risks.
 #'
 #' @format A data frame with 1000 rows and 10 variables:
 #' \describe{

@@ -7,11 +7,14 @@
 expand_fairness_object(x, scale = FALSE, drop_metrics_with_na = FALSE)
 }
 \arguments{
-\item{x}{fairness_object}
+\item{x}{object of class \code{fairness_object}}
 
 \item{scale}{logical, if \code{TRUE} standarised.}
 
-\item{drop_metrics_with_na}{logical, if TRUE metrics with NA will be omitted}
+\item{drop_metrics_with_na}{logical, if \code{TRUE} metrics with NA will be omitted}
+}
+\value{
+object of class \code{expand_fairness_object}. It is a \code{data.frame} with scores for each metric and model.
 }
 \description{
 Unfold fairness object to 3 columns (metrics, label, score) to construct better base for visualization.

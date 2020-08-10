@@ -1,17 +1,17 @@
 #' Plot all cutoffs
 #'
-#' @description All cutoffs plot allows to check how parity loss of chosen metrics is affected by the change of cutoff. Values of cutoff
-#' are the same for all subgroups (levels of protected variable) no matter what cuttof values were in fairness_object.
+#' All cutoffs plot allows to check how parity loss of chosen metrics is affected by the change of cutoff. Values of cutoff
+#' are the same for all subgroups (levels of protected variable) no matter what cutoff values were in \code{fairness_object}.
 #'
 #'
-#' @param x all_cutoffs object
+#' @param x \code{all_cutoffs} object
 #' @param ... other plot parameters
 #' @param label character, label of model to plot. Default NULL. If default prints all models.
 #'
 #' @import ggplot2
 #' @importFrom DALEX theme_drwhy
 #'
-#' @return ggplot object
+#' @return \code{ggplot2} object
 #' @export
 #' @rdname plot_all_cutoffs
 #'

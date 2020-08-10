@@ -1,6 +1,6 @@
 #' Plot fairmodels
 #'
-#' @description Easier access to all plots in fairmodels. Provide plot type (that matches to function name), pass additional parameters and plot.
+#' Easier access to all plots in fairmodels. Provide plot type (that matches to function name), pass additional parameters and plot.
 #'
 #' @param x object created with \code{fairness_check} or with \code{\link[DALEX]{explain}}
 #' @param type character, type of plot. Should match function name in fairmodels. Default is fairness_check.
@@ -24,7 +24,7 @@
 #' \item ceteris_paribus_cutoff
 #' }
 #'
-#' @return \code{ggplot} object
+#' @return \code{ggplot2} object
 #'
 #' @examples
 #'

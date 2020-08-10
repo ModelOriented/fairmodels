@@ -1,24 +1,24 @@
 #' Disparate impact remover
 #'
-#' @description Disparate impact remover is a pre-processing bias mitigation method. It removes bias hidden in numeric columns in data. It changes distribution of ordinal features of data with regard to
+#' Disparate impact remover is a pre-processing bias mitigation method. It removes bias hidden in numeric columns in data. It changes distribution of ordinal features of data with regard to
 #' earth mover distance. It works best if among subgroups there is similar number of observations.
 #'
 #' @references This method was implemented based on Feldman, Friedler, Moeller, Scheidegger, Venkatasubramanian 2015 \url{https://arxiv.org/pdf/1412.3756.pdf}
 #'
-#' @details This is implementation of geometric method which preserves ranks unlike combinatorial repair. Lambda close to 1 denotes that distributions will be very close to each other
-#' and lambda close to 0 means that densities will barely change. Note that although lambda equal 0 should mean that original data will be returned, it usually changes distributions slightly due to
-#' pigeonholing. The number of pigeonholes is fixed and is equal to min{101, unique(a)}, where a is vector with values for subgroup. So if some subgroup is not numerous and
-#' the distribution is discrete with small number of variables then there will be small number of pigeonholes and it will affect data significantly.
+#' @details This is implementation of geometric method which preserves ranks unlike combinatorial repair. \code{lambda} close to 1 denotes that distributions will be very close to each other
+#' and \code{lambda} close to 0 means that densities will barely change. Note that although \code{lambda} equal 0 should mean that original data will be returned, it usually changes distributions slightly due to
+#' pigeonholing. The number of pigeonholes is fixed and equal to min{101, unique(a)}, where a is vector with values for subgroup. So if some subgroup is not numerous and
+#' the distribution is discrete with small number of variables then there will be small number of pigeonholes. It will affect data significantly.
 #'
-#' @param data data.frame, data to be transformed
-#' @param protected factor, vector containing sensitive information. If character it will transform it to factor.
+#' @param data \code{data.frame}, data to be transformed
+#' @param protected factor, vector containing sensitive information such as gender, race etc... If vector is character it will transform it to factor.
 #' @param features_to_transform character, vector of column names to be transformed. Columns must have numerical, ordinal values
 #' @param lambda numeric, amount of repair desired. Value from 0 to 1, where 0 will return almost unchanged dataset and 1 fully repaired dataset
 #'
 #'
 #' @importFrom stats ecdf median quantile
 #'
-#' @return data.frame
+#' @return repaired data (\code{data.frame} object)
 #' @export
 #'
 #' @examples

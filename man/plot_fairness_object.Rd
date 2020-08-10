@@ -12,7 +12,7 @@
 \item{...}{other plot parameters}
 }
 \value{
-\code{ggplot} object
+\code{ggplot2} object
 }
 \description{
 Plot fairness check enables to look how big differences are between base subgroup (privileged) and unprivileged ones.

@@ -11,7 +11,7 @@
 #' @importFrom DALEX theme_drwhy
 #' @importFrom ggrepel geom_text_repel
 #'
-#' @return ggplot object
+#' @return \code{ggplot2} object
 #' @rdname plot_ceteris_paribus_cutoff
 #' @export
 #'

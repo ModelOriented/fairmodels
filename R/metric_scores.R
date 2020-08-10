@@ -1,13 +1,18 @@
 #' Metric scores
 #'
-#' @description creates metric_scores object to facilitate visualization. Check how the metric scores differ among models, what is this score, and how it changes
+#' Creates \code{metric_scores} object to facilitate visualization. Check how the metric scores differ among models, what is this score, and how it changes
 #' for example after applying bias mitigation technique. The vertical black lines
-#' denotes the score for privileged subgroup. It is best to use only few metrics (using \code{fairness_metrics} parameter)
+#' denote the scores for privileged subgroup. It is best to use only few metrics (using \code{fairness_metrics} parameter)
 #'
-#' @param x \code{fairness_object} object
+#' @param x object of class \code{fairness_object}
 #' @param fairness_metrics character, vector with fairness metric names
 #'
-#' @return \code{metric_scores} object
+#' @return \code{metric_scores} object.
+#' It is a list containing:
+#' \itemize{
+#' \item{metric_scores_data}{ - \code{data.frame} with information about score in particular subgroup, metric, and model}
+#' \item{privileged}{ - name of peivileged subgroup}
+#' }
 #' @export
 #'
 #' @examples
@@ -66,5 +71,3 @@ metric_scores <- function(x, fairness_metrics = unique_metrics()){
   class(metric_scores) <- "metric_scores"
   return(metric_scores)
 }
-
-

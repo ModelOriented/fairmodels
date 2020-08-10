@@ -1,20 +1,22 @@
 #' Group confusion matrices
 #'
-#' @description Calculates confusion matrices for each subgroup
+#' Calculates confusion matrices for each subgroup
 #'
 #' @param probs \code{character} name of column with probabilities
 #' @param cutoff \code{numeric} cutoff for probabilities, default = 0.5
 #' @param protected vector containing protected variable
 #' @param preds numeric, vector with predictions
 #'
-#' @return list with values:
+#' @return \code{group_matrices} object
+#' It is a list with values:
 #' \itemize{
+#' For each subgroup:
 #' \item subgroup
 #' \itemize{
-#' \item tp - true positive values
-#' \item fp - false positive values
-#' \item tn - true negative values
-#' \item fn - false negative values
+#' \item{tp}{ - number of true positives}
+#' \item{fp}{ - number of false positives}
+#' \item{tn}{ - number of true negatives}
+#' \item{fn}{ - number of false negatives}
 #' }}
 #' @export
 #' @rdname group_matrices

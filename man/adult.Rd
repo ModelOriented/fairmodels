@@ -31,8 +31,7 @@ Data from UCL \url{https://archive.ics.uci.edu/ml/datasets/adult}
 data(adult)
 }
 \description{
-Adult dataset consists of many columns containing various information about relationship, hours worked per week, workclass etc... and about
+\code{adult} dataset consists of many columns containing various information about relationship, hours worked per week, workclass etc... and about
 salary, whether more than 50K a year or not. Lot's of possible protected attributes such as sex, race age. Some columns contain
 level "unknown" and these values are not removed and removing them depends on user as they might contain some information.
-\code{adult}
 }

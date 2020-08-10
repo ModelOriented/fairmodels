@@ -7,21 +7,20 @@
 all_cutoffs(x, grid_points = 101, fairness_metrics = unique_metrics())
 }
 \arguments{
-\item{x}{fairness_object}
+\item{x}{object of class \code{fairness_object}}
 
 \item{grid_points}{numeric, grid for cutoffs to test. Number of points between 0 and 1 spread evenly}
 
 \item{fairness_metrics}{character, name of metric or vector of multiple metrics names}
 }
 \value{
-all_cutoffs object
+\code{all_cutoffs} object, \code{data.frame} containing information about label, metric and parity_loss at particular cutoff
 }
 \description{
-Create all_cutoffs object and see how with the change of cutoffs parity loss of fairness metrics changes. Value of cutoff changes equally for all subgroups.
+Create \code{all_cutoffs} object and see how with the change of cutoffs parity loss of fairness metrics changes. Value of cutoff changes equally for all subgroups.
 User can pick which fairness metrics to create the object with via fairness_metrics vector.
 }
 \examples{
-
 data("german")
 
 y_numeric <- as.numeric(german$Risk) -1

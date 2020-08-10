@@ -33,7 +33,7 @@
 \item{flip_axis}{logical, whether to change axis with metrics on axis with models}
 }
 \value{
-list of \code{ggplot} objects
+list of \code{ggplot2} objects
 }
 \description{
 Heatmap shows all parity loss metrics across all models while displaying similarity between variables (in form of dendograms). All metrics are visible. Some have identical values

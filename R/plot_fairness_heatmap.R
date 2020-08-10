@@ -14,7 +14,7 @@
 #' @param flip_axis logical, whether to change axis with metrics on axis with models
 #' @param text_size numeric, size of text
 #'
-#' @return list of \code{ggplot} objects
+#' @return list of \code{ggplot2} objects
 #'
 #' @import ggplot2
 #' @import patchwork

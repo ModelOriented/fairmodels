@@ -3,7 +3,7 @@
 #' @param x \code{metric_scores} object
 #' @param ... other plot parameters
 #'
-#' @return \code{ggplot} object
+#' @return \code{ggplot2} object
 #' @export
 #' @rdname plot_metric_scores
 #'

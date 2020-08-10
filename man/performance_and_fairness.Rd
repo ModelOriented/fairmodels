@@ -7,20 +7,28 @@
 performance_and_fairness(x, fairness_metric = NULL, performance_metric = NULL)
 }
 \arguments{
-\item{x}{\code{fairness_object}}
+\item{x}{object of class \code{fairness_object}}
 
 \item{fairness_metric}{fairness metric, one of those in fairness_object}
 
 \item{performance_metric}{performance metric, one of}
 }
 \value{
-\code{performance_and_fairness} object
+\code{performance_and_fairness} object.
+It is list containing:
+\itemize{
+\item{paf_data}{ - performance and fairenss \code{data.frame} containing fairness and performence metric scores for each model}
+\item{fairness_metric}{ - chosen fairness metric name}
+\item{performance_metric}{ - chosen performance_metric name}
+\item{label}{ - model labels}
+}
 }
 \description{
+Measure performance in both fairness metric and
+}
+\details{
 Creates \code{perfomance_and_fairness} object. Measure model performance and model fairness metric at the same time. Choose best model according to both metrics. When plotted y axis is inversed to accentuate
 that models in top right corner are the best according to both metrics.
-
-Measure performance in both fairness metric and
 }
 \examples{
 

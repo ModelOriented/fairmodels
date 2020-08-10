@@ -1,5 +1,3 @@
-
-
 #' Plot fairness PCA
 #'
 #' @description Plot pca calculated on fairness_object metrics. Similar models and metrics should be close to each other. Plot doesn't work on multiple \code{fairness_pca} objects.
@@ -15,7 +13,7 @@
 #' @importFrom ggrepel geom_text_repel
 #' @importFrom DALEX theme_drwhy
 #'
-#' @return \code{ggplot} object
+#' @return \code{ggplot2} object
 #' @export
 #' @rdname plot_fairness_pca
 #' @examples

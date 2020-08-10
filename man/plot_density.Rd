@@ -7,12 +7,12 @@
 plot_density(x, ...)
 }
 \arguments{
-\item{x}{fairness_object}
+\item{x}{object of class \code{fairness_object}}
 
 \item{...}{other plot parameters}
 }
 \value{
-\code{ggplot} object
+\code{ggplot2} object
 }
 \description{
 Plot distribution for models output probabilities. See how being in particular subgroup affects models decision.
