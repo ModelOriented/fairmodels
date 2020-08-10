@@ -168,8 +168,3 @@ group_metric <- function(x, fairness_metric = NULL, performance_metric = NULL, p
   class(group_metric) <- "group_metric"
   return(group_metric)
 }
-
-
-
-
-
