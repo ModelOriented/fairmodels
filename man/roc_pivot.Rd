@@ -7,7 +7,7 @@
 roc_pivot(explainer, protected, privileged, cutoff = 0.5, theta = 0.1)
 }
 \arguments{
-\item{explainer}{DALEX explainer}
+\item{explainer}{created with \code{\link[DALEX]{explain}}}
 
 \item{protected}{factor, protected variables with subgroups as levels (sensitive attributes)}
 
@@ -18,7 +18,7 @@ roc_pivot(explainer, protected, privileged, cutoff = 0.5, theta = 0.1)
 \item{theta}{numeric, variable specifies maximal euclidean distance to cutoff resulting ing label switch}
 }
 \value{
-DALEX explainer (with changed y_hat)
+DALEX \code{explainer} with changed y_hat
 }
 \description{
 Reject Option based Classifier is post-processing bias mitigation method. Method changes labels of favorable, privileged and close to cutoff observations to unfavourable

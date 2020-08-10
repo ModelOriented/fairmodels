@@ -7,10 +7,10 @@
 stack_metrics(x)
 }
 \arguments{
-\item{x}{\code{fairness_object}}
+\item{x}{object of class \code{fairness_object}}
 }
 \value{
-\code{stacked_metrics} object
+\code{stacked_metrics} object. It contains \code{data.frame} with information about score for each metric and model.
 }
 \description{
 Stack metrics sums parity loss metrics for all models. Higher value of stacked metrics means the model is less fair (has higher bias)

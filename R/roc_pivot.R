@@ -5,7 +5,7 @@
 #' By this potentially wrongfully labeled observations are assigned different labels.
 #' Note that in y in DALEX explainer 1 should indicate favorable outcome.
 #'
-#' @param explainer DALEX explainer
+#' @param explainer created with \code{\link[DALEX]{explain}}
 #' @param protected factor, protected variables with subgroups as levels (sensitive attributes)
 #' @param privileged factor/character, level in protected denoting privileged subgroup
 #' @param cutoff numeric, threshold for all subgroups
@@ -19,7 +19,7 @@
 #'
 #' @references Kamiran, Karim, Zhang 2012 \url{https://ieeexplore.ieee.org/document/6413831/} ROC method
 #'
-#' @return DALEX explainer (with changed y_hat)
+#' @return DALEX \code{explainer} with changed y_hat
 #' @export
 #'
 #' @examples

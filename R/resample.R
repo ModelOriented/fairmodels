@@ -1,6 +1,6 @@
 #' Resample
 #'
-#' @description Method of bias mitigation. Similarly to \code{reweight} this method computes desired number of observations if the protected variable is independent
+#' Method of bias mitigation. Similarly to \code{reweight} this method computes desired number of observations if the protected variable is independent
 #' from y and on this basis decides if this subgroup with certain class (+ or -) should be more or less numerous. Than performs oversampling or undersampling depending on the case.
 #' If type of sampling is set to 'preferential' and probs are provided than instead of uniform sampling preferential sampling will be performed. Preferential sampling depending on the case
 #' will sample observations close to border or far from border.
@@ -108,19 +108,26 @@ resample <- function(protected, y, type = "uniform",  probs = NULL, cutoff = 0.5
   if (type == "uniform"){
     for (subgroup in protected_levels){
       for (i in c(1,2)){
+        # expected size
+        expected <- expected_size[[subgroup]][i]
+        # actual size
+        actual   <- num_sc[[subgroup]][i]
+        # logical, what is current case
+        current_case <- protected == subgroup & y == (i-1)
+
         # for expected size bigger than population - with replacement
-        if (expected_size[[subgroup]][i] > num_sc[[subgroup]][i]){
-          indexes_pool   <- seq_len(length(y))[protected == subgroup & y == (i-1)]
+        if (expected > actual){
+          indexes_pool   <- seq_len(length(y))[current_case]
           if (length(indexes_pool) == 0) next
           if (length(indexes_pool) == 1){
-            chosen_indexes <- rep(indexes_pool, expected_size[[subgroup]][i])
+            chosen_indexes <- rep(indexes_pool, expected)
           } else  {
-            chosen_indexes <- sample(indexes_pool, size = expected_size[[subgroup]][i], replace = TRUE)
+            chosen_indexes <- sample(indexes_pool, size = expected, replace = TRUE)
           }
             index_vec      <- append(index_vec, chosen_indexes)
         } else {
-          indexes_pool   <- seq_len(length(y))[protected == subgroup & y == (i-1)]
-          chosen_indexes <- sample(indexes_pool, expected_size[[subgroup]][i])
+          indexes_pool   <- seq_len(length(y))[current_case]
+          chosen_indexes <- sample(indexes_pool, expected)
           index_vec <- append(index_vec, chosen_indexes)
           }}}
   }
@@ -129,38 +136,49 @@ resample <- function(protected, y, type = "uniform",  probs = NULL, cutoff = 0.5
       for (i in c(1,2)){
         if (length(num_sc[[subgroup]][i]) == 0) next
         indexes_pool <- c()
-        rest  <-  expected_size[[subgroup]][i] %% num_sc[[subgroup]][i]
-        #
-        if (expected_size[[subgroup]][i] >= num_sc[[subgroup]][i]){
-          times_to_sample <- floor(expected_size[[subgroup]][i] / num_sc[[subgroup]][i])
-          indexes_pool    <- seq_len(length(y))[protected == subgroup & y == (i-1)]
+        # expected size
+        expected <- expected_size[[subgroup]][i]
+        # actual size
+        actual   <- num_sc[[subgroup]][i]
+        rest  <-   expected %% actual
+
+        # logical, what is current case
+        current_case <- protected == subgroup & y == (i-1)
+
+        # if expected size is bigger then actual
+        if (expected >= actual){
+          times_to_sample <- floor(expected / actual)
+          indexes_pool    <- seq_len(length(y))[current_case]
           indexes_pool    <- rep(indexes_pool, times_to_sample)
         }
          if (i == 1){
-            # if i == 1 than class == 0 and we get indexes closest to border
+            # if i == 1 than class == 0
            if (rest == 0) rest_of_indexes <- integer(0)
            else{
-           part_of_probs           <- probs[probs < cutoff & protected == subgroup]
+           part_of_probs <- probs[current_case]
 
-           if (expected_size[[subgroup]][i] >= num_sc[[subgroup]][i]){
+           if (expected >= actual){
+             # taking highest ranked
              part_of_rest_of_indexes <- order(part_of_probs)[(length(part_of_probs)-rest + 1):(length(part_of_probs))]
            } else {
+             # taking lowest ranked
              part_of_rest_of_indexes <- order(part_of_probs)[1:rest]
            }
-           rest_of_indexes         <- seq_len(length(y))[probs < cutoff & protected == subgroup][part_of_rest_of_indexes]
+
+           rest_of_indexes           <- seq_len(length(y))[current_case][part_of_rest_of_indexes]
            }
           } else {
             if (rest == 0) rest_of_indexes <- integer(0)
             else{
             # else closest to border, but upper side
-            part_of_probs           <- probs[probs >= cutoff & protected == subgroup]
+            part_of_probs           <- probs[current_case]
 
-            if (expected_size[[subgroup]][i] >= num_sc[[subgroup]][i]){
+            if (expected >= actual){
               part_of_rest_of_indexes <- order(part_of_probs)[1:rest]
             } else {
               part_of_rest_of_indexes <- order(part_of_probs)[(length(part_of_probs)-rest + 1):(length(part_of_probs))]
             }
-            rest_of_indexes         <- seq_len(length(y))[probs >= cutoff & protected == subgroup][part_of_rest_of_indexes]
+            rest_of_indexes <- seq_len(length(y))[current_case][part_of_rest_of_indexes]
             }}
           indexes_pool <- append(indexes_pool, rest_of_indexes)
           index_vec <- append(index_vec, indexes_pool)

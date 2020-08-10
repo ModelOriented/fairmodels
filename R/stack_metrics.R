@@ -1,11 +1,12 @@
 #' Stack metrics
 #'
-#' @description Stack metrics sums parity loss metrics for all models. Higher value of stacked metrics means the model is less fair (has higher bias)
+#' Stack metrics sums parity loss metrics for all models. Higher value of stacked metrics means the model is less fair (has higher bias)
 #' for subgroups from protected vector.
 #'
-#' @param x \code{fairness_object}
+#' @param x object of class \code{fairness_object}
 #'
-#' @return \code{stacked_metrics} object
+#' @return \code{stacked_metrics} object. It contains \code{data.frame} with information about score for each metric and model.
+#'
 #' @export
 #'
 #' @import ggplot2
