@@ -2,7 +2,7 @@ on:
   push:
     branches:
       - master
-      - 'dev-*'
+      - 'dev*'
       - 'fix*'
       - 'new_features'
     paths:
