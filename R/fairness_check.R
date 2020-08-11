@@ -40,7 +40,7 @@
 #' \item parity_loss_metric_data - data.frame containing parity loss for various fairness metrics. Created with following metrics:
 #' \itemize{
 #'
-#' \item{TPR}{ - True Positive Rate (Sensitivity, Recall, Equal Odds)}
+#' \item{TPR}{ - True Positive Rate (Sensitivity, Recall)}
 #' \item{TNR}{ - True Negative Rate (Specificity)}
 #' \item{PPV}{ - Positive Predictive Value (Precision)}
 #' \item{NPV}{ - Negative Predictive Value}
@@ -391,16 +391,31 @@ fairness_check <- function(x,
   }
 
   rownames(df) <- NULL
-
+  cols_with_na <- 0
   if (any(is.na(parity_loss_metric_data))){
     created_na <- TRUE
     num_NA <- sum(is.na(parity_loss_metric_data))
+    cols_with_na <- sum(apply(parity_loss_metric_data, 2, function(x) any(is.na(x))))
   }
 
   if (created_na){
-    verbose_cat("successful (", color_codes$yellow_start, num_NA,  "NA created", color_codes$yellow_end, ")\n", verbose = verbose)
+    verbose_cat(ncol(parity_loss_metric_data) - cols_with_na,
+                "/",
+                ncol(parity_loss_metric_data),
+                " metrics calculated for all models ( ",
+                color_codes$yellow_start, num_NA,
+                " NA created",
+                color_codes$yellow_end,
+                " )\n",
+                verbose = verbose,
+                sep = "")
   } else {
-    verbose_cat("successful\n", verbose = verbose)
+    verbose_cat(ncol(parity_loss_metric_data) - cols_with_na,
+                "/",
+                ncol(parity_loss_metric_data),
+                " metrics calculated for all models\n",
+                verbose = verbose,
+                sep = "")
 
   }
 
