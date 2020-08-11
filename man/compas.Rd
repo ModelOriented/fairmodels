@@ -8,14 +8,16 @@
 A data frame with 6172 rows and 7 variables:
 }
 \source{
-The original source of data is Kaggle \url{https://www.kaggle.com/danofer/compass}    .
+The original source of data is \url{https://www.propublica.org/datastore/dataset/compas-recidivism-risk-score-data-and-analysis}.
+Modified data used here comes from \url{https://www.kaggle.com/danofer/compass?} (probublicaCompassRecidivism_data_fairml.csv)
 }
 \usage{
 data(compas)
 }
 \description{
-\code{compas}
-
+\code{compas} dataset. From ProPublica: across the nation, judges, probation and parole officers are increasingly using algorithms to assess a criminal defendant’s likelihood to re-offend.
+}
+\details{
 \describe{
   \item{Two_yr_Recidivism}{factor, 1/0 for future recidivism or no recidivism. Models should predict this values}
   \item{Number_of_Priors}{numeric, number of priors}

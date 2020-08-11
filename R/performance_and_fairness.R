@@ -1,17 +1,24 @@
 #' Performance and fairness
 #'
-#' @description Creates \code{perfomance_and_fairness} object. Measure model performance and model fairness metric at the same time. Choose best model according to both metrics. When plotted y axis is inversed to accentuate
+#' Creates \code{perfomance_and_fairness} object. Measure model performance and model fairness metric at the same time. Choose best model according to both metrics. When plotted y axis is inversed to accentuate
 #' that models in top right corner are the best according to both metrics.
 #'
 #' @description Measure performance in both fairness metric and
 #'
-#' @param x \code{fairness_object}
+#' @param x object of class \code{fairness_object}
 #' @param fairness_metric fairness metric, one of those in fairness_object
 #' @param performance_metric performance metric, one of
 #'
 #' @importFrom DALEX model_performance
 #'
-#' @return \code{performance_and_fairness} object
+#' @return \code{performance_and_fairness} object.
+#' It is list containing:
+#' \itemize{
+#' \item{paf_data}{ - performance and fairenss \code{data.frame} containing fairness and performence metric scores for each model}
+#' \item{fairness_metric}{ - chosen fairness metric name}
+#' \item{performance_metric}{ - chosen performance_metric name}
+#' \item{label}{ - model labels}
+#' }
 #' @export
 #' @rdname performance_and_fairness
 #'
@@ -78,6 +85,7 @@ performance_and_fairness <- function(x, fairness_metric = NULL, performance_metr
 
     # if auc get it from DALEX
     if (performance_metric == "auc"){
+      warning("Note that cutoff has no effect in AUC metric")
       mod_perf[i]  <- model_performance(x$explainers[[i]])$measures[performance_metric][[1]]
 
     } else {
@@ -98,7 +106,6 @@ performance_and_fairness <- function(x, fairness_metric = NULL, performance_metr
   performance_and_fairness <- list( paf_data           = out,
                                     fairness_metric    = fairness_metric,
                                     performance_metric = performance_metric,
-                                    explainers         = x$explainers,
                                     label              = x$label)
 
   class(performance_and_fairness) <-  "performance_and_fairness"

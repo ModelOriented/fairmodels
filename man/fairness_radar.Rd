@@ -7,15 +7,20 @@
 fairness_radar(x, fairness_metrics = NULL)
 }
 \arguments{
-\item{x}{\code{fairness_object}}
+\item{x}{object of class \code{fairness_object}}
 
-\item{fairness_metrics}{character, vector of metric names, at least 3 metrics without NA needed. If \code{NULL} default metrics will be taken.}
+\item{fairness_metrics}{character, vector of metric names, at least 3 metrics without NA needed. If \code{NULL} default metrics will be used.}
 }
 \value{
-\code{fairness_radar} object
+\code{fairness_radar} object.
+It is a list containing:
+\itemize{
+\item{radar_data}{ - \code{data.frame} containing scores for each model and parity loss metric}
+\item{label}{ - model labels}
+}
 }
 \description{
-Make fairness_radar object with chosen fairness_metrics. Note that there must be at least three metrics that does not contain NA.
+Make \code{fairness_radar} object with chosen \code{fairness_metrics}. Note that there must be at least three metrics that does not contain NA.
 }
 \examples{
 data("german")

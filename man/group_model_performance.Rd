@@ -7,7 +7,7 @@
 group_model_performance(x, protected, cutoff, performance_metric)
 }
 \arguments{
-\item{x}{DALEX explainer}
+\item{x}{object created with \code{\link[DALEX]{explain}}}
 
 \item{protected}{factor, vector with levels as subgroups}
 
@@ -16,8 +16,8 @@ group_model_performance(x, protected, cutoff, performance_metric)
 \item{performance_metric}{name of performance metric}
 }
 \value{
-score from 0 to 1
+score in performance metric between 0 and 1
 }
 \description{
-Special method for model performance evaluation. Counts number of tp, tn, fp, fn for each subgroup (and therefore potentialy distinct cutoff), sums afterwards.
+Special method for model performance evaluation. Counts number of tp, tn, fp, fn for each subgroup (and therefore potentially distinct cutoff), sums afterwards.
 }

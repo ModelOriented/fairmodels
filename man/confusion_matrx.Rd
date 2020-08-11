@@ -7,14 +7,21 @@
 confusion_matrix(probs, observed, cutoff)
 }
 \arguments{
-\item{probs}{probabilities given by model}
+\item{probs}{numeric, vector with probabilities given by model}
 
-\item{observed}{actual values from outcome}
+\item{observed}{numeric, vector with actual values from outcome, either 0 or 1}
 
-\item{cutoff}{cutoff}
+\item{cutoff}{numeric, single value denoting cutoff/threshold}
 }
 \value{
-list that creates confusion matrix, of class \code{confussion_matrix}
+object of class \code{confussion_matrix}
+It is a list with following fields:
+\itemize{
+\item{tp}{number of True Positives}
+\item{fp}{number of False Positives}
+\item{tn}{number of True Negatives}
+\item{fn}{number of False Negatives}
+}
 }
 \description{
 Calculates confusion matrix for given cutoff

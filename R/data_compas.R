@@ -1,7 +1,7 @@
 #' Modified COMPAS dataset
 #'
-#' @description
-#' \code{compas}
+#'
+#' \code{compas} dataset. From ProPublica: across the nation, judges, probation and parole officers are increasingly using algorithms to assess a criminal defendant’s likelihood to re-offend.
 #'
 #' \describe{
 #'   \item{Two_yr_Recidivism}{factor, 1/0 for future recidivism or no recidivism. Models should predict this values}
@@ -17,5 +17,6 @@
 #' @usage data(compas)
 #' @format A data frame with 6172 rows and 7 variables:
 #'
-#' @source The original source of data is Kaggle \url{https://www.kaggle.com/danofer/compass}    .
+#' @source The original source of data is \url{https://www.propublica.org/datastore/dataset/compas-recidivism-risk-score-data-and-analysis}.
+#' Modified data used here comes from \url{https://www.kaggle.com/danofer/compass?} (probublicaCompassRecidivism_data_fairml.csv)
 NULL

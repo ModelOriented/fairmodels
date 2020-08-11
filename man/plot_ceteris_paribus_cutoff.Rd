@@ -12,7 +12,7 @@
 \item{...}{other plot parameters}
 }
 \value{
-ggplot object
+\code{ggplot2} object
 }
 \description{
 Ceteris paribus cutoff is way to check how will parity loss behave if we changed only cutoff in one subgroup.

@@ -16,14 +16,16 @@ group_matrices(protected, probs, preds, cutoff)
 \item{cutoff}{\code{numeric} cutoff for probabilities, default = 0.5}
 }
 \value{
-list with values:
+\code{group_matrices} object
+It is a list with values:
 \itemize{
+For each subgroup:
 \item subgroup
 \itemize{
-\item tp - true positive values
-\item fp - false positive values
-\item tn - true negative values
-\item fn - false negative values
+\item{tp}{ - number of true positives}
+\item{fp}{ - number of false positives}
+\item{tn}{ - number of true negatives}
+\item{fn}{ - number of false negatives}
 }}
 }
 \description{

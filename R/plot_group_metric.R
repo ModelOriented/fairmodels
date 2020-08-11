@@ -10,7 +10,7 @@
 #' @importFrom DALEX theme_drwhy
 #'
 #'
-#' @return list of \code{ggplot} object
+#' @return list of \code{ggplot2} objects
 #' @export
 #'
 #' @rdname plot_group_metric
@@ -56,9 +56,9 @@ plot.group_metric <- function(x, ...){
   n <- length(unique(data$label))
 
   # global variables
-  y <- group <- value <- label <- NULL
+  model <- group <- score <- label <- NULL
 
-  plot1 <- ggplot(data, aes(x = group, y = value, fill = label)) +
+  plot1 <- ggplot(data, aes(x = group, y = score, fill = model)) +
             geom_bar(stat="identity",
                      position = "dodge")  +
             theme_drwhy() +
@@ -69,10 +69,10 @@ plot.group_metric <- function(x, ...){
             scale_fill_manual(values = colors_fairmodels(n)) +
             ggtitle("Group metric plot")
 
-  plot2 <- ggplot(performance_data, aes(x = x, y = y, fill = x)) +
+  plot2 <- ggplot(performance_data, aes(x = model, y = score, fill = model)) +
               geom_bar(stat = "identity",
                        width = 0.4) +
-              geom_text(aes(label=round(y,3)),
+              geom_text(aes(label=round(score,3)),
                         vjust=-1,
                         color="black",
                         size=3,

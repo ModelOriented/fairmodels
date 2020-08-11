@@ -1,12 +1,20 @@
 #' Fairness PCA
 #'
-#' @description Calculate PC for metric_matrix to see similarities between models and metrics. If omit_models_with_NA is set to true models with NA will be omitted as opposed
+#' Calculate PC for metric_matrix to see similarities between models and metrics. If \code{omit_models_with_NA} is set to \code{TRUE} models with NA will be omitted as opposed
 #' to default behavior, when metrics are omitted.
 #'
-#' @param x fairness object
-#' @param omit_models_with_NA if true omits rows in \code{metric_matrix}, else omits columns
+#' @param x object of class \code{fairness object}
+#' @param omit_models_with_NA logical, if \code{TRUE} omits rows in \code{metric_matrix}, else omits columns (default)
 #'
 #' @return \code{fairness_pca} object
+#' It is list containing following fields:
+#' \itemize{
+#' \item{pc_1_2}{ - amount of data variance explained with each component}
+#' \item{rotation}{ - rotation from \code{stats::prcomp}}
+#' \item{x}{ - x from \code{stats::prcomp}}
+#' \item{sdev}{ - sdev from \code{stats::prcomp}}
+#' \item{label}{ - model labels}
+#' }
 #'
 #' @examples
 #'

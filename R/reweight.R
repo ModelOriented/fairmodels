@@ -1,6 +1,6 @@
 #' Reweight
 #'
-#' @description Function returns weights for model training. The purpose of this weights is to mitigate bias in statistical parity.
+#' Function returns weights for model training. The purpose of this weights is to mitigate bias in statistical parity.
 #' In fact this could potentially worsen the overall performance in other fairness metrics. This affects also model's performance metrics (accuracy).
 #'
 #' @details Method produces weights for each subgroup for each class. Firstly assumes that protected variable and class are independent and

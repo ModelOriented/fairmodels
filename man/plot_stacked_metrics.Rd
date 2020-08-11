@@ -11,8 +11,11 @@
 
 \item{...}{other plot parameters}
 }
+\value{
+\code{ggplot2} object
+}
 \description{
-Stacked metrics is like plot for \code{choosen_metric} but with all unique metrics stacked on top of each other.
+Stacked metrics is like plot for \code{chosen_metric} but with all unique metrics stacked on top of each other.
 Metrics containing NA's will be dropped to enable fair comparison.
 }
 \examples{

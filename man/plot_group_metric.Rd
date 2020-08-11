@@ -12,7 +12,7 @@
 \item{...}{other group_metric objects and other parameters}
 }
 \value{
-list of \code{ggplot} object
+list of \code{ggplot2} objects
 }
 \description{
 Plot chosen metric in group. Notice how models are treating different subgroups.

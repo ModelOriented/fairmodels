@@ -1,13 +1,13 @@
 #' Ceteris paribus cutoff
 #'
-#' @description Ceteris paribus cutoff is way to check how will parity loss behave if only cutoff for one subgroup was changed.
-#' By using parameter new_cutoffs parity loss for metric's with new cutoffs will be calculated. Note that cutoff for subgroup (passed as parameter) will
-#' change no matter new_cutoff's value at that position. When parameter cumulated is set to true, all metrics will be summed and facets will
+#' Ceteris paribus cutoff is way to check how will parity loss behave if only cutoff for one subgroup was changed.
+#' By using parameter \code{new_cutoffs} parity loss for metrics with new cutoffs will be calculated. Note that cutoff for subgroup (passed as parameter) will
+#' change no matter \code{new_cutoff}'s value at that position. When parameter \code{cumulated} is set to true, all metrics will be summed and facets will
 #' collapse to one plot with different models on it. Sometimes due to the fact that some metric might contain NA for all cutoff values, cumulated plot might be present without
 #' this model.
 #'
 #'
-#' @param x fairness_object
+#' @param x object of class \code{fairness_object}
 #' @param subgroup character, name of subgroup (level in protected variable)
 #' @param new_cutoffs list of cutoffs with names matching those of subgroups. Each value should represent cutoff for particular subgroup.
 #' Position corresponding to subgroups in levels will be changed. Default is NULL
@@ -15,7 +15,7 @@
 #' @param grid_points numeric, grid for cutoffs to test. Number of points between 0 and 1 spread evenly.
 #' @param cumulated logical, if \code{TRUE}  facets will collapse to one plot and parity loss for each model will be summed. Default \code{FALSE}.
 #'
-#' @return \code{ceteris_paribus_cutoff} object
+#' @return \code{ceteris_paribus_cutoff} \code{data.frame} containing information about label, metric and parity_loss at particular cutoff
 #' @export
 #'
 #' @examples

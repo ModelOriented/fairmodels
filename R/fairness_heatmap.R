@@ -1,12 +1,21 @@
 #' Fairness heatmap
 #'
-#' @description  Create fairness_heatmap object to compare both models and metrics. If parameter \code{scale} is set to \code{TRUE} metrics will be scaled to median = 0 and sd = 1.
+#' Create \code{fairness_heatmap} object to compare both models and metrics.
+#' If parameter \code{scale} is set to \code{TRUE} metrics will be scaled to median = 0 and sd = 1.
 #' If NA's appear heatmap will still plot, but with gray area where NA's were.
 #'
-#' @param x \code{fairness_object}
+#' @param x object of class \code{fairness_object}
 #' @param scale logical, if code{TRUE} metrics will be scaled to mean 0 and sd 1. Default \code{FALSE}
 #'
-#' @return \code{fairness_heatmap} object
+#' @return \code{fairness_heatmap} object.
+#'
+#' It is a list with following fields:
+#' \itemize{
+#' \item{heatmap_data}{ - \code{data.frame} with information about score for model and parity loss metric}
+#' \item{matrix_model}{ - matrix used in dendogram plots}
+#' \item{scale}{ - logical parameter passed to \code{fairness_heatmap}}
+#' \item{label}{ - character, vector of model labels}
+#' }
 #' @export
 #' @rdname fairness_heatmap
 #'

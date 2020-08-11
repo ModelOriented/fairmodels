@@ -1,13 +1,15 @@
 #' Expand Fairness Object
 #'
-#' @description Unfold fairness object to 3 columns (metrics, label, score) to construct better base for visualization.
+#' Unfold fairness object to 3 columns (metrics, label, score) to construct better base for visualization.
 #'
-#' @param x fairness_object
-#' @param drop_metrics_with_na logical, if TRUE metrics with NA will be omitted
+#' @param x object of class \code{fairness_object}
+#' @param drop_metrics_with_na logical, if \code{TRUE} metrics with NA will be omitted
 #' @param scale logical, if \code{TRUE} standarised.
 #'
 #' @export
 #' @rdname expand_fairness_object
+#' @return object of class \code{expand_fairness_object}. It is a \code{data.frame} with scores for each metric and model.
+#'
 #'
 #' @examples
 #'

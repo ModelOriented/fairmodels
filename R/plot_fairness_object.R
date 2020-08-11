@@ -10,7 +10,8 @@
 #' @import ggplot2
 #' @importFrom DALEX theme_drwhy_vertical
 #'
-#' @return \code{ggplot} object
+#' @return \code{ggplot2} object
+#' @rdname plot_fairness_object
 #' @export
 #'
 #' @examples

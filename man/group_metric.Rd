@@ -8,7 +8,8 @@ group_metric(
   x,
   fairness_metric = NULL,
   performance_metric = NULL,
-  parity_loss = FALSE
+  parity_loss = FALSE,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -18,14 +19,24 @@ group_metric(
 
 \item{performance_metric}{character, performance metric name}
 
-\item{parity_loss}{logical, if TRUE parity loss will supersede normal metric}
+\item{parity_loss}{logical, if \code{TRUE} parity loss will supersede basic metric}
+
+\item{verbose}{logical, whether to print information about metrics on console or not. Default \code{TRUE}}
 }
 \value{
-\code{group_metric} object
+\code{group_metric} object.
+It is a list with following items:
+\itemize{
+\item{group_metric_data}{ - \code{data.frame} containing fairness metric scores for each model}
+\item{performance_data}{ - \code{data.frame} containing performance metric scores for each model}
+\item{fairness_metric}{ - name of fairness metric}
+\item{performance_metric}{ - name of performance metric}
+
+}
 }
 \description{
 Group metric enables to extract data from metrics generated for each subgroup (values in protected variable)
-The closer metric values are to each other, the less bias particular model has. If parity_loss parameter is set to TRUE, distance between
+The closer metric values are to each other, the less bias particular model has. If \code{parity_loss} parameter is set to \code{TRUE}, distance between
 privileged and unprivileged subgroups will be measured. When plotted shows both fairness metric and chosen performance metric.
 }
 \details{

@@ -1,11 +1,16 @@
 #' Fairness radar
 #'
-#' @description Make fairness_radar object with chosen fairness_metrics. Note that there must be at least three metrics that does not contain NA.
+#' Make \code{fairness_radar} object with chosen \code{fairness_metrics}. Note that there must be at least three metrics that does not contain NA.
 #'
-#' @param x \code{fairness_object}
-#' @param fairness_metrics character, vector of metric names, at least 3 metrics without NA needed. If \code{NULL} default metrics will be taken.
+#' @param x object of class \code{fairness_object}
+#' @param fairness_metrics character, vector of metric names, at least 3 metrics without NA needed. If \code{NULL} default metrics will be used.
 #'
-#' @return \code{fairness_radar} object
+#' @return \code{fairness_radar} object.
+#' It is a list containing:
+#' \itemize{
+#' \item{radar_data}{ - \code{data.frame} containing scores for each model and parity loss metric}
+#' \item{label}{ - model labels}
+#' }
 #' @export
 #'
 #' @examples

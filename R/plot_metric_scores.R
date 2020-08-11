@@ -3,7 +3,7 @@
 #' @param x \code{metric_scores} object
 #' @param ... other plot parameters
 #'
-#' @return \code{ggplot} object
+#' @return \code{ggplot2} object
 #' @export
 #' @rdname plot_metric_scores
 #'
@@ -50,13 +50,23 @@ plot.metric_scores <- function(x, ...){
 
   score <- line_position <- model_jitter <- model_numeric <- model <- subgroup <- NULL
   ggplot() +
-    geom_segment(data = data, aes(x = score, xend = line_position, y = model_jitter , yend = model_jitter), color = "lightgray") +
-    geom_segment(data = data, aes(x = line_position, xend = line_position, y = model_numeric - 0.5, yend = model_numeric + 0.5  )) +
-    geom_point(data = data, aes(x = score, y = model_jitter, color = model, shape = subgroup, group = subgroup), size = 2.5) +
-    facet_wrap(~metric, nrow = length(unique(data$metric))) +
-    scale_y_continuous("Model", breaks = unique(data$model_numeric), labels = levels(data$model)) +
+    geom_segment(data = data,
+                 aes(x = score, xend = line_position, y = model_jitter , yend = model_jitter, color = model),
+                 alpha = 0.3) +
+    geom_segment(data = data,
+                 aes(x = line_position, xend = line_position, y = model_numeric - 0.5, yend = model_numeric + 0.5, color = model  ),
+                 alpha = 0.3) +
+    geom_point(data = data,
+               aes(x = score, y = model_jitter, color = model, shape = subgroup, group = subgroup),
+               size = 2.5) +
+    facet_wrap(~metric,
+               nrow = length(unique(data$metric))) +
+    scale_y_continuous("Model",
+                       breaks = unique(data$model_numeric),
+                       labels = levels(data$model)) +
     theme_drwhy_vertical() +
-    ggtitle("Metric scores plot", subtitle = paste("Created with", paste(
+    ggtitle("Metric scores plot",
+            subtitle = paste("Created with", paste(
       as.character(unique(data$model)), collapse = ", ")))
 
 }
