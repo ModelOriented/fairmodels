@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Print ceteris paribus cutoff — print.ceteris_paribus_cutoff • fairmodels</title>
+<title>Plot fairmodels — plot_fairmodels • fairmodels</title>
 
 
 <!-- jquery -->
@@ -45,8 +45,8 @@
 
 
 
-<meta property="og:title" content="Print ceteris paribus cutoff — print.ceteris_paribus_cutoff" />
-<meta property="og:description" content="Print ceteris paribus cutoff" />
+<meta property="og:title" content="Plot fairmodels — plot_fairmodels" />
+<meta property="og:description" content="Easier access to all plots in fairmodels. Provide plot type (that matches to function name), pass additional parameters and plot." />
 
 
 
@@ -134,94 +134,114 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Print ceteris paribus cutoff</h1>
+    <h1>Plot fairmodels</h1>
     
-    <div class="hidden name"><code>print_ceteris_paribus_cutoff.Rd</code></div>
+    <div class="hidden name"><code>plot_fairmodels.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Print ceteris paribus cutoff</p>
+    <p>Easier access to all plots in fairmodels. Provide plot type (that matches to function name), pass additional parameters and plot.</p>
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for ceteris_paribus_cutoff</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>x</span>, <span class='kw'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>plot_fairmodels</span>(<span class='kw'>x</span>, <span class='kw'>type</span>, <span class='kw'>...</span>)
+
+<span class='co'># S3 method for explainer</span>
+<span class='fu'>plot_fairmodels</span>(<span class='kw'>x</span>, type = <span class='st'>"fairness_check"</span>, <span class='kw'>...</span>, <span class='kw'>protected</span>, <span class='kw'>privileged</span>)
+
+<span class='co'># S3 method for fairness_object</span>
+<span class='fu'>plot_fairmodels</span>(<span class='kw'>x</span>, type = <span class='st'>"fairness_check"</span>, <span class='kw'>...</span>)
+
+<span class='co'># S3 method for default</span>
+<span class='fu'>plot_fairmodels</span>(<span class='kw'>x</span>, type = <span class='st'>"fairness_check"</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p><code>ceteris_paribus_cutoff</code> object</p></td>
+      <td><p>object created with <code>fairness_check</code> or with <code><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></code></p></td>
+    </tr>
+    <tr>
+      <th>type</th>
+      <td><p>character, type of plot. Should match function name in fairmodels. Default is fairness_check.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>other print parameters</p></td>
+      <td><p>other parameters passed to fairmodels functions.</p></td>
+    </tr>
+    <tr>
+      <th>protected</th>
+      <td><p>factor, vector containing sensitive attributes such as gender, race, etc...</p></td>
+    </tr>
+    <tr>
+      <th>privileged</th>
+      <td><p>character/factor, level in factor denoting privileged subgroup</p></td>
     </tr>
     </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p><code>ggplot2</code> object</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>types (function names) available:</p><ul>
+<li><p>fairness_check</p></li>
+<li><p>stack_metrics</p></li>
+<li><p>fairness_heatmap</p></li>
+<li><p>fairness_pca</p></li>
+<li><p>fairness_radar</p></li>
+<li><p>group_metric</p></li>
+<li><p>choose_metric</p></li>
+<li><p>metric_scores</p></li>
+<li><p>performance_and_fairness</p></li>
+<li><p>all_cutoffs</p></li>
+<li><p>ceteris_paribus_cutoff</p></li>
+</ul>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"german"</span>)
 
-<span class='kw'>german</span> <span class='op'>&lt;-</span> <span class='kw'>german</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>500</span>,]
 <span class='kw'>y_numeric</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='kw'>german</span><span class='op'>$</span><span class='kw'>Risk</span>) <span class='op'>-</span><span class='fl'>1</span>
 
 <span class='kw'>lm_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='kw'>Risk</span><span class='op'>~</span><span class='kw'>.</span>,
                 data = <span class='kw'>german</span>,
                 family=<span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(link=<span class='st'>"logit"</span>))
-
-<span class='kw'>rf_model</span> <span class='op'>&lt;-</span> <span class='kw'>ranger</span>::<span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>Risk</span> <span class='op'>~</span><span class='kw'>.</span>,
-                           data = <span class='kw'>german</span>,
-                           probability = <span class='fl'>TRUE</span>,
-                           num.trees = <span class='fl'>200</span>)
-
 <span class='kw'>explainer_lm</span> <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>lm_model</span>, data = <span class='kw'>german</span>[,<span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( <span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; data              :  500  rows  9  cols 
-#&gt;   -&gt; target variable   :  500  values 
+#&gt;   -&gt; data              :  1000  rows  9  cols 
+#&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1320977 , mean =  0.728 , max =  0.9836791  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1369187 , mean =  0.7 , max =  0.9832426  
 #&gt;   -&gt; model_info        :  package stats , ver. 4.0.2 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.952954 , mean =  1.222888e-13 , max =  0.7735841  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>explainer_rf</span> <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>rf_model</span>, data = <span class='kw'>german</span>[,<span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; data              :  500  rows  9  cols 
-#&gt;   -&gt; target variable   :  500  values 
-#&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1155238 , mean =  0.7245646 , max =  0.99825  
-#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
-#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.6898532 , mean =  0.003435363 , max =  0.5996409  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.9572803 , mean =  1.940006e-17 , max =  0.8283475  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
+<span class='co'># works with explainer when protected and privileged are passed</span>
+<span class='fu'>plot_fairmodels</span>(<span class='kw'>explainer_lm</span>,
+                type = <span class='st'>"fairness_radar"</span>,
+                protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
+                privileged = <span class='st'>"male"</span>)</div><div class='output co'>#&gt; Creating fairness object
+#&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
+#&gt; -&gt; Protected variable		: factor (</span><span style='color: #00BB00;'> Ok </span><span> ) 
+#&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
+#&gt; -&gt; Fairness objects		: 0 objects 
+#&gt; -&gt; Checking explainers		: 1 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
+#&gt; -&gt; Metric calculation		: 13/13 metrics calculated for all models
+#&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='img'><img src='plot_fairmodels-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># or with fairness_object</span>
+<span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>,
                           protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
                           privileged = <span class='st'>"male"</span>)</div><div class='output co'>#&gt; Creating fairness object
 #&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
 #&gt; -&gt; Protected variable		: factor (</span><span style='color: #00BB00;'> Ok </span><span> ) 
 #&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
 #&gt; -&gt; Fairness objects		: 0 objects 
-#&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
+#&gt; -&gt; Checking explainers		: 1 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
 #&gt; -&gt; Metric calculation		: 13/13 metrics calculated for all models
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
-<span class='fu'><a href='ceteris_paribus_cutoff.html'>ceteris_paribus_cutoff</a></span>(<span class='kw'>fobject</span>, <span class='st'>"female"</span>)</div><div class='output co'>#&gt; 
-#&gt; Ceteribus paribus cutoff for subgroup: female 
-#&gt; 
-#&gt; First rows from data: 
-#&gt;   parity_loss metric cutoff model
-#&gt; 1  0.07662835    TPR      0    lm
-#&gt; 2  0.33333333    TNR      0    lm
-#&gt; 3  0.12838849    PPV      0    lm
-#&gt; 4          NA    NPV      0    lm
-#&gt; 5  0.07785431     TS      0    lm
-#&gt; 6  0.14080460    STP      0    lm
-#&gt; 
-#&gt; Minimums: 
-#&gt;         model mins
-#&gt; lm         lm 0.39
-#&gt; ranger ranger 0.48
-#&gt; </div></span></pre>
+<span class='fu'>plot_fairmodels</span>(<span class='kw'>fobject</span>, type = <span class='st'>"fairness_radar"</span>)</div><div class='img'><img src='plot_fairmodels-2.png' alt='' width='700' height='433' /></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

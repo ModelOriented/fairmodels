@@ -193,10 +193,10 @@
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.07208135 , mean =  0.6973875 , max =  0.9976111  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.06701681 , mean =  0.6971085 , max =  0.9958611  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7076567 , mean =  0.002612536 , max =  0.6269816  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7027707 , mean =  0.002891495 , max =  0.6625417  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
                           protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
@@ -206,7 +206,7 @@
 #&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
 #&gt; -&gt; Fairness objects		: 0 objects 
 #&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
-#&gt; -&gt; Metric calculation		: successful
+#&gt; -&gt; Metric calculation		: 13/13 metrics calculated for all models
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
 <span class='kw'>cm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='choose_metric.html'>choose_metric</a></span>(<span class='kw'>fobject</span>, <span class='st'>"TPR"</span>)
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>cm</span>)</div><div class='img'><img src='plot_chosen_metric-1.png' alt='' width='700' height='433' /></div></span></pre>

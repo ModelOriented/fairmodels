@@ -191,10 +191,10 @@ The one with the least parity loss is more fair in terms of this particular metr
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.06970238 , mean =  0.6983961 , max =  0.999375  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.06637698 , mean =  0.6975417 , max =  0.9975694  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7350397 , mean =  0.00160394 , max =  0.612111  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7003433 , mean =  0.002458253 , max =  0.6324524  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
                           protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
@@ -204,7 +204,7 @@ The one with the least parity loss is more fair in terms of this particular metr
 #&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
 #&gt; -&gt; Fairness objects		: 0 objects 
 #&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
-#&gt; -&gt; Metric calculation		: successful
+#&gt; -&gt; Metric calculation		: 13/13 metrics calculated for all models
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
 <span class='kw'>cm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='choose_metric.html'>choose_metric</a></span>(<span class='kw'>fobject</span>, <span class='st'>"TPR"</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>cm</span>)</div><div class='output co'>#&gt; 
@@ -213,7 +213,7 @@ The one with the least parity loss is more fair in terms of this particular metr
 #&gt; data:
 #&gt;   parity_loss_metric  label
 #&gt; 1         0.08505568     lm
-#&gt; 2         0.01002004 ranger
+#&gt; 2         0.01202405 ranger
 #&gt; </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

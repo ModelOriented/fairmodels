@@ -141,7 +141,7 @@ User can pick which fairness metrics to create the object with via fairness_metr
     </div>
 
     <div class="ref-description">
-    <p>Create all_cutoffs object and see how with the change of cutoffs parity loss of fairness metrics changes. Value of cutoff changes equally for all subgroups.
+    <p>Create <code>all_cutoffs</code> object and see how with the change of cutoffs parity loss of fairness metrics changes. Value of cutoff changes equally for all subgroups.
 User can pick which fairness metrics to create the object with via fairness_metrics vector.</p>
     </div>
 
@@ -152,7 +152,7 @@ User can pick which fairness metrics to create the object with via fairness_metr
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>fairness_object</p></td>
+      <td><p>object of class <code>fairness_object</code></p></td>
     </tr>
     <tr>
       <th>grid_points</th>
@@ -166,11 +166,10 @@ User can pick which fairness metrics to create the object with via fairness_metr
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>all_cutoffs object</p>
+    <p><code>all_cutoffs</code> object, <code>data.frame</code> containing information about label, metric and parity_loss at particular cutoff</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"german"</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"german"</span>)
 
 <span class='kw'>y_numeric</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='kw'>german</span><span class='op'>$</span><span class='kw'>Risk</span>) <span class='op'>-</span><span class='fl'>1</span>
 
@@ -210,7 +209,7 @@ User can pick which fairness metrics to create the object with via fairness_metr
 #&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
 #&gt; -&gt; Fairness objects		: 0 objects 
 #&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
-#&gt; -&gt; Metric calculation		: successful
+#&gt; -&gt; Metric calculation		: 13/13 metrics calculated for all models
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
 
 <span class='kw'>ac</span> <span class='op'>&lt;-</span> <span class='fu'>all_cutoffs</span>(<span class='kw'>fobject</span>,

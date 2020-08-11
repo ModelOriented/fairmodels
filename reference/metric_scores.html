@@ -46,9 +46,9 @@
 
 
 <meta property="og:title" content="Metric scores — metric_scores" />
-<meta property="og:description" content="creates metric_scores object to facilitate visualization. Check how the metric scores differ among models, what is this score, and how it changes
+<meta property="og:description" content="Creates metric_scores object to facilitate visualization. Check how the metric scores differ among models, what is this score, and how it changes
 for example after applying bias mitigation technique. The vertical black lines
-denotes the score for privileged subgroup. It is best to use only few metrics (using fairness_metrics parameter)" />
+denote the scores for privileged subgroup. It is best to use only few metrics (using fairness_metrics parameter)" />
 
 
 
@@ -142,9 +142,9 @@ denotes the score for privileged subgroup. It is best to use only few metrics (u
     </div>
 
     <div class="ref-description">
-    <p>creates metric_scores object to facilitate visualization. Check how the metric scores differ among models, what is this score, and how it changes
+    <p>Creates <code>metric_scores</code> object to facilitate visualization. Check how the metric scores differ among models, what is this score, and how it changes
 for example after applying bias mitigation technique. The vertical black lines
-denotes the score for privileged subgroup. It is best to use only few metrics (using <code>fairness_metrics</code> parameter)</p>
+denote the scores for privileged subgroup. It is best to use only few metrics (using <code>fairness_metrics</code> parameter)</p>
     </div>
 
     <pre class="usage"><span class='fu'>metric_scores</span>(<span class='kw'>x</span>, fairness_metrics = <span class='fu'>unique_metrics</span>())</pre>
@@ -154,7 +154,7 @@ denotes the score for privileged subgroup. It is best to use only few metrics (u
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p><code>fairness_object</code> object</p></td>
+      <td><p>object of class <code>fairness_object</code></p></td>
     </tr>
     <tr>
       <th>fairness_metrics</th>
@@ -164,7 +164,12 @@ denotes the score for privileged subgroup. It is best to use only few metrics (u
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>metric_scores</code> object</p>
+    <p><code>metric_scores</code> object.
+It is a list containing:</p><ul>
+<li><p>metric_scores_data - <code>data.frame</code> with information about score in particular subgroup, metric, and model</p></li>
+<li><p>privileged - name of peivileged subgroup</p></li>
+</ul>
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -208,7 +213,7 @@ denotes the score for privileged subgroup. It is best to use only few metrics (u
 #&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
 #&gt; -&gt; Fairness objects		: 0 objects 
 #&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
-#&gt; -&gt; Metric calculation		: successful
+#&gt; -&gt; Metric calculation		: 13/13 metrics calculated for all models
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
 <span class='kw'>ms</span> <span class='op'>&lt;-</span> <span class='fu'>metric_scores</span>(<span class='kw'>fobject</span>, fairness_metrics = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"TPR"</span>,<span class='st'>"STP"</span>,<span class='st'>"ACC"</span>))
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>ms</span>)</div><div class='img'><img src='metric_scores-1.png' alt='' width='700' height='433' /></div><div class='input'></div></span></pre>

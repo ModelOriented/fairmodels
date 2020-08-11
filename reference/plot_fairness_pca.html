@@ -167,7 +167,7 @@ Unlike in other plots here other <code>fairness_pca</code> objects cannot be add
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>ggplot</code> object</p>
+    <p><code>ggplot2</code> object</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -211,7 +211,7 @@ Unlike in other plots here other <code>fairness_pca</code> objects cannot be add
 #&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
 #&gt; -&gt; Fairness objects		: 0 objects 
 #&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
-#&gt; -&gt; Metric calculation		: successful
+#&gt; -&gt; Metric calculation		: 13/13 metrics calculated for all models
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
  <span class='co'># same explainers with different cutoffs for female</span>
 <span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>, <span class='kw'>fobject</span>,
@@ -224,7 +224,7 @@ Unlike in other plots here other <code>fairness_pca</code> objects cannot be add
 #&gt; -&gt; Cutoff values for explainers	: female: 0.4, male: 0.5 
 #&gt; -&gt; Fairness objects		: 1 object ( </span><span style='color: #00BB00;'> compatible </span><span> )
 #&gt; -&gt; Checking explainers		: 4 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
-#&gt; -&gt; Metric calculation		: successful
+#&gt; -&gt; Metric calculation		: 13/13 metrics calculated for all models
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
 <span class='kw'>fpca</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_pca.html'>fairness_pca</a></span>(<span class='kw'>fobject</span>)
 

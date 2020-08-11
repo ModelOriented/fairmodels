@@ -163,7 +163,7 @@ Compare models both in fairness metrics and in performance. Parity loss can be e
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>list of <code>ggplot</code> object</p>
+    <p>list of <code>ggplot2</code> objects</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -207,14 +207,14 @@ Compare models both in fairness metrics and in performance. Parity loss can be e
 #&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
 #&gt; -&gt; Fairness objects		: 0 objects 
 #&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
-#&gt; -&gt; Metric calculation		: successful
+#&gt; -&gt; Metric calculation		: 13/13 metrics calculated for all models
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
 <span class='kw'>gm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='group_metric.html'>group_metric</a></span>(<span class='kw'>fobject</span>)</div><div class='output co'>#&gt; Fairness Metric not given, setting deafult ( TPR )  
 #&gt; Performace metric not given, setting deafult ( accuracy )  
 #&gt; 
 #&gt; Creating object with: 
-#&gt; Fairness metric TPR 
-#&gt; Performance metric  accuracy 
+#&gt; Fairness metric:  TPR 
+#&gt; Performance metric:  accuracy 
 #&gt; </div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>gm</span>)</div><div class='img'><img src='plot_group_metric-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></span></pre>

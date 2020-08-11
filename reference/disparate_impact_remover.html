@@ -152,11 +152,11 @@ earth mover distance. It works best if among subgroups there is similar number o
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>data.frame, data to be transformed</p></td>
+      <td><p><code>data.frame</code>, data to be transformed</p></td>
     </tr>
     <tr>
       <th>protected</th>
-      <td><p>factor, vector containing sensitive information. If character it will transform it to factor.</p></td>
+      <td><p>factor, vector containing sensitive information such as gender, race etc... If vector is character it will transform it to factor.</p></td>
     </tr>
     <tr>
       <th>features_to_transform</th>
@@ -170,13 +170,13 @@ earth mover distance. It works best if among subgroups there is similar number o
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.frame</p>
+    <p>repaired data (<code>data.frame</code> object)</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This is implementation of geometric method which preserves ranks unlike combinatorial repair. Lambda close to 1 denotes that distributions will be very close to each other
-and lambda close to 0 means that densities will barely change. Note that although lambda equal 0 should mean that original data will be returned, it usually changes distributions slightly due to
-pigeonholing. The number of pigeonholes is fixed and is equal to min101, unique(a), where a is vector with values for subgroup. So if some subgroup is not numerous and
-the distribution is discrete with small number of variables then there will be small number of pigeonholes and it will affect data significantly.</p>
+    <p>This is implementation of geometric method which preserves ranks unlike combinatorial repair. <code>lambda</code> close to 1 denotes that distributions will be very close to each other
+and <code>lambda</code> close to 0 means that densities will barely change. Note that although <code>lambda</code> equal 0 should mean that original data will be returned, it usually changes distributions slightly due to
+pigeonholing. The number of pigeonholes is fixed and equal to min101, unique(a), where a is vector with values for subgroup. So if some subgroup is not numerous and
+the distribution is discrete with small number of variables then there will be small number of pigeonholes. It will affect data significantly.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>This method was implemented based on Feldman, Friedler, Moeller, Scheidegger, Venkatasubramanian 2015 <a href='https://arxiv.org/pdf/1412.3756.pdf'>https://arxiv.org/pdf/1412.3756.pdf</a></p>

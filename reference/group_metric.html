@@ -143,7 +143,7 @@ privileged and unprivileged subgroups will be measured. When plotted shows both 
 
     <div class="ref-description">
     <p>Group metric enables to extract data from metrics generated for each subgroup (values in protected variable)
-The closer metric values are to each other, the less bias particular model has. If parity_loss parameter is set to TRUE, distance between
+The closer metric values are to each other, the less bias particular model has. If <code>parity_loss</code> parameter is set to <code>TRUE</code>, distance between
 privileged and unprivileged subgroups will be measured. When plotted shows both fairness metric and chosen performance metric.</p>
     </div>
 
@@ -151,7 +151,8 @@ privileged and unprivileged subgroups will be measured. When plotted shows both 
   <span class='kw'>x</span>,
   fairness_metric = <span class='kw'>NULL</span>,
   performance_metric = <span class='kw'>NULL</span>,
-  parity_loss = <span class='fl'>FALSE</span>
+  parity_loss = <span class='fl'>FALSE</span>,
+  verbose = <span class='fl'>TRUE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -171,13 +172,24 @@ privileged and unprivileged subgroups will be measured. When plotted shows both 
     </tr>
     <tr>
       <th>parity_loss</th>
-      <td><p>logical, if TRUE parity loss will supersede normal metric</p></td>
+      <td><p>logical, if <code>TRUE</code> parity loss will supersede basic metric</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>logical, whether to print information about metrics on console or not. Default <code>TRUE</code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>group_metric</code> object</p>
+    <p><code>group_metric</code> object.
+It is a list with following items:</p><ul>
+<li><p>group_metric_data - <code>data.frame</code> containing fairness metric scores for each model</p></li>
+<li><p>performance_data - <code>data.frame</code> containing performance metric scores for each model</p></li>
+<li><p>fairness_metric - name of fairness metric</p></li>
+<li><p>performance_metric - name of performance metric</p></li>
+</ul>
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Available metrics:</p>
@@ -247,12 +259,12 @@ privileged and unprivileged subgroups will be measured. When plotted shows both 
 #&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
 #&gt; -&gt; Fairness objects		: 0 objects 
 #&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
-#&gt; -&gt; Metric calculation		: successful
+#&gt; -&gt; Metric calculation		: 13/13 metrics calculated for all models
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
 <span class='kw'>gm</span> <span class='op'>&lt;-</span> <span class='fu'>group_metric</span>(<span class='kw'>fobject</span>, <span class='st'>"TPR"</span>, <span class='st'>"f1"</span>, parity_loss = <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; 
 #&gt; Creating object with: 
-#&gt; Fairness metric TPR 
-#&gt; Performance metric  f1 
+#&gt; Fairness metric:  TPR 
+#&gt; Performance metric:  f1 
 #&gt; </div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>gm</span>)</div><div class='img'><img src='group_metric-1.png' alt='' width='700' height='433' /></div><div class='input'></div></span></pre>
   </div>

@@ -159,10 +159,10 @@
 #&gt;   -&gt; data              :  6172  rows  6  cols 
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used (  default  )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1638378 , mean =  0.5447199 , max =  0.873507  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1444853 , mean =  0.5451345 , max =  0.8722034  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification (  default  ) 
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8533394 , mean =  0.0001602493 , max =  0.7797287  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8487251 , mean =  -0.0002544257 , max =  0.7896367  
 #&gt;   A new explainer has been created!</code></pre>
 <div id="fairness-check" class="section level3">
 <h3 class="hasAnchor">
@@ -181,7 +181,7 @@
 #&gt; -&gt; Cutoff values for explainers  : 0.5 ( for all subgroups )
 #&gt; -&gt; Fairness objects      : 0 objects 
 #&gt; -&gt; Checking explainers       : 1 in total (  compatible  )
-#&gt; -&gt; Metric calculation        : successful
+#&gt; -&gt; Metric calculation        : 13/13 metrics calculated for all models
 #&gt;  Fairness object created succesfully</code></pre>
 <p>Let’s see if our ranger model has bias.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit">
@@ -191,7 +191,7 @@
 #&gt; Fairness check for models: ranger 
 #&gt; 
 #&gt; ranger passes 0/5 metrics
-#&gt; Total loss:  2.531333</code></pre>
+#&gt; Total loss:  2.339273</code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fobject</span>)
 </pre></div>
@@ -270,17 +270,17 @@
 <pre><code>#&gt;         TPR       TNR       PPV       NPV       FNR       FPR       FDR
 #&gt; 1 0.3146544 0.6824922 0.3560605 0.4689762 0.3146544 0.6824922 0.3560605
 #&gt; 2 0.4459198 1.1219620 0.1131800 0.8675808 0.4459198 1.1219620 0.1131800
-#&gt; 3 0.3739559 0.7205666 0.3192978 0.4085801 0.3739559 0.7205666 0.3192978
+#&gt; 3 0.4179771 0.6904185 0.3710806 0.6743952 0.4179771 0.6904185 0.3710806
 #&gt; 4 0.3734750 0.3902308 0.4881695 0.3647346 0.3734750 0.3902308 0.4881695
-#&gt; 5 0.3086572 0.9901870 0.2707859 0.6050647 0.3086572 0.9901870 0.2707859
-#&gt; 6 0.4140563 0.7268114 0.3557389 0.4359256 0.4140563 0.7268114 0.3557389
+#&gt; 5 0.3570564 0.6879225 0.1928926 0.4785396 0.3570564 0.6879225 0.1928926
+#&gt; 6 0.3680687 0.6520319 0.3625652 0.4630190 0.3680687 0.6520319 0.3625652
 #&gt;         FOR        TS       STP       ACC        F1       MCC
 #&gt; 1 0.4689762 0.4404909 0.5666131 0.2993959 0.3363554 0.5301407
 #&gt; 2 0.8675808 0.3203605 0.7852645 0.1353720 0.2502984 0.6709033
-#&gt; 3 0.4085801 0.4572189 0.6574112 0.3070523 0.3372312 0.5409404
+#&gt; 3 0.6743952 0.5295126 0.6492645 0.3836436 0.3814969 0.8038116
 #&gt; 4 0.3647346 0.3814321 0.2951150 0.1960918 0.3733294 0.3505547
-#&gt; 5 0.6050647 0.3756339 0.6805478 0.2338014 0.2860865 0.7005341
-#&gt; 6 0.4359256 0.5133343 0.6456985 0.3539052 0.3793848 0.6893066</code></pre>
+#&gt; 5 0.4785396 0.3307705 0.5369931 0.1317702 0.2582675 0.3689799
+#&gt; 6 0.4630190 0.4930838 0.6084566 0.3498672 0.3599469 0.6836245</code></pre>
 <ul>
 <li>groups_data</li>
 </ul>
@@ -366,18 +366,18 @@
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">fair_pca</span>)
 </pre></div>
 <pre><code>#&gt; Fairness PCA : 
-#&gt;             PC1        PC2        PC3         PC4         PC5           PC6
-#&gt; [1,]  1.0306709 -0.2394115  0.9191869 -0.25719732  0.28239081  1.318390e-16
-#&gt; [2,] -4.0406564  0.8801976 -0.8518347 -0.08560317  0.06820269  2.983724e-16
-#&gt; [3,]  0.7063596 -0.7391011 -0.1212037 -0.59927394 -0.20710239  1.641048e-15
-#&gt; [4,]  2.7252099  2.2728693 -0.4128626  0.17996957 -0.04044194  6.661338e-16
-#&gt; [5,] -1.4520513 -0.1499134  1.4741214  0.37594211 -0.13986682  5.689893e-16
-#&gt; [6,]  1.0304673 -2.0246409 -1.0074074  0.38616275  0.03681765 -9.714451e-17
+#&gt;             PC1        PC2        PC3        PC4         PC5          PC6
+#&gt; [1,]  1.0318123 -0.0559787 -1.1761229  0.4140190  0.06668733 4.614364e-16
+#&gt; [2,] -4.0126116 -0.1145132  0.4433920  0.1959627 -0.07247334 8.326673e-16
+#&gt; [3,]  0.2299416  2.6391666  0.4822845 -0.1277679  0.19140684 7.216450e-16
+#&gt; [4,]  2.4792823 -1.5112119  1.2011375  0.1366469 -0.03737796 1.110223e-16
+#&gt; [5,] -0.6732603 -2.2512719 -0.4956991 -0.3920947  0.10561357 4.302114e-16
+#&gt; [6,]  0.9448357  1.2938091 -0.4549920 -0.2267660 -0.25385644 3.469447e-16
 #&gt; 
 #&gt; Created with: 
 #&gt; [1] "ranger"   "lm"       "ranger_2" "ranger_3" "gbm"      "ranger_4"
 #&gt; 
-#&gt; First two components explained 87 % of variance.</code></pre>
+#&gt; First two components explained 91 % of variance.</code></pre>
 <p>Let’s plot!</p>
 <div class="sourceCode" id="cb24"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fair_pca</span>)
@@ -428,8 +428,8 @@
 <pre><code>#&gt; Performace metric not given, setting deafult ( accuracy )  
 #&gt; 
 #&gt; Creating object with: 
-#&gt; Fairness metric FPR 
-#&gt; Performance metric  accuracy</code></pre>
+#&gt; Fairness metric:  FPR 
+#&gt; Performance metric:  accuracy</code></pre>
 <div class="sourceCode" id="cb31"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">gm</span>)
 </pre></div>

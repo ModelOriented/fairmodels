@@ -140,7 +140,7 @@
     </div>
 
     <div class="ref-description">
-    <p>Make fairness_radar object with chosen fairness_metrics. Note that there must be at least three metrics that does not contain NA.</p>
+    <p>Make <code>fairness_radar</code> object with chosen <code>fairness_metrics</code>. Note that there must be at least three metrics that does not contain NA.</p>
     </div>
 
     <pre class="usage"><span class='fu'>fairness_radar</span>(<span class='kw'>x</span>, fairness_metrics = <span class='kw'>NULL</span>)</pre>
@@ -150,17 +150,22 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p><code>fairness_object</code></p></td>
+      <td><p>object of class <code>fairness_object</code></p></td>
     </tr>
     <tr>
       <th>fairness_metrics</th>
-      <td><p>character, vector of metric names, at least 3 metrics without NA needed. If <code>NULL</code> default metrics will be taken.</p></td>
+      <td><p>character, vector of metric names, at least 3 metrics without NA needed. If <code>NULL</code> default metrics will be used.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>fairness_radar</code> object</p>
+    <p><code>fairness_radar</code> object.
+It is a list containing:</p><ul>
+<li><p>radar_data - <code>data.frame</code> containing scores for each model and parity loss metric</p></li>
+<li><p>label - model labels</p></li>
+</ul>
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"german"</span>)
@@ -203,7 +208,7 @@
 #&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
 #&gt; -&gt; Fairness objects		: 0 objects 
 #&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
-#&gt; -&gt; Metric calculation		: successful
+#&gt; -&gt; Metric calculation		: 13/13 metrics calculated for all models
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
 
 <span class='kw'>fradar</span> <span class='op'>&lt;-</span> <span class='fu'>fairness_radar</span>(<span class='kw'>fobject</span>, fairness_metrics = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ACC"</span>,

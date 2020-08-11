@@ -189,10 +189,10 @@
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.04942857 , mean =  0.6973082 , max =  0.9987302  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.06970238 , mean =  0.6983961 , max =  0.999375  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7147004 , mean =  0.002691756 , max =  0.6238358  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7350397 , mean =  0.00160394 , max =  0.612111  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
                           protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
@@ -202,7 +202,7 @@
 #&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
 #&gt; -&gt; Fairness objects		: 0 objects 
 #&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
-#&gt; -&gt; Metric calculation		: successful
+#&gt; -&gt; Metric calculation		: 13/13 metrics calculated for all models
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
  <span class='co'># same explainers with different cutoffs for female</span>
  <span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>, <span class='kw'>fobject</span>,
@@ -215,34 +215,34 @@
 #&gt; -&gt; Cutoff values for explainers	: female: 0.4, male: 0.5 
 #&gt; -&gt; Fairness objects		: 1 object ( </span><span style='color: #00BB00;'> compatible </span><span> )
 #&gt; -&gt; Checking explainers		: 4 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
-#&gt; -&gt; Metric calculation		: successful
+#&gt; -&gt; Metric calculation		: 13/13 metrics calculated for all models
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
 
 <span class='kw'>fh</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_heatmap.html'>fairness_heatmap</a></span>(<span class='kw'>fobject</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>fh</span>)</div><div class='output co'>#&gt; heatmap data top rows: 
 #&gt;   parity_loss_metric  model score
 #&gt; 1                TPR   lm_2  0.00
-#&gt; 2                TPR   rf_2  0.00
+#&gt; 2                TPR   rf_2  0.01
 #&gt; 3                TPR     lm  0.09
-#&gt; 4                TPR ranger  0.00
+#&gt; 4                TPR ranger  0.01
 #&gt; 5                TNR   lm_2  0.03
 #&gt; 
 #&gt; matrix model not scaled :
-#&gt;                TPR        TNR        PPV         NPV         FNR        FPR
-#&gt; lm_2   0.004496555 0.02968442 0.07192081 0.070054945 0.004496555 0.02968442
-#&gt; rf_2   0.004008016 0.07238580 0.05969477 0.013422819 0.004008016 0.07238580
-#&gt; lm     0.085055684 0.19049906 0.01670641 0.004120879 0.085055684 0.19049906
-#&gt; ranger 0.004008016 0.09275181 0.01188642 0.013422819 0.004008016 0.09275181
-#&gt;               FDR         FOR         TS         STP        ACC          F1
-#&gt; lm_2   0.07192081 0.070054945 0.06157303 0.007339878 0.05053763 0.042089094
-#&gt; rf_2   0.05969477 0.013422819 0.05631109 0.029219261 0.03978495 0.031631300
-#&gt; lm     0.01670641 0.004120879 0.06826626 0.142823749 0.03118280 0.046850998
-#&gt; ranger 0.01188642 0.013422819 0.01527010 0.087283777 0.01827957 0.008259546
+#&gt;                TPR        TNR         PPV         NPV         FNR        FPR
+#&gt; lm_2   0.004496555 0.02968442 0.071920809 0.070054945 0.004496555 0.02968442
+#&gt; rf_2   0.010020040 0.09203132 0.066322642 0.032467532 0.010020040 0.09203132
+#&gt; lm     0.085055684 0.19049906 0.016706407 0.004120879 0.085055684 0.19049906
+#&gt; ranger 0.010020040 0.08228061 0.008913765 0.032467532 0.010020040 0.08228061
+#&gt;                FDR         FOR         TS         STP        ACC          F1
+#&gt; lm_2   0.071920809 0.070054945 0.06157303 0.007339878 0.05053763 0.042089094
+#&gt; rf_2   0.066322642 0.032467532 0.05780470 0.018747078 0.04156148 0.032571023
+#&gt; lm     0.016706407 0.004120879 0.06826626 0.142823749 0.03118280 0.046850998
+#&gt; ranger 0.008913765 0.032467532 0.01743171 0.080037401 0.01972885 0.009439405
 #&gt;               MCC
 #&gt; lm_2   0.01683718
-#&gt; rf_2   0.05861619
+#&gt; rf_2   0.06033776
 #&gt; lm     0.05466262
-#&gt; ranger 0.06330817
+#&gt; ranger 0.06833236
 #&gt; </div><div class='input'></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

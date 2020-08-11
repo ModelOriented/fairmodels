@@ -46,7 +46,7 @@
 
 
 <meta property="og:title" content="Calculate fairness metrics in groups — calculate_group_fairness_metrics" />
-<meta property="og:description" content="Calculate fairness metrics in groups" />
+<meta property="og:description" content="Create data.frame from group_matrices object containing metric scores for each subgroup." />
 
 
 
@@ -140,7 +140,7 @@
     </div>
 
     <div class="ref-description">
-    <p>Calculate fairness metrics in groups</p>
+    <p>Create <code>data.frame</code> from <code>group_matrices</code> object containing metric scores for each subgroup.</p>
     </div>
 
     <pre class="usage"><span class='fu'>calculate_group_fairness_metrics</span>(<span class='kw'>x</span>)</pre>
@@ -156,7 +156,8 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>group_metric_matrix</code> object</p>
+    <p><code>group_metric_matrix</code> object
+It's a <code>data.frame</code> with metrics as row names and scores for those metrics for each subgroup in columns</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -150,21 +150,28 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>probs</th>
-      <td><p>probabilities given by model</p></td>
+      <td><p>numeric, vector with probabilities given by model</p></td>
     </tr>
     <tr>
       <th>observed</th>
-      <td><p>actual values from outcome</p></td>
+      <td><p>numeric, vector with actual values from outcome, either 0 or 1</p></td>
     </tr>
     <tr>
       <th>cutoff</th>
-      <td><p>cutoff</p></td>
+      <td><p>numeric, single value denoting cutoff/threshold</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>list that creates confusion matrix, of class <code>confussion_matrix</code></p>
+    <p>object of class <code>confussion_matrix</code>
+It is a list with following fields:</p><ul>
+<li><p>tpnumber of True Positives</p></li>
+<li><p>fpnumber of False Positives</p></li>
+<li><p>tnnumber of True Negatives</p></li>
+<li><p>fnnumber of False Negatives</p></li>
+</ul>
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>

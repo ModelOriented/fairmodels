@@ -47,7 +47,7 @@
 
 <meta property="og:title" content="Plot all cutoffs — plot.all_cutoffs" />
 <meta property="og:description" content="All cutoffs plot allows to check how parity loss of chosen metrics is affected by the change of cutoff. Values of cutoff
-are the same for all subgroups (levels of protected variable) no matter what cuttof values were in fairness_object." />
+are the same for all subgroups (levels of protected variable) no matter what cutoff values were in fairness_object." />
 
 
 
@@ -142,7 +142,7 @@ are the same for all subgroups (levels of protected variable) no matter what cut
 
     <div class="ref-description">
     <p>All cutoffs plot allows to check how parity loss of chosen metrics is affected by the change of cutoff. Values of cutoff
-are the same for all subgroups (levels of protected variable) no matter what cuttof values were in fairness_object.</p>
+are the same for all subgroups (levels of protected variable) no matter what cutoff values were in <code>fairness_object</code>.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for all_cutoffs</span>
@@ -153,7 +153,7 @@ are the same for all subgroups (levels of protected variable) no matter what cut
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>all_cutoffs object</p></td>
+      <td><p><code>all_cutoffs</code> object</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -167,7 +167,7 @@ are the same for all subgroups (levels of protected variable) no matter what cut
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>ggplot object</p>
+    <p><code>ggplot2</code> object</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -198,10 +198,10 @@ are the same for all subgroups (levels of protected variable) no matter what cut
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.06213294 , mean =  0.6972147 , max =  0.9985417  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.07669841 , mean =  0.6965455 , max =  0.9955417  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7215377 , mean =  0.002785339 , max =  0.6310615  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7141429 , mean =  0.0034545 , max =  0.6469167  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
                           protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
@@ -211,7 +211,7 @@ are the same for all subgroups (levels of protected variable) no matter what cut
 #&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
 #&gt; -&gt; Fairness objects		: 0 objects 
 #&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
-#&gt; -&gt; Metric calculation		: successful
+#&gt; -&gt; Metric calculation		: 13/13 metrics calculated for all models
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
 <span class='kw'>ac</span> <span class='op'>&lt;-</span> <span class='fu'><a href='all_cutoffs.html'>all_cutoffs</a></span>(<span class='kw'>fobject</span>,
                   fairness_metrics = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"TPR"</span>,

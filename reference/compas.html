@@ -46,18 +46,7 @@
 
 
 <meta property="og:title" content="Modified COMPAS dataset — compas" />
-<meta property="og:description" content="compas
-
-  Two_yr_Recidivismfactor, 1/0 for future recidivism or no recidivism. Models should predict this values
-  Number_of_Priorsnumeric, number of priors
-  Age_Above_FourtyFivefactor, 1/0 for age above 45 years or not
-  Age_Below_TwentyFivefactor, 1/0 for age below 25 years or not
-  Misdemeanorfactor, 1/0 for having recorded misdemeanor(s) or not
-  Ethnicityfactor, Caucasian, African American, Asian, Hispanic, Native American or Other
-  Sexfactor, female/male for gender
-
-
-" />
+<meta property="og:description" content="compas dataset. From ProPublica: across the nation, judges, probation and parole officers are increasingly using algorithms to assess a criminal defendant’s likelihood to re-offend." />
 
 
 
@@ -151,7 +140,22 @@
     </div>
 
     <div class="ref-description">
-    <p><code>compas</code></p>
+    <p><code>compas</code> dataset. From ProPublica: across the nation, judges, probation and parole officers are increasingly using algorithms to assess a criminal defendant’s likelihood to re-offend.</p>
+    </div>
+
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>compas</span>)</pre>
+
+
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>A data frame with 6172 rows and 7 variables:</p>
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p>The original source of data is <a href='https://www.propublica.org/datastore/dataset/compas-recidivism-risk-score-data-and-analysis'>https://www.propublica.org/datastore/dataset/compas-recidivism-risk-score-data-and-analysis</a>.
+Modified data used here comes from <a href='https://www.kaggle.com/danofer/compass?'>https://www.kaggle.com/danofer/compass?</a> (probublicaCompassRecidivism_data_fairml.csv)</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    
 <dl>
   <dt>Two_yr_Recidivism</dt><dd><p>factor, 1/0 for future recidivism or no recidivism. Models should predict this values</p></dd>
   <dt>Number_of_Priors</dt><dd><p>numeric, number of priors</p></dd>
@@ -163,17 +167,6 @@
 
 </dl>
 
-    </div>
-
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>compas</span>)</pre>
-
-
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p>A data frame with 6172 rows and 7 variables:</p>
-    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
-
-    <p>The original source of data is Kaggle <a href='https://www.kaggle.com/danofer/compass'>https://www.kaggle.com/danofer/compass</a>    .</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

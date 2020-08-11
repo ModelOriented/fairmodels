@@ -46,9 +46,7 @@
 
 
 <meta property="og:title" content="Performance and fairness — performance_and_fairness" />
-<meta property="og:description" content="Creates perfomance_and_fairness object. Measure model performance and model fairness metric at the same time. Choose best model according to both metrics. When plotted y axis is inversed to accentuate
-that models in top right corner are the best according to both metrics.
-Measure performance in both fairness metric and" />
+<meta property="og:description" content="Measure performance in both fairness metric and" />
 
 
 
@@ -142,9 +140,7 @@ Measure performance in both fairness metric and" />
     </div>
 
     <div class="ref-description">
-    <p>Creates <code>perfomance_and_fairness</code> object. Measure model performance and model fairness metric at the same time. Choose best model according to both metrics. When plotted y axis is inversed to accentuate
-that models in top right corner are the best according to both metrics.</p>
-<p>Measure performance in both fairness metric and</p>
+    <p>Measure performance in both fairness metric and</p>
     </div>
 
     <pre class="usage"><span class='fu'>performance_and_fairness</span>(<span class='kw'>x</span>, fairness_metric = <span class='kw'>NULL</span>, performance_metric = <span class='kw'>NULL</span>)</pre>
@@ -154,7 +150,7 @@ that models in top right corner are the best according to both metrics.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p><code>fairness_object</code></p></td>
+      <td><p>object of class <code>fairness_object</code></p></td>
     </tr>
     <tr>
       <th>fairness_metric</th>
@@ -168,7 +164,18 @@ that models in top right corner are the best according to both metrics.</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>performance_and_fairness</code> object</p>
+    <p><code>performance_and_fairness</code> object.
+It is list containing:</p><ul>
+<li><p>paf_data - performance and fairenss <code>data.frame</code> containing fairness and performence metric scores for each model</p></li>
+<li><p>fairness_metric - chosen fairness metric name</p></li>
+<li><p>performance_metric - chosen performance_metric name</p></li>
+<li><p>label - model labels</p></li>
+</ul>
+
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Creates <code>perfomance_and_fairness</code> object. Measure model performance and model fairness metric at the same time. Choose best model according to both metrics. When plotted y axis is inversed to accentuate
+that models in top right corner are the best according to both metrics.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -212,7 +219,7 @@ that models in top right corner are the best according to both metrics.</p>
 #&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
 #&gt; -&gt; Fairness objects		: 0 objects 
 #&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
-#&gt; -&gt; Metric calculation		: successful
+#&gt; -&gt; Metric calculation		: 13/13 metrics calculated for all models
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
  <span class='co'># same explainers with different cutoffs for female</span>
 <span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>, <span class='kw'>fobject</span>,
@@ -225,7 +232,7 @@ that models in top right corner are the best according to both metrics.</p>
 #&gt; -&gt; Cutoff values for explainers	: female: 0.4, male: 0.5 
 #&gt; -&gt; Fairness objects		: 1 object ( </span><span style='color: #00BB00;'> compatible </span><span> )
 #&gt; -&gt; Checking explainers		: 4 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
-#&gt; -&gt; Metric calculation		: successful
+#&gt; -&gt; Metric calculation		: 13/13 metrics calculated for all models
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
 <span class='kw'>paf</span> <span class='op'>&lt;-</span> <span class='fu'>performance_and_fairness</span>(<span class='kw'>fobject</span>)</div><div class='output co'>#&gt; Fairness Metric is NULL, setting deafult parity loss metric ( TPR )  
 #&gt; Performace metric is NULL, setting deafult ( accuracy )  
