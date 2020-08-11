@@ -41,7 +41,7 @@ An object of class \code{fairness_object} which is a list with elements:
 \item parity_loss_metric_data - data.frame containing parity loss for various fairness metrics. Created with following metrics:
 \itemize{
 
-\item{TPR}{ - True Positive Rate (Sensitivity, Recall, Equal Odds)}
+\item{TPR}{ - True Positive Rate (Sensitivity, Recall)}
 \item{TNR}{ - True Negative Rate (Specificity)}
 \item{PPV}{ - Positive Predictive Value (Precision)}
 \item{NPV}{ - Negative Predictive Value}

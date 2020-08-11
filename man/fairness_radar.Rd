@@ -9,7 +9,7 @@ fairness_radar(x, fairness_metrics = NULL)
 \arguments{
 \item{x}{object of class \code{fairness_object}}
 
-\item{fairness_metrics}{character, vector of metric names, at least 3 metrics without NA needed. If \code{NULL} default metrics will be taken.}
+\item{fairness_metrics}{character, vector of metric names, at least 3 metrics without NA needed. If \code{NULL} default metrics will be used.}
 }
 \value{
 \code{fairness_radar} object.
