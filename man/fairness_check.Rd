@@ -57,7 +57,7 @@ An object of class \code{fairness_object} which is a list with elements:
 }
 
 \item{groups_data}{ - metrics across levels in protected variable}
-\item{groups_confusion_metrices}{ - confusion matrices for each subgroup}
+\item{groups_confusion_matrices}{ - confusion matrices for each subgroup}
 \item{explainers}{ - list of \code{DALEX} explainers used to create object}
 \item{cutoffs}{ - list of cutoffs for each explainer and subgroup}
 \item{fairness_check_data}{ - \code{data.frame} used for for plotting \code{fairness_object}}

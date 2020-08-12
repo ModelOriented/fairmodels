@@ -7,7 +7,7 @@ Authors@R:
              email = "jakwisn@gmail.com"),
       person("Przemysław", "Biecek", role = c("aut"), 
              comment = c(ORCID = "0000-0001-8423-1823")))
-Description: Measure fairness metrics in one place for many models. Check how big is model's bias towards different races, sex, nationalities etc. Use measures such as Statistical Parity, Equal odds to detect the discrimination against unprivileged groups. Visualize the bias using heatmap, radar plot, biplot, barchart (and more!). There are various pre-processing and post-processing bias mitigation algorithms implemented.   
+Description: Measure fairness metrics in one place for many models. Check how big is model's bias towards different races, sex, nationalities etc. Use measures such as Statistical Parity, Equal odds to detect the discrimination against unprivileged groups. Visualize the bias using heatmap, radar plot, biplot, bar chart (and more!). There are various pre-processing and post-processing bias mitigation algorithms implemented.   
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -25,8 +25,10 @@ Suggests:
     knitr,
     rmarkdown,
     covr,
-    testthat
+    testthat,
+    spelling
 RoxygenNote: 7.1.1.9000
 VignetteBuilder: knitr
 URL: https://modeloriented.github.io/fairmodels/
 BugReports: https://github.com/ModelOriented/fairmodels/issues
+Language: en-US

@@ -1,6 +1,6 @@
 #' Reject Option based Classification pivot
 #'
-#' @description Reject Option based Classifier is post-processing bias mitigation method. Method changes labels of favorable, privileged and close to cutoff observations to unfavourable
+#' Reject Option based Classifier is post-processing bias mitigation method. Method changes labels of favorable, privileged and close to cutoff observations to unfavorable
 #' and the opposite for unprivileged observations (changing unfavorable and close to cutoff observations to favorable, more in details).
 #' By this potentially wrongfully labeled observations are assigned different labels.
 #' Note that in y in DALEX explainer 1 should indicate favorable outcome.

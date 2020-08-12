@@ -16,7 +16,7 @@
 }
 \description{
 Ceteris paribus cutoff is way to check how will parity loss behave if we changed only cutoff in one subgroup.
-It plots object of class ceteric_paribus_cutoff. It might have two types - default and cumulated. Cumulated sums metrics and plots
+It plots object of class ceteris_paribus_cutoff. It might have two types - default and cumulated. Cumulated sums metrics and plots
 it all in one plot. When default one is used all chosen metrics will be plotted for each model.
 }
 \examples{

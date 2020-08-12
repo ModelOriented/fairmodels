@@ -14,7 +14,7 @@
 #' @return \code{performance_and_fairness} object.
 #' It is list containing:
 #' \itemize{
-#' \item{paf_data}{ - performance and fairenss \code{data.frame} containing fairness and performence metric scores for each model}
+#' \item{paf_data}{ - performance and fairness \code{data.frame} containing fairness and performance metric scores for each model}
 #' \item{fairness_metric}{ - chosen fairness metric name}
 #' \item{performance_metric}{ - chosen performance_metric name}
 #' \item{label}{ - model labels}

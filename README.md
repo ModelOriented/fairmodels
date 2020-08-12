@@ -1,8 +1,8 @@
 # fairmodels 
 
   <!-- badges: start -->
-  [![Codecov test coverage](https://codecov.io/gh/ModelOriented/FairModels/branch/master/graph/badge.svg)](https://codecov.io/gh/ModelOriented/FairModels?branch=master)
-  [![R build status](https://github.com/ModelOriented/FairModels/workflows/R-CMD-check/badge.svg)](https://github.com/ModelOriented/FairModels/actions)
+  [![Codecov test coverage](https://codecov.io/gh/ModelOriented/fairmodels/branch/master/graph/badge.svg)](https://codecov.io/gh/ModelOriented/fairmodels?branch=master)
+  [![R build status](https://github.com/ModelOriented/fairmodels/workflows/R-CMD-check/badge.svg)](https://github.com/ModelOriented/fairmodels/actions)
   <!-- badges: end -->
   
   
@@ -82,7 +82,7 @@ Bias mitigation techniques on Adult data: [Advanced tutorial](https://modelorien
 * label - character vector for every explainer.   
 
 Models might be trained on different data, even without protected variable. May have different cutoffs which gives different values of metrics. 
-`fairness_check()` is place where `explainers` and `fairness_objects` are checked for copmatibility and then glued together.  
+`fairness_check()` is place where `explainers` and `fairness_objects` are checked for compatibility and then glued together.  
 So it is possible to to something like this: 
 
 ```
@@ -107,7 +107,7 @@ There are 13 metrics based on confusion matrix :
 | FNR | ![fnr](man/figures/formulas/fnr.jpg) | false negative rate |
 | FPR | ![fpr](man/figures/formulas/fpr.jpg) | false positive rate | predictive equality
 | FDR | ![fdr](man/figures/formulas/fdr.jpg) | false discovery rate
-| FOR | ![for](man/figures/formulas/for.jpg) | false omision rate |
+| FOR | ![for](man/figures/formulas/for.jpg) | false omission rate |
 | TS | ![ts](man/figures/formulas/ts.jpg)  | threat score |
 | STP | ![stp](man/figures/formulas/stp.jpg) | statistical parity |
 | ACC | ![acc](man/figures/formulas/acc.jpg) | accuracy |

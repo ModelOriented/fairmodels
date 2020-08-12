@@ -16,7 +16,7 @@ metric_scores(x, fairness_metrics = unique_metrics())
 It is a list containing:
 \itemize{
 \item{metric_scores_data}{ - \code{data.frame} with information about score in particular subgroup, metric, and model}
-\item{privileged}{ - name of peivileged subgroup}
+\item{privileged}{ - name of privileged subgroup}
 }
 }
 \description{

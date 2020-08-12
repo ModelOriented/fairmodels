@@ -46,7 +46,7 @@
 group_matrices <- function(protected, probs, preds , cutoff){
 
   protected_levels <- levels(protected)
-  group_confusion_metrices <- list()
+  group_confusion_matrices <- list()
 
   group_data <- data.frame(preds     = preds,
                            probs     = probs,
@@ -61,10 +61,10 @@ group_matrices <- function(protected, probs, preds , cutoff){
 
     cm <- confusion_matrix(probabilities, observed, cutoff = cutoff[[subgroup]])
 
-    group_confusion_metrices[[i]] <- cm
-    names(group_confusion_metrices)[i] <- subgroup
+    group_confusion_matrices[[i]] <- cm
+    names(group_confusion_matrices)[i] <- subgroup
   }
-  class(group_confusion_metrices) <- "group_matrices"
-  return(group_confusion_metrices)
+  class(group_confusion_matrices) <- "group_matrices"
+  return(group_confusion_matrices)
 }
 
