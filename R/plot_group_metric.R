@@ -53,7 +53,7 @@ plot.group_metric <- function(x, ...){
   performance_metric <- x$performance_metric
 
   # extracting number of labels
-  n <- length(unique(data$label))
+  n <- length(unique(data$model))
 
   # global variables
   model <- group <- score <- label <- NULL
