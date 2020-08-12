@@ -14,7 +14,7 @@
 <link href="dalexverse-2.css" rel="stylesheet">
 <!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Flexible Tool for Bias Detection, Visualization, and Mitigation">
-<meta property="og:description" content="Measure fairness metrics in one place for many models. Check how big is model's bias towards different races, sex, nationalities etc. Use measures such as Statistical Parity, Equal odds to detect the discrimination against unprivileged groups. Visualize the bias using heatmap, radar plot, biplot, barchart (and more!). There are various pre-processing and post-processing bias mitigation algorithms implemented.   ">
+<meta property="og:description" content="Measure fairness metrics in one place for many models. Check how big is model's bias towards different races, sex, nationalities etc. Use measures such as Statistical Parity, Equal odds to detect the discrimination against unprivileged groups. Visualize the bias using heatmap, radar plot, biplot, bar chart (and more!). There are various pre-processing and post-processing bias mitigation algorithms implemented.   ">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -97,7 +97,7 @@
 <div id="fairmodels" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#fairmodels" class="anchor"></a>fairmodels</h1></div>
-<p><!-- badges: start --> <a href="https://codecov.io/gh/ModelOriented/FairModels?branch=master"><img src="https://codecov.io/gh/ModelOriented/FairModels/branch/master/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://github.com/ModelOriented/FairModels/actions"><img src="https://github.com/ModelOriented/FairModels/workflows/R-CMD-check/badge.svg" alt="R build status"></a> <!-- badges: end --></p>
+<p><!-- badges: start --> <a href="https://codecov.io/gh/ModelOriented/fairmodels?branch=master"><img src="https://codecov.io/gh/ModelOriented/fairmodels/branch/master/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://github.com/ModelOriented/fairmodels/actions"><img src="https://github.com/ModelOriented/fairmodels/workflows/R-CMD-check/badge.svg" alt="R build status"></a> <!-- badges: end --></p>
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
@@ -175,7 +175,7 @@ Bias mitigation techniques on Adult data: <a href="https://modeloriented.github.
 </li>
 <li>label - character vector for every explainer.</li>
 </ul>
-<p>Models might be trained on different data, even without protected variable. May have different cutoffs which gives different values of metrics. <code><a href="reference/fairness_check.html">fairness_check()</a></code> is place where <code>explainers</code> and <code>fairness_objects</code> are checked for copmatibility and then glued together.<br>
+<p>Models might be trained on different data, even without protected variable. May have different cutoffs which gives different values of metrics. <code><a href="reference/fairness_check.html">fairness_check()</a></code> is place where <code>explainers</code> and <code>fairness_objects</code> are checked for compatibility and then glued together.<br>
 So it is possible to to something like this:</p>
 <pre><code>fairness_object &lt;- fairness_check(explainer1, explainer2, ...)
 fairness_object &lt;- fairness_check(explainer3, explainer4, fairness_object, ...)</code></pre>
@@ -240,7 +240,7 @@ fairness_object &lt;- fairness_check(explainer3, explainer4, fairness_object, ..
 <tr class="even">
 <td>FOR</td>
 <td><img src="reference/figures/formulas/for.jpg" alt="for"></td>
-<td>false omision rate</td>
+<td>false omission rate</td>
 <td></td>
 </tr>
 <tr class="odd">
