@@ -8,7 +8,7 @@
   
 ## Overview
 
-Flexible tool for bias detection, visualization, and mitigation. Uses models explained with [DALEX](https://modeloriented.github.io/DALEX) and calculates fairness metrics based on confusion matrix for protected group.  Allows to compare and gain information about various machine learning models. Mitigate bias with various pre-processing and post-processing techniques. *Make sure your models are classifying protected groups similarly*.
+Flexible tool for bias detection, visualization, and mitigation. Uses models explained with [DALEX](https://modeloriented.github.io/DALEX/) and calculates fairness metrics based on confusion matrix for protected group.  Allows to compare and gain information about various machine learning models. Mitigate bias with various pre-processing and post-processing techniques. *Make sure your models are classifying protected groups similarly*.
 
 
 ## Preview

@@ -16,25 +16,25 @@ Print metric scores data
 }
 \examples{
 
-data("compas")
+data("german")
 
-# flipping outcomes, 1- favorable
-compas$Two_yr_Recidivism <- as.factor(ifelse(compas$Two_yr_Recidivism == '1', '0', '1'))
+y_numeric <- as.numeric(german$Risk) -1
 
-# train
-lm_compas <- glm(Two_yr_Recidivism ~., data = compas, family = binomial())
-rf_compas <- ranger::ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
+lm_model <- glm(Risk~.,
+                data = german,
+                family=binomial(link="logit"))
 
-# numeric target values
-y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
+rf_model <- ranger::ranger(Risk ~.,
+                           data = german,
+                           probability = TRUE,
+                           num.trees = 200)
 
-# explainer
-rf_explainer <- DALEX::explain(rf_compas, data = compas[,-1], y = y_numeric)
-lm_explainer <- DALEX::explain(lm_compas, data = compas[,-1], y = y_numeric)
+explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
 
-fobject <- fairness_check(rf_explainer, lm_explainer,
-                          protected = compas$Ethnicity,
-                          privileged = "Caucasian")
+fobject <- fairness_check(explainer_lm, explainer_rf,
+                          protected = german$Sex,
+                          privileged = "male")
 
 ms <- metric_scores(fobject, fairness_metrics = c("TPR","STP","ACC"))
 ms

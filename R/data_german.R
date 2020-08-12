@@ -19,5 +19,5 @@
 #' @docType data
 #' @usage data(german)
 #'
-#' @source Data from kaggle \url{https://www.kaggle.com/kabure/german-credit-data-with-risk}. The original source is UCL \url{https://archive.ics.uci.edu/ml/datasets/Statlog+(German+Credit+Data)}.
+#' @source Data from kaggle \url{https://www.kaggle.com/kabure/german-credit-data-with-risk/}. The original source is UCL \url{https://archive.ics.uci.edu/ml/datasets/Statlog+(German+Credit+Data)}.
 NULL
