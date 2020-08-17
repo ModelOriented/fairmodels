@@ -8,6 +8,13 @@
 
 <title>Modified German Credit data dataset — german • fairmodels</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -46,9 +53,10 @@
 
 
 <meta property="og:title" content="Modified German Credit data dataset — german" />
-<meta property="og:description" content="german" />
+<meta property="og:description" content="german dataset. Data contains information about people and their credit risks." />
+<meta property="og:image" content="/logo.png" />
 
-
+<meta name="robots" content="noindex" />
 
 
 <!-- mathjax -->
@@ -90,7 +98,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.1.0</span>
+          <span class="version version-default">0.1.1</span>
         </div>
       </div>
     </div>
@@ -113,11 +121,22 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/Advanced_tutorial.html">Advanced Tutorial</a>
+    </li>
+    <li>
       <a href="../articles/Basic_tutorial.html">Basic Tutorial</a>
     </li>
   </ul>
 </li>
-        
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
+        <li>
+  <a href="https://github.com/ModelOriented/fairmodels/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -132,12 +151,12 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Modified German Credit data dataset</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/fairmodels/blob/master/R/data_german.R'><code>R/data_german.R</code></a></small>
     <div class="hidden name"><code>german.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>german</code></p>
+    <p><code>german</code> dataset. Data contains information about people and their credit risks.</p>
     </div>
 
     <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>german</span>)</pre>
@@ -145,7 +164,7 @@
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A data frame with 1000 rows and 10 variables:</p><dl>
+    <p>A data frame with 1000 rows and 10 variables:</p><dl'>
   <dt>Risk</dt><dd><p>factor, good/bad risk connected with giving the credit. Models should predict this values</p></dd>
   <dt>Sex</dt><dd><p>factor, male/female , considered to be protected group</p></dd>
   <dt>Job</dt><dd><p>numeric, job titles converted to integers where 0- unemployed/unskilled, 3- management/ self-employed/highly qualified employee/ officer</p></dd>
@@ -161,7 +180,7 @@
 
     <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
-    <p>Data from kaggle <a href='https://www.kaggle.com/kabure/german-credit-data-with-risk'>https://www.kaggle.com/kabure/german-credit-data-with-risk</a>. The original source is UCL <a href='https://archive.ics.uci.edu/ml/datasets/Statlog+(German+Credit+Data)'>https://archive.ics.uci.edu/ml/datasets/Statlog+(German+Credit+Data)</a>.</p>
+    <p>Data from kaggle <a href='https://www.kaggle.com/kabure/german-credit-data-with-risk/'>https://www.kaggle.com/kabure/german-credit-data-with-risk/</a>. The original source is UCL <a href='https://archive.ics.uci.edu/ml/datasets/Statlog+(German+Credit+Data)'>https://archive.ics.uci.edu/ml/datasets/Statlog+(German+Credit+Data)</a>.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

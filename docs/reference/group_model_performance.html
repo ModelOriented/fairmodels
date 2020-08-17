@@ -8,6 +8,13 @@
 
 <title>Group model performance — group_model_performance • fairmodels</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -46,9 +53,10 @@
 
 
 <meta property="og:title" content="Group model performance — group_model_performance" />
-<meta property="og:description" content="Special method for model performance evaluation. Counts number of tp, tn, fp, fn for each subgroup and therefore cutoff, sums afterwards." />
+<meta property="og:description" content="Special method for model performance evaluation. Counts number of tp, tn, fp, fn for each subgroup (and therefore potentially distinct cutoff), sums afterwards." />
+<meta property="og:image" content="/logo.png" />
 
-
+<meta name="robots" content="noindex" />
 
 
 <!-- mathjax -->
@@ -90,7 +98,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.1.0</span>
+          <span class="version version-default">0.1.1</span>
         </div>
       </div>
     </div>
@@ -113,11 +121,22 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/Advanced_tutorial.html">Advanced Tutorial</a>
+    </li>
+    <li>
       <a href="../articles/Basic_tutorial.html">Basic Tutorial</a>
     </li>
   </ul>
 </li>
-        
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
+        <li>
+  <a href="https://github.com/ModelOriented/fairmodels/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -132,34 +151,26 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Group model performance</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/fairmodels/blob/master/R/group_model_performance.R'><code>R/group_model_performance.R</code></a></small>
     <div class="hidden name"><code>group_model_performance.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Special method for model performance evaluation. Counts number of tp, tn, fp, fn for each subgroup and therefore cutoff, sums afterwards.</p>
+    <p>Special method for model performance evaluation. Counts number of tp, tn, fp, fn for each subgroup (and therefore potentially distinct cutoff), sums afterwards.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>group_model_performance</span>(<span class='no'>x</span>, <span class='no'>data</span>, <span class='no'>outcome</span>, <span class='no'>group</span>, <span class='no'>cutoff</span>, <span class='no'>performance_metric</span>)</pre>
+    <pre class="usage"><span class='fu'>group_model_performance</span>(<span class='no'>x</span>, <span class='no'>protected</span>, <span class='no'>cutoff</span>, <span class='no'>performance_metric</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>DALEX explainer</p></td>
+      <td><p>object created with <code><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></code></p></td>
     </tr>
     <tr>
-      <th>data</th>
-      <td><p>whole data</p></td>
-    </tr>
-    <tr>
-      <th>outcome</th>
-      <td><p>name of outcome column</p></td>
-    </tr>
-    <tr>
-      <th>group</th>
-      <td><p>name of protected group column</p></td>
+      <th>protected</th>
+      <td><p>factor, vector with levels as subgroups</p></td>
     </tr>
     <tr>
       <th>cutoff</th>
@@ -173,7 +184,7 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>score from 0 to 1</p>
+    <p>score in performance metric between 0 and 1</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

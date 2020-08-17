@@ -8,6 +8,13 @@
 
 <title>Expand Fairness Object — expand_fairness_object • fairmodels</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -47,8 +54,9 @@
 
 <meta property="og:title" content="Expand Fairness Object — expand_fairness_object" />
 <meta property="og:description" content="Unfold fairness object to 3 columns (metrics, label, score) to construct better base for visualization." />
+<meta property="og:image" content="/logo.png" />
 
-
+<meta name="robots" content="noindex" />
 
 
 <!-- mathjax -->
@@ -90,7 +98,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.1.0</span>
+          <span class="version version-default">0.1.1</span>
         </div>
       </div>
     </div>
@@ -113,11 +121,22 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/Advanced_tutorial.html">Advanced Tutorial</a>
+    </li>
+    <li>
       <a href="../articles/Basic_tutorial.html">Basic Tutorial</a>
     </li>
   </ul>
 </li>
-        
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
+        <li>
+  <a href="https://github.com/ModelOriented/fairmodels/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -132,7 +151,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Expand Fairness Object</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/fairmodels/blob/master/R/expand_fairness_object.R'><code>R/expand_fairness_object.R</code></a></small>
     <div class="hidden name"><code>expand_fairness_object.Rd</code></div>
     </div>
 
@@ -147,84 +166,93 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>fairness_object</p></td>
+      <td><p>object of class <code>fairness_object</code></p></td>
     </tr>
     <tr>
       <th>scale</th>
-      <td><p>if true normalises metric data</p></td>
+      <td><p>logical, if <code>TRUE</code> standarised.</p></td>
     </tr>
     <tr>
       <th>drop_metrics_with_na</th>
-      <td><p>logical, if TRUE metrics with NA will be ommited</p></td>
+      <td><p>logical, if <code>TRUE</code> metrics with NA will be omitted</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
-
-
+    <p>object of class <code>expand_fairness_object</code>. It is a <code>data.frame</code> with scores for each metric and model.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>DALEX</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ranger</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"german"</span>)
 
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"compas"</span>)
+<span class='no'>y_numeric</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='no'>german</span>$<span class='no'>Risk</span>) -<span class='fl'>1</span>
 
-<span class='no'>rf_compas</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>Two_yr_Recidivism</span> ~<span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>glm_compas</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='no'>Two_yr_Recidivism</span>~<span class='no'>.</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>compas</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(<span class='kw'>link</span><span class='kw'>=</span><span class='st'>"logit"</span>))
+<span class='no'>lm_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='no'>Risk</span>~<span class='no'>.</span>,
+                <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>german</span>,
+                <span class='kw'>family</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(<span class='kw'>link</span><span class='kw'>=</span><span class='st'>"logit"</span>))
 
-<span class='no'>y_numeric</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='no'>compas</span>$<span class='no'>Two_yr_Recidivism</span>)-<span class='fl'>1</span>
+<span class='no'>rf_model</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>ranger</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='no'>Risk</span> ~<span class='no'>.</span>,
+                           <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>german</span>,
+                           <span class='kw'>probability</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+                           <span class='kw'>num.trees</span> <span class='kw'>=</span> <span class='fl'>200</span>)
 
-<span class='no'>explainer_rf</span>  <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>rf_compas</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  ranger  ( <span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; data              :  6172  rows  7  cols 
-#&gt;   -&gt; target variable   :  6172  values 
-#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
-#&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1341753 , mean =  0.4547463 , max =  0.8618671  
-#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7945967 , mean =  0.0003736046 , max =  0.8377366  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_glm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>glm_compas</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>compas</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  lm  ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; data              :  6172  rows  7  cols 
-#&gt;   -&gt; target variable   :  6172  values 
-#&gt;   -&gt; model_info        :  package stats , ver. 4.0.0 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+<span class='no'>explainer_lm</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>DALEX</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>lm_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>german</span>[,-<span class='fl'>1</span>], <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label       :  lm  ( <span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; data              :  1000  rows  9  cols 
+#&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1144574 , mean =  0.4551199 , max =  0.995477  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1369187 , mean =  0.7 , max =  0.9832426  
+#&gt;   -&gt; model_info        :  package stats , ver. 4.0.2 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.9767658 , mean =  5.050975e-13 , max =  0.8822826  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.9572803 , mean =  1.940006e-17 , max =  0.8283475  
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='no'>explainer_rf</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>DALEX</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='no'>rf_model</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>german</span>[,-<span class='fl'>1</span>], <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; data              :  1000  rows  9  cols 
+#&gt;   -&gt; target variable   :  1000  values 
+#&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; predicted values  :  numerical, min =  0.04864286 , mean =  0.6963437 , max =  0.9955556  
+#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7585476 , mean =  0.003656338 , max =  0.6813942  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='no'>fobject</span> <span class='kw'>&lt;-</span><span class='fu'><a href='create_fairness_object.html'>create_fairness_object</a></span>(<span class='no'>explainer_glm</span>, <span class='no'>explainer_rf</span>,
-                             <span class='kw'>outcome</span> <span class='kw'>=</span> <span class='st'>"Two_yr_Recidivism"</span>,
-                             <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Ethnicity"</span>,
-                             <span class='kw'>base</span> <span class='kw'>=</span> <span class='st'>"Caucasian"</span>,
-                             <span class='kw'>cutoff</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; Getting data from first ( )  explainer </div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>0's appear in confusion matrix for group: Asian</span></div><div class='output co'>#&gt; <span class='message'>NA's created in metric's matrix </span></div><div class='input'>
-<span class='fu'>expand_fairness_object</span>(<span class='no'>fobject</span>, <span class='kw'>drop_metrics_with_na</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Found metric with NA: F1_parity_loss, ommiting it</span></div><div class='output co'>#&gt;             metric  model     score
-#&gt; 1  TPR_parity_loss     lm 1.1219620
-#&gt; 2  TPR_parity_loss ranger 0.7173355
-#&gt; 3  TNR_parity_loss     lm 0.4459198
-#&gt; 4  TNR_parity_loss ranger 0.3636263
-#&gt; 5  PPV_parity_loss     lm 0.8675808
-#&gt; 6  PPV_parity_loss ranger 0.4328548
-#&gt; 7  NPV_parity_loss     lm 0.1131800
-#&gt; 8  NPV_parity_loss ranger 0.3516893
-#&gt; 9  FNR_parity_loss     lm 1.1219620
-#&gt; 10 FNR_parity_loss ranger 0.7173355
-#&gt; 11 FPR_parity_loss     lm 0.4459198
-#&gt; 12 FPR_parity_loss ranger 0.3636263
-#&gt; 13 FDR_parity_loss     lm 0.8675808
-#&gt; 14 FDR_parity_loss ranger 0.4328548
-#&gt; 15 FOR_parity_loss     lm 0.1131800
-#&gt; 16 FOR_parity_loss ranger 0.3516893
-#&gt; 17  TS_parity_loss     lm 0.8554819
-#&gt; 18  TS_parity_loss ranger 0.5578998
-#&gt; 19 ACC_parity_loss     lm 0.1353720
-#&gt; 20 ACC_parity_loss ranger 0.3206871
-#&gt; 21 MCC_parity_loss     lm 0.6709033
-#&gt; 22 MCC_parity_loss ranger 0.6097154</div><div class='input'>
+<span class='no'>fobject</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='no'>explainer_lm</span>, <span class='no'>explainer_rf</span>,
+                          <span class='kw'>protected</span> <span class='kw'>=</span> <span class='no'>german</span>$<span class='no'>Sex</span>,
+                          <span class='kw'>privileged</span> <span class='kw'>=</span> <span class='st'>"male"</span>)</div><div class='output co'>#&gt; Creating fairness object
+#&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
+#&gt; -&gt; Protected variable		: factor (</span><span style='color: #00BB00;'> Ok </span><span> ) 
+#&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
+#&gt; -&gt; Fairness objects		: 0 objects 
+#&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
+#&gt; -&gt; Metric calculation		: 13/13 metrics calculated for all models
+#&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
+<span class='fu'>expand_fairness_object</span>(<span class='no'>fobject</span>, <span class='kw'>drop_metrics_with_na</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;    metric  model        score
+#&gt; 1     TPR     lm 0.0850556835
+#&gt; 2     TPR ranger 0.0080160321
+#&gt; 3     TNR     lm 0.1904990634
+#&gt; 4     TNR ranger 0.0442864691
+#&gt; 5     PPV     lm 0.0167064067
+#&gt; 6     PPV ranger 0.0074254257
+#&gt; 7     NPV     lm 0.0041208791
+#&gt; 8     NPV ranger 0.0258064516
+#&gt; 9     FNR     lm 0.0850556835
+#&gt; 10    FNR ranger 0.0080160321
+#&gt; 11    FPR     lm 0.1904990634
+#&gt; 12    FPR ranger 0.0442864691
+#&gt; 13    FDR     lm 0.0167064067
+#&gt; 14    FDR ranger 0.0074254257
+#&gt; 15    FOR     lm 0.0041208791
+#&gt; 16    FOR ranger 0.0258064516
+#&gt; 17     TS     lm 0.0682662608
+#&gt; 18     TS ranger 0.0005591278
+#&gt; 19    STP     lm 0.1428237494
+#&gt; 20    STP ranger 0.0689107059
+#&gt; 21    ACC     lm 0.0311827957
+#&gt; 22    ACC ranger 0.0057035998
+#&gt; 23     F1     lm 0.0468509985
+#&gt; 24     F1 ranger 0.0003039514
+#&gt; 25    MCC     lm 0.0546626183
+#&gt; 26    MCC ranger 0.0363923429</div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

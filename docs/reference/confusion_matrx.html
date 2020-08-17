@@ -8,6 +8,13 @@
 
 <title>Confusion matrix — confusion_matrix • fairmodels</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -47,8 +54,9 @@
 
 <meta property="og:title" content="Confusion matrix — confusion_matrix" />
 <meta property="og:description" content="Calculates confusion matrix for given cutoff" />
+<meta property="og:image" content="/logo.png" />
 
-
+<meta name="robots" content="noindex" />
 
 
 <!-- mathjax -->
@@ -90,7 +98,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.1.0</span>
+          <span class="version version-default">0.1.1</span>
         </div>
       </div>
     </div>
@@ -113,11 +121,22 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/Advanced_tutorial.html">Advanced Tutorial</a>
+    </li>
+    <li>
       <a href="../articles/Basic_tutorial.html">Basic Tutorial</a>
     </li>
   </ul>
 </li>
-        
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
+        <li>
+  <a href="https://github.com/ModelOriented/fairmodels/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -132,7 +151,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Confusion matrix</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/fairmodels/blob/master/R/confusion_matrix.R'><code>R/confusion_matrix.R</code></a></small>
     <div class="hidden name"><code>confusion_matrx.Rd</code></div>
     </div>
 
@@ -147,21 +166,28 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>probs</th>
-      <td><p>probabilities given by model</p></td>
+      <td><p>numeric, vector with probabilities given by model</p></td>
     </tr>
     <tr>
       <th>observed</th>
-      <td><p>actual values from outcome</p></td>
+      <td><p>numeric, vector with actual values from outcome, either 0 or 1</p></td>
     </tr>
     <tr>
       <th>cutoff</th>
-      <td><p>cutoff</p></td>
+      <td><p>numeric, single value denoting cutoff/threshold</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>list that creates confusion matrix, of class <code>confussion_matrix</code></p>
+    <p>object of class <code>confussion_matrix</code>
+It is a list with following fields:</p><ul>
+<li><p>tpnumber of True Positives</p></li>
+<li><p>fpnumber of False Positives</p></li>
+<li><p>tnnumber of True Negatives</p></li>
+<li><p>fnnumber of False Negatives</p></li>
+</ul>
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -172,13 +198,13 @@
 #&gt; [1] 1
 #&gt; 
 #&gt; $fp
-#&gt; [1] 2
+#&gt; [1] 1
 #&gt; 
 #&gt; $tn
-#&gt; [1] 9
+#&gt; [1] 11
 #&gt; 
 #&gt; $fn
-#&gt; [1] 8
+#&gt; [1] 7
 #&gt; 
 #&gt; attr(,"class")
 #&gt; [1] "confusion_matrix"</div><div class='input'>

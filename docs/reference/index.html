@@ -8,6 +8,13 @@
 
 <title>Function reference • fairmodels</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -46,8 +53,9 @@
 
 
 <meta property="og:title" content="Function reference" />
+<meta property="og:image" content="/logo.png" />
 
-
+<meta name="robots" content="noindex" />
 
 
 <!-- mathjax -->
@@ -89,7 +97,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.1.0</span>
+          <span class="version version-default">0.1.1</span>
         </div>
       </div>
     </div>
@@ -112,11 +120,22 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/Advanced_tutorial.html">Advanced Tutorial</a>
+    </li>
+    <li>
       <a href="../articles/Basic_tutorial.html">Basic Tutorial</a>
     </li>
   </ul>
 </li>
-        
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
+        <li>
+  <a href="https://github.com/ModelOriented/fairmodels/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -156,6 +175,18 @@
       <tr>
         
         <td>
+          <p><code><a href="adult.html">adult</a></code> </p>
+        </td>
+        <td><p>Adult dataset</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="adult_test.html">adult_test</a></code> </p>
+        </td>
+        <td><p>Adult test dataset</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="all_cutoffs.html">all_cutoffs()</a></code> </p>
         </td>
         <td><p>All cutoffs</p></td>
@@ -182,7 +213,7 @@
         <td>
           <p><code><a href="compas.html">compas</a></code> </p>
         </td>
-        <td><p>Modified COMPAS dataset (from fairness package)</p></td>
+        <td><p>Modified COMPAS dataset</p></td>
       </tr><tr>
         
         <td>
@@ -192,15 +223,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="create_fairness_object.html">create_fairness_object()</a></code> </p>
+          <p><code><a href="disparate_impact_remover.html">disparate_impact_remover()</a></code> </p>
         </td>
-        <td><p>Create Fairness Object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="demographic_parity.html">demographic_parity()</a></code> </p>
-        </td>
-        <td><p>Demographic parity</p></td>
+        <td><p>Disparate impact remover</p></td>
       </tr><tr>
         
         <td>
@@ -240,15 +265,15 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="group_metric.html">group_metric()</a></code> </p>
+          <p><code><a href="group_matrices.html">group_matrices()</a></code> </p>
         </td>
-        <td><p>Group metric</p></td>
+        <td><p>Group confusion matrices</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="group_metrices.html">group_matrices()</a></code> </p>
+          <p><code><a href="group_metric.html">group_metric()</a></code> </p>
         </td>
-        <td><p>Group confusion matrices</p></td>
+        <td><p>Group metric</p></td>
       </tr><tr>
         
         <td>
@@ -258,21 +283,15 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="performance_with_fairness.html">performance_and_fairness()</a></code> </p>
+          <p><code><a href="metric_scores.html">metric_scores()</a></code> </p>
+        </td>
+        <td><p>Metric scores</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="performance_and_fairness.html">performance_and_fairness()</a></code> </p>
         </td>
         <td><p>Performance and fairness</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot.fairness_check.html">plot(<i>&lt;fairness_check&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Plot fairness check</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot.group_metric.html">plot(<i>&lt;group_metric&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Plot group metric</p></td>
       </tr><tr>
         
         <td>
@@ -288,15 +307,21 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="plot_choosen_metric.html">plot(<i>&lt;choosen_metric&gt;</i>)</a></code> </p>
+          <p><code><a href="plot_chosen_metric.html">plot(<i>&lt;chosen_metric&gt;</i>)</a></code> </p>
         </td>
-        <td><p>Plot choosen metric</p></td>
+        <td><p>Plot chosen metric</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="plot_fairness_and_performance.html">plot(<i>&lt;performance_and_fairness&gt;</i>)</a></code> </p>
+          <p><code><a href="plot_density.html">plot_density()</a></code> </p>
         </td>
-        <td><p>Plot fairness and performance</p></td>
+        <td><p>Plot fairness object</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plot_fairmodels.html">plot_fairmodels()</a></code> </p>
+        </td>
+        <td><p>Plot fairmodels</p></td>
       </tr><tr>
         
         <td>
@@ -324,6 +349,24 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="plot_group_metric.html">plot(<i>&lt;group_metric&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Plot group metric</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plot_metric_scores.html">plot(<i>&lt;metric_scores&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Plot metric scores</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plot_performance_and_fairness.html">plot(<i>&lt;performance_and_fairness&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Plot fairness and performance</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="plot_stacked_barplot.html">stack_metrics()</a></code> </p>
         </td>
         <td><p>Stack metrics</p></td>
@@ -336,27 +379,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="print.ceteris_paribus_cutoff.html">print(<i>&lt;ceteris_paribus_cutoff&gt;</i>)</a></code> </p>
+          <p><code><a href="pre_process_data.html">pre_process_data()</a></code> </p>
         </td>
-        <td><p>Print ceteris paribus cutoff</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="print.fairness_object.html">print(<i>&lt;fairness_object&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Print Fairness Object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="print.fairness_radar.html">print(<i>&lt;fairness_radar&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Print fairness radar</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="print.stacked_metrics.html">print(<i>&lt;stacked_metrics&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Print stacked metrics</p></td>
+        <td><p>Pre-process data</p></td>
       </tr><tr>
         
         <td>
@@ -366,15 +391,15 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="print_choosen_metric.html">print(<i>&lt;choosen_metric&gt;</i>)</a></code> </p>
+          <p><code><a href="print_ceteris_paribus_cutoff.html">print(<i>&lt;ceteris_paribus_cutoff&gt;</i>)</a></code> </p>
         </td>
-        <td><p>Print choosen metric</p></td>
+        <td><p>Print ceteris paribus cutoff</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="print_fairness_check.html">print(<i>&lt;fairness_check&gt;</i>)</a></code> </p>
+          <p><code><a href="print_chosen_metric.html">print(<i>&lt;chosen_metric&gt;</i>)</a></code> </p>
         </td>
-        <td><p>Print fairness check</p></td>
+        <td><p>Print chosen metric</p></td>
       </tr><tr>
         
         <td>
@@ -384,15 +409,63 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="print_fairness_object.html">print(<i>&lt;fairness_object&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Print Fairness Object</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="print_fairness_pca.html">print(<i>&lt;fairness_pca&gt;</i>)</a></code> </p>
         </td>
         <td><p>Print fairness PCA</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="print_group_metri.html">print(<i>&lt;group_metric&gt;</i>)</a></code> </p>
+          <p><code><a href="print_fairness_radar.html">print(<i>&lt;fairness_radar&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Print fairness radar</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="print_group_metric.html">print(<i>&lt;group_metric&gt;</i>)</a></code> </p>
         </td>
         <td><p>Print group metric</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="print_metric_scores.html">print(<i>&lt;metric_scores&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Print metric scores data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="print_performance_and_fairness.html">print(<i>&lt;performance_and_fairness&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Print performance and fairness</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="print_stacked_metrics.html">print(<i>&lt;stacked_metrics&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Print stacked metrics</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="resample.html">resample()</a></code> </p>
+        </td>
+        <td><p>Resample</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="reweight.html">reweight()</a></code> </p>
+        </td>
+        <td><p>Reweight</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="roc_pivot.html">roc_pivot()</a></code> </p>
+        </td>
+        <td><p>Reject Option based Classification pivot</p></td>
       </tr>
     </tbody>
     </table>

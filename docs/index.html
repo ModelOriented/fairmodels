@@ -5,7 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fairness measures for Models • fairmodels</title>
+<title>Flexible Tool for Bias Detection, Visualization, and Mitigation • fairmodels</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
@@ -13,8 +19,10 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- dalexverse --><link href="dalexverse.css" rel="stylesheet">
 <link href="dalexverse-2.css" rel="stylesheet">
 <!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Fairness measures for Models">
-<meta property="og:description" content="Measure all fairness metrics in one place. Compare models, choose best.  ">
+<script src="pkgdown.js"></script><meta property="og:title" content="Flexible Tool for Bias Detection, Visualization, and Mitigation">
+<meta property="og:description" content="Measure fairness metrics in one place for many models. Check how big is model's bias towards different races, sex, nationalities etc. Use measures such as Statistical Parity, Equal odds to detect the discrimination against unprivileged groups. Visualize the bias using heatmap, radar plot, biplot, bar chart (and more!). There are various preprocessing and post-processing bias mitigation algorithms implemented.   ">
+<meta property="og:image" content="/logo.png">
+<meta name="robots" content="noindex">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -43,7 +51,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.1.0</span>
+          <span class="version version-default">0.1.1</span>
         </div>
       </div>
     </div>
@@ -66,11 +74,22 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="articles/Advanced_tutorial.html">Advanced Tutorial</a>
+    </li>
+    <li>
       <a href="articles/Basic_tutorial.html">Basic Tutorial</a>
     </li>
   </ul>
 </li>
-        
+<li>
+  <a href="news/index.html">Changelog</a>
+</li>
+        <li>
+  <a href="https://github.com/ModelOriented/fairmodels/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
 </div>
 <!--/.nav-collapse -->
@@ -83,126 +102,216 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-
-<p><!-- badges: start --> <a href="https://codecov.io/gh/ModelOriented/FairModels?branch=master"><img src="https://codecov.io/gh/ModelOriented/FairModels/branch/master/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://github.com/ModelOriented/FairModels/actions"><img src="https://github.com/ModelOriented/FairModels/workflows/R-CMD-check/badge.svg" alt="R build status"></a> <!-- badges: end --></p>
-<div id="fairmodels" class="section level1">
+<div id="fairmodels-" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#fairmodels" class="anchor"></a>FairModels</h1></div>
-<div id="overwiew" class="section level2">
+<a href="#fairmodels-" class="anchor"></a>fairmodels <img src="reference/figures/logo.png" align="right" width="150">
+</h1></div>
+<p><!-- badges: start --> <a href="https://codecov.io/gh/ModelOriented/fairmodels?branch=master"><img src="https://codecov.io/gh/ModelOriented/fairmodels/branch/master/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://github.com/ModelOriented/fairmodels/actions"><img src="https://github.com/ModelOriented/fairmodels/workflows/R-CMD-check/badge.svg" alt="R build status"></a> <a href="http://drwhy.ai/#eXtraAI"><img src="https://img.shields.io/badge/DrWhy-eXtrAI-4378bf" alt="DrWhy-eXtrAI"></a> <!-- badges: end --></p>
+<div id="overview" class="section level2">
 <h2 class="hasAnchor">
-<a href="#overwiew" class="anchor"></a>Overwiew</h2>
-<p><code>FairModels</code> is package for fairness audit and visualization. Uses models explained with <a href="https://modeloriented.github.io/DALEX">DALEX</a> and calculates fairness metrics based on confusion matrix for protected group. Allows to compare and gain information about various machine learning models. <em>Make sure your models are classifying protected groups similarly</em>.</p>
+<a href="#overview" class="anchor"></a>Overview</h2>
+<p>Flexible tool for bias detection, visualization, and mitigation. Uses models explained with <a href="https://modeloriented.github.io/DALEX/">DALEX</a> and calculates fairness metrics based on confusion matrix for protected group. Allows to compare and gain information about various machine learning models. Mitigate bias with various pre-processing and post-processing techniques. <em>Make sure your models are classifying protected groups similarly</em>.</p>
 </div>
 <div id="preview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#preview" class="anchor"></a>Preview</h2>
 <p><img src="reference/figures/preview.gif" alt="preview"></p>
-<div id="used-metrics" class="section level3">
-<h3 class="hasAnchor">
-<a href="#used-metrics" class="anchor"></a>Used metrics</h3>
-<ul>
-<li>
-<strong>TPR</strong> - True Positive Rate (Sensitivity, Recall)</li>
-<li>
-<strong>TNR</strong> - True Negative Rate (Specificity)</li>
-<li>
-<strong>PPV</strong> - Positive Predictive Value (Precision)</li>
-<li>
-<strong>NPV</strong> - Negative Predictive Value</li>
-<li>
-<strong>FNR</strong> - False Negative Rate</li>
-<li>
-<strong>FPR</strong> - False Positive Rate</li>
-<li>
-<strong>FDR</strong> - False Discovery Rate</li>
-<li>
-<strong>FOR</strong> - False Omision Rate</li>
-<li>
-<strong>TS</strong> - Threat Score</li>
-<li>
-<strong>ACC</strong> - Accuracy</li>
-<li>
-<strong>F1</strong> - F1 Score</li>
-<li>
-<strong>MCC</strong> - Matthews correlation coefficient</li>
-</ul>
-<p>more on those metrics : <a href="https://en.wikipedia.org/wiki/Confusion_matrix">Confusion Matrix</a></p>
 </div>
-<div id="installation" class="section level3">
-<h3 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h3>
+<div id="installation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#installation" class="anchor"></a>Installation</h2>
 <pre><code><a href="https://devtools.r-lib.org//reference/remote-reexports.html">devtools::install_github("ModelOriented/fairmodels")</a></code></pre>
 </div>
-<div id="example" class="section level3">
-<h3 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h3>
-<pre><code><a href="https://rdrr.io/pkg/DALEX/man">library(DALEX)
+<div id="example" class="section level2">
+<h2 class="hasAnchor">
+<a href="#example" class="anchor"></a>Example</h2>
+<p>Checking fairness is easy!</p>
+<pre><code><a href="https://rdrr.io/pkg/fairmodels/man">library(fairmodels)
 library(ranger)
+library(DALEX)
 
+data("german")
 
-# load data
-data(compas)
+# ------------ step 1 - create model(s)  -----------------
 
-# making classifiers
-rf_compas &lt;- ranger(Two_yr_Recidivism ~., data = compas, probability = TRUE)
-lr_compas &lt;- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
-rf_compas_2 &lt;- ranger(Two_yr_Recidivism ~ Age_Above_FourtyFive+Misdemeanor, data = compas, probability = TRUE)
+lm_model &lt;- glm(Risk~.,
+                data = german,
+                family=binomial(link="logit"))
 
-# numeric target values
-y_numeric &lt;- as.numeric(compas$Two_yr_Recidivism)-1
+rf_model &lt;- ranger(Risk ~.,
+                   data = german,
+                   probability = TRUE,
+                   num.trees = 200)
 
-# explaining with dalex
-rf_explainer_1 &lt;- explain(rf_compas, data = compas[,-1], y = y_numeric, label = "ranger")
-lr_explainer_1 &lt;- explain(lr_compas, data = compas[,-1], y = y_numeric, label = "logistic_regresion")
-rf_explainer_2 &lt;- explain(rf_compas_2, data = compas[,-1], y = y_numeric, label = "ranger2")
+# ------------  step 2 - create explainer(s)  ------------
 
+# numeric y for explain function
+y_numeric &lt;- as.numeric(german$Risk) -1
 
-# creating fairness object
-fobject &lt;- create_fairness_object(rf_explainer_1, lr_explainer_1, rf_explainer_2,
-                                  data = compas, 
-                                  outcome = "Two_yr_Recidivism", 
-                                  group = "Ethnicity",
-                                  base = "Caucasian")
+explainer_lm &lt;- explain(lm_model, data = german[,-1], y = y_numeric)
+explainer_rf &lt;- explain(rf_model, data = german[,-1], y = y_numeric)
 
-library(dplyr)
+# ------------  step 3 - fairness check  -----------------
 
-fobject %&gt;% fairness_heatmap() %&gt;% plot() 
-fobject %&gt;% fairness_radar() %&gt;% plot() 
-fobject %&gt;% stack_metrics() %&gt;% plot() 
-fobject %&gt;% group_metric() %&gt;% plot() 
-fobject %&gt;% choose_metric() %&gt;% plot() 
-fobject %&gt;% performance_and_fairness() %&gt;% plot() 
+fobject &lt;- fairness_check(explainer_lm, explainer_rf,
+                          protected = german$Sex,
+                          privileged = "male")
+
+ 
+print(fobject)
+plot(fobject)
 </a></code></pre>
-<div id="fairness-object" class="section level4">
-<h4 class="hasAnchor">
-<a href="#fairness-object" class="anchor"></a>Fairness object</h4>
-<p><code>fairness object</code> consists of</p>
-<ul>
-<li>x, … - explainer or list of explainers</li>
-<li>data - full data (diffrent explainers can be trained on diffrent data)</li>
-<li>outcome - target variable</li>
-<li>group - protected variable, usually race, sex, etc…</li>
-<li>base - subgroup, base on which to calculate metrics. Metric on base subgroup is always 1. Usually specific race, sex etc…</li>
-<li>cutoff - custom cutoff, might be single value - cutoff same for all subgroups or vector - for each subgroup individually</li>
-</ul>
-<p>Tutorial: <a href="https://modeloriented.github.io/FairModels/articles/Basic_tutorial.html">Tutorial</a></p>
+<p>Compas recidivism data use case: <a href="https://modeloriented.github.io/fairmodels/articles/Basic_tutorial.html">Basic tutorial</a><br>
+Bias mitigation techniques on Adult data: <a href="https://modeloriented.github.io/fairmodels/articles/Advanced_tutorial.html">Advanced tutorial</a></p>
 </div>
-<div id="related-works" class="section level4">
-<h4 class="hasAnchor">
-<a href="#related-works" class="anchor"></a>Related works</h4>
+<div id="how-to-evaluate-fairness" class="section level2">
+<h2 class="hasAnchor">
+<a href="#how-to-evaluate-fairness" class="anchor"></a>How to evaluate fairness?</h2>
+<p align="center">
+<img src="reference/figures/flowchart.png" alt="drawing" width="700"></p>
+<div id="fairness-checking-is-flexible" class="section level3">
+<h3 class="hasAnchor">
+<a href="#fairness-checking-is-flexible" class="anchor"></a>Fairness checking is flexible</h3>
+<p><code>fairness_check</code> parameters are</p>
+<ul>
+<li>x, … - <code>explainers</code> and <code>fairness_objects</code> (products of fairness_check).<br>
+</li>
+<li>protected - factor with different subgroups as levels. Usually specific race, sex etc…<br>
+</li>
+<li>privileged - subgroup, base on which to calculate parity loss metrics.<br>
+</li>
+<li>cutoff - custom cutoff, might be single value - cutoff same for all subgroups or vector - for each subgroup individually. Affecting only explainers.<br>
+</li>
+<li>label - character vector for every explainer.</li>
+</ul>
+<p>Models might be trained on different data, even without protected variable. May have different cutoffs which gives different values of metrics. <code><a href="reference/fairness_check.html">fairness_check()</a></code> is place where <code>explainers</code> and <code>fairness_objects</code> are checked for compatibility and then glued together.<br>
+So it is possible to to something like this:</p>
+<pre><code>fairness_object &lt;- fairness_check(explainer1, explainer2, ...)
+fairness_object &lt;- fairness_check(explainer3, explainer4, fairness_object, ...)</code></pre>
+<p>even with more <code>fairness_objects</code>!</p>
+<p>If one is even more keen to know how <code>fairmodels</code> works and what are relations between objects, please look at this diagram <a href="https://github.com/ModelOriented/fairmodels/blob/master/man/figures/class_diagram.png">class diagram</a></p>
+</div>
+</div>
+<div id="metrics-used" class="section level2">
+<h2 class="hasAnchor">
+<a href="#metrics-used" class="anchor"></a>Metrics used</h2>
+<p>There are 13 metrics based on confusion matrix :</p>
+<table class="table">
+<thead><tr class="header">
+<th>Metric</th>
+<th>Formula</th>
+<th>Full name</th>
+<th>Other names</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>TPR</td>
+<td><img src="reference/figures/formulas/tpr.jpg" alt="tpr"></td>
+<td>true positive rate</td>
+<td>equal opportunity, sensitivity, recall</td>
+</tr>
+<tr class="even">
+<td>TNR</td>
+<td><img src="reference/figures/formulas/tnr.jpg" alt="tnr"></td>
+<td>true negative rate</td>
+<td>specificity</td>
+</tr>
+<tr class="odd">
+<td>PPV</td>
+<td><img src="reference/figures/formulas/ppv.jpg" alt="ppv"></td>
+<td>positive predictive value</td>
+<td>predictive parity, precision</td>
+</tr>
+<tr class="even">
+<td>NPV</td>
+<td><img src="reference/figures/formulas/npv.jpg" alt="npv"></td>
+<td>negative predictive value</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>FNR</td>
+<td><img src="reference/figures/formulas/fnr.jpg" alt="fnr"></td>
+<td>false negative rate</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>FPR</td>
+<td><img src="reference/figures/formulas/fpr.jpg" alt="fpr"></td>
+<td>false positive rate</td>
+<td>predictive equality</td>
+</tr>
+<tr class="odd">
+<td>FDR</td>
+<td><img src="reference/figures/formulas/fdr.jpg" alt="fdr"></td>
+<td>false discovery rate</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>FOR</td>
+<td><img src="reference/figures/formulas/for.jpg" alt="for"></td>
+<td>false omission rate</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>TS</td>
+<td><img src="reference/figures/formulas/ts.jpg" alt="ts"></td>
+<td>threat score</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>STP</td>
+<td><img src="reference/figures/formulas/stp.jpg" alt="stp"></td>
+<td>statistical parity</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>ACC</td>
+<td><img src="reference/figures/formulas/acc.jpg" alt="acc"></td>
+<td>accuracy</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>F1</td>
+<td><img src="reference/figures/formulas/f1.jpg" alt="f1"></td>
+<td>F1 score</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>MCC</td>
+<td><img src="reference/figures/formulas/mcc.jpg" alt="drawing" width="300"></td>
+<td>Matthews correlation coefficient</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><em>and their parity loss.</em><br>
+How is <em>parity loss</em> calculated?</p>
+<p><img src="reference/figures/formulas/parity_loss.png" alt="parity_loss"></p>
+<p>Where <img src="reference/figures/formulas/explain.jpg" alt="explain"> denote the membership to unique subgroup from protected variable</p>
+<p>some fairness metrics like <em>Equalized odds</em> are satisfied if parity loss in both <em>TPR</em> and <em>FPR</em> is low</p>
+</div>
+<div id="related-works" class="section level2">
+<h2 class="hasAnchor">
+<a href="#related-works" class="anchor"></a>Related works</h2>
 <p>Zafar,Valera, Rodriguez, Gummadi (2017) <a href="https://arxiv.org/pdf/1610.08452.pdf" class="uri">https://arxiv.org/pdf/1610.08452.pdf</a></p>
 </div>
 </div>
-</div>
-</div>
-
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <div class="license">
+    <div class="links">
+<h2>Links</h2>
+<ul class="list-unstyled">
+<li>Browse source code at <br><a href="https://github.com/ModelOriented/fairmodels/">https://​github.com/​ModelOriented/​fairmodels/​</a>
+</li>
+<li>Report a bug at <br><a href="https://github.com/ModelOriented/fairmodels/issues">https://​github.com/​ModelOriented/​fairmodels/​issues</a>
+</li>
+</ul>
+</div>
+<div class="license">
 <h2>License</h2>
 <ul class="list-unstyled">
-<li>GPL</li>
+<li><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></li>
 </ul>
 </div>
 <div class="developers">

@@ -6,8 +6,15 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Modified COMPAS dataset (from fairness package) — compas • fairmodels</title>
+<title>Modified COMPAS dataset — compas • fairmodels</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -45,21 +52,11 @@
 
 
 
-<meta property="og:title" content="Modified COMPAS dataset (from fairness package) — compas" />
-<meta property="og:description" content="compas
+<meta property="og:title" content="Modified COMPAS dataset — compas" />
+<meta property="og:description" content="compas dataset. From ProPublica: across the nation, judges, probation and parole officers are increasingly using algorithms to assess a criminal defendant’s likelihood to re-offend." />
+<meta property="og:image" content="/logo.png" />
 
-  Two_yr_Recidivismfactor, 1/0 for future recifivism or no recidivism. Models should predict this values
-  Number_of_Priorsnumeric, number of priors, normalized
-  Age_Above_FourtyFivefactor, yes/no for age above 45 years or not
-  Age_Below_TwentyFivefactor, yes/no for age below 25 years or not
-  Sexfactor, female/male for gender
-  Misdemeanorfactor, yes/no for having recorded misdemeanor(s) or not
-  ethnicityfactor, Caucasian, African American, Asian, Hispanic, Native American or Other
-
-
-" />
-
-
+<meta name="robots" content="noindex" />
 
 
 <!-- mathjax -->
@@ -101,7 +98,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.1.0</span>
+          <span class="version version-default">0.1.1</span>
         </div>
       </div>
     </div>
@@ -124,11 +121,22 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/Advanced_tutorial.html">Advanced Tutorial</a>
+    </li>
+    <li>
       <a href="../articles/Basic_tutorial.html">Basic Tutorial</a>
     </li>
   </ul>
 </li>
-        
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
+        <li>
+  <a href="https://github.com/ModelOriented/fairmodels/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -142,24 +150,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Modified COMPAS dataset (from fairness package)</h1>
-    
+    <h1>Modified COMPAS dataset</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ModelOriented/fairmodels/blob/master/R/data_compas.R'><code>R/data_compas.R</code></a></small>
     <div class="hidden name"><code>compas.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p><code>compas</code></p>
-<dl>
-  <dt>Two_yr_Recidivism</dt><dd><p>factor, 1/0 for future recifivism or no recidivism. Models should predict this values</p></dd>
-  <dt>Number_of_Priors</dt><dd><p>numeric, number of priors, normalized</p></dd>
-  <dt>Age_Above_FourtyFive</dt><dd><p>factor, yes/no for age above 45 years or not</p></dd>
-  <dt>Age_Below_TwentyFive</dt><dd><p>factor, yes/no for age below 25 years or not</p></dd>
-  <dt>Sex</dt><dd><p>factor, female/male for gender</p></dd>
-  <dt>Misdemeanor</dt><dd><p>factor, yes/no for having recorded misdemeanor(s) or not</p></dd>
-  <dt>ethnicity</dt><dd><p>factor, Caucasian, African American, Asian, Hispanic, Native American or Other</p></dd>
-
-</dl>
-
+    <p><code>compas</code> dataset. From ProPublica: across the nation, judges, probation and parole officers are increasingly using algorithms to assess a criminal defendant’s likelihood to re-offend.</p>
     </div>
 
     <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>compas</span>)</pre>
@@ -170,7 +167,22 @@
     <p>A data frame with 6172 rows and 7 variables:</p>
     <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
-    <p>Modified data from `fairness` package. Without probabilities and predicted values. The original source of data is Kaggle.</p>
+    <p>The original source of data is <a href='https://www.propublica.org/datastore/dataset/compas-recidivism-risk-score-data-and-analysis'>https://www.propublica.org/datastore/dataset/compas-recidivism-risk-score-data-and-analysis</a>.
+Modified data used here comes from <a href='https://www.kaggle.com/danofer/compass/'>https://www.kaggle.com/danofer/compass/</a> (probublicaCompassRecidivism_data_fairml.csv)</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    
+<dl'>
+  <dt>Two_yr_Recidivism</dt><dd><p>factor, 1/0 for future recidivism or no recidivism. Models should predict this values</p></dd>
+  <dt>Number_of_Priors</dt><dd><p>numeric, number of priors</p></dd>
+  <dt>Age_Above_FourtyFive</dt><dd><p>factor, 1/0 for age above 45 years or not</p></dd>
+  <dt>Age_Below_TwentyFive</dt><dd><p>factor, 1/0 for age below 25 years or not</p></dd>
+  <dt>Misdemeanor</dt><dd><p>factor, 1/0 for having recorded misdemeanor(s) or not</p></dd>
+  <dt>Ethnicity</dt><dd><p>factor, Caucasian, African American, Asian, Hispanic, Native American or Other</p></dd>
+  <dt>Sex</dt><dd><p>factor, female/male for gender</p></dd>
+
+</dl>
+
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
