@@ -18,7 +18,11 @@ Flexible tool for bias detection, visualization, and mitigation. Uses models exp
 ![preview](man/figures/preview.gif)
 
 ## Installation
-
+Install it from CRAN:
+```
+install.packages("fairmodels")
+```
+or developer version from GitHub:
 ```
 devtools::install_github("ModelOriented/fairmodels")
 ```
