@@ -210,7 +210,8 @@ will sample observations close to border or far from border.</p>
 <span class='kw'>u_indexes</span> <span class='op'>&lt;-</span> <span class='fu'>resample</span>(<span class='kw'>data</span><span class='op'>$</span><span class='kw'>Age</span>, y = <span class='kw'>y_numeric</span>)
 <span class='kw'>rf_u</span> <span class='op'>&lt;-</span> <span class='kw'>ranger</span>::<span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>Risk</span> <span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>data</span>[<span class='kw'>u_indexes</span>, ], probability = <span class='fl'>TRUE</span>, seed = <span class='fl'>123</span>)
 
-<span class='kw'>explainer_rf</span>   <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>rf</span>, data = <span class='kw'>data</span>[, <span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>y_numeric</span>, label = <span class='st'>"not_sampled"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+<span class='kw'>explainer_rf</span>   <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>rf</span>, data = <span class='kw'>data</span>[, <span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>y_numeric</span>, label = <span class='st'>"not_sampled"</span>)
+</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  not_sampled 
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
@@ -219,7 +220,8 @@ will sample observations close to border or far from border.</p>
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.7430213 , mean =  0.001756243 , max =  0.657119  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>explainer_rf_u</span> <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>rf_u</span>, data = <span class='kw'>data</span>[, <span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>y_numeric</span>, label = <span class='st'>"sampled_uniform"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>explainer_rf_u</span> <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>rf_u</span>, data = <span class='kw'>data</span>[, <span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>y_numeric</span>, label = <span class='st'>"sampled_uniform"</span>)
+</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  sampled_uniform 
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
@@ -233,7 +235,8 @@ will sample observations close to border or far from border.</p>
 <span class='kw'>rf_p</span> <span class='op'>&lt;-</span> <span class='kw'>ranger</span>::<span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>Risk</span> <span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>data</span>[<span class='kw'>p_indexes</span>, ], probability = <span class='fl'>TRUE</span>, seed = <span class='fl'>123</span>)
 
 <span class='kw'>explainer_rf_p</span> <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>rf_p</span>, data = <span class='kw'>data</span>[, <span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>y_numeric</span>,
-                                 label = <span class='st'>"sampled_preferential"</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+                                 label = <span class='st'>"sampled_preferential"</span>)
+</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  sampled_preferential 
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
@@ -245,7 +248,8 @@ will sample observations close to border or far from border.</p>
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_rf</span>, <span class='kw'>explainer_rf_u</span>, <span class='kw'>explainer_rf_p</span>,
                           protected = <span class='kw'>data</span><span class='op'>$</span><span class='kw'>Age</span>,
-                          privileged = <span class='st'>"old"</span>)</div><div class='output co'>#&gt; Creating fairness object
+                          privileged = <span class='st'>"old"</span>)
+</div><div class='output co'>#&gt; Creating fairness object
 #&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
 #&gt; -&gt; Protected variable		: factor (</span><span style='color: #00BB00;'> Ok </span><span> ) 
 #&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
@@ -253,7 +257,8 @@ will sample observations close to border or far from border.</p>
 #&gt; -&gt; Checking explainers		: 3 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
 #&gt; -&gt; Metric calculation		: 13/13 metrics calculated for all models
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
-<span class='kw'>fobject</span></div><div class='output co'>#&gt; 
+<span class='kw'>fobject</span>
+</div><div class='output co'>#&gt; 
 #&gt; Fairness check for models: not_sampled, sampled_uniform, sampled_preferential 
 #&gt; 
 #&gt; </span><span style='color: #BBBB00;'>not_sampled passes 4/5 metrics
@@ -264,7 +269,8 @@ will sample observations close to border or far from border.</p>
 #&gt; 
 #&gt; </span><span style='color: #BB0000;'>sampled_preferential passes 3/5 metrics
 #&gt; </span><span>Total loss:  0.4225934 
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>fobject</span>)</div><div class='img'><img src='resample-1.png' alt='' width='700' height='433' /></div></span></pre>
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>fobject</span>)
+</div><div class='img'><img src='resample-1.png' alt='' width='700' height='433' /></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

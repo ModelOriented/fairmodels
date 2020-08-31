@@ -214,7 +214,8 @@ probabilities (y_hat) are assigned value in equal distance but other side of cut
 <span class='kw'>y_numeric</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='kw'>data</span><span class='op'>$</span><span class='kw'>Risk</span>) <span class='op'>-</span><span class='fl'>1</span>
 
 <span class='kw'>lr_model</span>     <span class='op'>&lt;-</span> <span class='kw'>stats</span>::<span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='kw'>Risk</span> <span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>data</span>, family = <span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>())
-<span class='kw'>lr_explainer</span> <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>lr_model</span>, data = <span class='kw'>data</span>[,<span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>y_numeric</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+<span class='kw'>lr_explainer</span> <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>lr_model</span>, data = <span class='kw'>data</span>[,<span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>y_numeric</span>)
+</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( <span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
@@ -226,14 +227,16 @@ probabilities (y_hat) are assigned value in equal distance but other side of cut
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>lr_explainer</span>,
                           protected = <span class='kw'>data</span><span class='op'>$</span><span class='kw'>Age</span>,
-                          privileged = <span class='st'>"old"</span>)</div><div class='output co'>#&gt; Creating fairness object
+                          privileged = <span class='st'>"old"</span>)
+</div><div class='output co'>#&gt; Creating fairness object
 #&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
 #&gt; -&gt; Protected variable		: factor (</span><span style='color: #00BB00;'> Ok </span><span> ) 
 #&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
 #&gt; -&gt; Fairness objects		: 0 objects 
 #&gt; -&gt; Checking explainers		: 1 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
 #&gt; -&gt; Metric calculation		: 13/13 metrics calculated for all models
-#&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>fobject</span>)</div><div class='img'><img src='roc_pivot-1.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>fobject</span>)
+</div><div class='img'><img src='roc_pivot-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='kw'>lr_explainer_fixed</span> <span class='op'>&lt;-</span> <span class='fu'>roc_pivot</span>(<span class='kw'>lr_explainer</span>,
                                 protected = <span class='kw'>data</span><span class='op'>$</span><span class='kw'>Age</span>,
                                 privileged = <span class='st'>"old"</span>)
@@ -241,14 +244,16 @@ probabilities (y_hat) are assigned value in equal distance but other side of cut
 <span class='kw'>fobject2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>lr_explainer_fixed</span>, <span class='kw'>fobject</span>,
                            protected = <span class='kw'>data</span><span class='op'>$</span><span class='kw'>Age</span>,
                            privileged = <span class='st'>"old"</span>,
-                           label = <span class='st'>"lr_fixed"</span>)</div><div class='output co'>#&gt; Creating fairness object
+                           label = <span class='st'>"lr_fixed"</span>)
+</div><div class='output co'>#&gt; Creating fairness object
 #&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
 #&gt; -&gt; Protected variable		: factor (</span><span style='color: #00BB00;'> Ok </span><span> ) 
 #&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
 #&gt; -&gt; Fairness objects		: 1 object ( </span><span style='color: #00BB00;'> compatible </span><span> )
 #&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
 #&gt; -&gt; Metric calculation		: 13/13 metrics calculated for all models
-#&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'><span class='kw'>fobject2</span></div><div class='output co'>#&gt; 
+#&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'><span class='kw'>fobject2</span>
+</div><div class='output co'>#&gt; 
 #&gt; Fairness check for models: lr_fixed, lm 
 #&gt; 
 #&gt; </span><span style='color: #BB0000;'>lr_fixed passes 3/5 metrics
@@ -256,7 +261,8 @@ probabilities (y_hat) are assigned value in equal distance but other side of cut
 #&gt; 
 #&gt; </span><span style='color: #BB0000;'>lm passes 2/5 metrics
 #&gt; </span><span>Total loss:  0.8212739 
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>fobject2</span>)</div><div class='img'><img src='roc_pivot-2.png' alt='' width='700' height='433' /></div></span></pre>
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>fobject2</span>)
+</div><div class='img'><img src='roc_pivot-2.png' alt='' width='700' height='433' /></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

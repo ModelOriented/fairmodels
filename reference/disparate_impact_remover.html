@@ -206,13 +206,15 @@ the distribution is discrete with small number of variables then there will be s
 <span class='kw'>custom_data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(kind = <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='st'>"second"</span>, <span class='fl'>500</span>),<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='st'>"first"</span>,<span class='fl'>500</span>))),
                           score = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>500</span>, <span class='fl'>400</span>,<span class='fl'>40</span>), <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>500</span>, <span class='fl'>600</span>, <span class='fl'>100</span>)))
 
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>custom_data</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>score</span>, fill = <span class='kw'>kind</span>)) <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_density.html'>geom_density</a></span>(alpha = <span class='fl'>0.5</span>)</div><div class='img'><img src='disparate_impact_remover-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>custom_data</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>score</span>, fill = <span class='kw'>kind</span>)) <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_density.html'>geom_density</a></span>(alpha = <span class='fl'>0.5</span>)
+</div><div class='img'><img src='disparate_impact_remover-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='kw'>fixed_data</span> <span class='op'>&lt;-</span> <span class='fu'>disparate_impact_remover</span>(data = <span class='kw'>custom_data</span>,
                                        protected = <span class='kw'>custom_data</span><span class='op'>$</span><span class='kw'>kind</span>,
                                        features_to_transform = <span class='st'>"score"</span>,
                                        lambda = <span class='fl'>0.8</span>)
 
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>fixed_data</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>score</span>, fill = <span class='kw'>kind</span>)) <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_density.html'>geom_density</a></span>(alpha = <span class='fl'>0.5</span>)</div><div class='img'><img src='disparate_impact_remover-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>fixed_data</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>score</span>, fill = <span class='kw'>kind</span>)) <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_density.html'>geom_density</a></span>(alpha = <span class='fl'>0.5</span>)
+</div><div class='img'><img src='disparate_impact_remover-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># lambda 1 gives identical distribution, lambda 0 (almost) original distributions</span>
 
 <span class='kw'>fixed_data_unchanged</span> <span class='op'>&lt;-</span> <span class='fu'>disparate_impact_remover</span>(data = <span class='kw'>custom_data</span>,
@@ -220,7 +222,8 @@ the distribution is discrete with small number of variables then there will be s
                                                  features_to_transform = <span class='st'>"score"</span>,
                                                  lambda = <span class='fl'>0</span>)
 
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>fixed_data_unchanged</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>score</span>, fill = <span class='kw'>kind</span>)) <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_density.html'>geom_density</a></span>(alpha = <span class='fl'>0.5</span>)</div><div class='img'><img src='disparate_impact_remover-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>fixed_data_unchanged</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>score</span>, fill = <span class='kw'>kind</span>)) <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_density.html'>geom_density</a></span>(alpha = <span class='fl'>0.5</span>)
+</div><div class='img'><img src='disparate_impact_remover-3.png' alt='' width='700' height='433' /></div><div class='input'>
 
 <span class='kw'>fixed_data_fully_changed</span> <span class='op'>&lt;-</span> <span class='fu'>disparate_impact_remover</span>(data = <span class='kw'>custom_data</span>,
                                                      protected = <span class='kw'>custom_data</span><span class='op'>$</span><span class='kw'>kind</span>,
@@ -229,7 +232,9 @@ the distribution is discrete with small number of variables then there will be s
 
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>fixed_data_fully_changed</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>score</span>, fill = <span class='kw'>kind</span>)) <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_density.html'>geom_density</a></span>(alpha = <span class='fl'>0.5</span>) <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(<span class='kw'>kind</span><span class='op'>~</span><span class='kw'>.</span>, nrow = <span class='fl'>2</span>)</div><div class='img'><img src='disparate_impact_remover-4.png' alt='' width='700' height='433' /></div><div class='input'></div></pre>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span>(<span class='kw'>kind</span><span class='op'>~</span><span class='kw'>.</span>, nrow = <span class='fl'>2</span>)
+</div><div class='img'><img src='disparate_impact_remover-4.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -194,7 +194,8 @@ It is a list with following fields:</p><ul>
 <span class='kw'>probs</span>    <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>20</span>, <span class='fl'>0.4</span>,<span class='fl'>0.1</span>)
 <span class='kw'>observed</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>20</span>))
 
-<span class='fu'>confusion_matrix</span>(<span class='kw'>probs</span>, <span class='kw'>observed</span>, <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; $tp
+<span class='fu'>confusion_matrix</span>(<span class='kw'>probs</span>, <span class='kw'>observed</span>, <span class='fl'>0.5</span>)
+</div><div class='output co'>#&gt; $tp
 #&gt; [1] 1
 #&gt; 
 #&gt; $fp
@@ -207,7 +208,8 @@ It is a list with following fields:</p><ul>
 #&gt; [1] 7
 #&gt; 
 #&gt; attr(,"class")
-#&gt; [1] "confusion_matrix"</div><div class='input'></div></pre>
+#&gt; [1] "confusion_matrix"</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -198,8 +198,11 @@ on empirical data. Finally the weight is quotient of those probabilities</p>
 <span class='co'># training 2 models</span>
 <span class='kw'>weights</span> <span class='op'>&lt;-</span> <span class='fu'>reweight</span>(protected = <span class='kw'>data</span><span class='op'>$</span><span class='kw'>Age</span>, y = <span class='kw'>data</span><span class='op'>$</span><span class='kw'>Risk</span>)
 
-<span class='kw'>gbm_model</span>          <span class='op'>&lt;-</span> <span class='kw'>gbm</span>::<span class='fu'><a href='https://rdrr.io/pkg/gbm/man/gbm.html'>gbm</a></span>(<span class='kw'>Risk</span> <span class='op'>~</span><span class='kw'>.</span> , data = <span class='kw'>data</span>)</div><div class='output co'>#&gt; Distribution not specified, assuming bernoulli ...</div><div class='input'><span class='kw'>gbm_model_weighted</span> <span class='op'>&lt;-</span> <span class='kw'>gbm</span>::<span class='fu'><a href='https://rdrr.io/pkg/gbm/man/gbm.html'>gbm</a></span>(<span class='kw'>Risk</span> <span class='op'>~</span><span class='kw'>.</span> , data = <span class='kw'>data</span>, weights = <span class='kw'>weights</span>)</div><div class='output co'>#&gt; Distribution not specified, assuming bernoulli ...</div><div class='input'>
-<span class='kw'>gbm_explainer</span>          <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>gbm_model</span>, data = <span class='kw'>data</span>[,<span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>data</span><span class='op'>$</span><span class='kw'>Risk</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+<span class='kw'>gbm_model</span>          <span class='op'>&lt;-</span> <span class='kw'>gbm</span>::<span class='fu'><a href='https://rdrr.io/pkg/gbm/man/gbm.html'>gbm</a></span>(<span class='kw'>Risk</span> <span class='op'>~</span><span class='kw'>.</span> , data = <span class='kw'>data</span>)
+</div><div class='output co'>#&gt; Distribution not specified, assuming bernoulli ...</div><div class='input'><span class='kw'>gbm_model_weighted</span> <span class='op'>&lt;-</span> <span class='kw'>gbm</span>::<span class='fu'><a href='https://rdrr.io/pkg/gbm/man/gbm.html'>gbm</a></span>(<span class='kw'>Risk</span> <span class='op'>~</span><span class='kw'>.</span> , data = <span class='kw'>data</span>, weights = <span class='kw'>weights</span>)
+</div><div class='output co'>#&gt; Distribution not specified, assuming bernoulli ...</div><div class='input'>
+<span class='kw'>gbm_explainer</span>          <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>gbm_model</span>, data = <span class='kw'>data</span>[,<span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>data</span><span class='op'>$</span><span class='kw'>Risk</span>)
+</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  gbm  ( <span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
@@ -208,7 +211,8 @@ on empirical data. Finally the weight is quotient of those probabilities</p>
 #&gt;   -&gt; model_info        :  package gbm , ver. 2.1.8 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9380011 , mean =  -0.002805598 , max =  0.8001999  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>gbm_weighted_explainer</span> <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>gbm_model_weighted</span>, data = <span class='kw'>data</span>[,<span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>data</span><span class='op'>$</span><span class='kw'>Risk</span>)</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>gbm_weighted_explainer</span> <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>gbm_model_weighted</span>, data = <span class='kw'>data</span>[,<span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>data</span><span class='op'>$</span><span class='kw'>Risk</span>)
+</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  gbm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
@@ -221,7 +225,8 @@ on empirical data. Finally the weight is quotient of those probabilities</p>
 <span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>gbm_explainer</span>, <span class='kw'>gbm_weighted_explainer</span>,
                           protected = <span class='kw'>data</span><span class='op'>$</span><span class='kw'>Age</span>,
                           privileged = <span class='st'>"old"</span>,
-                          label = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"original"</span>,<span class='st'>"weighted"</span>))</div><div class='output co'>#&gt; Creating fairness object
+                          label = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"original"</span>,<span class='st'>"weighted"</span>))
+</div><div class='output co'>#&gt; Creating fairness object
 #&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
 #&gt; -&gt; Protected variable		: factor (</span><span style='color: #00BB00;'> Ok </span><span> ) 
 #&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
@@ -229,7 +234,8 @@ on empirical data. Finally the weight is quotient of those probabilities</p>
 #&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
 #&gt; -&gt; Metric calculation		: 13/13 metrics calculated for all models
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'><span class='co'># fairness check</span>
-<span class='kw'>fobject</span></div><div class='output co'>#&gt; 
+<span class='kw'>fobject</span>
+</div><div class='output co'>#&gt; 
 #&gt; Fairness check for models: original, weighted 
 #&gt; 
 #&gt; </span><span style='color: #BB0000;'>original passes 2/5 metrics
@@ -237,9 +243,11 @@ on empirical data. Finally the weight is quotient of those probabilities</p>
 #&gt; 
 #&gt; </span><span style='color: #BB0000;'>weighted passes 3/5 metrics
 #&gt; </span><span>Total loss:  0.369606 
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>fobject</span>)</div><div class='img'><img src='reweight-1.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>fobject</span>)
+</div><div class='img'><img src='reweight-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># radar</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='fu'><a href='fairness_radar.html'>fairness_radar</a></span>(<span class='kw'>fobject</span>))</div><div class='img'><img src='reweight-2.png' alt='' width='700' height='433' /></div></span></pre>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='fu'><a href='fairness_radar.html'>fairness_radar</a></span>(<span class='kw'>fobject</span>))
+</div><div class='img'><img src='reweight-2.png' alt='' width='700' height='433' /></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
