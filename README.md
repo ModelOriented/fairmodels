@@ -4,6 +4,7 @@
   [![Codecov test coverage](https://codecov.io/gh/ModelOriented/fairmodels/branch/master/graph/badge.svg)](https://codecov.io/gh/ModelOriented/fairmodels?branch=master)
   [![R build status](https://github.com/ModelOriented/fairmodels/workflows/R-CMD-check/badge.svg)](https://github.com/ModelOriented/fairmodels/actions)
    ![CRAN](https://www.r-pkg.org/badges/version/fairmodels)
+   ![Downloads](https://cranlogs.r-pkg.org/badges/fairmodels)
    [![DrWhy-eXtrAI](https://img.shields.io/badge/DrWhy-eXtrAI-4378bf)](http://drwhy.ai/#eXtraAI)
   <!-- badges: end -->
   
