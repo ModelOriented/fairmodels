@@ -57,10 +57,10 @@ plot.fairness_object <- function(x, ...){
 
   data$score <- data$score -1
 
-  upper_bound <- max(c(na.omit(data$score))) + 0.05
+  upper_bound <- max(na.omit(data$score), 1/epsilon -1) + 0.05
   if (upper_bound < 0.3) upper_bound <- 0.3
 
-  lower_bound <- min(na.omit(data$score)) - 0.05
+  lower_bound <- min(na.omit(data$score), epsilon -1 ) - 0.05
   if (lower_bound > -0.25) lower_bound <- -0.25
 
   green <- "#c7f5bf"
