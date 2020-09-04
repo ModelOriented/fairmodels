@@ -102,7 +102,7 @@ this model." />
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.1.1</span>
+          <span class="version version-default">0.2.1</span>
         </div>
       </div>
     </div>
@@ -171,7 +171,7 @@ this model.</p>
   <span class='kw'>x</span>,
   <span class='kw'>subgroup</span>,
   new_cutoffs = <span class='kw'>NULL</span>,
-  fairness_metrics = <span class='fu'>unique_metrics</span>(),
+  fairness_metrics = <span class='fu'>fairness_check_metrics</span>(),
   grid_points = <span class='fl'>101</span>,
   cumulated = <span class='fl'>FALSE</span>
 )</pre>
@@ -257,12 +257,12 @@ Position corresponding to subgroups in levels will be changed. Default is NULL</
 #&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
 #&gt; -&gt; Fairness objects		: 0 objects 
 #&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
-#&gt; -&gt; Metric calculation		: 13/13 metrics calculated for all models
+#&gt; -&gt; Metric calculation		: 8/12 metrics calculated for all models ( </span><span style='color: #BBBB00;'>4 NA created</span><span> )
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
 <span class='kw'>cpc</span> <span class='op'>&lt;-</span> <span class='fu'>ceteris_paribus_cutoff</span>(<span class='kw'>fobject</span>, <span class='st'>"African_American"</span>)
 
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>cpc</span>)
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 53 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='ceteris_paribus_cutoff-1.png' alt='' width='700' height='433' /></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 17 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='ceteris_paribus_cutoff-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

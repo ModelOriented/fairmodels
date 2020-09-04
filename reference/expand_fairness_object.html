@@ -98,7 +98,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.1.1</span>
+          <span class="version version-default">0.2.1</span>
         </div>
       </div>
     </div>
@@ -227,36 +227,30 @@
 #&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
 #&gt; -&gt; Fairness objects		: 0 objects 
 #&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
-#&gt; -&gt; Metric calculation		: 13/13 metrics calculated for all models
+#&gt; -&gt; Metric calculation		: 10/12 metrics calculated for all models ( </span><span style='color: #BBBB00;'>2 NA created</span><span> )
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
 <span class='fu'>expand_fairness_object</span>(<span class='kw'>fobject</span>, drop_metrics_with_na = <span class='fl'>TRUE</span>)
-</div><div class='output co'>#&gt;    metric  model        score
-#&gt; 1     TPR     lm 0.0850556835
-#&gt; 2     TPR ranger 0.0080160321
-#&gt; 3     TNR     lm 0.1904990634
-#&gt; 4     TNR ranger 0.0442864691
-#&gt; 5     PPV     lm 0.0167064067
-#&gt; 6     PPV ranger 0.0074254257
-#&gt; 7     NPV     lm 0.0041208791
-#&gt; 8     NPV ranger 0.0258064516
-#&gt; 9     FNR     lm 0.0850556835
-#&gt; 10    FNR ranger 0.0080160321
-#&gt; 11    FPR     lm 0.1904990634
-#&gt; 12    FPR ranger 0.0442864691
-#&gt; 13    FDR     lm 0.0167064067
-#&gt; 14    FDR ranger 0.0074254257
-#&gt; 15    FOR     lm 0.0041208791
-#&gt; 16    FOR ranger 0.0258064516
-#&gt; 17     TS     lm 0.0682662608
-#&gt; 18     TS ranger 0.0005591278
-#&gt; 19    STP     lm 0.1428237494
-#&gt; 20    STP ranger 0.0689107059
-#&gt; 21    ACC     lm 0.0311827957
-#&gt; 22    ACC ranger 0.0057035998
-#&gt; 23     F1     lm 0.0468509985
-#&gt; 24     F1 ranger 0.0003039514
-#&gt; 25    MCC     lm 0.0546626183
-#&gt; 26    MCC ranger 0.0363923429</div><div class='input'>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Found metric with NA: FNR, FOR, omiting it</span></div><div class='output co'>#&gt;    metric  model        score
+#&gt; 1     TPR     lm 0.0963649885
+#&gt; 2     TPR ranger 0.0080483332
+#&gt; 3     TNR     lm 0.4337703703
+#&gt; 4     TNR ranger 0.0545052155
+#&gt; 5     PPV     lm 0.0214181164
+#&gt; 6     PPV ranger 0.0080578374
+#&gt; 7     NPV     lm 0.0063762171
+#&gt; 8     NPV ranger 0.0261452801
+#&gt; 9     FPR     lm 0.3473330144
+#&gt; 10    FPR ranger 0.2375821504
+#&gt; 11    FDR     lm 0.0759894996
+#&gt; 12    FDR ranger 0.0946873209
+#&gt; 13     TS     lm 0.0965725965
+#&gt; 14     TS ranger 0.0006090134
+#&gt; 15    STP     lm 0.1841287596
+#&gt; 16    STP ranger 0.0930757170
+#&gt; 17    ACC     lm 0.0415235028
+#&gt; 18    ACC ranger 0.0060735986
+#&gt; 19     F1     lm 0.0565856215
+#&gt; 20     F1 ranger 0.0003175107</div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

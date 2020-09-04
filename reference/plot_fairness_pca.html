@@ -99,7 +99,7 @@ Unlike in other plots here other fairness_pca objects cannot be added." />
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.1.1</span>
+          <span class="version version-default">0.2.1</span>
         </div>
       </div>
     </div>
@@ -216,10 +216,10 @@ Unlike in other plots here other <code>fairness_pca</code> objects cannot be add
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.0730377 , mean =  0.6992238 , max =  0.9970455  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.08252579 , mean =  0.6960405 , max =  0.9936111  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7131358 , mean =  0.0007762412 , max =  0.6598993  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7004365 , mean =  0.003959527 , max =  0.6517758  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
                           protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
@@ -230,7 +230,7 @@ Unlike in other plots here other <code>fairness_pca</code> objects cannot be add
 #&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
 #&gt; -&gt; Fairness objects		: 0 objects 
 #&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
-#&gt; -&gt; Metric calculation		: 13/13 metrics calculated for all models
+#&gt; -&gt; Metric calculation		: 10/12 metrics calculated for all models ( </span><span style='color: #BBBB00;'>2 NA created</span><span> )
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
  <span class='co'># same explainers with different cutoffs for female</span>
 <span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>, <span class='kw'>fobject</span>,
@@ -244,10 +244,10 @@ Unlike in other plots here other <code>fairness_pca</code> objects cannot be add
 #&gt; -&gt; Cutoff values for explainers	: female: 0.4, male: 0.5 
 #&gt; -&gt; Fairness objects		: 1 object ( </span><span style='color: #00BB00;'> compatible </span><span> )
 #&gt; -&gt; Checking explainers		: 4 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
-#&gt; -&gt; Metric calculation		: 13/13 metrics calculated for all models
+#&gt; -&gt; Metric calculation		: 10/12 metrics calculated for all models ( </span><span style='color: #BBBB00;'>2 NA created</span><span> )
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
 <span class='kw'>fpca</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_pca.html'>fairness_pca</a></span>(<span class='kw'>fobject</span>)
-
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Found metric with NA: FNR, FOR, omiting it</span></div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>fpca</span>)
 </div><div class='img'><img src='plot_fairness_pca-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></span></pre>

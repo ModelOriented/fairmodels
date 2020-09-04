@@ -101,7 +101,7 @@ Users through print and plot methods may quickly check values of most popular fa
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.1.1</span>
+          <span class="version version-default">0.2.1</span>
         </div>
       </div>
     </div>
@@ -172,7 +172,7 @@ Users through print and plot methods may quickly check values of most popular fa
   privileged = <span class='kw'>NULL</span>,
   cutoff = <span class='kw'>NULL</span>,
   label = <span class='kw'>NULL</span>,
-  epsilon = <span class='kw'>NULL</span>,
+  epsilon = <span class='fl'>0.8</span>,
   verbose = <span class='fl'>TRUE</span>,
   colorize = <span class='fl'>TRUE</span>
 )</pre>
@@ -206,7 +206,7 @@ Users through print and plot methods may quickly check values of most popular fa
     </tr>
     <tr>
       <th>epsilon</th>
-      <td><p>numeric, boundary for fairness checking</p></td>
+      <td><p>numeric, boundary for fairness checking, lowest acceptable ratio of metrics</p></td>
     </tr>
     <tr>
       <th>verbose</th>
@@ -246,15 +246,20 @@ Users through print and plot methods may quickly check values of most popular fa
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Metrics used are made for each subgroup, then base metric score is subtracted leaving loss of particular metric.
-If absolute loss is greater than epsilon than such metric is marked as "not passed". It means that values of metrics should be within (-epsilon,epsilon) boundary.
+    <p>Fairness check</p>
+<p>Metrics used are made for each subgroup, then base metric score is subtracted leaving loss of particular metric.
+If absolute loss of metrics ratio is not within acceptable boundaries than such metric is marked as "not passed". It means that values of metrics should be within (epsilon, 1/epsilon) boundary.
+The default ratio is set to 0.8 which adhere to US 80<!-- % rule (more on it here: \url{https://en.wikipedia.org/wiki/Disparate_impact#The_80%_rule}). It means that unprivileged subgroups should have at least 80% -->
+of scores achieved in metrics by privileged subgroup. For example if TPR_unprivileged/TPR_privileged is less than 0.8 then such ratio is sign of discrimination. On the other hand if
+TPR_privileged/TPR_unprivileged is more than 1.25 (1/0.8) than there is discrimination towards privileged group.
 Epsilon value can be adjusted to user's needs. There are some metrics that might be derived from existing metrics (For example Equalized Odds - equal TPR and FPR for all subgroups).
 That means passing 5 metrics in fairness check asserts that model is even more fair. In <code>fairness_check</code> models must always predict positive result. Not adhering to this rule
 may lead to misinterpretation of the plot. More on metrics and their equivalents:
 <a href='https://fairware.cs.umass.edu/papers/Verma.pdf'>https://fairware.cs.umass.edu/papers/Verma.pdf</a>
 <a href='https://en.wikipedia.org/wiki/Fairness_(machine_learning)'>https://en.wikipedia.org/wiki/Fairness_(machine_learning)</a></p>
+<p>Parity loss - visualization tool</p>
 <p>Parity loss is computed as follows:
-M_parity_loss = sum(abs(metric - base_metric))</p>
+M_parity_loss = sum(abs( metric - privileged_metric))</p>
 <p>where:</p>
 <p>M - some metric mentioned above</p>
 <p>metric - vector of metrics from each subgroup</p>
@@ -309,7 +314,7 @@ M_parity_loss = sum(abs(metric - base_metric))</p>
 #&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
 #&gt; -&gt; Fairness objects		: 0 objects 
 #&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
-#&gt; -&gt; Metric calculation		: 13/13 metrics calculated for all models
+#&gt; -&gt; Metric calculation		: 12/12 metrics calculated for all models
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>fobject</span>)
 </div><div class='img'><img src='fairness_check-1.png' alt='' width='700' height='433' /></div><div class='input'>

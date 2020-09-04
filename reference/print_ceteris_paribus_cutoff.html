@@ -98,7 +98,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.1.1</span>
+          <span class="version version-default">0.2.1</span>
         </div>
       </div>
     </div>
@@ -208,10 +208,10 @@
 #&gt;   -&gt; data              :  500  rows  9  cols 
 #&gt;   -&gt; target variable   :  500  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1155238 , mean =  0.7245646 , max =  0.99825  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.112127 , mean =  0.7274317 , max =  0.999  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.6898532 , mean =  0.003435363 , max =  0.5996409  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7276726 , mean =  0.0005682552 , max =  0.5813803  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
                           protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
@@ -222,7 +222,7 @@
 #&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
 #&gt; -&gt; Fairness objects		: 0 objects 
 #&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
-#&gt; -&gt; Metric calculation		: 13/13 metrics calculated for all models
+#&gt; -&gt; Metric calculation		: 10/12 metrics calculated for all models ( </span><span style='color: #BBBB00;'>2 NA created</span><span> )
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
 <span class='fu'><a href='ceteris_paribus_cutoff.html'>ceteris_paribus_cutoff</a></span>(<span class='kw'>fobject</span>, <span class='st'>"female"</span>)
 </div><div class='output co'>#&gt; 
@@ -230,17 +230,17 @@
 #&gt; 
 #&gt; First rows from data: 
 #&gt;   parity_loss metric cutoff model
-#&gt; 1  0.07662835    TPR      0    lm
-#&gt; 2  0.33333333    TNR      0    lm
-#&gt; 3  0.12838849    PPV      0    lm
-#&gt; 4          NA    NPV      0    lm
-#&gt; 5  0.07785431     TS      0    lm
-#&gt; 6  0.14080460    STP      0    lm
+#&gt; 1  0.12838849    PPV   0.00    lm
+#&gt; 2  0.07662835    FNR   0.00    lm
+#&gt; 3  0.33333333    FPR   0.00    lm
+#&gt; 4  0.14080460    STP   0.00    lm
+#&gt; 5  0.09823049    ACC   0.00    lm
+#&gt; 6  0.12838849    PPV   0.01    lm
 #&gt; 
 #&gt; Minimums: 
 #&gt;         model mins
 #&gt; lm         lm 0.39
-#&gt; ranger ranger 0.48
+#&gt; ranger ranger 0.44
 #&gt; </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

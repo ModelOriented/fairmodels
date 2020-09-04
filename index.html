@@ -51,7 +51,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.1.1</span>
+          <span class="version version-default">0.2.1</span>
         </div>
       </div>
     </div>
@@ -129,7 +129,7 @@
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
 <p>Checking fairness is easy!</p>
-<pre><code><a href="https://modeloriented.github.io/fairmodels">library(fairmodels)
+<pre><code><a href="https://modeloriented.github.io/fairmodels/">library(fairmodels)
 library(ranger)
 library(DALEX)
 
@@ -198,32 +198,32 @@ fairness_object &lt;- fairness_check(explainer3, explainer4, fairness_object, ..
 <div id="metrics-used" class="section level2">
 <h2 class="hasAnchor">
 <a href="#metrics-used" class="anchor"></a>Metrics used</h2>
-<p>There are 13 metrics based on confusion matrix :</p>
+<p>There are 12 metrics based on confusion matrix :</p>
 <table class="table">
 <thead><tr class="header">
 <th>Metric</th>
 <th>Formula</th>
 <th>Full name</th>
-<th>Other names</th>
+<th>fairness names while checking among subgroups</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td>TPR</td>
 <td><img src="reference/figures/formulas/tpr.jpg" alt="tpr"></td>
 <td>true positive rate</td>
-<td>equal opportunity, sensitivity, recall</td>
+<td></td>
 </tr>
 <tr class="even">
 <td>TNR</td>
 <td><img src="reference/figures/formulas/tnr.jpg" alt="tnr"></td>
 <td>true negative rate</td>
-<td>specificity</td>
+<td></td>
 </tr>
 <tr class="odd">
 <td>PPV</td>
 <td><img src="reference/figures/formulas/ppv.jpg" alt="ppv"></td>
 <td>positive predictive value</td>
-<td>predictive parity, precision</td>
+<td>predictive parity</td>
 </tr>
 <tr class="even">
 <td>NPV</td>
@@ -235,7 +235,7 @@ fairness_object &lt;- fairness_check(explainer3, explainer4, fairness_object, ..
 <td>FNR</td>
 <td><img src="reference/figures/formulas/fnr.jpg" alt="fnr"></td>
 <td>false negative rate</td>
-<td></td>
+<td>equal opportinity</td>
 </tr>
 <tr class="even">
 <td>FPR</td>
@@ -265,13 +265,13 @@ fairness_object &lt;- fairness_check(explainer3, explainer4, fairness_object, ..
 <td>STP</td>
 <td><img src="reference/figures/formulas/stp.jpg" alt="stp"></td>
 <td>statistical parity</td>
-<td></td>
+<td>statistical parity</td>
 </tr>
 <tr class="odd">
 <td>ACC</td>
 <td><img src="reference/figures/formulas/acc.jpg" alt="acc"></td>
 <td>accuracy</td>
-<td></td>
+<td>Overall accuracy equality</td>
 </tr>
 <tr class="even">
 <td>F1</td>
@@ -279,18 +279,12 @@ fairness_object &lt;- fairness_check(explainer3, explainer4, fairness_object, ..
 <td>F1 score</td>
 <td></td>
 </tr>
-<tr class="odd">
-<td>MCC</td>
-<td><img src="reference/figures/formulas/mcc.jpg" alt="drawing" width="300"></td>
-<td>Matthews correlation coefficient</td>
-<td></td>
-</tr>
 </tbody>
 </table>
 <p><em>and their parity loss.</em><br>
 How is <em>parity loss</em> calculated?</p>
 <p><img src="reference/figures/formulas/parity_loss.png" alt="parity_loss"></p>
-<p>Where <img src="reference/figures/formulas/explain.jpg" alt="explain"> denote the membership to unique subgroup from protected variable</p>
+<p>Where <code>i</code> denotes the membership to unique subgroup from protected variable. Unprivileged subgroups are represented by small letters and privileged by simply “privileged”.</p>
 <p>some fairness metrics like <em>Equalized odds</em> are satisfied if parity loss in both <em>TPR</em> and <em>FPR</em> is low</p>
 </div>
 <div id="related-works" class="section level2">

@@ -98,7 +98,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.1.1</span>
+          <span class="version version-default">0.2.1</span>
         </div>
       </div>
     </div>
@@ -207,10 +207,10 @@
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.07535714 , mean =  0.696915 , max =  0.9991667  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.05112103 , mean =  0.697292 , max =  0.9984524  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7024325 , mean =  0.00308495 , max =  0.6124841  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7416003 , mean =  0.002708007 , max =  0.6776488  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
                           protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
@@ -221,7 +221,7 @@
 #&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
 #&gt; -&gt; Fairness objects		: 0 objects 
 #&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
-#&gt; -&gt; Metric calculation		: 13/13 metrics calculated for all models
+#&gt; -&gt; Metric calculation		: 10/12 metrics calculated for all models ( </span><span style='color: #BBBB00;'>2 NA created</span><span> )
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
  <span class='co'># same explainers with different cutoffs for female</span>
 <span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>, <span class='kw'>fobject</span>,
@@ -235,22 +235,22 @@
 #&gt; -&gt; Cutoff values for explainers	: female: 0.4, male: 0.5 
 #&gt; -&gt; Fairness objects		: 1 object ( </span><span style='color: #00BB00;'> compatible </span><span> )
 #&gt; -&gt; Checking explainers		: 4 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
-#&gt; -&gt; Metric calculation		: 13/13 metrics calculated for all models
+#&gt; -&gt; Metric calculation		: 10/12 metrics calculated for all models ( </span><span style='color: #BBBB00;'>2 NA created</span><span> )
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
 <span class='kw'>fpca</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_pca.html'>fairness_pca</a></span>(<span class='kw'>fobject</span>)
-
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Found metric with NA: FNR, FOR, omiting it</span></div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>fpca</span>)
 </div><div class='output co'>#&gt; Fairness PCA : 
-#&gt;             PC1        PC2        PC3           PC4
-#&gt; [1,] -2.2811119  0.1196299 -1.1544121 -4.163336e-17
-#&gt; [2,] -1.0767499 -1.2480589  1.3862339 -5.884182e-15
-#&gt; [3,]  2.4255409 -1.4217704 -0.6191879 -8.222372e-15
-#&gt; [4,]  0.9323208  2.5501993  0.3873661  1.420045e-14
+#&gt;             PC1        PC2         PC3           PC4
+#&gt; [1,] -2.7753105  0.6760143  0.86436055 -8.465451e-16
+#&gt; [2,] -0.8674109 -0.5540681 -1.56008730  1.667069e-15
+#&gt; [3,]  2.1783152  2.2049356  0.03754767  3.219647e-15
+#&gt; [4,]  1.4644061 -2.3268818  0.65817908 -3.372302e-15
 #&gt; 
 #&gt; Created with: 
 #&gt; [1] "lm_2"   "rf_2"   "lm"     "ranger"
 #&gt; 
-#&gt; First two components explained 86 % of variance.</div><div class='input'>
+#&gt; First two components explained 88 % of variance.</div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
