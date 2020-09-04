@@ -286,7 +286,7 @@ print.fairness_object <- function(x, ..., colorize = TRUE){
 
     if (any(is.na(model_data$score))) warning("Omiting NA for model: ", model)
 
-    failed_metrics <- unique(model_data[abs(na.omit(model_data$score)) > epsilon, "metric"])
+    failed_metrics <- unique(model_data[na.omit(model_data$score) < epsilon | na.omit(model_data$score) > 1/epsilon, "metric"])
     passed_metrics <-  length(metrics[! metrics %in% failed_metrics])
 
     if (passed_metrics < 4){
@@ -297,7 +297,7 @@ print.fairness_object <- function(x, ..., colorize = TRUE){
     if (passed_metrics == 5){
       cat("\n", color_codes$green_start ,model, " passes ", passed_metrics, "/5 metrics\n", color_codes$green_end ,  sep = "")}
 
-    cat("Total loss: ", sum(abs(na.omit(data[data$model == model, "score" ]))), "\n")
+    cat("Total loss: ", sum(abs(na.omit(data[data$model == model, "score" ]) - 1)), "\n")
   }
 
   cat("\n")
@@ -313,7 +313,6 @@ print.fairness_object <- function(x, ..., colorize = TRUE){
 #'
 #' @param x \code{fairness_pca} object
 #' @param ... other print parameters
-#'
 #'
 #'
 #' @export

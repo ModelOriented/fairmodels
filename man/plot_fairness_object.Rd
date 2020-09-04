@@ -16,7 +16,7 @@
 }
 \description{
 Plot fairness check enables to look how big differences are between base subgroup (privileged) and unprivileged ones.
-If barplot reaches red zone it means that for this subgroup fairness goal is not satisfied. Multiple subgroups and models can be plotted.
+If bar plot reaches red zone it means that for this subgroup fairness goal is not satisfied. Multiple subgroups and models can be plotted.
 Red and green zone boundary can be moved through epsilon parameter, that needs to be passed through \code{fairness_check}.
 }
 \examples{

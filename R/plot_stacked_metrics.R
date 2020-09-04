@@ -41,6 +41,7 @@
 plot.stacked_metrics <- function(x, ...){
 
   data <- x$stacked_data
+  n    <- length(unique(data$metric))
 
   model <- score <- metric <- NULL
   ggplot(data, aes(x    = stats::reorder(model, -score),
@@ -49,7 +50,7 @@ plot.stacked_metrics <- function(x, ...){
     geom_bar(stat = "identity", position = "stack", alpha = 0.8) +
     coord_flip() +
     theme_drwhy_vertical() +
-    scale_fill_manual(values = colors_fairmodels(13)) +
+    scale_fill_manual(values = colors_fairmodels(n)) +
     xlab("model") +
     ylab("Acummulated parity loss metrics value") +
     labs(fill = "parity loss of metrics") +

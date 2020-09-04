@@ -7,7 +7,7 @@ test_that("test ceteris_paribus_cutoff with plot", {
   expect_equal(cpc$cumulated, FALSE)
 
   metrics_used <- (unique(as.character(cpc$cutoff_data$metric)))
-  expect_equal(metrics_used,  unique_metrics())
+  expect_equal(sort(metrics_used),  sort(fairness_check_metrics()))
 
   cpc <- ceteris_paribus_cutoff(fobject, subgroup = "African_American", cumulated = TRUE)
   # lm produces NA due to F1 parity loss

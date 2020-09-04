@@ -1,7 +1,7 @@
 #' Plot fairness object
 #'
 #' @description Plot fairness check enables to look how big differences are between base subgroup (privileged) and unprivileged ones.
-#' If barplot reaches red zone it means that for this subgroup fairness goal is not satisfied. Multiple subgroups and models can be plotted.
+#' If bar plot reaches red zone it means that for this subgroup fairness goal is not satisfied. Multiple subgroups and models can be plotted.
 #' Red and green zone boundary can be moved through epsilon parameter, that needs to be passed through \code{fairness_check}.
 #'
 #' @param x \code{fairness_check} object
@@ -53,14 +53,21 @@ plot.fairness_object <- function(x, ...){
             collapse = ", "))
   }
 
-  upper_bound <- max(c(na.omit(data$score))) + 0.05
-  if (upper_bound < 0.12) upper_bound <- 0.12
+  # bars should start at 0
 
-  lower_bound <- min(c(na.omit(data$score))) - 0.05
-  if (lower_bound > -0.12) lower_bound <- -0.12
+  data$score <- data$score -1
+
+  upper_bound <- max(na.omit(data$score), 1/epsilon -1) + 0.05
+  if (upper_bound < 0.3) upper_bound <- 0.3
+
+  lower_bound <- min(na.omit(data$score), epsilon -1 ) - 0.05
+  if (lower_bound > -0.25) lower_bound <- -0.25
 
   green <- "#c7f5bf"
   red   <- "#f05a71"
+
+  breaks <- seq(round(lower_bound,1), round(upper_bound,1), 0.2)
+  if (! 0 %in% breaks) breaks <- round(breaks + 0.1,1)
 
   subgroup <- score <- model <- metric <- NULL
   plt <- ggplot(data = data, aes(x = subgroup, y = score, fill = model)) +
@@ -69,8 +76,8 @@ plot.fairness_object <- function(x, ...){
     annotate("rect",
               xmin  = -Inf,
               xmax  = Inf,
-              ymin  = -epsilon,
-              ymax  =  epsilon,
+              ymin  =  epsilon -1 ,
+              ymax  =  1/epsilon -1,
               fill  = green,
               alpha = 0.1) +
     # left (red)
@@ -78,7 +85,7 @@ plot.fairness_object <- function(x, ...){
               xmin  = -Inf,
               xmax  = Inf,
               ymin  =  -Inf,
-              ymax  =  -epsilon,
+              ymax  =  epsilon -1,
               fill  = red,
               alpha = 0.1) +
 
@@ -86,22 +93,27 @@ plot.fairness_object <- function(x, ...){
     annotate("rect",
               xmin  = -Inf,
               xmax  = Inf,
-              ymin  =  epsilon,
+              ymin  =  1/epsilon -1,
               ymax  =  Inf,
               fill  = red,
               alpha = 0.1) +
-
     geom_bar(stat = "identity", position = "dodge") +
     geom_hline(yintercept = 0) +
-    scale_y_continuous(limits = c(lower_bound, upper_bound)) +
     coord_flip() +
     facet_wrap(vars(metric), ncol = 1) +
+    scale_y_continuous(limits = c(lower_bound, upper_bound),
+                       breaks =  breaks,
+                       labels = breaks + 1) +
     geom_text(x = 0, y = lower_bound - 0.02, label = "bias") +
     theme_drwhy_vertical() +
+    theme(panel.grid.major.y = element_blank()) +
     scale_fill_manual(values = colors_fairmodels(n_exp)) +
     ggtitle("Fairness check", subtitle = paste("Created with", paste(
                                                as.character(unique(data$model)), collapse = ", ")))
-  plt
+
+    plt
+
+
 }
 
 

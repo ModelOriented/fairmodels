@@ -1,8 +1,8 @@
 ### HELPER FUNCTIONS ###
 
 
-unique_metrics <- function(){
-  out <- c("TPR", 'TNR', 'PPV', 'NPV','TS','STP','ACC','F1','MCC')
+fairness_check_metrics <- function(){
+  out <- c('ACC', "FNR", 'PPV', 'FPR', 'STP')
   return(out)
 }
 
@@ -28,10 +28,14 @@ assert_performance_metrics <- function(metric){
   invisible(return())
 }
 
+parity_loss_metrics <- function(){
+  return( c("TPR","TNR","PPV","NPV","FNR","FPR","FDR","FOR","TS","STP","ACC","F1"))
+}
+
 assert_parity_metrics <- function(metric){
 
   if( !( is.character(metric)    & length(metric) ==1 )) stop("metric must be character")
-  metrics <- c("TPR","TNR","PPV","NPV","FNR","FPR","FDR","FOR","TS","STP","ACC","F1", "MCC")
+  metrics <- parity_loss_metrics()
   if (! metric %in% metrics) stop ("Metric not in available metrics")
 
   invisible(return())

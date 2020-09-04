@@ -5,7 +5,7 @@
 #' denote the scores for privileged subgroup. It is best to use only few metrics (using \code{fairness_metrics} parameter)
 #'
 #' @param x object of class \code{fairness_object}
-#' @param fairness_metrics character, vector with fairness metric names
+#' @param fairness_metrics character, vector with fairness metric names. Default metrics are ones in \code{fairness_check} plot
 #'
 #' @return \code{metric_scores} object.
 #' It is a list containing:
@@ -43,7 +43,7 @@
 
 
 
-metric_scores <- function(x, fairness_metrics = unique_metrics()){
+metric_scores <- function(x, fairness_metrics = fairness_check_metrics()){
   stopifnot(class(x) == "fairness_object")
 
   if (! is.character(fairness_metrics)) stop("fairness_metrics must be character vector")

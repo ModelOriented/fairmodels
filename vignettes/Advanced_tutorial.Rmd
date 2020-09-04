@@ -141,7 +141,7 @@ fobject <- fairness_check(fobject, gbm_explainer_w, verbose = FALSE)
 plot(fobject)
 ```
 
-Our metric of interest (`Statistical parity loss`) has been diminished but in this process we exceeded acceptable limit for predictive parity loss. It is not something uncommon. To lower the statistical parity the model must classify some unfavorable cases from unprivileged subgroup as favorable and the opposite for privileged subgroup. Similar outcome will be visible in the next method
+Our metric of interest (`Statistical parity ratio`) has been diminished but not enough. Other metrics are within boundaries, so `weighted` passes 4/5 metrics. There are some tradeoffs visible, some metrics increased their scores. It is not something uncommon. To lower the statistical parity the model must classify some unfavorable cases from unprivileged subgroup as favorable and the opposite for privileged subgroup. Similar outcome will be visible in the next method
 
 ### Resampling
 This method derives from reweighting the data but instead of weights it chooses observations from data the outcome of metrics. There is 2 types of resampling: 
@@ -187,7 +187,7 @@ plot(fobject)
 ```
 
    
-As we can see `preferential` sampling is best at mitigating statistical parity loss. As byproduct it also affects other metrics significantly.
+As we can see `preferential` sampling is best at mitigating `Statistical parity ratio`. As byproduct it also affects other metrics significantly.
 
 ## Post-processing techniques
 Post-processing techniques focus on changing the output of model after model is generated
@@ -216,14 +216,14 @@ fobject <- fairness_check(fobject, gbm_explainer_r,
 plot(fobject)
 ```
    
-`gmb_roc` is the best so far
+`gmb_weighted` is the best so far
 ```{r}
 print(fobject, colorize = FALSE)
 ```
 
 
 ### Cutoff manipulation
-Cutoff manipulation is simple technique that enables to set different cutoff for different subgroups.
+Cutoff manipulation is simple technique that enables to set different cutoff for different subgroups. It is somewhat controversial as it increases individual unfairness (similar people might have different cutoffs and therefore are not treated similarly)
 
 ```{r}
 set.seed(1)
@@ -243,7 +243,7 @@ plot(ceteris_paribus_cutoff(fobject_test, subgroup = "Female"))
 
 ```
 
-It is possible to minimize all metrics or only few metrics of our interest. In this case it is also 0.35 but feel free to experiment!
+It is possible to minimize all metrics or only few metrics of our interest. 
 
 ```{r}
 plot(ceteris_paribus_cutoff(fobject_test,

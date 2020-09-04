@@ -66,6 +66,13 @@ test_that("test fairness object", {
   names(fobject_value) <- NULL
   expect_equal(fobject_value, round(tpr_A,3))
 
+  # parity loss
+
+  actual_val <- fobject$parity_loss_metric_data$TPR[1]
+  calculated_val <- sum(abs(log(fobject$groups_data$gbm$TPR/fobject$groups_data$gbm$TPR["Caucasian"])))
+
+  expect_equal(actual_val, calculated_val)
+
   # no such level
   expect_error(fairness_check(explainer_ranger,
                               protected  = compas$Ethnicity,

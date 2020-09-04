@@ -71,9 +71,36 @@ test_that("Test fairness_check", {
 
   fobject2 <- fobject
   fobject2$protected <- compas$Sex[1:6000]
-  expect_error(fairness_check(fobject, fobject2))
-  expect_error(fairness_check(fobject, fobject2, privileged = "Female"))
+  suppressWarnings( expect_error(fairness_check(fobject, fobject2)))
+  suppressWarnings( expect_error(fairness_check(fobject, fobject2, privileged = "Female")))
   suppressWarnings(expect_error(fairness_check(fobject, fobject2, privileged = "Female", protected = compas$Sex)))
+
+  # good calculations
+  calculated_val_FNR <- fobject$fairness_check_data[fobject$fairness_check_data$model == "lm" & fobject$fairness_check_data$metric == 'Equal opportynity ratio     FN/(TP + FN)', "score" ]
+  calculated_val_FPR <- fobject$fairness_check_data[fobject$fairness_check_data$model == "lm" & fobject$fairness_check_data$metric == 'Predictive equality ratio   FP/(FP + TN)', "score" ]
+  calculated_val_PPV <- fobject$fairness_check_data[fobject$fairness_check_data$model == "lm" & fobject$fairness_check_data$metric == 'Predictive parity ratio     TP/(TP + FP)', "score" ]
+  calculated_val_STP <- fobject$fairness_check_data[fobject$fairness_check_data$model == "lm" & fobject$fairness_check_data$metric == 'Statistical parity ratio   (TP + FP)/(TP + FP + TN + FN)', "score" ]
+  calculated_val_ACC <- fobject$fairness_check_data[fobject$fairness_check_data$model == "lm" & fobject$fairness_check_data$metric == 'Accuracy equality ratio    (TP + TN)/(TP + FP + TN + FN)', "score" ]
+
+  actual_val_FNR <- fobject$groups_data$lm$FNR[2]/fobject$groups_data$lm$FNR[1]
+  actual_val_FPR <- fobject$groups_data$lm$FPR[2]/fobject$groups_data$lm$FPR[1]
+  actual_val_PPV <- fobject$groups_data$lm$PPV[2]/fobject$groups_data$lm$PPV[1]
+  actual_val_STP <- fobject$groups_data$lm$STP[2]/fobject$groups_data$lm$STP[1]
+  actual_val_ACC <- fobject$groups_data$lm$ACC[2]/fobject$groups_data$lm$ACC[1]
+
+
+  names(actual_val_FNR) <- NULL
+  names(actual_val_FPR) <- NULL
+  names(actual_val_PPV) <- NULL
+  names(actual_val_STP) <- NULL
+  names(actual_val_ACC) <- NULL
+
+  expect_equal(calculated_val_FNR , actual_val_FNR)
+  expect_equal(calculated_val_FPR , actual_val_FPR)
+  expect_equal(calculated_val_PPV , actual_val_PPV)
+  expect_equal(calculated_val_STP , actual_val_STP)
+  expect_equal(calculated_val_ACC , actual_val_ACC)
+
 
   ################################## plot #######################################
 

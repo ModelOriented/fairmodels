@@ -5,7 +5,7 @@ test_that("Test_fairness_radar_and_plot", {
   metrics <- fobject$parity_loss_metric_data
   models  <- fobject$labels
 
-  for (metric in unique_metrics()){
+  for (metric in fairness_check_metrics()){
     for (model in models){
       actual <- fobject$parity_loss_metric_data[fobject$labels == model, metric]
       to_check <- as.character(fradar$data$metric) == metric & as.character(fradar$data$model) == model

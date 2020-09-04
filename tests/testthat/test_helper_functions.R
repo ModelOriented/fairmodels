@@ -2,9 +2,7 @@
 test_that("test helper functions",{
 
 
-  expect_equal(c("TPR", "TNR" ,"PPV", "NPV",
-                 "TS" , "STP", "ACC" ,"F1",
-                 "MCC"),  unique_metrics())
+  expect_equal(c("ACC", "FNR" ,"PPV", "FPR","STP"),  fairness_check_metrics())
 
   expect_error(assert_parity_metrics("non existing"))
   expect_error(assert_base_metrics("non existing"))

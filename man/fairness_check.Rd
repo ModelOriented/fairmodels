@@ -11,7 +11,7 @@ fairness_check(
   privileged = NULL,
   cutoff = NULL,
   label = NULL,
-  epsilon = NULL,
+  epsilon = 0.8,
   verbose = TRUE,
   colorize = TRUE
 )
@@ -29,7 +29,7 @@ fairness_check(
 
 \item{label}{character, vector of labels to be assigned for explainers, default is explainer label.}
 
-\item{epsilon}{numeric, boundary for fairness checking}
+\item{epsilon}{numeric, boundary for fairness checking, lowest acceptable ratio of metrics}
 
 \item{verbose}{logical, whether to print information about creation of fairness object}
 
@@ -71,16 +71,23 @@ While other fairness objects values are not changed, fairness check assigns cuto
 Users through print and plot methods may quickly check values of most popular fairness metrics. More on that topic in details.
 }
 \details{
+Fairness check
+
 Metrics used are made for each subgroup, then base metric score is subtracted leaving loss of particular metric.
-If absolute loss is greater than epsilon than such metric is marked as "not passed". It means that values of metrics should be within (-epsilon,epsilon) boundary.
+If absolute loss of metrics ratio is not within acceptable boundaries than such metric is marked as "not passed". It means that values of metrics should be within (epsilon, 1/epsilon) boundary.
+The default ratio is set to 0.8 which adhere to US 80% rule (more on it here: \url{https://en.wikipedia.org/wiki/Disparate_impact#The_80%_rule}). It means that unprivileged subgroups should have at least 80%
+of scores achieved in metrics by privileged subgroup. For example if TPR_unprivileged/TPR_privileged is less than 0.8 then such ratio is sign of discrimination. On the other hand if
+TPR_privileged/TPR_unprivileged is more than 1.25 (1/0.8) than there is discrimination towards privileged group.
 Epsilon value can be adjusted to user's needs. There are some metrics that might be derived from existing metrics (For example Equalized Odds - equal TPR and FPR for all subgroups).
 That means passing 5 metrics in fairness check asserts that model is even more fair. In \code{fairness_check} models must always predict positive result. Not adhering to this rule
 may lead to misinterpretation of the plot. More on metrics and their equivalents:
 \url{https://fairware.cs.umass.edu/papers/Verma.pdf}
 \url{https://en.wikipedia.org/wiki/Fairness_(machine_learning)}
 
+Parity loss - visualization tool
+
 Parity loss is computed as follows:
-M_parity_loss = sum(abs(metric - base_metric))
+M_parity_loss = sum(abs( metric - privileged_metric))
 
 where:
 

@@ -4,6 +4,7 @@
 #' for subgroups from protected vector.
 #'
 #' @param x object of class \code{fairness_object}
+#' @param fairness_metrics character, vector of fairness metric names to include in plot. Default are ones in fairness check.
 #'
 #' @return \code{stacked_metrics} object. It contains \code{data.frame} with information about score for each metric and model.
 #'
@@ -40,9 +41,13 @@
 
 
 
-stack_metrics <- function(x){
+stack_metrics <- function(x, fairness_metrics = fairness_check_metrics() ){
 
   stopifnot(class(x) == "fairness_object")
+
+  if (is.null(fairness_metrics)) fairness_metrics <- fairness_check_metrics()
+  if (! is.character(fairness_metrics) ) stop("metric argument must be character metric")
+  sapply(fairness_metrics,assert_parity_metrics)
 
   expanded_data <- expand_fairness_object(x,  drop_metrics_with_na = TRUE)
 
@@ -52,8 +57,7 @@ stack_metrics <- function(x){
   expanded_data$model     <- as.factor(expanded_data$model)
   expanded_data$score     <- round(as.numeric(expanded_data$score),3)
 
-  # other metric scores are the same, example ( TPR  = 1 - FNR ) and their parity loss is the same
-  expanded_data <- expanded_data[expanded_data$metric %in% unique_metrics(),]
+  expanded_data <- expanded_data[expanded_data$metric %in% fairness_metrics,]
 
 
   stacked_metrics <- list(stacked_data = expanded_data)
