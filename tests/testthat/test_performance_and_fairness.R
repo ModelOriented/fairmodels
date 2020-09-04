@@ -5,17 +5,17 @@ test_that("performance_and_fairness with plot",{
 
   expect_class(paf, "performance_and_fairness")
 
-  expect_error(performance_and_fairness(fobject, fairness_metric = "non_existing"))
-  expect_error(performance_and_fairness(fobject, performance_metric = "non_existing"))
-  expect_error(performance_and_fairness(fairness_metric = c("d","f")))
-  expect_error(performance_and_fairness(performance_metric = c("d","f")))
-  expect_error(performance_and_fairness(fairness_metric = 17))
-  expect_error(performance_and_fairness(performance_metric = 17))
+  suppressWarnings(  expect_error(performance_and_fairness(fobject, fairness_metric = "non_existing")))
+suppressWarnings(  expect_error(performance_and_fairness(fobject, performance_metric = "non_existing")))
+suppressWarnings(  expect_error(performance_and_fairness(fairness_metric = c("d","f"))))
+suppressWarnings(  expect_error(performance_and_fairness(performance_metric = c("d","f"))))
+suppressWarnings(  expect_error(performance_and_fairness(fairness_metric = 17)))
+suppressWarnings(  expect_error(performance_and_fairness(performance_metric = 17)))
 
   plt <- plot(paf)
 
   expect_class(plt, "ggplot")
-  paf <- performance_and_fairness(fobject, performance_metric = "auc")
+  paf <- suppressWarnings(performance_and_fairness(fobject, performance_metric = "auc"))
   paf <- performance_and_fairness(fobject, performance_metric = "accuracy")
   paf <- performance_and_fairness(fobject, performance_metric = "precision")
   paf <- performance_and_fairness(fobject, performance_metric = "recall")

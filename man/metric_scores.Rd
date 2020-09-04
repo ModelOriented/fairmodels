@@ -4,12 +4,12 @@
 \alias{metric_scores}
 \title{Metric scores}
 \usage{
-metric_scores(x, fairness_metrics = unique_metrics())
+metric_scores(x, fairness_metrics = fairness_check_metrics())
 }
 \arguments{
 \item{x}{object of class \code{fairness_object}}
 
-\item{fairness_metrics}{character, vector with fairness metric names}
+\item{fairness_metrics}{character, vector with fairness metric names. Default metrics are ones in \code{fairness_check} plot}
 }
 \value{
 \code{metric_scores} object.

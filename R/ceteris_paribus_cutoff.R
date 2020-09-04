@@ -50,7 +50,7 @@
 ceteris_paribus_cutoff <- function(x,
                                    subgroup,
                                    new_cutoffs = NULL,
-                                   fairness_metrics = unique_metrics(),
+                                   fairness_metrics = fairness_check_metrics(),
                                    grid_points = 101,
                                    cumulated = FALSE){
 

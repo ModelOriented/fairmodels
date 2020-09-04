@@ -4,10 +4,12 @@
 \alias{stack_metrics}
 \title{Stack metrics}
 \usage{
-stack_metrics(x)
+stack_metrics(x, fairness_metrics = fairness_check_metrics())
 }
 \arguments{
 \item{x}{object of class \code{fairness_object}}
+
+\item{fairness_metrics}{character, vector of fairness metric names to include in plot. Default are ones in fairness check.}
 }
 \value{
 \code{stacked_metrics} object. It contains \code{data.frame} with information about score for each metric and model.

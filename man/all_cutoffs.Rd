@@ -4,7 +4,7 @@
 \alias{all_cutoffs}
 \title{All cutoffs}
 \usage{
-all_cutoffs(x, grid_points = 101, fairness_metrics = unique_metrics())
+all_cutoffs(x, grid_points = 101, fairness_metrics = fairness_check_metrics())
 }
 \arguments{
 \item{x}{object of class \code{fairness_object}}

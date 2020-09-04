@@ -11,20 +11,28 @@
 #' @param privileged factor/character, one value of \code{protected}, in regard to what subgroup parity loss is calculated
 #' @param cutoff numeric, vector of cutoffs (thresholds) for each value of protected variable, affecting only explainers.
 #' @param label character, vector of labels to be assigned for explainers, default is explainer label.
-#' @param epsilon numeric, boundary for fairness checking
+#' @param epsilon numeric, boundary for fairness checking, lowest acceptable ratio of metrics
 #' @param verbose logical, whether to print information about creation of fairness object
 #' @param colorize logical, whether to print information in color
 #'
-#' @details Metrics used are made for each subgroup, then base metric score is subtracted leaving loss of particular metric.
-#' If absolute loss is greater than epsilon than such metric is marked as "not passed". It means that values of metrics should be within (-epsilon,epsilon) boundary.
+#' @details
+#' Fairness check
+#'
+#' Metrics used are made for each subgroup, then base metric score is subtracted leaving loss of particular metric.
+#' If absolute loss of metrics ratio is not within acceptable boundaries than such metric is marked as "not passed". It means that values of metrics should be within (epsilon, 1/epsilon) boundary.
+#' The default ratio is set to 0.8 which adhere to US 80% rule (more on it here: \url{https://en.wikipedia.org/wiki/Disparate_impact#The_80%_rule}). It means that unprivileged subgroups should have at least 80%
+#' of scores achieved in metrics by privileged subgroup. For example if TPR_unprivileged/TPR_privileged is less than 0.8 then such ratio is sign of discrimination. On the other hand if
+#' TPR_privileged/TPR_unprivileged is more than 1.25 (1/0.8) than there is discrimination towards privileged group.
 #' Epsilon value can be adjusted to user's needs. There are some metrics that might be derived from existing metrics (For example Equalized Odds - equal TPR and FPR for all subgroups).
 #' That means passing 5 metrics in fairness check asserts that model is even more fair. In \code{fairness_check} models must always predict positive result. Not adhering to this rule
 #' may lead to misinterpretation of the plot. More on metrics and their equivalents:
 #' \url{https://fairware.cs.umass.edu/papers/Verma.pdf}
 #' \url{https://en.wikipedia.org/wiki/Fairness_(machine_learning)}
 #'
+#' Parity loss - visualization tool
+#'
 #' Parity loss is computed as follows:
-#' M_parity_loss = sum(abs(metric - base_metric))
+#' M_parity_loss = sum(abs( metric - privileged_metric))
 #'
 #' where:
 #'
@@ -105,7 +113,7 @@ fairness_check <- function(x,
                            privileged = NULL,
                            cutoff = NULL,
                            label = NULL,
-                           epsilon = NULL,
+                           epsilon = 0.8,
                            verbose = TRUE,
                            colorize = TRUE) {
 
@@ -223,9 +231,9 @@ fairness_check <- function(x,
 
 
   ### epsilon
-  if (is.null(epsilon)) epsilon <- 0.1
+  if (is.null(epsilon)) epsilon <- 0.8
   if (! check_if_numeric_and_single(epsilon)) stop("Epsilon must be single, numeric value")
-  if (! check_values(epsilon, 0, Inf) )       stop ("epsilon must be positive number")
+  if (! check_values(epsilon, 0, 1) )       stop ("epsilon must be within 0 and 1")
 
   ### fairness objects
   # among all fairness_objects parameters should be equal
@@ -305,7 +313,7 @@ fairness_check <- function(x,
   created_na <- FALSE
   # number of metrics must be fixed. If changed add metric to metric labels
   # and change in calculate group fairness metrics
-  parity_loss_metric_data       <- matrix(nrow = n_exp, ncol = 13)
+  parity_loss_metric_data       <- matrix(nrow = n_exp, ncol = 12)
   explainers_confusion_matrices <- list(rep(0,n_exp))
 
   explainers_groups <- list(rep(0,n_exp))
@@ -333,11 +341,12 @@ fairness_check <- function(x,
     # in other words we measure distance between base group
     # metrics score and other groups metric scores
 
-    gmm_scaled      <- apply(gmm, 2 , function(x) x  - gmm[, privileged])
-    gmm_abs         <- abs(gmm_scaled)
+    gmm_scaled      <- apply(gmm, 2 , function(x) x  / gmm[, privileged])
+    gmm_abs         <- apply(gmm_scaled, 2 , function(x) sapply(x, function(y) abs(log(y))))
     gmm_loss        <- rowSums(gmm_abs)
 
-    parity_loss_metric_data[i, ] <- gmm_loss
+    # when there is Inf in data change it to NA
+    parity_loss_metric_data[i, ] <- sapply(gmm_loss , function(y) ifelse(is.infinite(y), NA, y))
 
 
     # every group value for every metric for every explainer
@@ -349,13 +358,13 @@ fairness_check <- function(x,
 
     ###############  fairness check  ###############
 
-    fairness_check_data <- lapply(metric_list, function(y) y - y[privileged])
+    fairness_check_data <- lapply(metric_list, function(y) y / y[privileged])
 
     # omit base metric because it is always 0
     fairness_check_data <- lapply(fairness_check_data, function(x) x[names(x) != privileged])
 
     statistical_parity_loss   <- fairness_check_data$STP
-    equal_oportunity_loss     <- fairness_check_data$TPR
+    equal_oportunity_loss     <- fairness_check_data$FNR
     predictive_parity_loss    <- fairness_check_data$PPV
     predictive_equality_loss  <- fairness_check_data$FPR
     accuracy_equality_loss    <- fairness_check_data$ACC
@@ -365,11 +374,11 @@ fairness_check <- function(x,
 
     # creating data frames for fairness check
 
-    metric <- c(rep("Accuracy equality difference    (TP + TN)/(TP + FP + TN + FN) ", n_sub),
-                rep("Predictive parity difference     TP/(TP + FP)", n_sub),
-                rep("Predictive equality difference   FP/(FP + TN)", n_sub),
-                rep("Equal opportynity difference     TP/(TP + FN) ", n_sub),
-                rep("Statistical parity difference   (TP + FP)/(TP + FP + TN + FN)", n_sub))
+    metric <- c(rep("Accuracy equality ratio    (TP + TN)/(TP + FP + TN + FN)", n_sub),
+                rep("Predictive parity ratio     TP/(TP + FP)", n_sub),
+                rep("Predictive equality ratio   FP/(FP + TN)", n_sub),
+                rep("Equal opportynity ratio     FN/(TP + FN)", n_sub),
+                rep("Statistical parity ratio   (TP + FP)/(TP + FP + TN + FN)", n_sub))
 
     score <- c(unlist(accuracy_equality_loss),
                unlist(predictive_parity_loss),

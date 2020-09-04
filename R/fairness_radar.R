@@ -3,7 +3,7 @@
 #' Make \code{fairness_radar} object with chosen \code{fairness_metrics}. Note that there must be at least three metrics that does not contain NA.
 #'
 #' @param x object of class \code{fairness_object}
-#' @param fairness_metrics character, vector of metric names, at least 3 metrics without NA needed. If \code{NULL} default metrics will be used.
+#' @param fairness_metrics character, vector of metric names, at least 3 metrics without NA needed. If \code{NULL} default metrics will be used, which are ones from \code{fairness_check} plot.
 #'
 #' @return \code{fairness_radar} object.
 #' It is a list containing:
@@ -44,7 +44,7 @@
 #' plot(fradar)
 
 
-fairness_radar <- function(x, fairness_metrics = NULL){
+fairness_radar <- function(x, fairness_metrics = fairness_check_metrics()){
 
   stopifnot(class(x) == "fairness_object")
 
@@ -52,7 +52,7 @@ fairness_radar <- function(x, fairness_metrics = NULL){
   m <- ncol(data)
 
   # metrics
-  if (is.null(fairness_metrics)) fairness_metrics <- unique_metrics()
+  if (is.null(fairness_metrics)) fairness_metrics <- fairness_check_metrics()
   if (! is.character(fairness_metrics) ) stop("metric argument must be character metric")
   sapply(fairness_metrics,assert_parity_metrics)
 

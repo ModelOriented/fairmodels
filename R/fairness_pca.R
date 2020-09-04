@@ -62,7 +62,7 @@ fairness_pca <- function(x, omit_models_with_NA = FALSE) {
   data        <- x$parity_loss_metric_data
   labels      <- x$label
 
-  data <- data[, colnames(data) %in% unique_metrics()]
+  data <- data[, colnames(data) %in% parity_loss_metrics()]
 
   # NA handling
   if (any(is.na(data))) {
@@ -79,7 +79,7 @@ fairness_pca <- function(x, omit_models_with_NA = FALSE) {
     }
   }
 
-  # throw error if after NA ommitint dimensions are to low
+  # throw error if after NA omit dimensions are to low
   if (nrow(data) < 2 | ncol(data) < 2) stop("Metrics data have to low dimensions\n")
 
 

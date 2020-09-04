@@ -4,6 +4,7 @@
   [![Codecov test coverage](https://codecov.io/gh/ModelOriented/fairmodels/branch/master/graph/badge.svg)](https://codecov.io/gh/ModelOriented/fairmodels?branch=master)
   [![R build status](https://github.com/ModelOriented/fairmodels/workflows/R-CMD-check/badge.svg)](https://github.com/ModelOriented/fairmodels/actions)
    ![CRAN](https://www.r-pkg.org/badges/version/fairmodels)
+   ![Downloads](https://cranlogs.r-pkg.org/badges/fairmodels)
    [![DrWhy-eXtrAI](https://img.shields.io/badge/DrWhy-eXtrAI-4378bf)](http://drwhy.ai/#eXtraAI)
   <!-- badges: end -->
   
@@ -102,30 +103,30 @@ If one is even more keen to know how `fairmodels` works and what are relations b
 
 ## Metrics used
 
-There are 13 metrics based on confusion matrix : 
+There are 12 metrics based on confusion matrix : 
 
-| Metric | Formula | Full name | Other names |
+| Metric | Formula | Full name | fairness names while checking among subgroups |
 |--------|---------|-----------|-------------|
-| TPR | ![tpr](man/figures/formulas/tpr.jpg) | true positive rate | equal opportunity, sensitivity, recall
-| TNR | ![tnr](man/figures/formulas/tnr.jpg) | true negative rate | specificity
-| PPV | ![ppv](man/figures/formulas/ppv.jpg) | positive predictive value | predictive parity, precision
+| TPR | ![tpr](man/figures/formulas/tpr.jpg) | true positive rate | 
+| TNR | ![tnr](man/figures/formulas/tnr.jpg) | true negative rate | 
+| PPV | ![ppv](man/figures/formulas/ppv.jpg) | positive predictive value | predictive parity
 | NPV | ![npv](man/figures/formulas/npv.jpg) | negative predictive value | 
-| FNR | ![fnr](man/figures/formulas/fnr.jpg) | false negative rate |
+| FNR | ![fnr](man/figures/formulas/fnr.jpg) | false negative rate | equal opportinity
 | FPR | ![fpr](man/figures/formulas/fpr.jpg) | false positive rate | predictive equality
 | FDR | ![fdr](man/figures/formulas/fdr.jpg) | false discovery rate
 | FOR | ![for](man/figures/formulas/for.jpg) | false omission rate |
 | TS | ![ts](man/figures/formulas/ts.jpg)  | threat score |
-| STP | ![stp](man/figures/formulas/stp.jpg) | statistical parity |
-| ACC | ![acc](man/figures/formulas/acc.jpg) | accuracy |
+| STP | ![stp](man/figures/formulas/stp.jpg) | statistical parity | statistical parity
+| ACC | ![acc](man/figures/formulas/acc.jpg) | accuracy | Overall accuracy equality
 | F1 |  ![f1](man/figures/formulas/f1.jpg) | F1 score |
-| MCC | <img src="man/figures/formulas/mcc.jpg" alt="drawing" width="300"/> | Matthews correlation coefficient |
+
 
 *and their parity loss.*   
 How is *parity loss* calculated? 
 
 ![parity_loss](man/figures/formulas/parity_loss.png)
 
-Where ![explain](man/figures/formulas/explain.jpg) denote the membership to unique subgroup from protected variable
+Where `i` denotes the membership to unique subgroup from protected variable. Unprivileged subgroups are represented by small letters and privileged by simply "privileged".
 
 some fairness metrics like *Equalized odds* are satisfied if parity loss in both *TPR* and *FPR* is low 
 
