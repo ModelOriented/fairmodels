@@ -7,7 +7,7 @@
 \method{plot}{fairness_object}(x, ...)
 }
 \arguments{
-\item{x}{\code{fairness_check} object}
+\item{x}{\code{fairness_object} object}
 
 \item{...}{other plot parameters}
 }
@@ -32,14 +32,20 @@ lm_model <- glm(Risk~.,
 rf_model <- ranger::ranger(Risk ~.,
                            data = german,
                            probability = TRUE,
-                           num.trees = 200)
+                           max.depth = 3,
+                           num.trees = 100,
+                           seed = 1)
 
 explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
-explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
+
+explainer_rf <- DALEX::explain(rf_model,
+                               data = german[,-1],
+                               y = y_numeric)
 
 fobject <- fairness_check(explainer_lm, explainer_rf,
                           protected = german$Sex,
                           privileged = "male")
 
 plot(fobject)
+
 }

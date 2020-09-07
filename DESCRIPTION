@@ -1,7 +1,7 @@
 Package: fairmodels
 Type: Package
 Title: Flexible Tool for Bias Detection, Visualization, and Mitigation
-Version: 0.2.1
+Version: 0.2.2
 Authors@R:
     c(person("Jakub", "Wiśniewski", role = c("aut", "cre"),
              email = "jakwisn@gmail.com"),

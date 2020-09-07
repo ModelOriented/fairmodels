@@ -54,7 +54,7 @@ plot.all_cutoffs <- function(x, ..., label = NULL){
   }
 
   label <- unique(data$label)
-  n_met  <- length(data$metric)
+  n_met  <- length(unique(data$metric))
 
   cutoff <- parity_loss <- metric <- NULL
   plt <- ggplot(data, aes(cutoff, parity_loss, color = metric)) +

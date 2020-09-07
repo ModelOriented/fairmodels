@@ -251,16 +251,22 @@ print.fairness_heatmap <- function(x, ...) {
 #' rf_model <- ranger::ranger(Risk ~.,
 #'                            data = german,
 #'                            probability = TRUE,
-#'                            num.trees = 200)
+#'                            max.depth = 3,
+#'                            num.trees = 100,
+#'                            seed = 1)
 #'
 #' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
-#' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
+#'
+#' explainer_rf <- DALEX::explain(rf_model,
+#'                                data = german[,-1],
+#'                                y = y_numeric)
 #'
 #' fobject <- fairness_check(explainer_lm, explainer_rf,
 #'                           protected = german$Sex,
 #'                           privileged = "male")
 #'
 #' print(fobject)
+#'
 #'
 
 
@@ -279,12 +285,21 @@ print.fairness_object <- function(x, ..., colorize = TRUE){
   epsilon <- x$epsilon
   metrics <- unique(data$metric)
 
+
+  if (any(is.na(data$score))){
+
+    warning("Omiting NA for models: ",
+            paste(unique(data[is.na(data$score), "model"]),
+                  collapse = ", "),
+            "\nInformation about passed metrics may be inaccurate due to NA present, it is advisable to check metric_scores plot.\n")
+  }
+
+
+
   cat("\nFairness check for models:", paste(models, collapse = ", "), "\n")
 
   for (model in models){
     model_data <- data[data$model == model,]
-
-    if (any(is.na(model_data$score))) warning("Omiting NA for model: ", model)
 
     failed_metrics <- unique(model_data[na.omit(model_data$score) < epsilon | na.omit(model_data$score) > 1/epsilon, "metric"])
     passed_metrics <-  length(metrics[! metrics %in% failed_metrics])
@@ -297,7 +312,7 @@ print.fairness_object <- function(x, ..., colorize = TRUE){
     if (passed_metrics == 5){
       cat("\n", color_codes$green_start ,model, " passes ", passed_metrics, "/5 metrics\n", color_codes$green_end ,  sep = "")}
 
-    cat("Total loss: ", sum(abs(na.omit(data[data$model == model, "score" ]) - 1)), "\n")
+    cat("Total loss: ", sum(abs(na.omit(data[data$model == model, "score" ])- 1)), "\n")
   }
 
   cat("\n")

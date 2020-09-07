@@ -87,13 +87,13 @@ may lead to misinterpretation of the plot. More on metrics and their equivalents
 Parity loss - visualization tool
 
 Parity loss is computed as follows:
-M_parity_loss = sum(abs( metric - privileged_metric))
+M_parity_loss = sum(abs(log(metric/privileged_metric)))
 
 where:
 
 M - some metric mentioned above
 
-metric - vector of metrics from each subgroup
+metric - vector of metric scores from each subgroup
 
 base_metric - scalar, value of metric for base subgroup
 }
@@ -109,10 +109,15 @@ lm_model <- glm(Risk~.,
 rf_model <- ranger::ranger(Risk ~.,
                            data = german,
                            probability = TRUE,
-                           num.trees = 200)
+                           max.depth = 3,
+                           num.trees = 100,
+                           seed = 1)
 
 explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
-explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
+
+explainer_rf <- DALEX::explain(rf_model,
+                               data = german[,-1],
+                               y = y_numeric)
 
 fobject <- fairness_check(explainer_lm, explainer_rf,
                           protected = german$Sex,
