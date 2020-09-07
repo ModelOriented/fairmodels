@@ -4,7 +4,7 @@
 #' If bar plot reaches red zone it means that for this subgroup fairness goal is not satisfied. Multiple subgroups and models can be plotted.
 #' Red and green zone boundary can be moved through epsilon parameter, that needs to be passed through \code{fairness_check}.
 #'
-#' @param x \code{fairness_check} object
+#' @param x \code{fairness_object} object
 #' @param ... other plot parameters
 #'
 #' @import ggplot2
@@ -27,16 +27,22 @@
 #' rf_model <- ranger::ranger(Risk ~.,
 #'                            data = german,
 #'                            probability = TRUE,
-#'                            num.trees = 200)
+#'                            max.depth = 3,
+#'                            num.trees = 100,
+#'                            seed = 1)
 #'
 #' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
-#' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
+#'
+#' explainer_rf <- DALEX::explain(rf_model,
+#'                                data = german[,-1],
+#'                                y = y_numeric)
 #'
 #' fobject <- fairness_check(explainer_lm, explainer_rf,
 #'                           protected = german$Sex,
 #'                           privileged = "male")
 #'
 #' plot(fobject)
+#'
 
 plot.fairness_object <- function(x, ...){
 
@@ -50,7 +56,8 @@ plot.fairness_object <- function(x, ...){
 
    warning("Omiting NA for models: ",
             paste(unique(data[is.na(data$score), "model"]),
-            collapse = ", "))
+            collapse = ", "),
+           "\nInformation about passed metrics may be inaccurate due to NA present, it is advisable to check metric_scores plot.\n")
   }
 
   # bars should start at 0

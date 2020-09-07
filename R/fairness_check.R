@@ -32,13 +32,13 @@
 #' Parity loss - visualization tool
 #'
 #' Parity loss is computed as follows:
-#' M_parity_loss = sum(abs( metric - privileged_metric))
+#' M_parity_loss = sum(abs(log(metric/privileged_metric)))
 #'
 #' where:
 #'
 #' M - some metric mentioned above
 #'
-#' metric - vector of metrics from each subgroup
+#' metric - vector of metric scores from each subgroup
 #'
 #' base_metric - scalar, value of metric for base subgroup
 #'
@@ -94,10 +94,15 @@
 #' rf_model <- ranger::ranger(Risk ~.,
 #'                            data = german,
 #'                            probability = TRUE,
-#'                            num.trees = 200)
+#'                            max.depth = 3,
+#'                            num.trees = 100,
+#'                            seed = 1)
 #'
 #' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
-#' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
+#'
+#' explainer_rf <- DALEX::explain(rf_model,
+#'                                data = german[,-1],
+#'                                y = y_numeric)
 #'
 #' fobject <- fairness_check(explainer_lm, explainer_rf,
 #'                           protected = german$Sex,
@@ -362,6 +367,10 @@ fairness_check <- function(x,
 
     # omit base metric because it is always 0
     fairness_check_data <- lapply(fairness_check_data, function(x) x[names(x) != privileged])
+
+    # if metric is 0 change to NA
+    fairness_check_data <- lapply(fairness_check_data, function(x) ifelse(x == 0, NA, x))
+
 
     statistical_parity_loss   <- fairness_check_data$STP
     equal_oportunity_loss     <- fairness_check_data$FNR

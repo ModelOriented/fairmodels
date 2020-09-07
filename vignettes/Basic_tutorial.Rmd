@@ -108,6 +108,14 @@ plot_density(fobject)
    
 As we can see it is more likely that model will categorize African Americans as not being recidivists than for example Asians. 
 
+### Metric scores plot
+Sometimes it is worth it to see what the raw (unscaled) metrics are. User could use `fobject$group_data` but the easier way is to plot `metric_scores` object.
+
+```{r}
+plot(metric_scores(fobject))
+```
+
+
 ## fairness object - idea
 
 To really see what `fairness_object` is about, we need to make some more models and explainers. 
