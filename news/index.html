@@ -97,7 +97,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.2.1</span>
+          <span class="version version-default">0.2.2</span>
         </div>
       </div>
     </div>
@@ -153,6 +153,17 @@
       <small>Source: <a href='https://github.com/ModelOriented/fairmodels/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="fairmodels-022" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.2">
+<a href="#fairmodels-022" class="anchor"></a>fairmodels 0.2.2<small> Unreleased </small>
+</h1>
+<ul>
+<li>
+<code>fairness_check_data</code> now instead of <code>0</code> has <code>NA</code> due to concerns of interpretability - insignificant difference could lead up to maximal value of loss. With that change when <code>NA</code> is created user will see warning when plotting or printing. This doesn’t affect other objects and plots.</li>
+<li>Description fixes</li>
+<li>Added <code>metric_scores</code> plot to basic tutorial</li>
+</ul>
+</div>
     <div id="fairmodels-021" class="section level1">
 <h1 class="page-header" data-toc-text="0.2.1">
 <a href="#fairmodels-021" class="anchor"></a>fairmodels 0.2.1<small> Unreleased </small>
@@ -166,7 +177,7 @@
 <a href="#fairmodels-020" class="anchor"></a>fairmodels 0.2.0<small> Unreleased </small>
 </h1>
 <ul>
-<li>adhearing to four-fifts (80%) rule - changed fairness check and parity loss calculation. Now ratio is being calculated instead of differences.(<a href='https://github.com/ModelOriented/fairmodels/issues/17'>#17</a>)</li>
+<li>adhering to four-fifths (80%) rule - changed fairness check and parity loss calculation. Now ratio is being calculated instead of differences.(<a href='https://github.com/ModelOriented/fairmodels/issues/17'>#17</a>)</li>
 <li>Some plots now have default fairness metrics - same as in <code>fairness_check</code>
 </li>
 <li>

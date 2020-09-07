@@ -100,7 +100,7 @@ Red and green zone boundary can be moved through epsilon parameter, that needs t
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.2.1</span>
+          <span class="version version-default">0.2.2</span>
         </div>
       </div>
     </div>
@@ -171,7 +171,7 @@ Red and green zone boundary can be moved through epsilon parameter, that needs t
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p><code>fairness_check</code> object</p></td>
+      <td><p><code>fairness_object</code> object</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -196,7 +196,9 @@ Red and green zone boundary can be moved through epsilon parameter, that needs t
 <span class='kw'>rf_model</span> <span class='op'>&lt;-</span> <span class='kw'>ranger</span>::<span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>Risk</span> <span class='op'>~</span><span class='kw'>.</span>,
                            data = <span class='kw'>german</span>,
                            probability = <span class='fl'>TRUE</span>,
-                           num.trees = <span class='fl'>200</span>)
+                           max.depth = <span class='fl'>3</span>,
+                           num.trees = <span class='fl'>100</span>,
+                           seed = <span class='fl'>1</span>)
 
 <span class='kw'>explainer_lm</span> <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>lm_model</span>, data = <span class='kw'>german</span>[,<span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>y_numeric</span>)
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
@@ -208,16 +210,19 @@ Red and green zone boundary can be moved through epsilon parameter, that needs t
 #&gt;   -&gt; model_info        :  package stats , ver. 4.0.2 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9572803 , mean =  1.940006e-17 , max =  0.8283475  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>explainer_rf</span> <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>rf_model</span>, data = <span class='kw'>german</span>[,<span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>y_numeric</span>)
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
+<span class='kw'>explainer_rf</span> <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>rf_model</span>,
+                               data = <span class='kw'>german</span>[,<span class='op'>-</span><span class='fl'>1</span>],
+                               y = <span class='kw'>y_numeric</span>)
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.0730377 , mean =  0.6992238 , max =  0.9970455  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.2744313 , mean =  0.6991764 , max =  0.9021086  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7131358 , mean =  0.0007762412 , max =  0.6598993  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8758052 , mean =  0.0008235875 , max =  0.6119131  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
                           protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
@@ -228,10 +233,11 @@ Red and green zone boundary can be moved through epsilon parameter, that needs t
 #&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
 #&gt; -&gt; Fairness objects		: 0 objects 
 #&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
-#&gt; -&gt; Metric calculation		: 10/12 metrics calculated for all models ( </span><span style='color: #BBBB00;'>2 NA created</span><span> )
+#&gt; -&gt; Metric calculation		: 12/12 metrics calculated for all models
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>fobject</span>)
-</div><div class='img'><img src='plot_fairness_object-1.png' alt='' width='700' height='433' /></div></span></pre>
+</div><div class='img'><img src='plot_fairness_object-1.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

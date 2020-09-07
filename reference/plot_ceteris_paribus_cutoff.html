@@ -100,7 +100,7 @@ it all in one plot. When default one is used all chosen metrics will be plotted 
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.2.1</span>
+          <span class="version version-default">0.2.2</span>
         </div>
       </div>
     </div>
@@ -214,10 +214,10 @@ it all in one plot. When default one is used all chosen metrics will be plotted 
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.05305632 , mean =  0.6971445 , max =  0.99739  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.06691071 , mean =  0.6962788 , max =  0.9989444  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7113175 , mean =  0.002855471 , max =  0.6799801  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7448068 , mean =  0.003721189 , max =  0.635671  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
                           protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
@@ -232,10 +232,10 @@ it all in one plot. When default one is used all chosen metrics will be plotted 
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
 <span class='kw'>cpc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ceteris_paribus_cutoff.html'>ceteris_paribus_cutoff</a></span>(<span class='kw'>fobject</span>, <span class='st'>"female"</span>)
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>cpc</span>)
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='plot_ceteris_paribus_cutoff-1.png' alt='' width='700' height='433' /></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 2 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='plot_ceteris_paribus_cutoff-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='kw'>cpc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ceteris_paribus_cutoff.html'>ceteris_paribus_cutoff</a></span>(<span class='kw'>fobject</span>, <span class='st'>"female"</span>, cumulated = <span class='fl'>TRUE</span>)
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>cpc</span>)
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 25 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='plot_ceteris_paribus_cutoff-2.png' alt='' width='700' height='433' /></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 30 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='plot_ceteris_paribus_cutoff-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

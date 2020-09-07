@@ -101,7 +101,7 @@ will sample observations close to border or far from border." />
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.2.1</span>
+          <span class="version version-default">0.2.2</span>
         </div>
       </div>
     </div>
@@ -226,10 +226,10 @@ will sample observations close to border or far from border.</p>
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.04568238 , mean =  0.7244276 , max =  0.9971102  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.04116464 , mean =  0.726346 , max =  0.9987674  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.9949217 , mean =  -0.02442756 , max =  0.713683  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.9884039 , mean =  -0.02634602 , max =  0.7765157  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='kw'>p_indexes</span> <span class='op'>&lt;-</span> <span class='fu'>resample</span>(<span class='kw'>data</span><span class='op'>$</span><span class='kw'>Age</span>, y = <span class='kw'>y_numeric</span>, type = <span class='st'>"preferential"</span>, probs = <span class='kw'>explainer_rf</span><span class='op'>$</span><span class='kw'>y_hat</span>)
 <span class='kw'>rf_p</span> <span class='op'>&lt;-</span> <span class='kw'>ranger</span>::<span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>Risk</span> <span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>data</span>[<span class='kw'>p_indexes</span>, ], probability = <span class='fl'>TRUE</span>, seed = <span class='fl'>123</span>)
@@ -258,19 +258,21 @@ will sample observations close to border or far from border.</p>
 #&gt; -&gt; Metric calculation		: 10/12 metrics calculated for all models ( </span><span style='color: #BBBB00;'>2 NA created</span><span> )
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
 <span class='kw'>fobject</span>
-</div><div class='output co'>#&gt; 
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Omiting NA for models: sampled_preferential</span>
+#&gt; <span class='warning'>Information about passed metrics may be inaccurate due to NA present, it is advisable to check metric_scores plot.</span></div><div class='output co'>#&gt; 
 #&gt; Fairness check for models: not_sampled, sampled_uniform, sampled_preferential 
 #&gt; 
 #&gt; </span><span style='color: #BB0000;'>not_sampled passes 3/5 metrics
 #&gt; </span><span>Total loss:  1.367936 
 #&gt; 
 #&gt; </span><span style='color: #BBBB00;'>sampled_uniform passes 4/5 metrics
-#&gt; </span><span>Total loss:  0.8531033 
+#&gt; </span><span>Total loss:  1.81162 
 #&gt; 
-#&gt; </span><span style='color: #BB0000;'>sampled_preferential passes 3/5 metrics
-#&gt; </span><span>Total loss:  2.323109 
+#&gt; </span><span style='color: #BBBB00;'>sampled_preferential passes 4/5 metrics
+#&gt; </span><span>Total loss:  1.323109 
 #&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>fobject</span>)
-</div><div class='img'><img src='resample-1.png' alt='' width='700' height='433' /></div></span></pre>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Omiting NA for models: sampled_preferential</span>
+#&gt; <span class='warning'>Information about passed metrics may be inaccurate due to NA present, it is advisable to check metric_scores plot.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_bar).</span></div><div class='img'><img src='resample-1.png' alt='' width='700' height='433' /></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
