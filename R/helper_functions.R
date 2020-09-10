@@ -2,7 +2,7 @@
 
 
 fairness_check_metrics <- function(){
-  out <- c('ACC', "FNR", 'PPV', 'FPR', 'STP')
+  out <- c('ACC', "TPR", 'PPV', 'FPR', 'STP')
   return(out)
 }
 

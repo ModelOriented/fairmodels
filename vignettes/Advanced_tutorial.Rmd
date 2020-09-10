@@ -144,9 +144,9 @@ plot(fobject)
 Our metric of interest (`Statistical parity ratio`) has been diminished but not enough. Other metrics are within boundaries, so `weighted` passes 4/5 metrics. There are some tradeoffs visible, some metrics increased their scores. It is not something uncommon. To lower the statistical parity the model must classify some unfavorable cases from unprivileged subgroup as favorable and the opposite for privileged subgroup. Similar outcome will be visible in the next method
 
 ### Resampling
-This method derives from reweighting the data but instead of weights it chooses observations from data the outcome of metrics. There is 2 types of resampling: 
-1. **uniform** - takes random observation from particular subgroup (in particular case - y == 1 or y == 0)
-2. **preferential** - takes/omits observations either close to cutoff or as far from cutoff as possible. It needs probabilities (`probs`)
+This method derives from reweighting the data but instead of weights it chooses observations from data the outcome of metrics. There is 2 types of resampling:    
+1. **uniform** - takes random observation from particular subgroup (in particular case - y == 1 or y == 0)    
+2. **preferential** - takes/omits observations either close to cutoff or as far from cutoff as possible. It needs probabilities (`probs`)   
 
 ```{r}
 # to obtain probs we will use simple linear regression
