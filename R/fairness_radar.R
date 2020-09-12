@@ -54,16 +54,15 @@ fairness_radar <- function(x, fairness_metrics = fairness_check_metrics()){
   # metrics
   if (is.null(fairness_metrics)) fairness_metrics <- fairness_check_metrics()
   if (! is.character(fairness_metrics) ) stop("metric argument must be character metric")
-  sapply(fairness_metrics,assert_parity_metrics)
+  sapply(fairness_metrics, assert_parity_metrics)
 
   if (length(fairness_metrics) < 3 ) stop("Number of metrics in radar plot must be at least 3")
 
   # NA handling
   if (any(is.na(data))){
-    data              <- data
     na_col_index      <- apply(data, 2, function(x) any(is.na(x)))
     cols_with_missing <- names(data)[na_col_index]
-    warning("Found metric with NA: ", cols_with_missing, ", ommiting it")
+    warning("Found metric with NA: ", paste(cols_with_missing, collapse = ", "), ", ommiting it")
 
 
     fairness_metrics <- fairness_metrics[! fairness_metrics %in% cols_with_missing]

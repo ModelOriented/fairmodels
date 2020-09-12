@@ -4,11 +4,11 @@ expect_class(plot_fairmodels(explainer_gbm, protected = compas$Ethnicity, privil
 
 fc <- fobject_big
 
-expect_class(plot_fairmodels(fc, type = "fairness_check"), "ggplot")
+suppressWarnings( expect_class(plot_fairmodels(fc, type = "fairness_check"), "ggplot"))
 suppressWarnings( expect_class(plot_fairmodels(fc, type = "stack_metrics"), "ggplot"))
 suppressWarnings( expect_class(plot_fairmodels(fc, type = "fairness_heatmap"), "ggplot") )
 suppressWarnings(expect_class(plot_fairmodels(fc, type = "fairness_pca"), "ggplot"))
-suppressWarnings( expect_class(plot_fairmodels(fc, type = "fairness_radar"), "ggplot"))
+suppressWarnings( expect_class(plot_fairmodels(fc, type = "fairness_radar", fairness_metrics = c("TPR","TNR","FPR","ACC","STP","FOR","PPV")), "ggplot"))
 expect_class(plot_fairmodels(fc, type = "group_metric"), "ggplot")
 expect_class(plot_fairmodels(fc, type = "choose_metric"), "ggplot")
 expect_class(plot_fairmodels(fc, type = "metric_scores"), "ggplot")
