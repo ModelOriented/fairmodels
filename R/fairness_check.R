@@ -32,13 +32,14 @@
 #' Parity loss - visualization tool
 #'
 #' Parity loss is computed as follows:
-#' M_parity_loss = sum(abs(log(metric/privileged_metric)))
+#' M_parity_loss = sum(abs(log(metric/metric_privileged)))
 #'
 #' where:
 #'
 #' M - some metric mentioned above
 #'
 #' metric - vector of metric scores from each subgroup
+#' metric_privileged - value of metric vector for privileged subgroup
 #'
 #' base_metric - scalar, value of metric for base subgroup
 #'
@@ -60,7 +61,6 @@
 #' \item{STP}{ - Statistical Parity}
 #' \item{ACC}{ - Accuracy}
 #' \item{F1}{ - F1 Score}
-#' \item{MCC}{ - Matthews correlation coefficient}
 #' }
 #'
 #' \item{groups_data}{ - metrics across levels in protected variable}

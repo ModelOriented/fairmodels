@@ -29,7 +29,6 @@
 #' \item TS
 #' \item ACC
 #' \item F1
-#' \item MCC
 #' }
 #' Performance metrics
 #'
