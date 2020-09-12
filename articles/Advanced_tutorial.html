@@ -208,7 +208,7 @@
 #&gt; Fairness check for models: gbm 
 #&gt; 
 #&gt; gbm passes 2/5 metrics
-#&gt; Total loss:  2.092751</code></pre>
+#&gt; Total loss:  2.028729</code></pre>
 <p>Our model passes only few metrics, how big is the bias?</p>
 <div class="sourceCode" id="cb12"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fobject</span>)</pre></div>
@@ -277,7 +277,9 @@
 <div id="resampling" class="section level3">
 <h3 class="hasAnchor">
 <a href="#resampling" class="anchor"></a>Resampling</h3>
-<p>This method derives from reweighting the data but instead of weights it chooses observations from data the outcome of metrics. There is 2 types of resampling: 1. <strong>uniform</strong> - takes random observation from particular subgroup (in particular case - y == 1 or y == 0) 2. <strong>preferential</strong> - takes/omits observations either close to cutoff or as far from cutoff as possible. It needs probabilities (<code>probs</code>)</p>
+<p>This method derives from reweighting the data but instead of weights it chooses observations from data the outcome of metrics. There is 2 types of resampling:<br>
+1. <strong>uniform</strong> - takes random observation from particular subgroup (in particular case - y == 1 or y == 0)<br>
+2. <strong>preferential</strong> - takes/omits observations either close to cutoff or as far from cutoff as possible. It needs probabilities (<code>probs</code>)</p>
 <div class="sourceCode" id="cb16"><pre class="downlit">
 <span class="co"># to obtain probs we will use simple linear regression</span>
 <span class="kw">probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span>(<span class="kw">salary</span> <span class="op">~</span><span class="kw">.</span>, data = <span class="kw">adult</span>, family = <span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span>())<span class="op">$</span><span class="kw">fitted.values</span>
@@ -353,22 +355,22 @@
 #&gt; Fairness check for models: gbm_roc, gbm_uniform, gbm_preferential, gbm_weighted, gbm, gbm_dir 
 #&gt; 
 #&gt; gbm_roc passes 3/5 metrics
-#&gt; Total loss:  1.322579 
+#&gt; Total loss:  1.336648 
 #&gt; 
 #&gt; gbm_uniform passes 2/5 metrics
-#&gt; Total loss:  1.06457 
+#&gt; Total loss:  1.089414 
 #&gt; 
 #&gt; gbm_preferential passes 2/5 metrics
-#&gt; Total loss:  2.513081 
+#&gt; Total loss:  2.642933 
 #&gt; 
-#&gt; gbm_weighted passes 3/5 metrics
-#&gt; Total loss:  1.188946 
+#&gt; gbm_weighted passes 4/5 metrics
+#&gt; Total loss:  1.19968 
 #&gt; 
 #&gt; gbm passes 2/5 metrics
-#&gt; Total loss:  2.092751 
+#&gt; Total loss:  2.028729 
 #&gt; 
 #&gt; gbm_dir passes 3/5 metrics
-#&gt; Total loss:  1.810987</code></pre>
+#&gt; Total loss:  1.777098</code></pre>
 </div>
 <div id="cutoff-manipulation" class="section level3">
 <h3 class="hasAnchor">
@@ -410,25 +412,25 @@
 #&gt; Fairness check for models: gbm_cutoff, gbm_roc, gbm_uniform, gbm_preferential, gbm_weighted, gbm, gbm_dir 
 #&gt; 
 #&gt; gbm_cutoff passes 3/5 metrics
-#&gt; Total loss:  1.416167 
+#&gt; Total loss:  1.412304 
 #&gt; 
 #&gt; gbm_roc passes 3/5 metrics
-#&gt; Total loss:  1.322579 
+#&gt; Total loss:  1.336648 
 #&gt; 
 #&gt; gbm_uniform passes 2/5 metrics
-#&gt; Total loss:  1.06457 
+#&gt; Total loss:  1.089414 
 #&gt; 
 #&gt; gbm_preferential passes 2/5 metrics
-#&gt; Total loss:  2.513081 
+#&gt; Total loss:  2.642933 
 #&gt; 
-#&gt; gbm_weighted passes 3/5 metrics
-#&gt; Total loss:  1.188946 
+#&gt; gbm_weighted passes 4/5 metrics
+#&gt; Total loss:  1.19968 
 #&gt; 
 #&gt; gbm passes 2/5 metrics
-#&gt; Total loss:  2.092751 
+#&gt; Total loss:  2.028729 
 #&gt; 
 #&gt; gbm_dir passes 3/5 metrics
-#&gt; Total loss:  1.810987</code></pre>
+#&gt; Total loss:  1.777098</code></pre>
 </div>
 </div>
 </div>
