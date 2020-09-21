@@ -107,7 +107,7 @@ There are 12 metrics based on confusion matrix :
 
 | Metric | Formula | Full name | fairness names while checking among subgroups |
 |--------|---------|-----------|-------------|
-| TPR | ![tpr](man/figures/formulas/tpr.jpg) | true positive rate | equal opportinity
+| TPR | ![tpr](man/figures/formulas/tpr.jpg) | true positive rate | equal opportunity
 | TNR | ![tnr](man/figures/formulas/tnr.jpg) | true negative rate | 
 | PPV | ![ppv](man/figures/formulas/ppv.jpg) | positive predictive value | predictive parity
 | NPV | ![npv](man/figures/formulas/npv.jpg) | negative predictive value | 
