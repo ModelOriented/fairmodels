@@ -18,7 +18,8 @@ roc_pivot(explainer, protected, privileged, cutoff = 0.5, theta = 0.1)
 \item{theta}{numeric, variable specifies maximal euclidean distance to cutoff resulting ing label switch}
 }
 \value{
-DALEX \code{explainer} with changed y_hat
+DALEX \code{explainer} with changed y_hat. This explainer should be used ONLY by fairmodels as it contains unchanged
+predict function (changed predictions (y_hat) can possibly be invisible by DALEX functions and methods).
 }
 \description{
 Reject Option based Classifier is post-processing bias mitigation method. Method changes labels of favorable, privileged and close to cutoff observations to unfavorable

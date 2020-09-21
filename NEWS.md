@@ -2,6 +2,7 @@
 * `fairness_check_data` now instead of `0` has `NA` due to concerns of interpretability - insignificant difference could lead up to maximal value of loss. With that change when `NA` is created user will see warning when plotting or printing. This doesn't affect other objects and plots.
 * Description fixes
 * Added `metric_scores` plot to basic tutorial
+* Updated new documentation in `roc_pivot`
 
 # fairmodels 0.2.1
 * bug related to `fairness check plot` fixed - rectangles did not appear for low epsilon values

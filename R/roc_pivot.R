@@ -19,7 +19,8 @@
 #'
 #' @references Kamiran, Karim, Zhang 2012 \url{https://ieeexplore.ieee.org/document/6413831/} ROC method
 #'
-#' @return DALEX \code{explainer} with changed y_hat
+#' @return DALEX \code{explainer} with changed y_hat. This explainer should be used ONLY by fairmodels as it contains unchanged
+#' predict function (changed predictions (y_hat) can possibly be invisible by DALEX functions and methods).
 #' @export
 #'
 #' @examples
