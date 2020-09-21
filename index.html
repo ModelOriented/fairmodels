@@ -20,7 +20,7 @@
 <link href="dalexverse-2.css" rel="stylesheet">
 <!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Flexible Tool for Bias Detection, Visualization, and Mitigation">
-<meta property="og:description" content="Measure fairness metrics in one place for many models. Check how big is model's bias towards different races, sex, nationalities etc. Use measures such as Statistical Parity, Equal odds to detect the discrimination against unprivileged groups. Visualize the bias using heatmap, radar plot, biplot, bar chart (and more!). There are various preprocessing and post-processing bias mitigation algorithms implemented.   ">
+<meta property="og:description" content="Measure fairness metrics in one place for many models. Check how big is model's bias towards different races, sex, nationalities etc. Use measures such as Statistical Parity, Equal odds to detect the discrimination against unprivileged groups. Visualize the bias using heatmap, radar plot, biplot, bar chart (and more!). There are various pre-processing and post-processing bias mitigation algorithms implemented.   ">
 <meta property="og:image" content="/logo.png">
 <meta name="robots" content="noindex">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -57,12 +57,6 @@
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -129,7 +123,7 @@
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
 <p>Checking fairness is easy!</p>
-<pre><code><a href="https://modeloriented.github.io/fairmodels/">library(fairmodels)
+<pre><code><a href="https://modeloriented.github.io/fairmodels">library(fairmodels)
 library(ranger)
 library(DALEX)
 
@@ -211,7 +205,7 @@ fairness_object &lt;- fairness_check(explainer3, explainer4, fairness_object, ..
 <td>TPR</td>
 <td><img src="reference/figures/formulas/tpr.jpg" alt="tpr"></td>
 <td>true positive rate</td>
-<td></td>
+<td>equal opportinity</td>
 </tr>
 <tr class="even">
 <td>TNR</td>
@@ -235,7 +229,7 @@ fairness_object &lt;- fairness_check(explainer3, explainer4, fairness_object, ..
 <td>FNR</td>
 <td><img src="reference/figures/formulas/fnr.jpg" alt="fnr"></td>
 <td>false negative rate</td>
-<td>equal opportinity</td>
+<td></td>
 </tr>
 <tr class="even">
 <td>FPR</td>

@@ -108,12 +108,6 @@ Users through print and plot methods may quickly check values of most popular fa
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -234,7 +228,6 @@ Users through print and plot methods may quickly check values of most popular fa
 <li><p>STP - Statistical Parity</p></li>
 <li><p>ACC - Accuracy</p></li>
 <li><p>F1 - F1 Score</p></li>
-<li><p>MCC - Matthews correlation coefficient</p></li>
 </ul></li>
 <li><p>groups_data - metrics across levels in protected variable</p></li>
 <li><p>groups_confusion_matrices - confusion matrices for each subgroup</p></li>
@@ -259,10 +252,11 @@ may lead to misinterpretation of the plot. More on metrics and their equivalents
 <a href='https://en.wikipedia.org/wiki/Fairness_(machine_learning)'>https://en.wikipedia.org/wiki/Fairness_(machine_learning)</a></p>
 <p>Parity loss - visualization tool</p>
 <p>Parity loss is computed as follows:
-M_parity_loss = sum(abs(log(metric/privileged_metric)))</p>
+M_parity_loss = sum(abs(log(metric/metric_privileged)))</p>
 <p>where:</p>
 <p>M - some metric mentioned above</p>
-<p>metric - vector of metric scores from each subgroup</p>
+<p>metric - vector of metric scores from each subgroup
+metric_privileged - value of metric vector for privileged subgroup</p>
 <p>base_metric - scalar, value of metric for base subgroup</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 

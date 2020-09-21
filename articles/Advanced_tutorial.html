@@ -58,12 +58,6 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -119,10 +113,11 @@
 <a href="#model-explanation-bias" class="anchor"></a>Model, explanation &amp; bias</h1>
 <p>In this tutorial you will learn how to tackle bias using the bias mitigation techniques supported by <code>fairmodels</code>. As always we will start from the data.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://modeloriented.github.io/fairmodels/">fairmodels</a></span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://modeloriented.github.io/fairmodels">fairmodels</a></span>)
 
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"adult"</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">adult</span>)</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="kw">adult</span>)
+</pre></div>
 <pre><code>#&gt;   salary age        workclass fnlwgt education education_num     marital_status
 #&gt; 1  &lt;=50K  39        State-gov  77516 Bachelors            13      Never-married
 #&gt; 2  &lt;=50K  50 Self-emp-not-inc  83311 Bachelors            13 Married-civ-spouse
@@ -145,11 +140,12 @@
 #&gt; 5             40           Cuba
 #&gt; 6             40  United-States</code></pre>
 <div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="co"># for this vignette data will be truncated</span></pre></div>
+<span class="co"># for this vignette data will be truncated</span>
+</pre></div>
 <p>We will use adult data to predict whether certain person has yearly salary exceeding 50 000 or not. Our protected variable will be sex. For this tutorial we will be using <code>gbm</code> and of course we will explain it with <code>DALEX</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/gbm-developers/gbm">gbm</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://ModelOriented.github.io/DALEX/">DALEX</a></span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://ModelOriented.github.io/DALEX">DALEX</a></span>)
 
 <span class="kw">adult</span><span class="op">$</span><span class="kw">salary</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="kw">adult</span><span class="op">$</span><span class="kw">salary</span>) <span class="op">-</span><span class="fl">1</span> <span class="co"># 0 if bad and 1 if good risk</span>
 <span class="kw">protected</span>     <span class="op">&lt;-</span> <span class="kw">adult</span><span class="op">$</span><span class="kw">sex</span>
@@ -163,7 +159,8 @@
 <span class="kw">gbm_explainer</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/explain.html">explain</a></span>(<span class="kw">gbm_model</span>,
                          data = <span class="kw">adult</span>[,<span class="op">-</span><span class="fl">1</span>],
                          y = <span class="kw">adult</span><span class="op">$</span><span class="kw">salary</span>,
-                         colorize = <span class="fl">FALSE</span>)</pre></div>
+                         colorize = <span class="fl">FALSE</span>)
+</pre></div>
 <pre><code>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  gbm  (  default  )
 #&gt;   -&gt; data              :  32561  rows  13  cols 
@@ -175,7 +172,8 @@
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9790795 , mean =  -0.0001445991 , max =  0.9864904  
 #&gt;   A new explainer has been created!</code></pre>
 <div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/model_performance.html">model_performance</a></span>(<span class="kw">gbm_explainer</span>)</pre></div>
+<span class="fu"><a href="https://rdrr.io/pkg/DALEX/man/model_performance.html">model_performance</a></span>(<span class="kw">gbm_explainer</span>)
+</pre></div>
 <pre><code>#&gt; Measures for:  classification
 #&gt; recall     : 0.5353909 
 #&gt; precision  : 0.7999238 
@@ -193,7 +191,8 @@
 <span class="kw">fobject</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fairness_check.html">fairness_check</a></span>(<span class="kw">gbm_explainer</span>, 
                           protected  = <span class="kw">protected</span>, 
                           privileged = <span class="st">"Male"</span>, 
-                          colorize = <span class="fl">FALSE</span>)</pre></div>
+                          colorize = <span class="fl">FALSE</span>)
+</pre></div>
 <pre><code>#&gt; Creating fairness object
 #&gt; -&gt; Privileged subgroup       : character ( Ok  )
 #&gt; -&gt; Protected variable        : factor ( Ok  ) 
@@ -203,7 +202,8 @@
 #&gt; -&gt; Metric calculation        : 12/12 metrics calculated for all models
 #&gt;  Fairness object created succesfully</code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">fobject</span>, colorize = <span class="fl">FALSE</span>)</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">fobject</span>, colorize = <span class="fl">FALSE</span>)
+</pre></div>
 <pre><code>#&gt; 
 #&gt; Fairness check for models: gbm 
 #&gt; 
@@ -211,7 +211,8 @@
 #&gt; Total loss:  2.028729</code></pre>
 <p>Our model passes only few metrics, how big is the bias?</p>
 <div class="sourceCode" id="cb12"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fobject</span>)</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fobject</span>)
+</pre></div>
 <p><img src="Advanced_tutorial_files/figure-html/unnamed-chunk-6-1.png" width="720" style="display: block; margin: auto;"></p>
 <p>The biggest bias is in <code>Statistical parity loss</code> metric. It is metric that is frequently look at because it gives answer how much difference is there in positive label rates in model within protected variable. Let’s say that it will be metric that we will try to mitigate.</p>
 </div>
@@ -238,14 +239,16 @@
                              data = <span class="kw">data_fixed</span>[,<span class="op">-</span><span class="fl">1</span>],
                              y = <span class="kw">adult</span><span class="op">$</span><span class="kw">salary</span>,
                              label = <span class="st">"gbm_dir"</span>,
-                             verbose = <span class="fl">FALSE</span>)</pre></div>
+                             verbose = <span class="fl">FALSE</span>)
+</pre></div>
 <p>Now we will compare old explainer and new one.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit">
 <span class="kw">fobject</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fairness_check.html">fairness_check</a></span>(<span class="kw">gbm_explainer</span>, <span class="kw">gbm_explainer_dir</span>,
                           protected = <span class="kw">protected</span>, 
                           privileged = <span class="st">"Male"</span>,
                           verbose = <span class="fl">FALSE</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fobject</span>)</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fobject</span>)
+</pre></div>
 <p><img src="Advanced_tutorial_files/figure-html/unnamed-chunk-8-1.png" width="720" style="display: block; margin: auto;"></p>
 <p>As we can see bias has diminished. But it is not on acceptable level for us. Let’s try something else. As for now we will add explainers to existing <code>fairness_object</code> to compare methods among themselves.</p>
 </div>
@@ -270,7 +273,8 @@
 
 <span class="kw">fobject</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fairness_check.html">fairness_check</a></span>(<span class="kw">fobject</span>, <span class="kw">gbm_explainer_w</span>, verbose = <span class="fl">FALSE</span>)
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fobject</span>)</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fobject</span>)
+</pre></div>
 <p><img src="Advanced_tutorial_files/figure-html/unnamed-chunk-9-1.png" width="720" style="display: block; margin: auto;"></p>
 <p>Our metric of interest (<code>Statistical parity ratio</code>) has been diminished but not enough. Other metrics are within boundaries, so <code>weighted</code> passes 4/5 metrics. There are some tradeoffs visible, some metrics increased their scores. It is not something uncommon. To lower the statistical parity the model must classify some unfavorable cases from unprivileged subgroup as favorable and the opposite for privileged subgroup. Similar outcome will be visible in the next method</p>
 </div>
@@ -315,7 +319,8 @@
 
 <span class="kw">fobject</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fairness_check.html">fairness_check</a></span>(<span class="kw">fobject</span>, <span class="kw">gbm_explainer_u</span>, <span class="kw">gbm_explainer_p</span>, 
                           verbose = <span class="fl">FALSE</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fobject</span>)</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fobject</span>)
+</pre></div>
 <p><img src="Advanced_tutorial_files/figure-html/unnamed-chunk-10-1.png" width="720" style="display: block; margin: auto;"></p>
 <p>As we can see <code>preferential</code> sampling is best at mitigating <code>Statistical parity ratio</code>. As byproduct it also affects other metrics significantly.</p>
 </div>
@@ -346,11 +351,13 @@
                           label = <span class="st">"gbm_roc"</span>,  <span class="co"># label as vector for explainers</span>
                           verbose = <span class="fl">FALSE</span>) 
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fobject</span>)</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fobject</span>)
+</pre></div>
 <p><img src="Advanced_tutorial_files/figure-html/unnamed-chunk-11-1.png" width="720" style="display: block; margin: auto;"></p>
 <p><code>gmb_weighted</code> is the best so far</p>
 <div class="sourceCode" id="cb18"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">fobject</span>, colorize = <span class="fl">FALSE</span>)</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">fobject</span>, colorize = <span class="fl">FALSE</span>)
+</pre></div>
 <pre><code>#&gt; 
 #&gt; Fairness check for models: gbm_roc, gbm_uniform, gbm_preferential, gbm_weighted, gbm, gbm_dir 
 #&gt; 
@@ -390,13 +397,15 @@
                           privileged = <span class="st">"Male"</span>,
                           verbose = <span class="fl">FALSE</span>) 
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="fu"><a href="../reference/ceteris_paribus_cutoff.html">ceteris_paribus_cutoff</a></span>(<span class="kw">fobject_test</span>, subgroup = <span class="st">"Female"</span>))</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="fu"><a href="../reference/ceteris_paribus_cutoff.html">ceteris_paribus_cutoff</a></span>(<span class="kw">fobject_test</span>, subgroup = <span class="st">"Female"</span>))
+</pre></div>
 <p><img src="Advanced_tutorial_files/figure-html/unnamed-chunk-13-1.png" width="720" style="display: block; margin: auto;"></p>
 <p>It is possible to minimize all metrics or only few metrics of our interest.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="fu"><a href="../reference/ceteris_paribus_cutoff.html">ceteris_paribus_cutoff</a></span>(<span class="kw">fobject_test</span>,
                             subgroup = <span class="st">"Female"</span>,
-                            fairness_metrics = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"ACC"</span>,<span class="st">"TPR"</span>,<span class="st">"STP"</span>)))</pre></div>
+                            fairness_metrics = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"ACC"</span>,<span class="st">"TPR"</span>,<span class="st">"STP"</span>)))
+</pre></div>
 <p><img src="Advanced_tutorial_files/figure-html/unnamed-chunk-14-1.png" width="720" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb22"><pre class="downlit">
 <span class="kw">fc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fairness_check.html">fairness_check</a></span>(<span class="kw">gbm_explainer</span>, <span class="kw">fobject</span>,
@@ -404,10 +413,12 @@
                      cutoff = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(Female = <span class="fl">0.35</span>),
                      verbose = <span class="fl">FALSE</span>)
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fc</span>)</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fc</span>)
+</pre></div>
 <p><img src="Advanced_tutorial_files/figure-html/unnamed-chunk-15-1.png" width="720" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb23"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">fc</span> , colorize = <span class="fl">FALSE</span>)</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">fc</span> , colorize = <span class="fl">FALSE</span>)
+</pre></div>
 <pre><code>#&gt; 
 #&gt; Fairness check for models: gbm_cutoff, gbm_roc, gbm_uniform, gbm_preferential, gbm_weighted, gbm, gbm_dir 
 #&gt; 
@@ -440,13 +451,15 @@
 <p>There is significant tradeoff between bias and accuracy one way to visualize it is to use <code>performance_and_fairness</code> function</p>
 <div class="sourceCode" id="cb25"><pre class="downlit">
 <span class="kw">paf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/performance_and_fairness.html">performance_and_fairness</a></span>(<span class="kw">fc</span>, fairness_metric = <span class="st">"STP"</span>,
-                                 performance_metric = <span class="st">"accuracy"</span>)</pre></div>
+                                 performance_metric = <span class="st">"accuracy"</span>)
+</pre></div>
 <pre><code>#&gt; 
 #&gt; Creating object with: 
 #&gt; Fairness metric: STP 
 #&gt; Performance metric: accuracy</code></pre>
 <div class="sourceCode" id="cb27"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">paf</span>)</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">paf</span>)
+</pre></div>
 <p><img src="Advanced_tutorial_files/figure-html/unnamed-chunk-17-1.png" width="720" style="display: block; margin: auto;"></p>
 <p>The tradeoff is significant and it should be always be taken into consideration.</p>
 </div>
