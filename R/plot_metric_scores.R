@@ -64,6 +64,7 @@ plot.metric_scores <- function(x, ...){
                        breaks = unique(data$model_numeric),
                        labels = levels(data$model)) +
     theme_drwhy_vertical() +
+    scale_color_manual(values = DALEX::colors_discrete_drwhy(length(levels(data$model)))) +
     ggtitle("Metric scores plot",
             subtitle = paste("Created with", paste(
       as.character(unique(data$model)), collapse = ", ")))
