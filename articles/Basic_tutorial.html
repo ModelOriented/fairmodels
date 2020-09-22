@@ -169,10 +169,10 @@
 #&gt;   -&gt; data              :  6172  rows  6  cols 
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used (  default  )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.153834 , mean =  0.5451892 , max =  0.8589317  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1605519 , mean =  0.5450459 , max =  0.8724236  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification (  default  ) 
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8471171 , mean =  -0.0003090514 , max =  0.7785729  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8492459 , mean =  -0.0001658224 , max =  0.7776989  
 #&gt;   A new explainer has been created!</code></pre>
 <div id="fairness-check" class="section level3">
 <h3 class="hasAnchor">
@@ -191,7 +191,7 @@
 #&gt; -&gt; Cutoff values for explainers  : 0.5 ( for all subgroups )
 #&gt; -&gt; Fairness objects      : 0 objects 
 #&gt; -&gt; Checking explainers       : 1 in total (  compatible  )
-#&gt; -&gt; Metric calculation        : 10/12 metrics calculated for all models ( 2 NA created )
+#&gt; -&gt; Metric calculation        : 12/12 metrics calculated for all models
 #&gt;  Fairness object created succesfully</code></pre>
 <p>Let’s see if our ranger model has bias.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit">
@@ -201,7 +201,7 @@
 #&gt; Fairness check for models: ranger 
 #&gt; 
 #&gt; ranger passes 2/5 metrics
-#&gt; Total loss:  3.698016</code></pre>
+#&gt; Total loss:  3.697152</code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fobject</span>)
 </pre></div>
@@ -283,17 +283,17 @@
 <span class="kw">fobject</span><span class="op">$</span><span class="kw">parity_loss_metric_data</span>
 </pre></div>
 <pre><code>#&gt;         TPR       TNR       PPV       NPV       FNR       FPR       FDR
-#&gt; 1 0.3976902 1.2511537 0.4859671 0.7339807 1.6654218 1.7041164 1.3910955
+#&gt; 1 0.6543728 0.9564557 0.4340678 0.4943407 2.0933227 1.6062123 1.2928436
 #&gt; 2 0.5471779        NA 0.1630229        NA 3.2047184 1.9228318 0.3724644
-#&gt; 3 0.5253299 1.2253772 0.4568264 0.6307265 2.7444036 1.8958208 1.4871686
+#&gt; 3 0.5420384 1.2931292 0.4228627 0.5513286 2.8587340 1.9203713 1.3106536
 #&gt; 4 0.6611125 0.7401031 0.7674172 0.8209521 0.8762755 0.8532876 1.4329174
-#&gt; 5 0.6323438 2.4596961 0.3324256 0.9196980 2.5885754 2.1829739 0.8838782
+#&gt; 5 0.6092102 2.4216818 0.3400721 0.9214139 2.5077099 2.1441107 0.9013434
 #&gt;         FOR        TS       STP       ACC        F1
-#&gt; 1 1.3892629 0.7150599 0.8731178 0.4174524 0.4430506
+#&gt; 1 0.7714054 0.6637935 1.1133131 0.4133125 0.4164699
 #&gt; 2 1.7116794 0.5362121 1.1034842 0.1969839 0.3361082
-#&gt; 3 1.5532640 0.7941818 1.0316250 0.4632349 0.4853351
+#&gt; 3 1.3162753 0.7728129 1.0899043 0.4356680 0.4741877
 #&gt; 4 0.6729784 0.8970468 0.5742171 0.3638060 0.6304323
-#&gt; 5 1.1090437 0.5307139 1.2196301 0.2367140 0.3318572</code></pre>
+#&gt; 5 1.1176748 0.5176682 1.1917397 0.2211292 0.3233861</code></pre>
 <ul>
 <li>groups_data</li>
 </ul>
@@ -303,9 +303,9 @@
 <span class="kw">fobject</span><span class="op">$</span><span class="kw">groups_data</span><span class="op">$</span><span class="kw">ranger</span><span class="op">$</span><span class="kw">TPR</span>
 </pre></div>
 <pre><code>#&gt; African_American            Asian        Caucasian         Hispanic 
-#&gt;        0.6697490        0.8695652        0.8149883        0.8406250 
+#&gt;        0.6129458        0.8695652        0.7533177        0.8062500 
 #&gt;  Native_American            Other 
-#&gt;        0.8333333        0.8858447</code></pre>
+#&gt;        0.6666667        0.8447489</code></pre>
 <p>It is simply metrics for certain subgroup.</p>
 <p>What is relation between <code>$groups_data</code> and <code>$parity_loss_metric_data</code> ?</p>
 <p>If we were going only to take score from certain metric (Let’s say fpr and 0.3) we wouldn’t know if it is good or bad. But we are aiming for <strong>equal treatment over all groups</strong> so if this metric score would be the same in all groups it would be very good. But the metrics wouldn’t be comparable between each others (fpr - 0.3 in all groups and accuracy - 0.9 in all groups, both are good in terms of parity). That is why we use <strong>privileged</strong> - to set benchmark. And for example Caucasian in fpr had score of 0.3 and African American 0.6. After setting <code>privilieged = Caucasian</code> Caucasian would have score 0, and African American <code><a href="https://rdrr.io/r/base/Log.html">log(0.6/0.3)</a></code>. It enables comparing and adding scores.</p>
@@ -380,17 +380,17 @@
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">fair_pca</span>)
 </pre></div>
 <pre><code>#&gt; Fairness PCA : 
-#&gt;             PC1        PC2        PC3        PC4           PC5
-#&gt; [1,] -0.6353903 -1.5222085  0.5883554  0.7776400  6.418477e-17
-#&gt; [2,]  2.9208379  0.5673663  0.8664566 -0.5087595  3.330669e-15
-#&gt; [3,] -0.2641765 -1.4908014 -0.7680243 -0.6902764 -2.498002e-16
-#&gt; [4,] -3.9163252  1.3168721  0.1821148 -0.1719362  1.110223e-15
-#&gt; [5,]  1.8950540  1.1287715 -0.8689024  0.5933320 -2.553513e-15
+#&gt;             PC1         PC2        PC3         PC4           PC5
+#&gt; [1,] -0.7971415  0.03815796 -1.3525762  0.46596372 -7.580742e-16
+#&gt; [2,]  3.0709978 -0.49716136  1.1160240  0.30198481 -9.367507e-16
+#&gt; [3,]  0.1826437  1.91810107  0.2348131 -0.17792944 -7.598089e-16
+#&gt; [4,] -4.1361823 -0.62891597  0.7825681 -0.08039847 -6.800116e-16
+#&gt; [5,]  1.6796822 -0.83018170 -0.7808290 -0.50962062 -8.743006e-16
 #&gt; 
 #&gt; Created with: 
 #&gt; [1] "ranger"   "lm"       "ranger_2" "ranger_3" "gbm"     
 #&gt; 
-#&gt; First two components explained 90 % of variance.</code></pre>
+#&gt; First two components explained 88 % of variance.</code></pre>
 <p>Let’s plot!</p>
 <div class="sourceCode" id="cb25"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fair_pca</span>)
