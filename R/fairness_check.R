@@ -342,16 +342,9 @@ fairness_check <- function(x,
     # group metric matrix
     gmm <- calculate_group_fairness_metrics(group_matrices)
 
-    # from every column in matrix subtract base column, then get abs value
-    # in other words we measure distance between base group
-    # metrics score and other groups metric scores
-
-    gmm_scaled      <- apply(gmm, 2 , function(x) x  / gmm[, privileged])
-    gmm_abs         <- apply(gmm_scaled, 2 , function(x) sapply(x, function(y) abs(log(y))))
-    gmm_loss        <- rowSums(gmm_abs)
-
-    # when there is Inf in data change it to NA
-    parity_loss_metric_data[i, ] <- sapply(gmm_loss , function(y) ifelse(is.infinite(y), NA, y))
+    # parity_loss
+    parity_loss <- calculate_parity_loss(gmm, privileged)
+    parity_loss_metric_data[i, ] <- parity_loss
 
 
     # every group value for every metric for every explainer
@@ -441,7 +434,7 @@ fairness_check <- function(x,
 
   # as data frame and making numeric
   parity_loss_metric_data           <- as.data.frame(parity_loss_metric_data)
-  colnames(parity_loss_metric_data) <- names(gmm_loss)
+  colnames(parity_loss_metric_data) <- names(parity_loss)
 
 
   # merge explainers data with fobjects

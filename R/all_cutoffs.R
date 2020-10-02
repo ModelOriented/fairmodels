@@ -52,6 +52,7 @@ all_cutoffs <- function(x,
 
 
   explainers <- x$explainers
+  n_exp      <- length(explainers)
   cutoffs    <- seq(0,1, length.out =  grid_points)
   protected  <- x$protected
   privileged <- x$privileged
@@ -61,6 +62,7 @@ all_cutoffs <- function(x,
 
   # custom cutoffs will give messages (0 in matrices, NA in metrics)  numerous times,
   # so for code below they will be suppressed
+  parity_loss_metric_data       <- matrix(nrow = n_exp, ncol = 12)
 
   suppressMessages(
   for (i in seq_along(explainers)){
@@ -77,15 +79,13 @@ all_cutoffs <- function(x,
                                        cutoff = custom_cutoff_vec)
 
       # like in create fobject
-      gmm             <- calculate_group_fairness_metrics(group_matrices)
-      gmm_scaled      <- abs(apply(gmm, 2 , function(x) x  - gmm[,privileged]))
-      gmm_loss        <- rowSums(gmm_scaled)
+      gmm            <- calculate_group_fairness_metrics(group_matrices)
+      parity_loss    <- calculate_parity_loss(gmm, privileged)
+      parity_loss <- parity_loss[names(parity_loss) %in% fairness_metrics]
 
-      gmm_loss_unique <- gmm_loss[names(gmm_loss) %in% fairness_metrics]
-
-      to_add <- data.frame(parity_loss = as.numeric(gmm_loss_unique),
-                           metric      = names(gmm_loss_unique),
-                           cutoff      = rep(custom_cutoff, length(gmm_loss_unique)),
+      to_add <- data.frame(parity_loss = as.numeric(parity_loss),
+                           metric      = names(parity_loss),
+                           cutoff      = rep(custom_cutoff, length(parity_loss)),
                            label       = x$label[i])
 
       cutoff_data <- rbind(cutoff_data , to_add)
