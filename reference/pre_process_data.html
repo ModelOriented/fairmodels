@@ -98,7 +98,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.2.2</span>
+          <span class="version version-default">0.2.3</span>
         </div>
       </div>
     </div>
@@ -153,7 +153,7 @@
     <p>Function aggregates all pre-processing algorithms for bias mitigation. User passes unified arguments and specifies type to receive transformed <code>data.frame</code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>pre_process_data</span>(<span class='kw'>data</span>, <span class='kw'>protected</span>, <span class='kw'>y</span>, type = <span class='st'>"resample_uniform"</span>, <span class='kw'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>pre_process_data</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>protected</span>, <span class='va'>y</span>, type <span class='op'>=</span> <span class='st'>"resample_uniform"</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -191,13 +191,13 @@
 In other cases data is ready to be passed as training data to a model.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"german"</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"german"</span><span class='op'>)</span>
 
-<span class='fu'>pre_process_data</span>(<span class='kw'>german</span>,
-                 <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
-                 <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='kw'>german</span><span class='op'>$</span><span class='kw'>Risk</span>)<span class='op'>-</span><span class='fl'>1</span>,
-                 type = <span class='st'>"disparate_impact_remover"</span>,
-                 features_to_transform = <span class='st'>'Age'</span>)
+<span class='fu'>pre_process_data</span><span class='op'>(</span><span class='va'>german</span>,
+                 <span class='va'>german</span><span class='op'>$</span><span class='va'>Sex</span>,
+                 <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>german</span><span class='op'>$</span><span class='va'>Risk</span><span class='op'>)</span><span class='op'>-</span><span class='fl'>1</span>,
+                 type <span class='op'>=</span> <span class='st'>"disparate_impact_remover"</span>,
+                 features_to_transform <span class='op'>=</span> <span class='st'>'Age'</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;      Risk    Sex Job Housing Saving.accounts Checking.account Credit.amount
 #&gt; 1    good   male   2     own       not_known           little          1169
 #&gt; 2     bad female   2     own          little         moderate          5951

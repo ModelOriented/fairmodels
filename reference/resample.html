@@ -101,7 +101,7 @@ will sample observations close to border or far from border." />
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.2.2</span>
+          <span class="version version-default">0.2.3</span>
         </div>
       </div>
     </div>
@@ -159,7 +159,7 @@ If type of sampling is set to 'preferential' and probs are provided than instead
 will sample observations close to border or far from border.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>resample</span>(<span class='kw'>protected</span>, <span class='kw'>y</span>, type = <span class='st'>"uniform"</span>, probs = <span class='kw'>NULL</span>, cutoff = <span class='fl'>0.5</span>)</pre>
+    <pre class="usage"><span class='fu'>resample</span><span class='op'>(</span><span class='va'>protected</span>, <span class='va'>y</span>, type <span class='op'>=</span> <span class='st'>"uniform"</span>, probs <span class='op'>=</span> <span class='cn'>NULL</span>, cutoff <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -194,17 +194,17 @@ will sample observations close to border or far from border.</p>
     <p>This method was implemented based on Kamiran, Calders 2011 <a href='https://link.springer.com/content/pdf/10.1007/s10115-011-0463-8.pdf'>https://link.springer.com/content/pdf/10.1007/s10115-011-0463-8.pdf</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"german"</span>)
-<span class='kw'>data</span> <span class='op'>&lt;-</span> <span class='kw'>german</span>
-<span class='kw'>data</span><span class='op'>$</span><span class='kw'>Age</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span>(<span class='kw'>data</span><span class='op'>$</span><span class='kw'>Age</span> <span class='op'>&lt;=</span> <span class='fl'>25</span>, <span class='st'>"young"</span>, <span class='st'>"old"</span>))
-<span class='kw'>y_numeric</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='kw'>data</span><span class='op'>$</span><span class='kw'>Risk</span>) <span class='op'>-</span><span class='fl'>1</span>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"german"</span><span class='op'>)</span>
+<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='va'>german</span>
+<span class='va'>data</span><span class='op'>$</span><span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>$</span><span class='va'>Age</span> <span class='op'>&lt;=</span> <span class='fl'>25</span>, <span class='st'>"young"</span>, <span class='st'>"old"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>y_numeric</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>$</span><span class='va'>Risk</span><span class='op'>)</span> <span class='op'>-</span><span class='fl'>1</span>
 
-<span class='kw'>rf</span> <span class='op'>&lt;-</span> <span class='kw'>ranger</span>::<span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>Risk</span> <span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>data</span>, probability = <span class='fl'>TRUE</span>, seed = <span class='fl'>123</span>)
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'>ranger</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span><span class='op'>(</span><span class='va'>Risk</span> <span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>data</span>, probability <span class='op'>=</span> <span class='cn'>TRUE</span>, seed <span class='op'>=</span> <span class='fl'>123</span><span class='op'>)</span>
 
-<span class='kw'>u_indexes</span> <span class='op'>&lt;-</span> <span class='fu'>resample</span>(<span class='kw'>data</span><span class='op'>$</span><span class='kw'>Age</span>, y = <span class='kw'>y_numeric</span>)
-<span class='kw'>rf_u</span> <span class='op'>&lt;-</span> <span class='kw'>ranger</span>::<span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>Risk</span> <span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>data</span>[<span class='kw'>u_indexes</span>, ], probability = <span class='fl'>TRUE</span>, seed = <span class='fl'>123</span>)
+<span class='va'>u_indexes</span> <span class='op'>&lt;-</span> <span class='fu'>resample</span><span class='op'>(</span><span class='va'>data</span><span class='op'>$</span><span class='va'>Age</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span><span class='op'>)</span>
+<span class='va'>rf_u</span> <span class='op'>&lt;-</span> <span class='fu'>ranger</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span><span class='op'>(</span><span class='va'>Risk</span> <span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>data</span><span class='op'>[</span><span class='va'>u_indexes</span>, <span class='op'>]</span>, probability <span class='op'>=</span> <span class='cn'>TRUE</span>, seed <span class='op'>=</span> <span class='fl'>123</span><span class='op'>)</span>
 
-<span class='kw'>explainer_rf</span>   <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>rf</span>, data = <span class='kw'>data</span>[, <span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>y_numeric</span>, label = <span class='st'>"not_sampled"</span>)
+<span class='va'>explainer_rf</span>   <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://ModelOriented.github.io/DALEX/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>rf</span>, data <span class='op'>=</span> <span class='va'>data</span><span class='op'>[</span>, <span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span>, label <span class='op'>=</span> <span class='st'>"not_sampled"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  not_sampled 
 #&gt;   -&gt; data              :  1000  rows  9  cols 
@@ -214,7 +214,7 @@ will sample observations close to border or far from border.</p>
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.7430213 , mean =  0.001756243 , max =  0.657119  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>explainer_rf_u</span> <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>rf_u</span>, data = <span class='kw'>data</span>[, <span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>y_numeric</span>, label = <span class='st'>"sampled_uniform"</span>)
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='va'>explainer_rf_u</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://ModelOriented.github.io/DALEX/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>rf_u</span>, data <span class='op'>=</span> <span class='va'>data</span><span class='op'>[</span>, <span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span>, label <span class='op'>=</span> <span class='st'>"sampled_uniform"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  sampled_uniform 
 #&gt;   -&gt; data              :  1000  rows  9  cols 
@@ -225,11 +225,11 @@ will sample observations close to border or far from border.</p>
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9884039 , mean =  -0.02634602 , max =  0.7765157  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='kw'>p_indexes</span> <span class='op'>&lt;-</span> <span class='fu'>resample</span>(<span class='kw'>data</span><span class='op'>$</span><span class='kw'>Age</span>, y = <span class='kw'>y_numeric</span>, type = <span class='st'>"preferential"</span>, probs = <span class='kw'>explainer_rf</span><span class='op'>$</span><span class='kw'>y_hat</span>)
-<span class='kw'>rf_p</span> <span class='op'>&lt;-</span> <span class='kw'>ranger</span>::<span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>Risk</span> <span class='op'>~</span><span class='kw'>.</span>, data = <span class='kw'>data</span>[<span class='kw'>p_indexes</span>, ], probability = <span class='fl'>TRUE</span>, seed = <span class='fl'>123</span>)
+<span class='va'>p_indexes</span> <span class='op'>&lt;-</span> <span class='fu'>resample</span><span class='op'>(</span><span class='va'>data</span><span class='op'>$</span><span class='va'>Age</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span>, type <span class='op'>=</span> <span class='st'>"preferential"</span>, probs <span class='op'>=</span> <span class='va'>explainer_rf</span><span class='op'>$</span><span class='va'>y_hat</span><span class='op'>)</span>
+<span class='va'>rf_p</span> <span class='op'>&lt;-</span> <span class='fu'>ranger</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span><span class='op'>(</span><span class='va'>Risk</span> <span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>data</span><span class='op'>[</span><span class='va'>p_indexes</span>, <span class='op'>]</span>, probability <span class='op'>=</span> <span class='cn'>TRUE</span>, seed <span class='op'>=</span> <span class='fl'>123</span><span class='op'>)</span>
 
-<span class='kw'>explainer_rf_p</span> <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>rf_p</span>, data = <span class='kw'>data</span>[, <span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>y_numeric</span>,
-                                 label = <span class='st'>"sampled_preferential"</span>)
+<span class='va'>explainer_rf_p</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://ModelOriented.github.io/DALEX/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>rf_p</span>, data <span class='op'>=</span> <span class='va'>data</span><span class='op'>[</span>, <span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span>,
+                                 label <span class='op'>=</span> <span class='st'>"sampled_preferential"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  sampled_preferential 
 #&gt;   -&gt; data              :  1000  rows  9  cols 
@@ -240,9 +240,9 @@ will sample observations close to border or far from border.</p>
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9933262 , mean =  0.004574909 , max =  0.9203419  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_rf</span>, <span class='kw'>explainer_rf_u</span>, <span class='kw'>explainer_rf_p</span>,
-                          protected = <span class='kw'>data</span><span class='op'>$</span><span class='kw'>Age</span>,
-                          privileged = <span class='st'>"old"</span>)
+<span class='va'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span><span class='op'>(</span><span class='va'>explainer_rf</span>, <span class='va'>explainer_rf_u</span>, <span class='va'>explainer_rf_p</span>,
+                          protected <span class='op'>=</span> <span class='va'>data</span><span class='op'>$</span><span class='va'>Age</span>,
+                          privileged <span class='op'>=</span> <span class='st'>"old"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Creating fairness object
 #&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
 #&gt; -&gt; Protected variable		: factor (</span><span style='color: #00BB00;'> Ok </span><span> ) 
@@ -251,7 +251,7 @@ will sample observations close to border or far from border.</p>
 #&gt; -&gt; Checking explainers		: 3 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
 #&gt; -&gt; Metric calculation		: 10/12 metrics calculated for all models ( </span><span style='color: #BBBB00;'>2 NA created</span><span> )
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
-<span class='kw'>fobject</span>
+<span class='va'>fobject</span>
 </div><div class='output co'>#&gt; 
 #&gt; Fairness check for models: not_sampled, sampled_uniform, sampled_preferential 
 #&gt; 
@@ -263,7 +263,7 @@ will sample observations close to border or far from border.</p>
 #&gt; 
 #&gt; </span><span style='color: #BBBB00;'>sampled_preferential passes 4/5 metrics
 #&gt; </span><span>Total loss:  1.367356 
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>fobject</span>)
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>fobject</span><span class='op'>)</span>
 </div><div class='img'><img src='resample-1.png' alt='' width='700' height='433' /></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

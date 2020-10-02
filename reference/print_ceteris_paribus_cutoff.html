@@ -98,7 +98,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.2.2</span>
+          <span class="version version-default">0.2.3</span>
         </div>
       </div>
     </div>
@@ -154,7 +154,7 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for ceteris_paribus_cutoff</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>x</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -172,21 +172,21 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"german"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"german"</span><span class='op'>)</span>
 
-<span class='kw'>german</span> <span class='op'>&lt;-</span> <span class='kw'>german</span>[<span class='fl'>1</span><span class='op'>:</span><span class='fl'>500</span>,]
-<span class='kw'>y_numeric</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='kw'>german</span><span class='op'>$</span><span class='kw'>Risk</span>) <span class='op'>-</span><span class='fl'>1</span>
+<span class='va'>german</span> <span class='op'>&lt;-</span> <span class='va'>german</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>500</span>,<span class='op'>]</span>
+<span class='va'>y_numeric</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>german</span><span class='op'>$</span><span class='va'>Risk</span><span class='op'>)</span> <span class='op'>-</span><span class='fl'>1</span>
 
-<span class='kw'>lm_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='kw'>Risk</span><span class='op'>~</span><span class='kw'>.</span>,
-                data = <span class='kw'>german</span>,
-                family=<span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(link=<span class='st'>"logit"</span>))
+<span class='va'>lm_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span><span class='op'>(</span><span class='va'>Risk</span><span class='op'>~</span><span class='va'>.</span>,
+                data <span class='op'>=</span> <span class='va'>german</span>,
+                family<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span><span class='op'>(</span>link<span class='op'>=</span><span class='st'>"logit"</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='kw'>rf_model</span> <span class='op'>&lt;-</span> <span class='kw'>ranger</span>::<span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span>(<span class='kw'>Risk</span> <span class='op'>~</span><span class='kw'>.</span>,
-                           data = <span class='kw'>german</span>,
-                           probability = <span class='fl'>TRUE</span>,
-                           num.trees = <span class='fl'>200</span>)
+<span class='va'>rf_model</span> <span class='op'>&lt;-</span> <span class='fu'>ranger</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span><span class='op'>(</span><span class='va'>Risk</span> <span class='op'>~</span><span class='va'>.</span>,
+                           data <span class='op'>=</span> <span class='va'>german</span>,
+                           probability <span class='op'>=</span> <span class='cn'>TRUE</span>,
+                           num.trees <span class='op'>=</span> <span class='fl'>200</span><span class='op'>)</span>
 
-<span class='kw'>explainer_lm</span> <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>lm_model</span>, data = <span class='kw'>german</span>[,<span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>y_numeric</span>)
+<span class='va'>explainer_lm</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://ModelOriented.github.io/DALEX/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>lm_model</span>, data <span class='op'>=</span> <span class='va'>german</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( <span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  500  rows  9  cols 
@@ -196,7 +196,7 @@
 #&gt;   -&gt; model_info        :  package stats , ver. 4.0.2 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.952954 , mean =  1.222888e-13 , max =  0.7735841  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='kw'>explainer_rf</span> <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>rf_model</span>, data = <span class='kw'>german</span>[,<span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>y_numeric</span>)
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='va'>explainer_rf</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://ModelOriented.github.io/DALEX/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>rf_model</span>, data <span class='op'>=</span> <span class='va'>german</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  500  rows  9  cols 
@@ -207,9 +207,9 @@
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.7232698 , mean =  0.003337473 , max =  0.5541845  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>, <span class='kw'>explainer_rf</span>,
-                          protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
-                          privileged = <span class='st'>"male"</span>)
+<span class='va'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span><span class='op'>(</span><span class='va'>explainer_lm</span>, <span class='va'>explainer_rf</span>,
+                          protected <span class='op'>=</span> <span class='va'>german</span><span class='op'>$</span><span class='va'>Sex</span>,
+                          privileged <span class='op'>=</span> <span class='st'>"male"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Creating fairness object
 #&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
 #&gt; -&gt; Protected variable		: factor (</span><span style='color: #00BB00;'> Ok </span><span> ) 
@@ -218,18 +218,18 @@
 #&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
 #&gt; -&gt; Metric calculation		: 12/12 metrics calculated for all models
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
-<span class='fu'><a href='ceteris_paribus_cutoff.html'>ceteris_paribus_cutoff</a></span>(<span class='kw'>fobject</span>, <span class='st'>"female"</span>)
+<span class='fu'><a href='ceteris_paribus_cutoff.html'>ceteris_paribus_cutoff</a></span><span class='op'>(</span><span class='va'>fobject</span>, <span class='st'>"female"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 
 #&gt; Ceteribus paribus cutoff for subgroup: female 
 #&gt; 
 #&gt; First rows from data: 
 #&gt;   parity_loss metric cutoff model
-#&gt; 1  0.07662835    TPR   0.00    lm
-#&gt; 2  0.12838849    PPV   0.00    lm
-#&gt; 3  0.33333333    FPR   0.00    lm
-#&gt; 4  0.14080460    STP   0.00    lm
-#&gt; 5  0.09823049    ACC   0.00    lm
-#&gt; 6  0.07662835    TPR   0.01    lm
+#&gt; 1  0.07972347    TPR   0.00    lm
+#&gt; 2  0.17350489    PPV   0.00    lm
+#&gt; 3  0.40546511    FPR   0.00    lm
+#&gt; 4  0.15175891    STP   0.00    lm
+#&gt; 5  0.13537101    ACC   0.00    lm
+#&gt; 6  0.07972347    TPR   0.01    lm
 #&gt; 
 #&gt; Minimums: 
 #&gt;         model mins

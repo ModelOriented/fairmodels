@@ -98,7 +98,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.2.2</span>
+          <span class="version version-default">0.2.3</span>
         </div>
       </div>
     </div>
@@ -153,23 +153,23 @@
     <p>Easier access to all plots in fairmodels. Provide plot type (that matches to function name), pass additional parameters and plot.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_fairmodels</span>(<span class='kw'>x</span>, <span class='kw'>type</span>, <span class='kw'>...</span>)
+    <pre class="usage"><span class='fu'>plot_fairmodels</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>type</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for explainer</span>
-<span class='fu'>plot_fairmodels</span>(<span class='kw'>x</span>, type = <span class='st'>"fairness_check"</span>, <span class='kw'>...</span>, <span class='kw'>protected</span>, <span class='kw'>privileged</span>)
+<span class='fu'>plot_fairmodels</span><span class='op'>(</span><span class='va'>x</span>, type <span class='op'>=</span> <span class='st'>"fairness_check"</span>, <span class='va'>...</span>, <span class='va'>protected</span>, <span class='va'>privileged</span><span class='op'>)</span>
 
 <span class='co'># S3 method for fairness_object</span>
-<span class='fu'>plot_fairmodels</span>(<span class='kw'>x</span>, type = <span class='st'>"fairness_check"</span>, <span class='kw'>...</span>)
+<span class='fu'>plot_fairmodels</span><span class='op'>(</span><span class='va'>x</span>, type <span class='op'>=</span> <span class='st'>"fairness_check"</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>plot_fairmodels</span>(<span class='kw'>x</span>, type = <span class='st'>"fairness_check"</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'>plot_fairmodels</span><span class='op'>(</span><span class='va'>x</span>, type <span class='op'>=</span> <span class='st'>"fairness_check"</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>object created with <code>fairness_check</code> or with <code><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></code></p></td>
+      <td><p>object created with <code>fairness_check</code> or with <code><a href='https://ModelOriented.github.io/DALEX/reference/explain.html'>explain</a></code></p></td>
     </tr>
     <tr>
       <th>type</th>
@@ -211,14 +211,14 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"german"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"german"</span><span class='op'>)</span>
 
-<span class='kw'>y_numeric</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='kw'>german</span><span class='op'>$</span><span class='kw'>Risk</span>) <span class='op'>-</span><span class='fl'>1</span>
+<span class='va'>y_numeric</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>german</span><span class='op'>$</span><span class='va'>Risk</span><span class='op'>)</span> <span class='op'>-</span><span class='fl'>1</span>
 
-<span class='kw'>lm_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='kw'>Risk</span><span class='op'>~</span><span class='kw'>.</span>,
-                data = <span class='kw'>german</span>,
-                family=<span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(link=<span class='st'>"logit"</span>))
-<span class='kw'>explainer_lm</span> <span class='op'>&lt;-</span> <span class='kw'>DALEX</span>::<span class='fu'><a href='https://rdrr.io/pkg/DALEX/man/explain.html'>explain</a></span>(<span class='kw'>lm_model</span>, data = <span class='kw'>german</span>[,<span class='op'>-</span><span class='fl'>1</span>], y = <span class='kw'>y_numeric</span>)
+<span class='va'>lm_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span><span class='op'>(</span><span class='va'>Risk</span><span class='op'>~</span><span class='va'>.</span>,
+                data <span class='op'>=</span> <span class='va'>german</span>,
+                family<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span><span class='op'>(</span>link<span class='op'>=</span><span class='st'>"logit"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>explainer_lm</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://ModelOriented.github.io/DALEX/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>lm_model</span>, data <span class='op'>=</span> <span class='va'>german</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( <span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  1000  rows  9  cols 
@@ -230,10 +230,10 @@
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9572803 , mean =  1.940006e-17 , max =  0.8283475  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='co'># works with explainer when protected and privileged are passed</span>
-<span class='fu'>plot_fairmodels</span>(<span class='kw'>explainer_lm</span>,
-                type = <span class='st'>"fairness_radar"</span>,
-                protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
-                privileged = <span class='st'>"male"</span>)
+<span class='fu'>plot_fairmodels</span><span class='op'>(</span><span class='va'>explainer_lm</span>,
+                type <span class='op'>=</span> <span class='st'>"fairness_radar"</span>,
+                protected <span class='op'>=</span> <span class='va'>german</span><span class='op'>$</span><span class='va'>Sex</span>,
+                privileged <span class='op'>=</span> <span class='st'>"male"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Creating fairness object
 #&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
 #&gt; -&gt; Protected variable		: factor (</span><span style='color: #00BB00;'> Ok </span><span> ) 
@@ -243,9 +243,9 @@
 #&gt; -&gt; Metric calculation		: 12/12 metrics calculated for all models
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='img'><img src='plot_fairmodels-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># or with fairness_object</span>
-<span class='kw'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span>(<span class='kw'>explainer_lm</span>,
-                          protected = <span class='kw'>german</span><span class='op'>$</span><span class='kw'>Sex</span>,
-                          privileged = <span class='st'>"male"</span>)
+<span class='va'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span><span class='op'>(</span><span class='va'>explainer_lm</span>,
+                          protected <span class='op'>=</span> <span class='va'>german</span><span class='op'>$</span><span class='va'>Sex</span>,
+                          privileged <span class='op'>=</span> <span class='st'>"male"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Creating fairness object
 #&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
 #&gt; -&gt; Protected variable		: factor (</span><span style='color: #00BB00;'> Ok </span><span> ) 
@@ -254,7 +254,7 @@
 #&gt; -&gt; Checking explainers		: 1 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
 #&gt; -&gt; Metric calculation		: 12/12 metrics calculated for all models
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
-<span class='fu'>plot_fairmodels</span>(<span class='kw'>fobject</span>, type = <span class='st'>"fairness_radar"</span>)
+<span class='fu'>plot_fairmodels</span><span class='op'>(</span><span class='va'>fobject</span>, type <span class='op'>=</span> <span class='st'>"fairness_radar"</span><span class='op'>)</span>
 </div><div class='img'><img src='plot_fairmodels-2.png' alt='' width='700' height='433' /></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
