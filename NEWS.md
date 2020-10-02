@@ -1,5 +1,6 @@
 # fairmodels 0.2.3
 * Fixed the way the `parity_loss` is calculated in `all_cutoffs` and `ceteris_paribus_cutoff`. (#24)
+* Updated vignettes
 
 # fairmodels 0.2.2
 * `fairness_check_data` now instead of `0` has `NA` due to concerns of interpretability - insignificant difference could lead up to maximal value of loss. With that change when `NA` is created user will see warning when plotting or printing. This doesn't affect other objects and plots.
