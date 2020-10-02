@@ -177,14 +177,16 @@ check_if_numeric_and_single <- function(x){
   return((is.numeric(x) & length(x) == 1))
 }
 
+calculate_parity_loss <- function(gmm, privileged){
 
+  gmm_scaled      <- apply(gmm, 2 , function(x) x  / gmm[, privileged])
+  gmm_abs         <- apply(gmm_scaled, 2 , function(x) sapply(x, function(y) abs(log(y))))
+  gmm_loss        <- rowSums(gmm_abs)
+  # when there is Inf in data change it to NA
+  parity_loss     <- sapply(gmm_loss, function(y) ifelse(is.infinite(y), NA, y))
 
-
-
-
-
-
-
+  return(parity_loss)
+}
 
 
 

@@ -53,7 +53,6 @@ An object of class \code{fairness_object} which is a list with elements:
 \item{STP}{ - Statistical Parity}
 \item{ACC}{ - Accuracy}
 \item{F1}{ - F1 Score}
-\item{MCC}{ - Matthews correlation coefficient}
 }
 
 \item{groups_data}{ - metrics across levels in protected variable}
@@ -87,13 +86,14 @@ may lead to misinterpretation of the plot. More on metrics and their equivalents
 Parity loss - visualization tool
 
 Parity loss is computed as follows:
-M_parity_loss = sum(abs(log(metric/privileged_metric)))
+M_parity_loss = sum(abs(log(metric/metric_privileged)))
 
 where:
 
 M - some metric mentioned above
 
 metric - vector of metric scores from each subgroup
+metric_privileged - value of metric vector for privileged subgroup
 
 base_metric - scalar, value of metric for base subgroup
 }

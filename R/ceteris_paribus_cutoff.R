@@ -62,6 +62,7 @@ ceteris_paribus_cutoff <- function(x,
   if (! check_if_numeric_and_single(grid_points)) stop("grid points must be single numeric value")
 
   explainers <- x$explainers
+  n_exp      <- length(explainers)
   cutoffs    <- seq(0,1, length.out =  grid_points)
   protected  <- x$protected
   privileged <- x$privileged
@@ -92,6 +93,7 @@ ceteris_paribus_cutoff <- function(x,
   # so for code below they will be suppressed
 
   cutoff <- NULL
+  parity_loss_metric_data       <- matrix(nrow = n_exp, ncol = 12)
   suppressMessages(
     for (i in seq_along(explainers)){
 
@@ -116,20 +118,19 @@ ceteris_paribus_cutoff <- function(x,
 
         # like in create fairness_check
         gmm             <- calculate_group_fairness_metrics(group_matrices)
-        gmm_scaled      <- abs(apply(gmm, 2 , function(x) x  - gmm[,privileged]))
-        gmm_loss        <- rowSums(gmm_scaled)
+        parity_loss     <- calculate_parity_loss(gmm, privileged)
 
-        gmm_loss_unique <- gmm_loss[names(gmm_loss) %in% fairness_metrics]
+        parity_loss_unique <- parity_loss[names(parity_loss) %in% fairness_metrics]
 
-        cum_data <- data.frame(parity_loss = sum(as.numeric(gmm_loss_unique)),
-                             cutoff      = rep(custom_cutoff, length(gmm_loss_unique)),
-                             model       = rep(label, length(gmm_loss_unique)))
+        cum_data <- data.frame(parity_loss = sum(as.numeric(parity_loss_unique)),
+                             cutoff      = rep(custom_cutoff, length(parity_loss_unique)),
+                             model       = rep(label, length(parity_loss_unique)))
         cumulated_data <- rbind(cumulated_data, cum_data)
 
-        to_add <- data.frame(parity_loss = as.numeric(gmm_loss_unique),
-                             metric      = names(gmm_loss_unique),
-                             cutoff      = rep(custom_cutoff, length(gmm_loss_unique)),
-                             model       = rep(label, length(gmm_loss_unique))   )
+        to_add <- data.frame(parity_loss = as.numeric(parity_loss_unique),
+                             metric      = names(parity_loss_unique),
+                             cutoff      = rep(custom_cutoff, length(parity_loss_unique)),
+                             model       = rep(label, length(parity_loss_unique))   )
 
         cutoff_data <- rbind(cutoff_data , to_add)
 
