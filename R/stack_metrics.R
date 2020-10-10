@@ -4,7 +4,7 @@
 #' for subgroups from protected vector.
 #'
 #' @param x object of class \code{fairness_object}
-#' @param fairness_metrics character, vector of fairness metric names to include in plot. Default are ones in fairness check.
+#' @param fairness_metrics character, vector of fairness parity_loss metric names to include in plot. Full names are provided in \code{fairess_check} documentation.
 #'
 #' @return \code{stacked_metrics} object. It contains \code{data.frame} with information about score for each metric and model.
 #'
@@ -41,7 +41,7 @@
 
 
 
-stack_metrics <- function(x, fairness_metrics = fairness_check_metrics() ){
+stack_metrics <- function(x, fairness_metrics = c('ACC', 'TPR', 'PPV', 'FPR', 'STP') ){
 
   stopifnot(class(x) == "fairness_object")
 

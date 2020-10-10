@@ -18,11 +18,10 @@
 #' \item FOR_parity_loss - parity loss of False Omission Rate
 #' \item TS_parity_loss  - parity loss of Threat Score
 #' \item ACC_parity_loss - parity loss of Accuracy
+#' \item STP_parity_loss - parity loss of Statistical Parity
 #' \item F1_parity_loss  - parity loss of F1 Score
-#' \item MCC_parity_loss - parity loss of Matthews correlation coefficient
 #' }
 #'
-#' @details some of metrics give same parity loss as others (for example TPR and FNR and that is because TPR = 1 - FNR)
 #'
 #' @return \code{chosen_metric} object
 #' It is a list with following fields:

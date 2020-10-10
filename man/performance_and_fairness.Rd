@@ -9,7 +9,7 @@ performance_and_fairness(x, fairness_metric = NULL, performance_metric = NULL)
 \arguments{
 \item{x}{object of class \code{fairness_object}}
 
-\item{fairness_metric}{fairness metric, one of those in fairness_object}
+\item{fairness_metric}{fairness metric, one of metrics in fairness_objects parity_loss_metric_data  (ACC, TPR, PPV, ...) Full list in \code{fairness_check} documentation.}
 
 \item{performance_metric}{performance metric, one of}
 }

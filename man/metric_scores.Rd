@@ -4,12 +4,12 @@
 \alias{metric_scores}
 \title{Metric scores}
 \usage{
-metric_scores(x, fairness_metrics = fairness_check_metrics())
+metric_scores(x, fairness_metrics = c("ACC", "TPR", "PPV", "FPR", "STP"))
 }
 \arguments{
 \item{x}{object of class \code{fairness_object}}
 
-\item{fairness_metrics}{character, vector with fairness metric names. Default metrics are ones in \code{fairness_check} plot}
+\item{fairness_metrics}{character, vector with fairness metric names. Default metrics are ones in \code{fairness_check} plot, full names can be found in \code{fairness_check} documentation.}
 }
 \value{
 \code{metric_scores} object.
@@ -46,7 +46,7 @@ fobject <- fairness_check(explainer_lm, explainer_rf,
                           protected = german$Sex,
                           privileged = "male")
 
-ms <- metric_scores(fobject, fairness_metrics = c("TPR","STP","ACC"))
+ms <- metric_scores(fobject, fairness_metrics = c('ACC', 'TPR', 'PPV', 'FPR', 'STP'))
 plot(ms)
 
 }

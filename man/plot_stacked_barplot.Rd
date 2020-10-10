@@ -4,12 +4,12 @@
 \alias{stack_metrics}
 \title{Stack metrics}
 \usage{
-stack_metrics(x, fairness_metrics = fairness_check_metrics())
+stack_metrics(x, fairness_metrics = c("ACC", "TPR", "PPV", "FPR", "STP"))
 }
 \arguments{
 \item{x}{object of class \code{fairness_object}}
 
-\item{fairness_metrics}{character, vector of fairness metric names to include in plot. Default are ones in fairness check.}
+\item{fairness_metrics}{character, vector of fairness parity_loss metric names to include in plot. Full names are provided in \code{fairess_check} documentation.}
 }
 \value{
 \code{stacked_metrics} object. It contains \code{data.frame} with information about score for each metric and model.

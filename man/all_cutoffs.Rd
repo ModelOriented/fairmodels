@@ -11,7 +11,7 @@ all_cutoffs(x, grid_points = 101, fairness_metrics = fairness_check_metrics())
 
 \item{grid_points}{numeric, grid for cutoffs to test. Number of points between 0 and 1 spread evenly}
 
-\item{fairness_metrics}{character, name of metric or vector of multiple metrics names}
+\item{fairness_metrics}{character, name of parity_loss metric or vector of multiple metrics names. Full names can be found in \code{fairness_check} documentation.}
 }
 \value{
 \code{all_cutoffs} object, \code{data.frame} containing information about label, metric and parity_loss at particular cutoff
@@ -42,9 +42,7 @@ fobject <- fairness_check(explainer_lm, explainer_rf,
                           privileged = "male")
 
 
-ac <- all_cutoffs(fobject,
-                  fairness_metrics = c("TPR",
-                                       "FPR"))
+ac <- all_cutoffs(fobject)
 plot(ac)
 
 }

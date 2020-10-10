@@ -6,7 +6,7 @@
 #' @description Measure performance in both fairness metric and
 #'
 #' @param x object of class \code{fairness_object}
-#' @param fairness_metric fairness metric, one of those in fairness_object
+#' @param fairness_metric fairness metric, one of metrics in fairness_objects parity_loss_metric_data  (ACC, TPR, PPV, ...) Full list in \code{fairness_check} documentation.
 #' @param performance_metric performance metric, one of
 #'
 #' @importFrom DALEX model_performance

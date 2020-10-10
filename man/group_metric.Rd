@@ -15,7 +15,7 @@ group_metric(
 \arguments{
 \item{x}{object of class \code{fairness_object}}
 
-\item{fairness_metric}{character, fairness metric name}
+\item{fairness_metric}{character, fairness metric name, if \code{NULL} the default metric will be used which is TPR.}
 
 \item{performance_metric}{character, performance metric name}
 
@@ -42,7 +42,7 @@ privileged and unprivileged subgroups will be measured. When plotted shows both 
 \details{
 Available metrics:
 
-Fairness metrics:
+Fairness metrics (Full names explained in \code{fairness_check} documentation):
 
 \itemize{
 \item TPR
@@ -55,6 +55,7 @@ Fairness metrics:
 \item FOR
 \item TS
 \item ACC
+\item STP
 \item F1
 }
 Performance metrics

@@ -11,7 +11,7 @@
 #' @param subgroup character, name of subgroup (level in protected variable)
 #' @param new_cutoffs list of cutoffs with names matching those of subgroups. Each value should represent cutoff for particular subgroup.
 #' Position corresponding to subgroups in levels will be changed. Default is NULL
-#' @param fairness_metrics character, name of metric or vector of multiple metrics
+#' @param fairness_metrics character, name of parity_loss metric or vector of multiple metrics, for full metric names check \code{fairness_check} documentation.
 #' @param grid_points numeric, grid for cutoffs to test. Number of points between 0 and 1 spread evenly.
 #' @param cumulated logical, if \code{TRUE}  facets will collapse to one plot and parity loss for each model will be summed. Default \code{FALSE}.
 #'
@@ -50,7 +50,7 @@
 ceteris_paribus_cutoff <- function(x,
                                    subgroup,
                                    new_cutoffs = NULL,
-                                   fairness_metrics = fairness_check_metrics(),
+                                   fairness_metrics = c('ACC', 'TPR', 'PPV', 'FPR', 'STP'),
                                    grid_points = 101,
                                    cumulated = FALSE){
 
