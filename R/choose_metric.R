@@ -8,18 +8,18 @@
 #'
 #' \itemize{
 #'
-#' \item TPR_parity_loss - parity loss of True Positive Rate (Sensitivity, Recall, Equal Odds)
-#' \item TNR_parity_loss - parity loss of True Negative Rate (Specificity)
-#' \item PPV_parity_loss - parity loss of Positive Predictive Value (Precision)
-#' \item NPV_parity_loss - parity loss of Negative Predictive Value
-#' \item FNR_parity_loss - parity loss of False Negative Rate
-#' \item FPR_parity_loss - parity loss of False Positive Rate
-#' \item FDR_parity_loss - parity loss of False Discovery Rate
-#' \item FOR_parity_loss - parity loss of False Omission Rate
-#' \item TS_parity_loss  - parity loss of Threat Score
-#' \item ACC_parity_loss - parity loss of Accuracy
-#' \item STP_parity_loss - parity loss of Statistical Parity
-#' \item F1_parity_loss  - parity loss of F1 Score
+#' \item TPR - parity loss of True Positive Rate (Sensitivity, Recall, Equal Odds)
+#' \item TNR - parity loss of True Negative Rate (Specificity)
+#' \item PPV - parity loss of Positive Predictive Value (Precision)
+#' \item NPV - parity loss of Negative Predictive Value
+#' \item FNR - parity loss of False Negative Rate
+#' \item FPR - parity loss of False Positive Rate
+#' \item FDR - parity loss of False Discovery Rate
+#' \item FOR - parity loss of False Omission Rate
+#' \item TS  - parity loss of Threat Score
+#' \item ACC - parity loss of Accuracy
+#' \item STP - parity loss of Statistical Parity
+#' \item F1  - parity loss of F1 Score
 #' }
 #'
 #'
