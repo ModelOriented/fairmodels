@@ -5,7 +5,7 @@
 #' privileged and unprivileged subgroups will be measured. When plotted shows both fairness metric and chosen performance metric.
 #'
 #' @param x object of class \code{fairness_object}
-#' @param fairness_metric character, fairness metric name
+#' @param fairness_metric character, fairness metric name, if \code{NULL} the default metric will be used which is TPR.
 #' @param performance_metric character, performance metric name
 #' @param parity_loss logical, if \code{TRUE} parity loss will supersede basic metric
 #' @param verbose logical, whether to print information about metrics on console or not. Default \code{TRUE}
@@ -15,7 +15,7 @@
 #' @details
 #' Available metrics:
 #'
-#' Fairness metrics:
+#' Fairness metrics (Full names explained in \code{fairness_check} documentation):
 #'
 #' \itemize{
 #' \item TPR
@@ -28,6 +28,7 @@
 #' \item FOR
 #' \item TS
 #' \item ACC
+#' \item STP
 #' \item F1
 #' }
 #' Performance metrics

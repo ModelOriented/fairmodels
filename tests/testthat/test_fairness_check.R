@@ -76,7 +76,7 @@ test_that("Test fairness_check", {
   suppressWarnings(expect_error(fairness_check(fobject, fobject2, privileged = "Female", protected = compas$Sex)))
 
   # good calculations
-  calculated_val_TPR <- fobject$fairness_check_data[fobject$fairness_check_data$model == "lm" & fobject$fairness_check_data$metric == 'Equal opportynity ratio     TP/(TP + FN)', "score" ]
+  calculated_val_TPR <- fobject$fairness_check_data[fobject$fairness_check_data$model == "lm" & fobject$fairness_check_data$metric == 'Equal opportunity ratio     TP/(TP + FN)', "score" ]
   calculated_val_FPR <- fobject$fairness_check_data[fobject$fairness_check_data$model == "lm" & fobject$fairness_check_data$metric == 'Predictive equality ratio   FP/(FP + TN)', "score" ]
   calculated_val_PPV <- fobject$fairness_check_data[fobject$fairness_check_data$model == "lm" & fobject$fairness_check_data$metric == 'Predictive parity ratio     TP/(TP + FP)', "score" ]
   calculated_val_STP <- fobject$fairness_check_data[fobject$fairness_check_data$model == "lm" & fobject$fairness_check_data$metric == 'Statistical parity ratio   (TP + FP)/(TP + FP + TN + FN)', "score" ]

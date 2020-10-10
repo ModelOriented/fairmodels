@@ -23,8 +23,8 @@ choose_metric(x, fairness_metric = "FPR")
 \item FOR_parity_loss - parity loss of False Omission Rate
 \item TS_parity_loss  - parity loss of Threat Score
 \item ACC_parity_loss - parity loss of Accuracy
+\item STP_parity_loss - parity loss of Statistical Parity
 \item F1_parity_loss  - parity loss of F1 Score
-\item MCC_parity_loss - parity loss of Matthews correlation coefficient
 }}
 }
 \value{
@@ -39,9 +39,6 @@ It is a list with following fields:
 \description{
 Extracts metrics from \code{metric_data} from fairness object.
 It allows to visualize and compare chosen metric values across all models.
-}
-\details{
-some of metrics give same parity loss as others (for example TPR and FNR and that is because TPR = 1 - FNR)
 }
 \examples{
 data("german")

@@ -4,12 +4,12 @@
 \alias{fairness_radar}
 \title{Fairness radar}
 \usage{
-fairness_radar(x, fairness_metrics = fairness_check_metrics())
+fairness_radar(x, fairness_metrics = c("ACC", "TPR", "PPV", "FPR", "STP"))
 }
 \arguments{
 \item{x}{object of class \code{fairness_object}}
 
-\item{fairness_metrics}{character, vector of metric names, at least 3 metrics without NA needed. If \code{NULL} default metrics will be used, which are ones from \code{fairness_check} plot.}
+\item{fairness_metrics}{character, vector of metric names, at least 3 metrics without NA needed. Full names of metrics can be found in \code{fairness_check} documentation.}
 }
 \value{
 \code{fairness_radar} object.

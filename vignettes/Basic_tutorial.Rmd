@@ -106,10 +106,10 @@ Why do we have this bias? Model did learn from biased data. We can see it on plo
 plot_density(fobject)
 ```
    
-As we can see it is more likely that model will categorize African Americans as not being recidivists than for example Asians. 
+As we can see it is more likely that model will categorize African Americans as being recidivists than for example Asians. 
 
 ### Metric scores plot
-Sometimes it is worth it to see what the raw (unscaled) metrics are. User could use `fobject$group_data` but the easier way is to plot `metric_scores` object.
+Sometimes it is worth it to see what the raw (unscaled) metrics are. User could use `fobject$groups_data` but the easier way is to plot `metric_scores` object.
 
 ```{r}
 plot(metric_scores(fobject))
