@@ -174,7 +174,7 @@ privileged and unprivileged subgroups will be measured. When plotted shows both 
     </tr>
     <tr>
       <th>fairness_metric</th>
-      <td><p>character, fairness metric name</p></td>
+      <td><p>character, fairness metric name, if <code>NULL</code> the default metric will be used which is TPR.</p></td>
     </tr>
     <tr>
       <th>performance_metric</th>
@@ -203,7 +203,7 @@ It is a list with following items:</p><ul>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Available metrics:</p>
-<p>Fairness metrics:</p>
+<p>Fairness metrics (Full names explained in <code>fairness_check</code> documentation):</p>
 <ul>
 <li><p>TPR</p></li>
 <li><p>TNR</p></li>
@@ -215,6 +215,7 @@ It is a list with following items:</p><ul>
 <li><p>FOR</p></li>
 <li><p>TS</p></li>
 <li><p>ACC</p></li>
+<li><p>STP</p></li>
 <li><p>F1</p></li>
 </ul><p>Performance metrics</p>
 <ul>

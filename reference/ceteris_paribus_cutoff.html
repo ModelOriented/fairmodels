@@ -165,7 +165,7 @@ this model.</p>
   <span class='va'>x</span>,
   <span class='va'>subgroup</span>,
   new_cutoffs <span class='op'>=</span> <span class='cn'>NULL</span>,
-  fairness_metrics <span class='op'>=</span> <span class='fu'>fairness_check_metrics</span><span class='op'>(</span><span class='op'>)</span>,
+  fairness_metrics <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"ACC"</span>, <span class='st'>"TPR"</span>, <span class='st'>"PPV"</span>, <span class='st'>"FPR"</span>, <span class='st'>"STP"</span><span class='op'>)</span>,
   grid_points <span class='op'>=</span> <span class='fl'>101</span>,
   cumulated <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></pre>
@@ -188,7 +188,7 @@ Position corresponding to subgroups in levels will be changed. Default is NULL</
     </tr>
     <tr>
       <th>fairness_metrics</th>
-      <td><p>character, name of metric or vector of multiple metrics</p></td>
+      <td><p>character, name of parity_loss metric or vector of multiple metrics, for full metric names check <code>fairness_check</code> documentation.</p></td>
     </tr>
     <tr>
       <th>grid_points</th>
