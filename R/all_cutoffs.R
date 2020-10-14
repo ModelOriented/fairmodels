@@ -38,7 +38,7 @@
 
 all_cutoffs <- function(x,
                         grid_points = 101,
-                        fairness_metrics = fairness_check_metrics()){
+                        fairness_metrics = c('ACC', 'TPR', 'PPV', 'FPR', 'STP')){
 
   stopifnot(class(x) == "fairness_object")
 

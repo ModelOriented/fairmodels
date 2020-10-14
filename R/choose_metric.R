@@ -1,10 +1,10 @@
 #' Choose metric
 #'
 #' Extracts metrics from \code{metric_data} from fairness object.
-#' It allows to visualize and compare chosen metric values across all models.
+#' It allows to visualize and compare parity loss of chosen metric values across all models.
 #'
 #' @param x object of class \code{fairness_object}
-#' @param fairness_metric \code{char}, name of fairness metric, one of metrics:
+#' @param fairness_metric \code{char}, single name of metric, one of metrics:
 #'
 #' \itemize{
 #'
