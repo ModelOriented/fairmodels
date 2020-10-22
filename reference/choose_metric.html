@@ -54,7 +54,7 @@
 
 <meta property="og:title" content="Choose metric — choose_metric" />
 <meta property="og:description" content="Extracts metrics from metric_data from fairness object.
-It allows to visualize and compare chosen metric values across all models." />
+It allows to visualize and compare parity loss of chosen metric values across all models." />
 <meta property="og:image" content="/logo.png" />
 
 <meta name="robots" content="noindex" />
@@ -152,7 +152,7 @@ It allows to visualize and compare chosen metric values across all models." />
 
     <div class="ref-description">
     <p>Extracts metrics from <code>metric_data</code> from fairness object.
-It allows to visualize and compare chosen metric values across all models.</p>
+It allows to visualize and compare parity loss of chosen metric values across all models.</p>
     </div>
 
     <pre class="usage"><span class='fu'>choose_metric</span><span class='op'>(</span><span class='va'>x</span>, fairness_metric <span class='op'>=</span> <span class='st'>"FPR"</span><span class='op'>)</span></pre>
@@ -166,20 +166,20 @@ It allows to visualize and compare chosen metric values across all models.</p>
     </tr>
     <tr>
       <th>fairness_metric</th>
-      <td><p><code>char</code>, name of fairness metric, one of metrics:</p>
+      <td><p><code>char</code>, single name of metric, one of metrics:</p>
 <ul>
-<li><p>TPR_parity_loss - parity loss of True Positive Rate (Sensitivity, Recall, Equal Odds)</p></li>
-<li><p>TNR_parity_loss - parity loss of True Negative Rate (Specificity)</p></li>
-<li><p>PPV_parity_loss - parity loss of Positive Predictive Value (Precision)</p></li>
-<li><p>NPV_parity_loss - parity loss of Negative Predictive Value</p></li>
-<li><p>FNR_parity_loss - parity loss of False Negative Rate</p></li>
-<li><p>FPR_parity_loss - parity loss of False Positive Rate</p></li>
-<li><p>FDR_parity_loss - parity loss of False Discovery Rate</p></li>
-<li><p>FOR_parity_loss - parity loss of False Omission Rate</p></li>
-<li><p>TS_parity_loss  - parity loss of Threat Score</p></li>
-<li><p>ACC_parity_loss - parity loss of Accuracy</p></li>
-<li><p>STP_parity_loss - parity loss of Statistical Parity</p></li>
-<li><p>F1_parity_loss  - parity loss of F1 Score</p></li>
+<li><p>TPR - parity loss of True Positive Rate (Sensitivity, Recall, Equal Odds)</p></li>
+<li><p>TNR - parity loss of True Negative Rate (Specificity)</p></li>
+<li><p>PPV - parity loss of Positive Predictive Value (Precision)</p></li>
+<li><p>NPV - parity loss of Negative Predictive Value</p></li>
+<li><p>FNR - parity loss of False Negative Rate</p></li>
+<li><p>FPR - parity loss of False Positive Rate</p></li>
+<li><p>FDR - parity loss of False Discovery Rate</p></li>
+<li><p>FOR - parity loss of False Omission Rate</p></li>
+<li><p>TS  - parity loss of Threat Score</p></li>
+<li><p>ACC - parity loss of Accuracy</p></li>
+<li><p>STP - parity loss of Statistical Parity</p></li>
+<li><p>F1  - parity loss of F1 Score</p></li>
 </ul></td>
     </tr>
     </table>
@@ -215,7 +215,7 @@ It is a list with following fields:</p><ul>
 #&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  numerical, min =  0.1369187 , mean =  0.7 , max =  0.9832426  
-#&gt;   -&gt; model_info        :  package stats , ver. 4.0.2 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; model_info        :  package stats , ver. 4.0.3 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9572803 , mean =  1.940006e-17 , max =  0.8283475  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='va'>explainer_rf</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://ModelOriented.github.io/DALEX/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>rf_model</span>, data <span class='op'>=</span> <span class='va'>german</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span><span class='op'>)</span>

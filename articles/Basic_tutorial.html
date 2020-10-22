@@ -94,7 +94,8 @@
 
       
 
-      </header><script src="Basic_tutorial_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="Basic_tutorial_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="Basic_tutorial_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="Basic_tutorial_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Basic Tutorial</h1>
@@ -166,10 +167,10 @@
 #&gt;   -&gt; data              :  6172  rows  6  cols 
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used (  default  )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.14431 , mean =  0.5452376 , max =  0.8763324  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1559709 , mean =  0.5452504 , max =  0.863776  
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification (  default  ) 
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8523175 , mean =  -0.0003574901 , max =  0.7875394  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8528241 , mean =  -0.0003703313 , max =  0.789685  
 #&gt;   A new explainer has been created!</code></pre>
 <div id="fairness-check" class="section level3">
 <h3 class="hasAnchor">
@@ -196,7 +197,7 @@
 #&gt; Fairness check for models: ranger 
 #&gt; 
 #&gt; ranger passes 2/5 metrics
-#&gt; Total loss:  3.620023</code></pre>
+#&gt; Total loss:  3.676962</code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fobject</span><span class="op">)</span></pre></div>
 <p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-7-1.png" width="720" style="display: block; margin: auto;"></p>
@@ -274,15 +275,15 @@
 <pre><code>#&gt;         TPR       TNR       PPV       NPV       FNR       FPR       FDR
 #&gt; 1 0.3976902 1.2511537 0.4859671 0.7339807 1.6654218 1.7041164 1.3910955
 #&gt; 2 0.5471779        NA 0.1630229        NA 3.2047184 1.9228318 0.3724644
-#&gt; 3 0.5634444 1.2782281 0.4491509 0.6495454 3.0574294 1.9337703 1.4660341
+#&gt; 3 0.5250270 1.3224047 0.4247758 0.5576526 2.7429360 1.9452833 1.3162969
 #&gt; 4 0.6611125 0.7401031 0.7674172 0.8209521 0.8762755 0.8532876 1.4329174
-#&gt; 5 0.6009656 2.3650937 0.3448151 0.9087598 2.3894163 2.1167427 0.9157373
+#&gt; 5 0.4244405 1.9274378 0.2822692 0.9115037 1.9590798 1.2041102 0.6322896
 #&gt;         FOR        TS       STP       ACC        F1
 #&gt; 1 1.3892629 0.7150599 0.8731178 0.4174524 0.4430506
 #&gt; 2 1.7116794 0.5362121 1.1034842 0.1969839 0.3361082
-#&gt; 3 1.6287838 0.8189126 1.0814424 0.4756105 0.5002463
+#&gt; 3 1.3159062 0.7656426 1.0687103 0.4317076 0.4699253
 #&gt; 4 0.6729784 0.8970468 0.5742171 0.3638060 0.6304323
-#&gt; 5 1.0834801 0.5189163 1.1752795 0.2331641 0.3246595</code></pre>
+#&gt; 5 1.0924430 0.5511696 0.7573159 0.1944479 0.3452041</code></pre>
 <ul>
 <li>groups_data</li>
 </ul>
@@ -364,17 +365,17 @@
 <span class="va">fair_pca</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fairness_pca.html">fairness_pca</a></span><span class="op">(</span><span class="va">fobject</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fair_pca</span><span class="op">)</span></pre></div>
 <pre><code>#&gt; Fairness PCA : 
-#&gt;             PC1       PC2         PC3         PC4          PC5
-#&gt; [1,] -0.5303148 -1.306416  1.39075901  0.04375647 3.781697e-16
-#&gt; [2,]  2.8661776  0.715258 -0.00822696 -0.94063744 5.551115e-17
-#&gt; [3,] -0.1013851 -1.709011 -1.19700071  0.07742658 2.775558e-16
-#&gt; [4,] -3.9223454  1.211811 -0.16985351 -0.23955560 8.881784e-16
-#&gt; [5,]  1.6878677  1.088358 -0.01567783  1.05900999 3.330669e-16
+#&gt;             PC1        PC2        PC3         PC4           PC5
+#&gt; [1,] -0.2734255 -0.9945165  1.3475318 -0.32801282 -1.681598e-16
+#&gt; [2,]  3.1189986  0.2448050 -1.0681817 -0.26257480 -2.081668e-16
+#&gt; [3,]  0.1748281 -1.8222294 -0.3190062  0.40530205  8.344020e-16
+#&gt; [4,] -4.0069746  0.6517017 -0.7443113 -0.09524839  3.330669e-16
+#&gt; [5,]  0.9865733  1.9202392  0.7839675  0.28053397  9.645063e-16
 #&gt; 
 #&gt; Created with: 
 #&gt; [1] "ranger"   "lm"       "ranger_2" "ranger_3" "gbm"     
 #&gt; 
-#&gt; First two components explained 86 % of variance.</code></pre>
+#&gt; First two components explained 88 % of variance.</code></pre>
 <p>Let’s plot!</p>
 <div class="sourceCode" id="cb25"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fair_pca</span><span class="op">)</span></pre></div>
