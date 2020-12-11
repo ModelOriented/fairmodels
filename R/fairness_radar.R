@@ -62,16 +62,15 @@ fairness_radar <- function(x, fairness_metrics = c('ACC', 'TPR', 'PPV', 'FPR', '
   if (any(is.na(data))){
     na_col_index      <- apply(data, 2, function(x) any(is.na(x)))
     cols_with_missing <- names(data)[na_col_index]
-    warning("Found metric with NA: ", paste(cols_with_missing, collapse = ", "), ", ommiting it")
 
-
-    fairness_metrics <- fairness_metrics[! fairness_metrics %in% cols_with_missing]
+    cols_with_missing <- cols_with_missing[cols_with_missing %in% fairness_metrics]
+    if (length(cols_with_missing) > 0){
+      warning("Found metric with NA: ", paste(cols_with_missing, collapse = ", "), ", ommiting it")
+      fairness_metrics <- fairness_metrics[! fairness_metrics %in% cols_with_missing]
+    }
   }
 
-  expanded_data <- expand_fairness_object(x)
-
-  # taking only some metrics
-  expanded_data <- expanded_data[expanded_data$metric %in% fairness_metrics,]
+  expanded_data <- expand_fairness_object(x, fairness_metrics = fairness_metrics)
 
 
   if (length(unique(expanded_data$metric)) <= 2) stop("metric data must have at least 3 columns without NA")

@@ -49,7 +49,9 @@ stack_metrics <- function(x, fairness_metrics = c('ACC', 'TPR', 'PPV', 'FPR', 'S
   if (! is.character(fairness_metrics) ) stop("metric argument must be character metric")
   sapply(fairness_metrics,assert_parity_metrics)
 
-  expanded_data <- expand_fairness_object(x,  drop_metrics_with_na = TRUE)
+  expanded_data <- expand_fairness_object(x,
+                                          drop_metrics_with_na = TRUE,
+                                          fairness_metrics = fairness_metrics)
 
   expanded_data           <- as.data.frame(expanded_data)
   colnames(expanded_data) <- c("metric","model","score")
