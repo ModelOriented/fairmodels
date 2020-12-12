@@ -52,7 +52,9 @@ metric_scores <- function(x, fairness_metrics = c('ACC', 'TPR', 'PPV', 'FPR', 'S
   data <- data.frame()
   for (model in names(x$groups_data)){
     model_data_frame <- data.frame()
-    model_data           <- lapply(x$groups_data[[model]], function(x) data.frame(score = x, subgroup = names(x)))
+    model_data       <- lapply(x$groups_data[[model]],
+                               function(x) data.frame(score = x,
+                                                      subgroup = names(x)))
     for (i in seq_along(model_data)){
       model_data[[i]]$metric <- names(model_data)[i]
       model_data_frame <- rbind(model_data_frame, model_data[[i]])

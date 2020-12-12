@@ -4,7 +4,8 @@
 #'
 #' @param x object of class \code{fairness_object}
 #' @param drop_metrics_with_na logical, if \code{TRUE} metrics with NA will be omitted
-#' @param scale logical, if \code{TRUE} standarised.
+#' @param scale logical, if \code{TRUE} standardized.
+#' @param fairness_metrics character, vector of fairness metrics names indicating from which expand.
 #'
 #' @export
 #' @rdname expand_fairness_object
@@ -36,15 +37,20 @@
 #' expand_fairness_object(fobject, drop_metrics_with_na = TRUE)
 #'
 
-expand_fairness_object <- function(x, scale = FALSE, drop_metrics_with_na = FALSE){
+expand_fairness_object <- function(x, scale = FALSE, drop_metrics_with_na = FALSE, fairness_metrics = NULL){
+
 
   stopifnot(is.logical(scale))
   stopifnot(is.logical(drop_metrics_with_na))
   stopifnot(class(x) == "fairness_object")
 
-  n_exp          <- length(x$explainers)
+  n_exp                      <- length(x$explainers)
   parity_loss_metric_data    <- x$parity_loss_metric_data
-  labels         <- x$label
+  labels                     <- x$label
+
+  if (! is.null(fairness_metrics)){
+    parity_loss_metric_data <- parity_loss_metric_data[fairness_metrics]
+  }
 
   if (drop_metrics_with_na) {
     parity_loss_metric_data <- drop_metrics_with_na(parity_loss_metric_data)

@@ -4,14 +4,21 @@
 \alias{expand_fairness_object}
 \title{Expand Fairness Object}
 \usage{
-expand_fairness_object(x, scale = FALSE, drop_metrics_with_na = FALSE)
+expand_fairness_object(
+  x,
+  scale = FALSE,
+  drop_metrics_with_na = FALSE,
+  fairness_metrics = NULL
+)
 }
 \arguments{
 \item{x}{object of class \code{fairness_object}}
 
-\item{scale}{logical, if \code{TRUE} standarised.}
+\item{scale}{logical, if \code{TRUE} standardized.}
 
 \item{drop_metrics_with_na}{logical, if \code{TRUE} metrics with NA will be omitted}
+
+\item{fairness_metrics}{character, vector of fairness metrics names indicating from which expand.}
 }
 \value{
 object of class \code{expand_fairness_object}. It is a \code{data.frame} with scores for each metric and model.

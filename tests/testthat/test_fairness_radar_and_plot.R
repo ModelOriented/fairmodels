@@ -15,7 +15,7 @@ test_that("Test_fairness_radar_and_plot", {
 
   expect_error(fairness_radar(fobject, fairness_metrics = 1))
   fo <- fobject
-  fo$parity_loss_metric_data[2,2] <- NA
+  fo$parity_loss_metric_data[2,1] <- NA
 
   expect_warning(fairness_radar(fo))
 

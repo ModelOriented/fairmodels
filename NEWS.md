@@ -1,3 +1,7 @@
+# fairmodels 0.2.4
+* Deleted on-load information message about four-fifths rule. 
+* Fixed bug with `NA` warning in metrics that are not chosen. (#32)
+
 # fairmodels 0.2.3
 * Fixed the way the `parity_loss` is calculated in `all_cutoffs` and `ceteris_paribus_cutoff`. (#24)
 * Updated vignettes
