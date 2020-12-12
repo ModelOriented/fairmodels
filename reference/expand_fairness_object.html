@@ -98,7 +98,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.2.3</span>
+          <span class="version version-default">0.2.4</span>
         </div>
       </div>
     </div>
@@ -153,7 +153,12 @@
     <p>Unfold fairness object to 3 columns (metrics, label, score) to construct better base for visualization.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>expand_fairness_object</span><span class='op'>(</span><span class='va'>x</span>, scale <span class='op'>=</span> <span class='cn'>FALSE</span>, drop_metrics_with_na <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>expand_fairness_object</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  scale <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  drop_metrics_with_na <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  fairness_metrics <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -164,11 +169,15 @@
     </tr>
     <tr>
       <th>scale</th>
-      <td><p>logical, if <code>TRUE</code> standarised.</p></td>
+      <td><p>logical, if <code>TRUE</code> standardized.</p></td>
     </tr>
     <tr>
       <th>drop_metrics_with_na</th>
       <td><p>logical, if <code>TRUE</code> metrics with NA will be omitted</p></td>
+    </tr>
+    <tr>
+      <th>fairness_metrics</th>
+      <td><p>character, vector of fairness metrics names indicating from which expand.</p></td>
     </tr>
     </table>
 
