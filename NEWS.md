@@ -1,3 +1,6 @@
+# fairmodels 0.2.5
+* Extended documentation for `epsilon` parameter in `fairness_check()` function.
+
 # fairmodels 0.2.4
 * Deleted on-load information message about four-fifths rule. 
 * Fixed bug with `NA` warning in metrics that are not chosen. (#32)
