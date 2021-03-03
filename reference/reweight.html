@@ -99,7 +99,7 @@ In fact this could potentially worsen the overall performance in other fairness 
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.2.4</span>
+          <span class="version version-default">0.2.5</span>
         </div>
       </div>
     </div>
@@ -195,24 +195,26 @@ on empirical data. Finally the weight is quotient of those probabilities</p>
 <span class='va'>gbm_model</span>          <span class='op'>&lt;-</span> <span class='fu'>gbm</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/gbm/man/gbm.html'>gbm</a></span><span class='op'>(</span><span class='va'>Risk</span> <span class='op'>~</span><span class='va'>.</span> , data <span class='op'>=</span> <span class='va'>data</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Distribution not specified, assuming bernoulli ...</div><div class='input'><span class='va'>gbm_model_weighted</span> <span class='op'>&lt;-</span> <span class='fu'>gbm</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/gbm/man/gbm.html'>gbm</a></span><span class='op'>(</span><span class='va'>Risk</span> <span class='op'>~</span><span class='va'>.</span> , data <span class='op'>=</span> <span class='va'>data</span>, weights <span class='op'>=</span> <span class='va'>weights</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Distribution not specified, assuming bernoulli ...</div><div class='input'>
-<span class='va'>gbm_explainer</span>          <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://ModelOriented.github.io/DALEX/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>gbm_model</span>, data <span class='op'>=</span> <span class='va'>data</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>data</span><span class='op'>$</span><span class='va'>Risk</span><span class='op'>)</span>
+<span class='va'>gbm_explainer</span>          <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://dalex.drwhy.ai/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>gbm_model</span>, data <span class='op'>=</span> <span class='va'>data</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>data</span><span class='op'>$</span><span class='va'>Risk</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  gbm  ( <span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.gbm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1337463 , mean =  0.7028056 , max =  0.9773583  
+#&gt;   -&gt; predicted values  :  No value for predict function target column. ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; model_info        :  package gbm , ver. 2.1.8 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1337463 , mean =  0.7028056 , max =  0.9773583  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9380011 , mean =  -0.002805598 , max =  0.8001999  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='va'>gbm_weighted_explainer</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://ModelOriented.github.io/DALEX/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>gbm_model_weighted</span>, data <span class='op'>=</span> <span class='va'>data</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>data</span><span class='op'>$</span><span class='va'>Risk</span><span class='op'>)</span>
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='va'>gbm_weighted_explainer</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://dalex.drwhy.ai/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>gbm_model_weighted</span>, data <span class='op'>=</span> <span class='va'>data</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>data</span><span class='op'>$</span><span class='va'>Risk</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  gbm  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.gbm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1129629 , mean =  0.704774 , max =  0.9808088  
+#&gt;   -&gt; predicted values  :  No value for predict function target column. ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; model_info        :  package gbm , ver. 2.1.8 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1129629 , mean =  0.704774 , max =  0.9808088  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9470691 , mean =  -0.004773991 , max =  0.8444002  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>

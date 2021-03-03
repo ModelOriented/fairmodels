@@ -49,9 +49,9 @@
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">fairmodels</a>
         <div class="info">
-          <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
-           developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.2.4</span>
+          <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy" class="external-link">DrWhy.AI</a>
+           developed by the <a href="https://mi2.mini.pw.edu.pl/" class="external-link">MI^2 DataLab</a> </span>
+          <span class="version version-default">0.2.5</span>
         </div>
       </div>
     </div>
@@ -79,7 +79,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
         <li>
-  <a href="https://github.com/ModelOriented/fairmodels/">
+  <a href="https://github.com/ModelOriented/fairmodels/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -98,10 +98,10 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Advanced Tutorial</h1>
-                        <h4 class="author">Jakub Wiśniewski</h4>
+                        <h4 data-toc-skip class="author">Jakub Wiśniewski</h4>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/ModelOriented/fairmodels/blob/master/vignettes/Advanced_tutorial.Rmd"><code>vignettes/Advanced_tutorial.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/ModelOriented/fairmodels/blob/master/vignettes/Advanced_tutorial.Rmd" class="external-link"><code>vignettes/Advanced_tutorial.Rmd</code></a></small>
       <div class="hidden name"><code>Advanced_tutorial.Rmd</code></div>
 
     </div>
@@ -113,10 +113,10 @@
 <a href="#model-explanation-bias" class="anchor"></a>Model, explanation &amp; bias</h1>
 <p>In this tutorial you will learn how to tackle bias using the bias mitigation techniques supported by <code>fairmodels</code>. As always we will start from the data.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://modeloriented.github.io/fairmodels/">fairmodels</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://modeloriented.github.io/fairmodels/" class="external-link">fairmodels</a></span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"adult"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">adult</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"adult"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">adult</span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt;   salary age        workclass fnlwgt education education_num     marital_status
 #&gt; 1  &lt;=50K  39        State-gov  77516 Bachelors            13      Never-married
 #&gt; 2  &lt;=50K  50 Self-emp-not-inc  83311 Bachelors            13 Married-civ-spouse
@@ -142,19 +142,19 @@
 <code class="sourceCode R"><span class="co"># for this vignette data will be truncated</span></code></pre></div>
 <p>We will use adult data to predict whether certain person has yearly salary exceeding 50 000 or not. Our protected variable will be sex. For this tutorial we will be using <code>gbm</code> and of course we will explain it with <code>DALEX</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/gbm-developers/gbm">gbm</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ModelOriented.github.io/DALEX/">DALEX</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/gbm-developers/gbm" class="external-link">gbm</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dalex.drwhy.ai" class="external-link">DALEX</a></span><span class="op">)</span>
 
-<span class="va">adult</span><span class="op">$</span><span class="va">salary</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">adult</span><span class="op">$</span><span class="va">salary</span><span class="op">)</span> <span class="op">-</span><span class="fl">1</span> <span class="co"># 0 if bad and 1 if good risk</span>
+<span class="va">adult</span><span class="op">$</span><span class="va">salary</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">adult</span><span class="op">$</span><span class="va">salary</span><span class="op">)</span> <span class="op">-</span><span class="fl">1</span> <span class="co"># 0 if bad and 1 if good risk</span>
 <span class="va">protected</span>     <span class="op">&lt;-</span> <span class="va">adult</span><span class="op">$</span><span class="va">sex</span>
-<span class="va">adult</span> <span class="op">&lt;-</span> <span class="va">adult</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">adult</span><span class="op">)</span> <span class="op">!=</span> <span class="st">"sex"</span><span class="op">]</span> <span class="co"># sex not specified</span>
+<span class="va">adult</span> <span class="op">&lt;-</span> <span class="va">adult</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">adult</span><span class="op">)</span> <span class="op">!=</span> <span class="st">"sex"</span><span class="op">]</span> <span class="co"># sex not specified</span>
 
 <span class="co"># making model</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
-<span class="va">gbm_model</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/pkg/gbm/man/gbm.html">gbm</a></span><span class="op">(</span><span class="va">salary</span> <span class="op">~</span><span class="va">.</span> , data <span class="op">=</span> <span class="va">adult</span>, distribution <span class="op">=</span> <span class="st">"bernoulli"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
+<span class="va">gbm_model</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/pkg/gbm/man/gbm.html" class="external-link">gbm</a></span><span class="op">(</span><span class="va">salary</span> <span class="op">~</span><span class="va">.</span> , data <span class="op">=</span> <span class="va">adult</span>, distribution <span class="op">=</span> <span class="st">"bernoulli"</span><span class="op">)</span>
 
 <span class="co"># making explainer</span>
-<span class="va">gbm_explainer</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ModelOriented.github.io/DALEX/reference/explain.html">explain</a></span><span class="op">(</span><span class="va">gbm_model</span>,
+<span class="va">gbm_explainer</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dalex.drwhy.ai/reference/explain.html" class="external-link">explain</a></span><span class="op">(</span><span class="va">gbm_model</span>,
                          data <span class="op">=</span> <span class="va">adult</span><span class="op">[</span>,<span class="op">-</span><span class="fl">1</span><span class="op">]</span>,
                          y <span class="op">=</span> <span class="va">adult</span><span class="op">$</span><span class="va">salary</span>,
                          colorize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
@@ -163,13 +163,14 @@
 #&gt;   -&gt; data              :  32561  rows  13  cols 
 #&gt;   -&gt; target variable   :  32561  values 
 #&gt;   -&gt; predict function  :  yhat.gbm  will be used (  default  )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.0101498 , mean =  0.2409542 , max =  0.9864558  
+#&gt;   -&gt; predicted values  :  No value for predict function target column. (  default  )
 #&gt;   -&gt; model_info        :  package gbm , ver. 2.1.8 , task classification (  default  ) 
+#&gt;   -&gt; predicted values  :  numerical, min =  0.0101498 , mean =  0.2409542 , max =  0.9864558  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9790795 , mean =  -0.0001445991 , max =  0.9864904  
 #&gt;   A new explainer has been created!</code></pre>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://ModelOriented.github.io/DALEX/reference/model_performance.html">model_performance</a></span><span class="op">(</span><span class="va">gbm_explainer</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://dalex.drwhy.ai/reference/model_performance.html" class="external-link">model_performance</a></span><span class="op">(</span><span class="va">gbm_explainer</span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt; Measures for:  classification
 #&gt; recall     : 0.5353909 
 #&gt; precision  : 0.7999238 
@@ -197,7 +198,7 @@
 #&gt; -&gt; Metric calculation        : 12/12 metrics calculated for all models
 #&gt;  Fairness object created succesfully</code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fobject</span>, colorize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">fobject</span>, colorize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt; 
 #&gt; Fairness check for models: gbm 
 #&gt; 
@@ -205,7 +206,7 @@
 #&gt; Total loss:  2.028729</code></pre>
 <p>Our model passes only few metrics, how big is the bias?</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fobject</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fobject</span><span class="op">)</span></code></pre></div>
 <p><img src="Advanced_tutorial_files/figure-html/unnamed-chunk-6-1.png" width="720" style="display: block; margin: auto;"></p>
 <p>The biggest bias is in <code>Statistical parity loss</code> metric. It is metric that is frequently look at because it gives answer how much difference is there in positive label rates in model within protected variable. Let’s say that it will be metric that we will try to mitigate.</p>
 </div>
@@ -222,13 +223,13 @@
 <p>Firs technique you will learn about is <code>disparate_impact_remover</code>. It is somehow limited as it works on ordinal, numeric data. This technique returns “fixed” data frame. Through parameter <code>lambda</code> we can manipulate with how much the distribution will be fixed. <code>lambda = 1</code> (default) will return data with identical distributions for all levels of protected variable whereas <code>lambda = 0</code> will barely change anything. We will transform a few features.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_fixed</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/disparate_impact_remover.html">disparate_impact_remover</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">adult</span>, protected <span class="op">=</span> <span class="va">protected</span>, 
-                            features_to_transform <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"age"</span>, <span class="st">"hours_per_week"</span>,
+                            features_to_transform <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"age"</span>, <span class="st">"hours_per_week"</span>,
                                                       <span class="st">"capital_loss"</span>,
                                                       <span class="st">"capital_gain"</span><span class="op">)</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
-<span class="va">gbm_model</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/gbm/man/gbm.html">gbm</a></span><span class="op">(</span><span class="va">salary</span> <span class="op">~</span><span class="va">.</span> , data <span class="op">=</span> <span class="va">data_fixed</span>, distribution <span class="op">=</span> <span class="st">"bernoulli"</span><span class="op">)</span>
-<span class="va">gbm_explainer_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ModelOriented.github.io/DALEX/reference/explain.html">explain</a></span><span class="op">(</span><span class="va">gbm_model</span>,
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
+<span class="va">gbm_model</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/gbm/man/gbm.html" class="external-link">gbm</a></span><span class="op">(</span><span class="va">salary</span> <span class="op">~</span><span class="va">.</span> , data <span class="op">=</span> <span class="va">data_fixed</span>, distribution <span class="op">=</span> <span class="st">"bernoulli"</span><span class="op">)</span>
+<span class="va">gbm_explainer_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dalex.drwhy.ai/reference/explain.html" class="external-link">explain</a></span><span class="op">(</span><span class="va">gbm_model</span>,
                              data <span class="op">=</span> <span class="va">data_fixed</span><span class="op">[</span>,<span class="op">-</span><span class="fl">1</span><span class="op">]</span>,
                              y <span class="op">=</span> <span class="va">adult</span><span class="op">$</span><span class="va">salary</span>,
                              label <span class="op">=</span> <span class="st">"gbm_dir"</span>,
@@ -239,7 +240,7 @@
                           protected <span class="op">=</span> <span class="va">protected</span>, 
                           privileged <span class="op">=</span> <span class="st">"Male"</span>,
                           verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fobject</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fobject</span><span class="op">)</span></code></pre></div>
 <p><img src="Advanced_tutorial_files/figure-html/unnamed-chunk-8-1.png" width="720" style="display: block; margin: auto;"></p>
 <p>As we can see bias has diminished. But it is not on acceptable level for us. Let’s try something else. As for now we will add explainers to existing <code>fairness_object</code> to compare methods among themselves.</p>
 </div>
@@ -250,13 +251,13 @@
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">weights</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/reweight.html">reweight</a></span><span class="op">(</span>protected <span class="op">=</span> <span class="va">protected</span>, y <span class="op">=</span> <span class="va">adult</span><span class="op">$</span><span class="va">salary</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
-<span class="va">gbm_model</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/gbm/man/gbm.html">gbm</a></span><span class="op">(</span><span class="va">salary</span> <span class="op">~</span><span class="va">.</span> ,
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
+<span class="va">gbm_model</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/gbm/man/gbm.html" class="external-link">gbm</a></span><span class="op">(</span><span class="va">salary</span> <span class="op">~</span><span class="va">.</span> ,
                      data <span class="op">=</span> <span class="va">adult</span>,
                      weights <span class="op">=</span> <span class="va">weights</span>,
                      distribution <span class="op">=</span> <span class="st">"bernoulli"</span><span class="op">)</span>
 
-<span class="va">gbm_explainer_w</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ModelOriented.github.io/DALEX/reference/explain.html">explain</a></span><span class="op">(</span><span class="va">gbm_model</span>,
+<span class="va">gbm_explainer_w</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dalex.drwhy.ai/reference/explain.html" class="external-link">explain</a></span><span class="op">(</span><span class="va">gbm_model</span>,
                            data <span class="op">=</span> <span class="va">adult</span><span class="op">[</span>,<span class="op">-</span><span class="fl">1</span><span class="op">]</span>,
                            y <span class="op">=</span> <span class="va">adult</span><span class="op">$</span><span class="va">salary</span>,
                            label <span class="op">=</span> <span class="st">"gbm_weighted"</span>,
@@ -264,7 +265,7 @@
 
 <span class="va">fobject</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fairness_check.html">fairness_check</a></span><span class="op">(</span><span class="va">fobject</span>, <span class="va">gbm_explainer_w</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fobject</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fobject</span><span class="op">)</span></code></pre></div>
 <p><img src="Advanced_tutorial_files/figure-html/unnamed-chunk-9-1.png" width="720" style="display: block; margin: auto;"></p>
 <p>Our metric of interest (<code>Statistical parity ratio</code>) has been diminished but not enough. Other metrics are within boundaries, so <code>weighted</code> passes 4/5 metrics. There are some tradeoffs visible, some metrics increased their scores. It is not something uncommon. To lower the statistical parity the model must classify some unfavorable cases from unprivileged subgroup as favorable and the opposite for privileged subgroup. Similar outcome will be visible in the next method</p>
 </div>
@@ -276,7 +277,7 @@
 2. <strong>preferential</strong> - takes/omits observations either close to cutoff or as far from cutoff as possible. It needs probabilities (<code>probs</code>)</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># to obtain probs we will use simple linear regression</span>
-<span class="va">probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">salary</span> <span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">adult</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">fitted.values</span>
+<span class="va">probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">salary</span> <span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">adult</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">binomial</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">fitted.values</span>
 
 <span class="va">uniform_indexes</span>      <span class="op">&lt;-</span> <span class="fu"><a href="../reference/resample.html">resample</a></span><span class="op">(</span>protected <span class="op">=</span> <span class="va">protected</span>,
                                  y <span class="op">=</span> <span class="va">adult</span><span class="op">$</span><span class="va">salary</span><span class="op">)</span>
@@ -285,23 +286,23 @@
                                  type <span class="op">=</span> <span class="st">"preferential"</span>,
                                  probs <span class="op">=</span> <span class="va">probs</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
-<span class="va">gbm_model</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/gbm/man/gbm.html">gbm</a></span><span class="op">(</span><span class="va">salary</span> <span class="op">~</span><span class="va">.</span> ,
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
+<span class="va">gbm_model</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/gbm/man/gbm.html" class="external-link">gbm</a></span><span class="op">(</span><span class="va">salary</span> <span class="op">~</span><span class="va">.</span> ,
                      data <span class="op">=</span> <span class="va">adult</span><span class="op">[</span><span class="va">uniform_indexes</span>,<span class="op">]</span>,
                      distribution <span class="op">=</span> <span class="st">"bernoulli"</span><span class="op">)</span>
 
-<span class="va">gbm_explainer_u</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ModelOriented.github.io/DALEX/reference/explain.html">explain</a></span><span class="op">(</span><span class="va">gbm_model</span>,
+<span class="va">gbm_explainer_u</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dalex.drwhy.ai/reference/explain.html" class="external-link">explain</a></span><span class="op">(</span><span class="va">gbm_model</span>,
                            data <span class="op">=</span> <span class="va">adult</span><span class="op">[</span>,<span class="op">-</span><span class="fl">1</span><span class="op">]</span>,
                            y <span class="op">=</span> <span class="va">adult</span><span class="op">$</span><span class="va">salary</span>,
                            label <span class="op">=</span> <span class="st">"gbm_uniform"</span>,
                            verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
-<span class="va">gbm_model</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/gbm/man/gbm.html">gbm</a></span><span class="op">(</span><span class="va">salary</span> <span class="op">~</span><span class="va">.</span> ,
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
+<span class="va">gbm_model</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/gbm/man/gbm.html" class="external-link">gbm</a></span><span class="op">(</span><span class="va">salary</span> <span class="op">~</span><span class="va">.</span> ,
                      data <span class="op">=</span> <span class="va">adult</span><span class="op">[</span><span class="va">preferential_indexes</span>,<span class="op">]</span>,
                      distribution <span class="op">=</span> <span class="st">"bernoulli"</span><span class="op">)</span>
 
-<span class="va">gbm_explainer_p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ModelOriented.github.io/DALEX/reference/explain.html">explain</a></span><span class="op">(</span><span class="va">gbm_model</span>,
+<span class="va">gbm_explainer_p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dalex.drwhy.ai/reference/explain.html" class="external-link">explain</a></span><span class="op">(</span><span class="va">gbm_model</span>,
                            data <span class="op">=</span> <span class="va">adult</span><span class="op">[</span>,<span class="op">-</span><span class="fl">1</span><span class="op">]</span>,
                            y <span class="op">=</span> <span class="va">adult</span><span class="op">$</span><span class="va">salary</span>,
                            label <span class="op">=</span> <span class="st">"gbm_preferential"</span>,
@@ -309,7 +310,7 @@
 
 <span class="va">fobject</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fairness_check.html">fairness_check</a></span><span class="op">(</span><span class="va">fobject</span>, <span class="va">gbm_explainer_u</span>, <span class="va">gbm_explainer_p</span>, 
                           verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fobject</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fobject</span><span class="op">)</span></code></pre></div>
 <p><img src="Advanced_tutorial_files/figure-html/unnamed-chunk-10-1.png" width="720" style="display: block; margin: auto;"></p>
 <p>As we can see <code>preferential</code> sampling is best at mitigating <code>Statistical parity ratio</code>. As byproduct it also affects other metrics significantly.</p>
 </div>
@@ -324,9 +325,9 @@
 <p>ROC stands for Reject Option based Classification and pivot for the behavior of <code>probs</code>/<code>y_hat</code> as it pivots around the cutoff when it is in close zone. Close zone is defined by the <code>theta</code> parameter equal to 0.1 by default. In simple words depending on whether subgroup is privileged or not certain observations will change their probabilities to the opposite (but in equal distance) side of cutoff. For example if observation is unprivileged and unfavorable with probability 0.45 (assuming the <code>cutoff = 0.5</code>) probability will change it’s value to 0.55.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># we will need normal explainer </span>
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
-<span class="va">gbm_model</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/pkg/gbm/man/gbm.html">gbm</a></span><span class="op">(</span><span class="va">salary</span> <span class="op">~</span><span class="va">.</span> , data <span class="op">=</span> <span class="va">adult</span>, distribution <span class="op">=</span> <span class="st">"bernoulli"</span><span class="op">)</span>
-<span class="va">gbm_explainer</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ModelOriented.github.io/DALEX/reference/explain.html">explain</a></span><span class="op">(</span><span class="va">gbm_model</span>,
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
+<span class="va">gbm_model</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/pkg/gbm/man/gbm.html" class="external-link">gbm</a></span><span class="op">(</span><span class="va">salary</span> <span class="op">~</span><span class="va">.</span> , data <span class="op">=</span> <span class="va">adult</span>, distribution <span class="op">=</span> <span class="st">"bernoulli"</span><span class="op">)</span>
+<span class="va">gbm_explainer</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dalex.drwhy.ai/reference/explain.html" class="external-link">explain</a></span><span class="op">(</span><span class="va">gbm_model</span>,
                          data <span class="op">=</span> <span class="va">adult</span><span class="op">[</span>,<span class="op">-</span><span class="fl">1</span><span class="op">]</span>,
                          y <span class="op">=</span> <span class="va">adult</span><span class="op">$</span><span class="va">salary</span>,
                          verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
@@ -340,11 +341,11 @@
                           label <span class="op">=</span> <span class="st">"gbm_roc"</span>,  <span class="co"># label as vector for explainers</span>
                           verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> 
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fobject</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fobject</span><span class="op">)</span></code></pre></div>
 <p><img src="Advanced_tutorial_files/figure-html/unnamed-chunk-11-1.png" width="720" style="display: block; margin: auto;"></p>
 <p><code>gmb_weighted</code> is the best so far</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fobject</span>, colorize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">fobject</span>, colorize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt; 
 #&gt; Fairness check for models: gbm_roc, gbm_uniform, gbm_preferential, gbm_weighted, gbm, gbm_dir 
 #&gt; 
@@ -371,9 +372,9 @@
 <a href="#cutoff-manipulation" class="anchor"></a>Cutoff manipulation</h3>
 <p>Cutoff manipulation is simple technique that enables to set different cutoff for different subgroups. It is somewhat controversial as it increases individual unfairness (similar people might have different cutoffs and therefore are not treated similarly)</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
-<span class="va">gbm_model</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/pkg/gbm/man/gbm.html">gbm</a></span><span class="op">(</span><span class="va">salary</span> <span class="op">~</span><span class="va">.</span> , data <span class="op">=</span> <span class="va">adult</span>, distribution <span class="op">=</span> <span class="st">"bernoulli"</span><span class="op">)</span>
-<span class="va">gbm_explainer</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ModelOriented.github.io/DALEX/reference/explain.html">explain</a></span><span class="op">(</span><span class="va">gbm_model</span>,
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
+<span class="va">gbm_model</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/pkg/gbm/man/gbm.html" class="external-link">gbm</a></span><span class="op">(</span><span class="va">salary</span> <span class="op">~</span><span class="va">.</span> , data <span class="op">=</span> <span class="va">adult</span>, distribution <span class="op">=</span> <span class="st">"bernoulli"</span><span class="op">)</span>
+<span class="va">gbm_explainer</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dalex.drwhy.ai/reference/explain.html" class="external-link">explain</a></span><span class="op">(</span><span class="va">gbm_model</span>,
                          data <span class="op">=</span> <span class="va">adult</span><span class="op">[</span>,<span class="op">-</span><span class="fl">1</span><span class="op">]</span>,
                          y <span class="op">=</span> <span class="va">adult</span><span class="op">$</span><span class="va">salary</span>,
                          verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
@@ -384,24 +385,24 @@
                           privileged <span class="op">=</span> <span class="st">"Male"</span>,
                           verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> 
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/ceteris_paribus_cutoff.html">ceteris_paribus_cutoff</a></span><span class="op">(</span><span class="va">fobject_test</span>, subgroup <span class="op">=</span> <span class="st">"Female"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/ceteris_paribus_cutoff.html">ceteris_paribus_cutoff</a></span><span class="op">(</span><span class="va">fobject_test</span>, subgroup <span class="op">=</span> <span class="st">"Female"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="Advanced_tutorial_files/figure-html/unnamed-chunk-13-1.png" width="720" style="display: block; margin: auto;"></p>
 <p>It is possible to minimize all metrics or only few metrics of our interest.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/ceteris_paribus_cutoff.html">ceteris_paribus_cutoff</a></span><span class="op">(</span><span class="va">fobject_test</span>,
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/ceteris_paribus_cutoff.html">ceteris_paribus_cutoff</a></span><span class="op">(</span><span class="va">fobject_test</span>,
                             subgroup <span class="op">=</span> <span class="st">"Female"</span>,
-                            fairness_metrics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ACC"</span>,<span class="st">"TPR"</span>,<span class="st">"STP"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+                            fairness_metrics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ACC"</span>,<span class="st">"TPR"</span>,<span class="st">"STP"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="Advanced_tutorial_files/figure-html/unnamed-chunk-14-1.png" width="720" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">fc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fairness_check.html">fairness_check</a></span><span class="op">(</span><span class="va">gbm_explainer</span>, <span class="va">fobject</span>,
                      label <span class="op">=</span> <span class="st">"gbm_cutoff"</span>,
-                     cutoff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Female <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span>,
+                     cutoff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Female <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span>,
                      verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fc</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fc</span><span class="op">)</span></code></pre></div>
 <p><img src="Advanced_tutorial_files/figure-html/unnamed-chunk-15-1.png" width="720" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">fc</span> , colorize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">fc</span> , colorize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt; 
 #&gt; Fairness check for models: gbm_cutoff, gbm_roc, gbm_uniform, gbm_preferential, gbm_weighted, gbm, gbm_dir 
 #&gt; 
@@ -440,14 +441,14 @@
 #&gt; Fairness metric: STP 
 #&gt; Performance metric: accuracy</code></pre>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">paf</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">paf</span><span class="op">)</span></code></pre></div>
 <p><img src="Advanced_tutorial_files/figure-html/unnamed-chunk-17-1.png" width="720" style="display: block; margin: auto;"></p>
 <p>The tradeoff is significant and it should be always be taken into consideration.</p>
 </div>
 <div id="summary" class="section level1">
 <h1 class="hasAnchor">
 <a href="#summary" class="anchor"></a>Summary</h1>
-<p>There is many ways to tackle bias in models. Thanks to <code>fairmodels</code> it is easy to compare changes and experiment with new models and bias mitigation techniques. It is also good idea to combine few techniques (for example minimizing once with weights and then with cutoff). <code>fairness_check</code> interface is flexible and allows combining models that were trained on different features, encodings etc. Please if you encounter some bug or you have an idea for new feature please write and issue <a href="https://github.com/ModelOriented/fairmodels/issues">here</a>.</p>
+<p>There is many ways to tackle bias in models. Thanks to <code>fairmodels</code> it is easy to compare changes and experiment with new models and bias mitigation techniques. It is also good idea to combine few techniques (for example minimizing once with weights and then with cutoff). <code>fairness_check</code> interface is flexible and allows combining models that were trained on different features, encodings etc. Please if you encounter some bug or you have an idea for new feature please write and issue <a href="https://github.com/ModelOriented/fairmodels/issues" class="external-link">here</a>.</p>
 </div>
   </div>
 
@@ -466,7 +467,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a>.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a>.</p>
 </div>
 
       </footer>

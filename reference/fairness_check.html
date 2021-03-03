@@ -101,7 +101,7 @@ Users through print and plot methods may quickly check values of most popular fa
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">0.2.4</span>
+          <span class="version version-default">0.2.5</span>
         </div>
       </div>
     </div>
@@ -176,11 +176,11 @@ Users through print and plot methods may quickly check values of most popular fa
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>object created with <code><a href='https://ModelOriented.github.io/DALEX/reference/explain.html'>explain</a></code> or of class <code>fairness_object</code></p></td>
+      <td><p>object created with <code><a href='https://dalex.drwhy.ai/reference/explain.html'>explain</a></code> or of class <code>fairness_object</code></p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>possibly more objects created with <code><a href='https://ModelOriented.github.io/DALEX/reference/explain.html'>explain</a></code> and/or objects of class <code>fairness_object</code></p></td>
+      <td><p>possibly more objects created with <code><a href='https://dalex.drwhy.ai/reference/explain.html'>explain</a></code> and/or objects of class <code>fairness_object</code></p></td>
     </tr>
     <tr>
       <th>protected</th>
@@ -200,7 +200,7 @@ Users through print and plot methods may quickly check values of most popular fa
     </tr>
     <tr>
       <th>epsilon</th>
-      <td><p>numeric, boundary for fairness checking, lowest acceptable ratio of metrics</p></td>
+      <td><p>numeric, boundary for fairness checking, lowest acceptable ratio of metrics between unprivileged and privileged subgroups. Default value is 0.8. More on the idea behind epsilon in details section.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
@@ -243,9 +243,9 @@ Users through print and plot methods may quickly check values of most popular fa
 <p>Metrics used are made for each subgroup, then base metric score is subtracted leaving loss of particular metric.
 If absolute loss of metrics ratio is not within acceptable boundaries than such metric is marked as "not passed". It means that values of metrics should be within (epsilon, 1/epsilon) boundary.
 The default ratio is set to 0.8 which adhere to US 80<!-- % rule (more on it here: \url{https://en.wikipedia.org/wiki/Disparate_impact#The_80%_rule}). It means that unprivileged subgroups should have at least 80% -->
-of scores achieved in metrics by privileged subgroup. For example if TPR_unprivileged/TPR_privileged is less than 0.8 then such ratio is sign of discrimination. On the other hand if
+score achieved in metrics by privileged subgroup. For example if TPR_unprivileged/TPR_privileged is less than 0.8 then such ratio is sign of discrimination. On the other hand if
 TPR_privileged/TPR_unprivileged is more than 1.25 (1/0.8) than there is discrimination towards privileged group.
-Epsilon value can be adjusted to user's needs. There are some metrics that might be derived from existing metrics (For example Equalized Odds - equal TPR and FPR for all subgroups).
+Epsilon value can be adjusted to user's needs. It should be interpreted as the lowest ratio of metrics allowed.  There are some metrics that might be derived from existing metrics (For example Equalized Odds - equal TPR and FPR for all subgroups).
 That means passing 5 metrics in fairness check asserts that model is even more fair. In <code>fairness_check</code> models must always predict positive result. Not adhering to this rule
 may lead to misinterpretation of the plot. More on metrics and their equivalents:
 <a href='https://fairware.cs.umass.edu/papers/Verma.pdf'>https://fairware.cs.umass.edu/papers/Verma.pdf</a>
@@ -280,18 +280,19 @@ metric_privileged - value of metric vector for privileged subgroup</p>
                            num.trees <span class='op'>=</span> <span class='fl'>100</span>,
                            seed <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
 
-<span class='va'>explainer_lm</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://ModelOriented.github.io/DALEX/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>lm_model</span>, data <span class='op'>=</span> <span class='va'>german</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span><span class='op'>)</span>
+<span class='va'>explainer_lm</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://dalex.drwhy.ai/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>lm_model</span>, data <span class='op'>=</span> <span class='va'>german</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( <span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; predicted values  :  No value for predict function target column. ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; model_info        :  package stats , ver. 4.0.4 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; predicted values  :  numerical, min =  0.1369187 , mean =  0.7 , max =  0.9832426  
-#&gt;   -&gt; model_info        :  package stats , ver. 4.0.3 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9572803 , mean =  1.940006e-17 , max =  0.8283475  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='va'>explainer_rf</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://ModelOriented.github.io/DALEX/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>rf_model</span>,
+<span class='va'>explainer_rf</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://dalex.drwhy.ai/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>rf_model</span>,
                                data <span class='op'>=</span> <span class='va'>german</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>,
                                y <span class='op'>=</span> <span class='va'>y_numeric</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
@@ -299,8 +300,9 @@ metric_privileged - value of metric vector for privileged subgroup</p>
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  numerical, min =  0.2744313 , mean =  0.6991764 , max =  0.9021086  
+#&gt;   -&gt; predicted values  :  No value for predict function target column. ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; predicted values  :  numerical, min =  0.2744313 , mean =  0.6991764 , max =  0.9021086  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.8758052 , mean =  0.0008235875 , max =  0.6119131  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
