@@ -168,9 +168,9 @@
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used (  default  )
 #&gt;   -&gt; predicted values  :  No value for predict function target column. (  default  )
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification (  default  ) 
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1492166 , mean =  0.5453035 , max =  0.8683606  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1596897 , mean =  0.545816 , max =  0.869381  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8543823 , mean =  -0.0004233813 , max =  0.787522  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.850733 , mean =  -0.0009359161 , max =  0.7823775  
 #&gt;   A new explainer has been created!</code></pre>
 <div id="fairness-check" class="section level3">
 <h3 class="hasAnchor">
@@ -188,7 +188,7 @@
 #&gt; -&gt; Cutoff values for explainers  : 0.5 ( for all subgroups )
 #&gt; -&gt; Fairness objects      : 0 objects 
 #&gt; -&gt; Checking explainers       : 1 in total (  compatible  )
-#&gt; -&gt; Metric calculation        : 10/12 metrics calculated for all models ( 2 NA created )
+#&gt; -&gt; Metric calculation        : 12/12 metrics calculated for all models
 #&gt;  Fairness object created succesfully</code></pre>
 <p>Let’s see if our ranger model has bias.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -196,8 +196,8 @@
 <pre><code>#&gt; 
 #&gt; Fairness check for models: ranger 
 #&gt; 
-#&gt; ranger passes 2/5 metrics
-#&gt; Total loss:  3.607771</code></pre>
+#&gt; ranger passes 3/5 metrics
+#&gt; Total loss:  3.552622</code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fobject</span><span class="op">)</span></code></pre></div>
 <p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-7-1.png" width="720" style="display: block; margin: auto;"></p>
@@ -275,15 +275,15 @@
 <pre><code>#&gt;         TPR       TNR       PPV       NPV       FNR       FPR       FDR
 #&gt; 1 0.6543728 0.9564557 0.4340678 0.4943407 2.0933227 1.6062123 1.2928436
 #&gt; 2 0.5471779        NA 0.1630229        NA 3.2047184 1.9228318 0.3724644
-#&gt; 3 0.6029334 1.3007298 0.4528648 0.8577086        NA 1.9495908 1.4948481
+#&gt; 3 0.5576422 1.3611279 0.4097177 0.5839284 3.0324867 1.9711656 1.2765216
 #&gt; 4 0.6611125 0.7401031 0.7674172 0.8209521 0.8762755 0.8532876 1.4329174
-#&gt; 5 0.6253029 2.4575273 0.3294893 0.9360313 2.5818233 2.1734976 0.8777831
+#&gt; 5 0.4261126 2.1892381 0.2137098 1.0220432 1.9810621 1.4999205 0.5139549
 #&gt;         FOR        TS       STP       ACC        F1
 #&gt; 1 0.7714054 0.6637935 1.1133131 0.4133125 0.4164699
 #&gt; 2 1.7116794 0.5362121 1.1034842 0.1969839 0.3361082
-#&gt; 3        NA 0.8567144 1.1185276 0.5074897 0.5206011
+#&gt; 3 1.4039623 0.7767427 1.1150733 0.4326675 0.4763682
 #&gt; 4 0.6729784 0.8970468 0.5742171 0.3638060 0.6304323
-#&gt; 5 1.1408077 0.5259238 1.2120066 0.2357669 0.3285304</code></pre>
+#&gt; 5 1.3675750 0.5028339 0.8813170 0.2291935 0.3140060</code></pre>
 <ul>
 <li>groups_data</li>
 </ul>
@@ -344,7 +344,7 @@
 <h2 class="hasAnchor">
 <a href="#stacked-barplot" class="anchor"></a>Stacked Barplot</h2>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stack_metrics.html">stack_metrics</a></span><span class="op">(</span><span class="va">fobject</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">sm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_stacked_barplot.html">stack_metrics</a></span><span class="op">(</span><span class="va">fobject</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sm</span><span class="op">)</span></code></pre></div>
 <p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-15-1.png" width="720" style="display: block; margin: auto;"></p>
 <p>It displays accumulated (Stacked) metric scores for each model. The least metric score the better.</p>
@@ -365,17 +365,17 @@
 <code class="sourceCode R"><span class="va">fair_pca</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fairness_pca.html">fairness_pca</a></span><span class="op">(</span><span class="va">fobject</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">fair_pca</span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt; Fairness PCA : 
-#&gt;             PC1         PC2         PC3        PC4           PC5
-#&gt; [1,] -0.3410326  0.62526946  0.79136397 -0.4542625 -3.122502e-17
-#&gt; [2,]  2.7799223 -0.98814481 -0.79185290 -0.1633707  8.465451e-16
-#&gt; [3,] -0.9124088  1.56331274 -0.86782108  0.1343029  4.440892e-16
-#&gt; [4,] -3.3645516 -1.26725943 -0.01602034  0.0896887  8.187895e-16
-#&gt; [5,]  1.8380706  0.06682204  0.88433035  0.3936415  2.171874e-15
+#&gt;              PC1        PC2        PC3        PC4          PC5
+#&gt; [1,] -0.82208213 -1.0543422  1.1859178 -0.1373710 3.226586e-16
+#&gt; [2,]  2.81530066  0.1181615 -0.3354972 -0.8404454 6.453171e-16
+#&gt; [3,]  0.09510065 -1.7989814 -0.7126504  0.5266440 6.106227e-16
+#&gt; [4,] -3.97297483  1.0555754 -0.3835801 -0.2309445 1.110223e-16
+#&gt; [5,]  1.88465564  1.6795868  0.2458098  0.6821168 5.204170e-16
 #&gt; 
 #&gt; Created with: 
 #&gt; [1] "ranger"   "lm"       "ranger_2" "ranger_3" "gbm"     
 #&gt; 
-#&gt; First two components explained 90 % of variance.</code></pre>
+#&gt; First two components explained 91 % of variance.</code></pre>
 <p>Let’s plot!</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fair_pca</span><span class="op">)</span></code></pre></div>
