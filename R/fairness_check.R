@@ -77,6 +77,7 @@
 #' Hardt, Price, Srebro (2016) \url{https://arxiv.org/pdf/1610.02413.pdf}
 #'
 #' Verma, Rubin (2018) \url{https://fairware.cs.umass.edu/papers/Verma.pdf}
+#'
 #' Barocas, Hardt, Narayanan (2019) \url{https://fairmlbook.org/}
 #'
 #' @export
