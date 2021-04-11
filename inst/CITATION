@@ -1,0 +1,8 @@
+bibentry(bibtype = "Article",
+  title = "fairmodels: A Flexible Tool For Bias Detection",
+  author = "Jakub Wiśniewski and Przemysław Biecek",
+  year = "2021",
+  journal = "arxiv",
+  url = "https://arxiv.org/abs/2104.00507",
+  header = "To cite fairmodels in publications use:"
+)
