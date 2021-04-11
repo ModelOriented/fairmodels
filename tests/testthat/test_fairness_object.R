@@ -126,6 +126,14 @@ test_that("test fairness object", {
                               privileged = "Caucasian",
                               cutoff = c(1, 0.3)))
 
+  # checking if fobjects can be put in fairness_check
+  fc3 <- fairness_check(explainer_ranger,
+                       protected  = compas$Ethnicity,
+                       privileged = "Caucasian",
+                       label = 'second_fobject')
+
+  fc4 <- fairness_check(fc3, fc)
+
 
   ######################## plot #############################
 

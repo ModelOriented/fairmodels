@@ -1,3 +1,6 @@
+# fairmodels 0.2.6 
+* Fixed bug which appeared when two fairness objects were passed to `fairness_check` without an explainer. (#36)
+
 # fairmodels 0.2.5
 * Extended documentation for `epsilon` parameter in `fairness_check()` function.
 

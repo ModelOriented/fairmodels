@@ -325,6 +325,7 @@ fairness_check <- function(x,
   df                <- data.frame()
   cutoffs           <- as.list(rep(0, n_exp))
   names(cutoffs)    <- label
+  parity_loss_names <- NULL
 
   for (i in seq_along(explainers)) {
     # note that this is along explainers passed to fc, not all_explainers (eg from fairness_objects)
@@ -345,6 +346,7 @@ fairness_check <- function(x,
     # parity_loss
     parity_loss <- calculate_parity_loss(gmm, privileged)
     parity_loss_metric_data[i, ] <- parity_loss
+    parity_loss_names <- names(parity_loss)
 
 
     # every group value for every metric for every explainer
@@ -434,7 +436,10 @@ fairness_check <- function(x,
 
   # as data frame and making numeric
   parity_loss_metric_data           <- as.data.frame(parity_loss_metric_data)
-  colnames(parity_loss_metric_data) <- names(parity_loss)
+
+  if (is.null(parity_loss_names)) parity_loss_names <- names(parity_loss_metric_data)
+  colnames(parity_loss_metric_data) <- parity_loss_names
+
 
 
   # merge explainers data with fobjects
