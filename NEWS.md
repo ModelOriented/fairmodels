@@ -1,6 +1,7 @@
 # fairmodels 1.0.0
 * Added citation information
 * Added additional reference in `fairness_check()` documentation.
+* Fixed links in DESCRIPTION and README. 
 
 # fairmodels 0.2.6 
 * Fixed bug which appeared when two fairness objects were passed to `fairness_check` without an explainer. (#36)

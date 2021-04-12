@@ -3,7 +3,7 @@
   <!-- badges: start -->
   [![Codecov test coverage](https://codecov.io/gh/ModelOriented/fairmodels/branch/master/graph/badge.svg)](https://codecov.io/gh/ModelOriented/fairmodels?branch=master)
   [![R build status](https://github.com/ModelOriented/fairmodels/workflows/R-CMD-check/badge.svg)](https://github.com/ModelOriented/fairmodels/actions)
-   [![CRAN](https://www.r-pkg.org/badges/version/fairmodels)](https://cran.r-project.org/web/packages/fairmodels/index.html)
+   [![CRAN](https://www.r-pkg.org/badges/version/fairmodels)](https://cran.r-project.org/package=fairmodels)
    ![Downloads](https://cranlogs.r-pkg.org/badges/fairmodels)
    [![DrWhy-eXtrAI](https://img.shields.io/badge/DrWhy-eXtrAI-4378bf)](http://drwhy.ai/#eXtraAI)
   <!-- badges: end -->
@@ -69,8 +69,8 @@ plot(fobject)
 
 ```
 
-Compas recidivism data use case: [Basic tutorial](https://modeloriented.github.io/fairmodels/articles/Basic_tutorial.html)   
-Bias mitigation techniques on Adult data: [Advanced tutorial](https://modeloriented.github.io/fairmodels/articles/Advanced_tutorial.html)
+Compas recidivism data use case: [Basic tutorial](http://fairmodels.drwhy.ai/articles/Basic_tutorial.html)   
+Bias mitigation techniques on Adult data: [Advanced tutorial](http://fairmodels.drwhy.ai/articles/Advanced_tutorial.html)
 
 ## How to evaluate fairness? 
 
@@ -132,4 +132,5 @@ some fairness metrics like *Equalized odds* are satisfied if parity loss in both
 
 ## Related works
 
-Zafar,Valera, Rodriguez, Gummadi (2017)  https://arxiv.org/pdf/1610.08452.pdf
+Zafar, Valera, Rodriguez, Gummadi (2017)  https://arxiv.org/pdf/1610.08452.pdf
+Barocas, Hardt, Narayanan (2019) https://fairmlbook.org/

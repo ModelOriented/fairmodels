@@ -29,6 +29,6 @@ Suggests:
     spelling
 RoxygenNote: 7.1.1.9000
 VignetteBuilder: knitr
-URL: https://modeloriented.github.io/fairmodels/
+URL: http://fairmodels.drwhy.ai/
 BugReports: https://github.com/ModelOriented/fairmodels/issues
 Language: en-US
