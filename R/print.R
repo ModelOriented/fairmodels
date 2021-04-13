@@ -23,7 +23,8 @@
 #' rf_model <- ranger::ranger(Risk ~.,
 #'                            data = german,
 #'                            probability = TRUE,
-#'                            num.trees = 200)
+#'                            num.trees = 200,
+#'                            num.threads = 1)
 #'
 #' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
 #' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
@@ -83,7 +84,8 @@ print.all_cutoffs <- function(x, ..., label = NULL){
 #' rf_model <- ranger::ranger(Risk ~.,
 #'                            data = german,
 #'                            probability = TRUE,
-#'                            num.trees = 200)
+#'                            num.trees = 200,
+#'                            num.threads = 1)
 #'
 #' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
 #' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
@@ -135,7 +137,8 @@ print.ceteris_paribus_cutoff<- function(x, ...){
 #' rf_model <- ranger::ranger(Risk ~.,
 #'                            data = german,
 #'                            probability = TRUE,
-#'                            num.trees = 200)
+#'                            num.trees = 200,
+#'                            num.threads = 1)
 #'
 #' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
 #' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
@@ -185,7 +188,8 @@ print.chosen_metric <- function(x,...){
 #' rf_model <- ranger::ranger(Risk ~.,
 #'                            data = german,
 #'                            probability = TRUE,
-#'                            num.trees = 200)
+#'                            num.trees = 200,
+#'                            num.threads = 1)
 #'
 #' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
 #' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
@@ -253,7 +257,8 @@ print.fairness_heatmap <- function(x, ...) {
 #'                            probability = TRUE,
 #'                            max.depth = 3,
 #'                            num.trees = 100,
-#'                            seed = 1)
+#'                            seed = 1,
+#'                            num.threads = 1)
 #'
 #' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
 #'
@@ -347,7 +352,8 @@ print.fairness_object <- function(x, ..., colorize = TRUE){
 #' rf_model <- ranger::ranger(Risk ~.,
 #'                            data = german,
 #'                            probability = TRUE,
-#'                            num.trees = 200)
+#'                            num.trees = 200,
+#'                            num.threads = 1)
 #'
 #' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
 #' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
@@ -407,7 +413,8 @@ print.fairness_pca <- function(x, ...){
 #' rf_model <- ranger::ranger(Risk ~.,
 #'                            data = german,
 #'                            probability = TRUE,
-#'                            num.trees = 200)
+#'                            num.trees = 200,
+#'                            num.threads = 1)
 #'
 #' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
 #' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
@@ -458,7 +465,8 @@ print.fairness_radar <- function(x, ...){
 #' rf_model <- ranger::ranger(Risk ~.,
 #'                            data = german,
 #'                            probability = TRUE,
-#'                            num.trees = 200)
+#'                            num.trees = 200,
+#'                            num.threads = 1)
 #'
 #' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
 #' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
@@ -511,7 +519,8 @@ print.group_metric <- function(x, ...){
 #' rf_model <- ranger::ranger(Risk ~.,
 #'                            data = german,
 #'                            probability = TRUE,
-#'                            num.trees = 200)
+#'                            num.trees = 200,
+#'                            num.threads = 1)
 #'
 #' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
 #' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
@@ -559,7 +568,8 @@ print.metric_scores <- function(x, ...){
 #' rf_model <- ranger::ranger(Risk ~.,
 #'                            data = german,
 #'                            probability = TRUE,
-#'                            num.trees = 200)
+#'                            num.trees = 200,
+#'                            num.threads = 1)
 #'
 #' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
 #' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
@@ -624,7 +634,8 @@ print.performance_and_fairness <- function(x, ...){
 #' rf_model <- ranger::ranger(Risk ~.,
 #'                            data = german,
 #'                            probability = TRUE,
-#'                            num.trees = 200)
+#'                            num.trees = 200,
+#'                            num.threads = 1)
 #'
 #' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
 #' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)

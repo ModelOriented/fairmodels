@@ -1,3 +1,6 @@
+# fairmodels 1.0.1 
+* Changed examples - added parameter `num.threads = 1` to `ranger` and added *donttest{}* to examples with long computation time. 
+
 # fairmodels 1.0.0
 * Added citation information
 * Added additional reference in `fairness_check()` documentation.

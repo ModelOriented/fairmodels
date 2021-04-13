@@ -24,17 +24,26 @@
 #'                 data = german,
 #'                 family=binomial(link="logit"))
 #'
+#'
+#' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+#'
+#' fobject <- fairness_check(explainer_lm,
+#'                           protected = german$Sex,
+#'                           privileged = "male")
+#'
+#' paf <- performance_and_fairness(fobject)
+#' plot(paf)
+#'
+#' \donttest{
+#'
 #' rf_model <- ranger::ranger(Risk ~.,
 #'                            data = german,
 #'                            probability = TRUE,
 #'                            num.trees = 200)
 #'
-#' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
 #' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
 #'
-#' fobject <- fairness_check(explainer_lm, explainer_rf,
-#'                           protected = german$Sex,
-#'                           privileged = "male")
+#' fobject <- fairness_check(explainer_rf, fobject)
 #'
 #'  # same explainers with different cutoffs for female
 #' fobject <- fairness_check(explainer_lm, explainer_rf, fobject,
@@ -46,6 +55,8 @@
 #' paf <- performance_and_fairness(fobject)
 #'
 #' plot(paf)
+#'
+#'}
 
 plot.performance_and_fairness <- function(x , ...){
 

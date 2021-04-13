@@ -22,20 +22,27 @@
 #'                 data = german,
 #'                 family=binomial(link="logit"))
 #'
+#' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+#'
+#' fobject <- fairness_check(explainer_lm,
+#'                           protected = german$Sex,
+#'                           privileged = "male")
+#' expand_fairness_object(fobject, drop_metrics_with_na = TRUE)
+#'
+#' \donttest{
 #' rf_model <- ranger::ranger(Risk ~.,
 #'                            data = german,
 #'                            probability = TRUE,
 #'                            num.trees = 200)
 #'
-#' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+#'
 #' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
 #'
-#' fobject <- fairness_check(explainer_lm, explainer_rf,
-#'                           protected = german$Sex,
-#'                           privileged = "male")
+#' fobject <- fairness_check(explainer_rf, fobject)
 #'
 #' expand_fairness_object(fobject, drop_metrics_with_na = TRUE)
 #'
+#' }
 
 expand_fairness_object <- function(x, scale = FALSE, drop_metrics_with_na = FALSE, fairness_metrics = NULL){
 

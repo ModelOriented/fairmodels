@@ -31,7 +31,8 @@ rf_model <- ranger::ranger(Risk ~.,
                            probability = TRUE,
                            max.depth = 3,
                            num.trees = 100,
-                           seed = 1)
+                           seed = 1,
+                           num.threads = 1)
 
 explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
 

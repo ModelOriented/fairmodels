@@ -28,7 +28,8 @@ lm_model <- glm(Risk~.,
 rf_model <- ranger::ranger(Risk ~.,
                            data = german,
                            probability = TRUE,
-                           num.trees = 200)
+                           num.trees = 200,
+                           num.threads = 1)
 
 explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
 explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)

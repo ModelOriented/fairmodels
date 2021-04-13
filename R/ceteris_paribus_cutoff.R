@@ -26,16 +26,26 @@
 #' y_numeric <- as.numeric(two_yr_recidivism) -1
 #' compas$Two_yr_Recidivism <- two_yr_recidivism
 #'
+#'
 #' lm_model <- glm(Two_yr_Recidivism~.,
 #'                 data=compas,
 #'                 family=binomial(link="logit"))
 #'
+#' explainer_lm <- DALEX::explain(lm_model, data = compas[,-1], y = y_numeric)
+#'
+#' fobject <- fairness_check(explainer_lm,
+#'                           protected = compas$Ethnicity,
+#'                           privileged = "Caucasian")
+#'
+#' cpc <- ceteris_paribus_cutoff(fobject, "African_American")
+#' plot(cpc)
+#'
+#' \donttest{
 #' rf_model <- ranger::ranger(Two_yr_Recidivism ~.,
 #'                            data = compas,
 #'                            probability = TRUE,
 #'                            num.trees = 200)
 #'
-#' explainer_lm <- DALEX::explain(lm_model, data = compas[,-1], y = y_numeric)
 #' explainer_rf <- DALEX::explain(rf_model, data = compas[,-1], y = y_numeric)
 #'
 #' fobject <- fairness_check(explainer_lm, explainer_rf,
@@ -43,9 +53,8 @@
 #'                           privileged = "Caucasian")
 #'
 #' cpc <- ceteris_paribus_cutoff(fobject, "African_American")
-#'
 #' plot(cpc)
-#'
+#' }
 
 ceteris_paribus_cutoff <- function(x,
                                    subgroup,
