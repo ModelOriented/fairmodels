@@ -98,7 +98,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">1.0.0</span>
+          <span class="version version-default">1.0.1</span>
         </div>
       </div>
     </div>
@@ -195,11 +195,6 @@
                 data <span class='op'>=</span> <span class='va'>german</span>,
                 family<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span><span class='op'>(</span>link<span class='op'>=</span><span class='st'>"logit"</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='va'>rf_model</span> <span class='op'>&lt;-</span> <span class='fu'>ranger</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span><span class='op'>(</span><span class='va'>Risk</span> <span class='op'>~</span><span class='va'>.</span>,
-                           data <span class='op'>=</span> <span class='va'>german</span>,
-                           probability <span class='op'>=</span> <span class='cn'>TRUE</span>,
-                           num.trees <span class='op'>=</span> <span class='fl'>200</span><span class='op'>)</span>
-
 <span class='va'>explainer_lm</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://dalex.drwhy.ai/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>lm_model</span>, data <span class='op'>=</span> <span class='va'>german</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( <span style='color: #BBBB00;'> default </span><span> )
@@ -211,7 +206,39 @@
 #&gt;   -&gt; predicted values  :  numerical, min =  0.1369187 , mean =  0.7 , max =  0.9832426  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9572803 , mean =  1.940006e-17 , max =  0.8283475  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='va'>explainer_rf</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://dalex.drwhy.ai/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>rf_model</span>, data <span class='op'>=</span> <span class='va'>german</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span><span class='op'>)</span>
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
+<span class='va'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span><span class='op'>(</span><span class='va'>explainer_lm</span>,
+                          protected <span class='op'>=</span> <span class='va'>german</span><span class='op'>$</span><span class='va'>Sex</span>,
+                          privileged <span class='op'>=</span> <span class='st'>"male"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Creating fairness object
+#&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
+#&gt; -&gt; Protected variable		: factor (</span><span style='color: #00BB00;'> Ok </span><span> ) 
+#&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
+#&gt; -&gt; Fairness objects		: 0 objects 
+#&gt; -&gt; Checking explainers		: 1 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
+#&gt; -&gt; Metric calculation		: 12/12 metrics calculated for all models
+#&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'><span class='fu'>expand_fairness_object</span><span class='op'>(</span><span class='va'>fobject</span>, drop_metrics_with_na <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;    metric model       score
+#&gt; 1     TPR    lm 0.096364988
+#&gt; 2     TNR    lm 0.433770370
+#&gt; 3     PPV    lm 0.021418116
+#&gt; 4     NPV    lm 0.006376217
+#&gt; 5     FNR    lm 0.764119178
+#&gt; 6     FPR    lm 0.347333014
+#&gt; 7     FDR    lm 0.075989500
+#&gt; 8     FOR    lm 0.011650617
+#&gt; 9      TS    lm 0.096572597
+#&gt; 10    STP    lm 0.184128760
+#&gt; 11    ACC    lm 0.041523503
+#&gt; 12     F1    lm 0.056585621</div><div class='input'>
+<span class='co'># \donttest{</span>
+<span class='va'>rf_model</span> <span class='op'>&lt;-</span> <span class='fu'>ranger</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span><span class='op'>(</span><span class='va'>Risk</span> <span class='op'>~</span><span class='va'>.</span>,
+                           data <span class='op'>=</span> <span class='va'>german</span>,
+                           probability <span class='op'>=</span> <span class='cn'>TRUE</span>,
+                           num.trees <span class='op'>=</span> <span class='fl'>200</span><span class='op'>)</span>
+
+
+<span class='va'>explainer_rf</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://dalex.drwhy.ai/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>rf_model</span>, data <span class='op'>=</span> <span class='va'>german</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; data              :  1000  rows  9  cols 
@@ -223,39 +250,38 @@
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; residuals         :  numerical, min =  -0.7585476 , mean =  0.003656338 , max =  0.6813942  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
-<span class='va'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span><span class='op'>(</span><span class='va'>explainer_lm</span>, <span class='va'>explainer_rf</span>,
-                          protected <span class='op'>=</span> <span class='va'>german</span><span class='op'>$</span><span class='va'>Sex</span>,
-                          privileged <span class='op'>=</span> <span class='st'>"male"</span><span class='op'>)</span>
+<span class='va'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span><span class='op'>(</span><span class='va'>explainer_rf</span>, <span class='va'>fobject</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Creating fairness object
-#&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
-#&gt; -&gt; Protected variable		: factor (</span><span style='color: #00BB00;'> Ok </span><span> ) 
+#&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #BBBB00;'> from first fairness object </span><span> ) 
+#&gt; -&gt; Protected variable		: factor (</span><span style='color: #BBBB00;'> from first fairness object </span><span> ) 
 #&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
-#&gt; -&gt; Fairness objects		: 0 objects 
+#&gt; -&gt; Fairness objects		: 1 object ( </span><span style='color: #00BB00;'> compatible </span><span> )
 #&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
 #&gt; -&gt; Metric calculation		: 10/12 metrics calculated for all models ( </span><span style='color: #BBBB00;'>2 NA created</span><span> )
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
 <span class='fu'>expand_fairness_object</span><span class='op'>(</span><span class='va'>fobject</span>, drop_metrics_with_na <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: Found metric with NA: FNR, FOR, omiting it</span></div><div class='output co'>#&gt;    metric  model        score
-#&gt; 1     TPR     lm 0.0963649885
-#&gt; 2     TPR ranger 0.0080483332
-#&gt; 3     TNR     lm 0.4337703703
-#&gt; 4     TNR ranger 0.0545052155
-#&gt; 5     PPV     lm 0.0214181164
-#&gt; 6     PPV ranger 0.0080578374
-#&gt; 7     NPV     lm 0.0063762171
-#&gt; 8     NPV ranger 0.0261452801
-#&gt; 9     FPR     lm 0.3473330144
-#&gt; 10    FPR ranger 0.2375821504
-#&gt; 11    FDR     lm 0.0759894996
-#&gt; 12    FDR ranger 0.0946873209
-#&gt; 13     TS     lm 0.0965725965
-#&gt; 14     TS ranger 0.0006090134
-#&gt; 15    STP     lm 0.1841287596
-#&gt; 16    STP ranger 0.0930757170
-#&gt; 17    ACC     lm 0.0415235028
-#&gt; 18    ACC ranger 0.0060735986
-#&gt; 19     F1     lm 0.0565856215
-#&gt; 20     F1 ranger 0.0003175107</div><div class='input'>
+#&gt; 1     TPR ranger 0.0080483332
+#&gt; 2     TPR     lm 0.0963649885
+#&gt; 3     TNR ranger 0.0545052155
+#&gt; 4     TNR     lm 0.4337703703
+#&gt; 5     PPV ranger 0.0080578374
+#&gt; 6     PPV     lm 0.0214181164
+#&gt; 7     NPV ranger 0.0261452801
+#&gt; 8     NPV     lm 0.0063762171
+#&gt; 9     FPR ranger 0.2375821504
+#&gt; 10    FPR     lm 0.3473330144
+#&gt; 11    FDR ranger 0.0946873209
+#&gt; 12    FDR     lm 0.0759894996
+#&gt; 13     TS ranger 0.0006090134
+#&gt; 14     TS     lm 0.0965725965
+#&gt; 15    STP ranger 0.0930757170
+#&gt; 16    STP     lm 0.1841287596
+#&gt; 17    ACC ranger 0.0060735986
+#&gt; 18    ACC     lm 0.0415235028
+#&gt; 19     F1 ranger 0.0003175107
+#&gt; 20     F1     lm 0.0565856215</div><div class='input'>
+<span class='co'># }</span>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

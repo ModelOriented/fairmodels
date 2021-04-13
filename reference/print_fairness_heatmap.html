@@ -98,7 +98,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">1.0.0</span>
+          <span class="version version-default">1.0.1</span>
         </div>
       </div>
     </div>
@@ -183,7 +183,8 @@
 <span class='va'>rf_model</span> <span class='op'>&lt;-</span> <span class='fu'>ranger</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span><span class='op'>(</span><span class='va'>Risk</span> <span class='op'>~</span><span class='va'>.</span>,
                            data <span class='op'>=</span> <span class='va'>german</span>,
                            probability <span class='op'>=</span> <span class='cn'>TRUE</span>,
-                           num.trees <span class='op'>=</span> <span class='fl'>200</span><span class='op'>)</span>
+                           num.trees <span class='op'>=</span> <span class='fl'>200</span>,
+                           num.threads <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
 
 <span class='va'>explainer_lm</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://dalex.drwhy.ai/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>lm_model</span>, data <span class='op'>=</span> <span class='va'>german</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
@@ -204,9 +205,9 @@
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  No value for predict function target column. ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
-#&gt;   -&gt; predicted values  :  numerical, min =  0.07702183 , mean =  0.698023 , max =  0.9978159  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.07535714 , mean =  0.696915 , max =  0.9991667  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7537718 , mean =  0.001976974 , max =  0.6673651  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7024325 , mean =  0.00308495 , max =  0.6124841  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='va'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span><span class='op'>(</span><span class='va'>explainer_lm</span>, <span class='va'>explainer_rf</span>,
                           protected <span class='op'>=</span> <span class='va'>german</span><span class='op'>$</span><span class='va'>Sex</span>,
@@ -245,16 +246,16 @@
 #&gt; 5                TNR   lm_2  0.09
 #&gt; 
 #&gt; matrix model not scaled :
-#&gt;                TPR        TNR        PPV         NPV       FNR        FPR
-#&gt; lm_2   0.004844913 0.08841901 0.09565689 0.103226043 0.0625594 0.04470907
-#&gt; rf_2   0.010070579 0.13222163 0.07654938 0.032789823        NA 0.37371400
-#&gt; lm     0.096364988 0.43377037 0.02141812 0.006376217 0.7641192 0.34733301
-#&gt; ranger 0.010070579 0.09358503 0.00775773 0.032789823        NA 0.44459632
+#&gt;                TPR        TNR         PPV         NPV       FNR        FPR
+#&gt; lm_2   0.004844913 0.08841901 0.095656892 0.103226043 0.0625594 0.04470907
+#&gt; rf_2   0.012096922 0.18628886 0.092831450 0.038714512        NA 0.50828181
+#&gt; lm     0.096364988 0.43377037 0.021418116 0.006376217 0.7641192 0.34733301
+#&gt; ranger 0.012096922 0.08033981 0.004160816 0.038714512        NA 0.39458590
 #&gt;               FDR        FOR         TS         STP        ACC          F1
 #&gt; lm_2   0.29258291 0.21928998 0.08668085 0.008680082 0.06819175 0.050685899
-#&gt; rf_2   0.63546969         NA 0.06724698 0.022561933 0.04717856 0.035682797
+#&gt; rf_2   0.75172908         NA 0.08161638 0.004253516 0.05965922 0.043419195
 #&gt; lm     0.07598950 0.01165062 0.09657260 0.184128760 0.04152350 0.056585621
-#&gt; ranger 0.09853353         NA 0.01706012 0.106869039 0.01939593 0.008873224
+#&gt; ranger 0.05414636         NA 0.01537589 0.101245782 0.01784434 0.007993996
 #&gt; </div><div class='input'>
 </div></span></pre>
   </div>

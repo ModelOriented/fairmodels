@@ -101,7 +101,7 @@ will sample observations close to border or far from border." />
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">1.0.0</span>
+          <span class="version version-default">1.0.1</span>
         </div>
       </div>
     </div>
@@ -195,16 +195,32 @@ will sample observations close to border or far from border.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"german"</span><span class='op'>)</span>
+
 <span class='va'>data</span> <span class='op'>&lt;-</span> <span class='va'>german</span>
+
 <span class='va'>data</span><span class='op'>$</span><span class='va'>Age</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>$</span><span class='va'>Age</span> <span class='op'>&lt;=</span> <span class='fl'>25</span>, <span class='st'>"young"</span>, <span class='st'>"old"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>y_numeric</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>$</span><span class='va'>Risk</span><span class='op'>)</span> <span class='op'>-</span><span class='fl'>1</span>
 
-<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'>ranger</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span><span class='op'>(</span><span class='va'>Risk</span> <span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>data</span>, probability <span class='op'>=</span> <span class='cn'>TRUE</span>, seed <span class='op'>=</span> <span class='fl'>123</span><span class='op'>)</span>
+<span class='va'>rf</span> <span class='op'>&lt;-</span> <span class='fu'>ranger</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span><span class='op'>(</span><span class='va'>Risk</span> <span class='op'>~</span><span class='va'>.</span>,
+ data <span class='op'>=</span> <span class='va'>data</span>,
+ probability <span class='op'>=</span> <span class='cn'>TRUE</span>,
+ num.trees <span class='op'>=</span> <span class='fl'>50</span>,
+ num.threads <span class='op'>=</span> <span class='fl'>1</span>,
+ seed <span class='op'>=</span> <span class='fl'>123</span><span class='op'>)</span>
 
 <span class='va'>u_indexes</span> <span class='op'>&lt;-</span> <span class='fu'>resample</span><span class='op'>(</span><span class='va'>data</span><span class='op'>$</span><span class='va'>Age</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span><span class='op'>)</span>
-<span class='va'>rf_u</span> <span class='op'>&lt;-</span> <span class='fu'>ranger</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span><span class='op'>(</span><span class='va'>Risk</span> <span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>data</span><span class='op'>[</span><span class='va'>u_indexes</span>, <span class='op'>]</span>, probability <span class='op'>=</span> <span class='cn'>TRUE</span>, seed <span class='op'>=</span> <span class='fl'>123</span><span class='op'>)</span>
 
-<span class='va'>explainer_rf</span>   <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://dalex.drwhy.ai/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>rf</span>, data <span class='op'>=</span> <span class='va'>data</span><span class='op'>[</span>, <span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span>, label <span class='op'>=</span> <span class='st'>"not_sampled"</span><span class='op'>)</span>
+<span class='va'>rf_u</span> <span class='op'>&lt;-</span> <span class='fu'>ranger</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span><span class='op'>(</span><span class='va'>Risk</span> <span class='op'>~</span><span class='va'>.</span>,
+                       data <span class='op'>=</span> <span class='va'>data</span><span class='op'>[</span><span class='va'>u_indexes</span>, <span class='op'>]</span>,
+                       probability <span class='op'>=</span> <span class='cn'>TRUE</span>,
+                       num.trees <span class='op'>=</span> <span class='fl'>50</span>,
+                       num.threads <span class='op'>=</span> <span class='fl'>1</span>,
+                       seed <span class='op'>=</span> <span class='fl'>123</span><span class='op'>)</span>
+
+<span class='va'>explainer_rf</span>   <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://dalex.drwhy.ai/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>rf</span>,
+                                 data <span class='op'>=</span> <span class='va'>data</span><span class='op'>[</span>, <span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>,
+                                 y <span class='op'>=</span> <span class='va'>y_numeric</span>,
+                                 label <span class='op'>=</span> <span class='st'>"not_sampled"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  not_sampled 
 #&gt;   -&gt; data              :  1000  rows  9  cols 
@@ -212,10 +228,11 @@ will sample observations close to border or far from border.</p>
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( <span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  No value for predict function target column. ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
-#&gt;   -&gt; predicted values  :  numerical, min =  0.08005718 , mean =  0.6982438 , max =  0.9971792  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.03910317 , mean =  0.6979378 , max =  1  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7430213 , mean =  0.001756243 , max =  0.657119  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='va'>explainer_rf_u</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://dalex.drwhy.ai/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>rf_u</span>, data <span class='op'>=</span> <span class='va'>data</span><span class='op'>[</span>, <span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span>, label <span class='op'>=</span> <span class='st'>"sampled_uniform"</span><span class='op'>)</span>
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7584563 , mean =  0.002062232 , max =  0.6045234  
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
+<span class='va'>explainer_rf_u</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://dalex.drwhy.ai/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>rf_u</span>, data <span class='op'>=</span> <span class='va'>data</span><span class='op'>[</span>, <span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span>, label <span class='op'>=</span> <span class='st'>"sampled_uniform"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  sampled_uniform 
 #&gt;   -&gt; data              :  1000  rows  9  cols 
@@ -223,12 +240,39 @@ will sample observations close to border or far from border.</p>
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  No value for predict function target column. ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
-#&gt;   -&gt; predicted values  :  numerical, min =  0.04116464 , mean =  0.726346 , max =  0.9987674  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.05183333 , mean =  0.7267497 , max =  1  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.9884039 , mean =  -0.02634602 , max =  0.7765157  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.9955556 , mean =  -0.02674968 , max =  0.7960397  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
+<span class='va'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span><span class='op'>(</span><span class='va'>explainer_rf</span>, <span class='va'>explainer_rf_u</span>,
+                          protected <span class='op'>=</span> <span class='va'>data</span><span class='op'>$</span><span class='va'>Age</span>,
+                          privileged <span class='op'>=</span> <span class='st'>"old"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Creating fairness object
+#&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
+#&gt; -&gt; Protected variable		: factor (</span><span style='color: #00BB00;'> Ok </span><span> ) 
+#&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
+#&gt; -&gt; Fairness objects		: 0 objects 
+#&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
+#&gt; -&gt; Metric calculation		: 12/12 metrics calculated for all models
+#&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
+<span class='va'>fobject</span>
+</div><div class='output co'>#&gt; 
+#&gt; Fairness check for models: not_sampled, sampled_uniform 
+#&gt; 
+#&gt; </span><span style='color: #BBBB00;'>not_sampled passes 4/5 metrics
+#&gt; </span><span>Total loss:  0.489409 
+#&gt; 
+#&gt; </span><span style='color: #BBBB00;'>sampled_uniform passes 4/5 metrics
+#&gt; </span><span>Total loss:  0.57555 
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>fobject</span><span class='op'>)</span>
+</div><div class='img'><img src='resample-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># \donttest{</span>
 <span class='va'>p_indexes</span> <span class='op'>&lt;-</span> <span class='fu'>resample</span><span class='op'>(</span><span class='va'>data</span><span class='op'>$</span><span class='va'>Age</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span>, type <span class='op'>=</span> <span class='st'>"preferential"</span>, probs <span class='op'>=</span> <span class='va'>explainer_rf</span><span class='op'>$</span><span class='va'>y_hat</span><span class='op'>)</span>
-<span class='va'>rf_p</span> <span class='op'>&lt;-</span> <span class='fu'>ranger</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span><span class='op'>(</span><span class='va'>Risk</span> <span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>data</span><span class='op'>[</span><span class='va'>p_indexes</span>, <span class='op'>]</span>, probability <span class='op'>=</span> <span class='cn'>TRUE</span>, seed <span class='op'>=</span> <span class='fl'>123</span><span class='op'>)</span>
+<span class='va'>rf_p</span> <span class='op'>&lt;-</span> <span class='fu'>ranger</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span><span class='op'>(</span><span class='va'>Risk</span> <span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>data</span><span class='op'>[</span><span class='va'>p_indexes</span>, <span class='op'>]</span>,
+                       probability <span class='op'>=</span> <span class='cn'>TRUE</span>,
+                       num.trees <span class='op'>=</span> <span class='fl'>50</span>,
+                       num.threads <span class='op'>=</span> <span class='fl'>1</span>,
+                       seed <span class='op'>=</span> <span class='fl'>123</span><span class='op'>)</span>
 
 <span class='va'>explainer_rf_p</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://dalex.drwhy.ai/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>rf_p</span>, data <span class='op'>=</span> <span class='va'>data</span><span class='op'>[</span>, <span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span>,
                                  label <span class='op'>=</span> <span class='st'>"sampled_preferential"</span><span class='op'>)</span>
@@ -239,9 +283,9 @@ will sample observations close to border or far from border.</p>
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  No value for predict function target column. ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
-#&gt;   -&gt; predicted values  :  numerical, min =  0.03909683 , mean =  0.6954251 , max =  0.9979214  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.02666667 , mean =  0.6985119 , max =  1  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.9933262 , mean =  0.004574909 , max =  0.9203419  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.9966667 , mean =  0.001488065 , max =  0.9442778  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='va'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span><span class='op'>(</span><span class='va'>explainer_rf</span>, <span class='va'>explainer_rf_u</span>, <span class='va'>explainer_rf_p</span>,
                           protected <span class='op'>=</span> <span class='va'>data</span><span class='op'>$</span><span class='va'>Age</span>,
@@ -259,15 +303,16 @@ will sample observations close to border or far from border.</p>
 #&gt; Fairness check for models: not_sampled, sampled_uniform, sampled_preferential 
 #&gt; 
 #&gt; </span><span style='color: #BBBB00;'>not_sampled passes 4/5 metrics
-#&gt; </span><span>Total loss:  0.5881518 
+#&gt; </span><span>Total loss:  0.489409 
 #&gt; 
-#&gt; </span><span style='color: #00BB00;'>sampled_uniform passes 5/5 metrics
-#&gt; </span><span>Total loss:  0.5285116 
+#&gt; </span><span style='color: #BBBB00;'>sampled_uniform passes 4/5 metrics
+#&gt; </span><span>Total loss:  0.57555 
 #&gt; 
 #&gt; </span><span style='color: #BBBB00;'>sampled_preferential passes 4/5 metrics
-#&gt; </span><span>Total loss:  1.367356 
+#&gt; </span><span>Total loss:  1.114705 
 #&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>fobject</span><span class='op'>)</span>
-</div><div class='img'><img src='resample-1.png' alt='' width='700' height='433' /></div></span></pre>
+</div><div class='img'><img src='resample-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

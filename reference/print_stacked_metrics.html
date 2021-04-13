@@ -99,7 +99,7 @@ for subgroups from protected vector." />
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">1.0.0</span>
+          <span class="version version-default">1.0.1</span>
         </div>
       </div>
     </div>
@@ -185,7 +185,8 @@ for subgroups from protected vector.</p>
 <span class='va'>rf_model</span> <span class='op'>&lt;-</span> <span class='fu'>ranger</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span><span class='op'>(</span><span class='va'>Risk</span> <span class='op'>~</span><span class='va'>.</span>,
                            data <span class='op'>=</span> <span class='va'>german</span>,
                            probability <span class='op'>=</span> <span class='cn'>TRUE</span>,
-                           num.trees <span class='op'>=</span> <span class='fl'>200</span><span class='op'>)</span>
+                           num.trees <span class='op'>=</span> <span class='fl'>200</span>,
+                           num.threads <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
 
 <span class='va'>explainer_lm</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://dalex.drwhy.ai/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>lm_model</span>, data <span class='op'>=</span> <span class='va'>german</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
@@ -206,9 +207,9 @@ for subgroups from protected vector.</p>
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  No value for predict function target column. ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
-#&gt;   -&gt; predicted values  :  numerical, min =  0.07479167 , mean =  0.6974023 , max =  0.9992271  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.067375 , mean =  0.6993407 , max =  0.9966667  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7612361 , mean =  0.002597715 , max =  0.627506  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.7181793 , mean =  0.0006592863 , max =  0.6277024  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='va'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span><span class='op'>(</span><span class='va'>explainer_lm</span>, <span class='va'>explainer_rf</span>,
                           protected <span class='op'>=</span> <span class='va'>german</span><span class='op'>$</span><span class='va'>Sex</span>,
@@ -227,11 +228,11 @@ for subgroups from protected vector.</p>
 #&gt; First rows of stacked data: 
 #&gt;   metric  model score
 #&gt; 1    ACC     lm 0.042
-#&gt; 2    ACC ranger 0.015
+#&gt; 2    ACC ranger 0.016
 #&gt; 3    TPR     lm 0.096
-#&gt; 4    TPR ranger 0.008
+#&gt; 4    TPR ranger 0.010
 #&gt; 5    PPV     lm 0.021
-#&gt; 6    PPV ranger 0.004
+#&gt; 6    PPV ranger 0.003
 #&gt; </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

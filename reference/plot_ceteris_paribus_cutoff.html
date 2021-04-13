@@ -100,7 +100,7 @@ it all in one plot. When default one is used all chosen metrics will be plotted 
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">1.0.0</span>
+          <span class="version version-default">1.0.1</span>
         </div>
       </div>
     </div>
@@ -179,45 +179,65 @@ it all in one plot. When default one is used all chosen metrics will be plotted 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"german"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"compas"</span><span class='op'>)</span>
 
-<span class='va'>y_numeric</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>german</span><span class='op'>$</span><span class='va'>Risk</span><span class='op'>)</span> <span class='op'>-</span><span class='fl'>1</span>
+<span class='co'># positive outcome - not being recidivist</span>
+<span class='va'>two_yr_recidivism</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>compas</span><span class='op'>$</span><span class='va'>Two_yr_Recidivism</span>, levels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>y_numeric</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>two_yr_recidivism</span><span class='op'>)</span> <span class='op'>-</span><span class='fl'>1</span>
+<span class='va'>compas</span><span class='op'>$</span><span class='va'>Two_yr_Recidivism</span> <span class='op'>&lt;-</span> <span class='va'>two_yr_recidivism</span>
 
-<span class='va'>lm_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span><span class='op'>(</span><span class='va'>Risk</span><span class='op'>~</span><span class='va'>.</span>,
-                data <span class='op'>=</span> <span class='va'>german</span>,
+
+<span class='va'>lm_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span><span class='op'>(</span><span class='va'>Two_yr_Recidivism</span><span class='op'>~</span><span class='va'>.</span>,
+                data<span class='op'>=</span><span class='va'>compas</span>,
                 family<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span><span class='op'>(</span>link<span class='op'>=</span><span class='st'>"logit"</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='va'>rf_model</span> <span class='op'>&lt;-</span> <span class='fu'>ranger</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span><span class='op'>(</span><span class='va'>Risk</span> <span class='op'>~</span><span class='va'>.</span>,
-                           data <span class='op'>=</span> <span class='va'>german</span>,
-                           probability <span class='op'>=</span> <span class='cn'>TRUE</span>,
-                           num.trees <span class='op'>=</span> <span class='fl'>200</span><span class='op'>)</span>
-
-<span class='va'>explainer_lm</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://dalex.drwhy.ai/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>lm_model</span>, data <span class='op'>=</span> <span class='va'>german</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span><span class='op'>)</span>
+<span class='va'>explainer_lm</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://dalex.drwhy.ai/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>lm_model</span>, data <span class='op'>=</span> <span class='va'>compas</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  lm  ( <span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; data              :  1000  rows  9  cols 
-#&gt;   -&gt; target variable   :  1000  values 
+#&gt;   -&gt; data              :  6172  rows  6  cols 
+#&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  No value for predict function target column. ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; model_info        :  package stats , ver. 4.0.5 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1369187 , mean =  0.7 , max =  0.9832426  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.004522979 , mean =  0.5448801 , max =  0.8855426  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.9572803 , mean =  1.940006e-17 , max =  0.8283475  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='va'>explainer_rf</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://dalex.drwhy.ai/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>rf_model</span>, data <span class='op'>=</span> <span class='va'>german</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span><span class='op'>)</span>
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8822826 , mean =  -5.07018e-13 , max =  0.9767658  
+#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
+<span class='va'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span><span class='op'>(</span><span class='va'>explainer_lm</span>,
+                          protected <span class='op'>=</span> <span class='va'>compas</span><span class='op'>$</span><span class='va'>Ethnicity</span>,
+                          privileged <span class='op'>=</span> <span class='st'>"Caucasian"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Creating fairness object
+#&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
+#&gt; -&gt; Protected variable		: factor (</span><span style='color: #00BB00;'> Ok </span><span> ) 
+#&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
+#&gt; -&gt; Fairness objects		: 0 objects 
+#&gt; -&gt; Checking explainers		: 1 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
+#&gt; -&gt; Metric calculation		: 10/12 metrics calculated for all models ( </span><span style='color: #BBBB00;'>2 NA created</span><span> )
+#&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
+<span class='va'>cpc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ceteris_paribus_cutoff.html'>ceteris_paribus_cutoff</a></span><span class='op'>(</span><span class='va'>fobject</span>, <span class='st'>"African_American"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>cpc</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 63 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='plot_ceteris_paribus_cutoff-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># \donttest{</span>
+<span class='va'>rf_model</span> <span class='op'>&lt;-</span> <span class='fu'>ranger</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/ranger/man/ranger.html'>ranger</a></span><span class='op'>(</span><span class='va'>Two_yr_Recidivism</span> <span class='op'>~</span><span class='va'>.</span>,
+                           data <span class='op'>=</span> <span class='va'>compas</span>,
+                           probability <span class='op'>=</span> <span class='cn'>TRUE</span>,
+                           num.trees <span class='op'>=</span> <span class='fl'>200</span><span class='op'>)</span>
+
+<span class='va'>explainer_rf</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://dalex.drwhy.ai/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>rf_model</span>, data <span class='op'>=</span> <span class='va'>compas</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; data              :  1000  rows  9  cols 
-#&gt;   -&gt; target variable   :  1000  values 
+#&gt;   -&gt; data              :  6172  rows  6  cols 
+#&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; predicted values  :  No value for predict function target column. ( </span><span style='color: #BBBB00;'> default </span><span> )
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
-#&gt;   -&gt; predicted values  :  numerical, min =  0.06691071 , mean =  0.6962788 , max =  0.9989444  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1622201 , mean =  0.5454151 , max =  0.8616847  
 #&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.7448068 , mean =  0.003721189 , max =  0.635671  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8495496 , mean =  -0.0005349493 , max =  0.7709581  
 #&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
 <span class='va'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span><span class='op'>(</span><span class='va'>explainer_lm</span>, <span class='va'>explainer_rf</span>,
-                          protected <span class='op'>=</span> <span class='va'>german</span><span class='op'>$</span><span class='va'>Sex</span>,
-                          privileged <span class='op'>=</span> <span class='st'>"male"</span><span class='op'>)</span>
+                          protected <span class='op'>=</span> <span class='va'>compas</span><span class='op'>$</span><span class='va'>Ethnicity</span>,
+                          privileged <span class='op'>=</span> <span class='st'>"Caucasian"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Creating fairness object
 #&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
 #&gt; -&gt; Protected variable		: factor (</span><span style='color: #00BB00;'> Ok </span><span> ) 
@@ -226,12 +246,10 @@ it all in one plot. When default one is used all chosen metrics will be plotted 
 #&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
 #&gt; -&gt; Metric calculation		: 10/12 metrics calculated for all models ( </span><span style='color: #BBBB00;'>2 NA created</span><span> )
 #&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
-<span class='va'>cpc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ceteris_paribus_cutoff.html'>ceteris_paribus_cutoff</a></span><span class='op'>(</span><span class='va'>fobject</span>, <span class='st'>"female"</span><span class='op'>)</span>
+<span class='va'>cpc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ceteris_paribus_cutoff.html'>ceteris_paribus_cutoff</a></span><span class='op'>(</span><span class='va'>fobject</span>, <span class='st'>"African_American"</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>cpc</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 41 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='plot_ceteris_paribus_cutoff-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='va'>cpc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='ceteris_paribus_cutoff.html'>ceteris_paribus_cutoff</a></span><span class='op'>(</span><span class='va'>fobject</span>, <span class='st'>"female"</span>, cumulated <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>cpc</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 200 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='plot_ceteris_paribus_cutoff-2.png' alt='' width='700' height='433' /></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 84 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='plot_ceteris_paribus_cutoff-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
+
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
