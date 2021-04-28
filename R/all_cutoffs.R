@@ -43,6 +43,7 @@
 #' fobject <- fairness_check(explainer_rf, fobject)
 #'
 #' ac <- all_cutoffs(fobject)
+#'
 #' plot(ac)
 #' }
 
