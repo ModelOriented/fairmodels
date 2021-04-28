@@ -110,17 +110,17 @@
     
 <div id="fairmodels" class="section level1">
 <h1 class="hasAnchor">
-<a href="#fairmodels" class="anchor"></a>fairmodels</h1>
+<a href="#fairmodels" class="anchor" aria-hidden="true"></a>fairmodels</h1>
 <p>In this tutorial you will get to know when, why and how to use <code>fairmodels</code>. <code>fairmodels</code> is a tool for bias detection, visualization and mitigation. It is compatible with <code>DALEX</code> and <code>DALEXtra</code> which are model agnostic explainers. Some knowledge of how to use those explainers will be needed but in this tutorial you should grasp the idea.</p>
 <p>For this tutorial we will use <code>compas</code> data to see if someone will become recidivist in next 2 years.</p>
 <div id="why" class="section level2">
 <h2 class="hasAnchor">
-<a href="#why" class="anchor"></a>Why?</h2>
+<a href="#why" class="anchor" aria-hidden="true"></a>Why?</h2>
 <p>Let’s say you are building algorithm for court system that predicts if someone will become recidivist in the future. First you gather information then you build a model and predict outcomes. You get satisfying accuracy. It is pretty good, but it appears that the model is more likely to say that African Americans will become recidivists. It was trained on data that where discrimination of certain ethnic groups was visible. Racist algorithms are no good for the court system. So now we have some options. First one is to gather more reliable data, and the second one is trying to understand bias and choose model with least amount of it. We will choose the second option.</p>
 </div>
 <div id="data" class="section level2">
 <h2 class="hasAnchor">
-<a href="#data" class="anchor"></a>Data</h2>
+<a href="#data" class="anchor" aria-hidden="true"></a>Data</h2>
 <p>We will use modified ProPublica’s compas data to represent our problem.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://fairmodels.drwhy.ai/" class="external-link">fairmodels</a></span><span class="op">)</span>
@@ -147,7 +147,7 @@
 </div>
 <div id="basic-features" class="section level2">
 <h2 class="hasAnchor">
-<a href="#basic-features" class="anchor"></a>Basic features</h2>
+<a href="#basic-features" class="anchor" aria-hidden="true"></a>Basic features</h2>
 <p>We train a <code>ranger</code> model and create an explainer with <code>DALEX</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dalex.drwhy.ai" class="external-link">DALEX</a></span><span class="op">)</span>
@@ -168,13 +168,13 @@
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used (  default  )
 #&gt;   -&gt; predicted values  :  No value for predict function target column. (  default  )
 #&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification (  default  ) 
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1599031 , mean =  0.544783 , max =  0.8702104  
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1590119 , mean =  0.5449805 , max =  0.8647147  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.8485834 , mean =  9.705431e-05 , max =  0.7743082  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8522088 , mean =  -0.0001003588 , max =  0.7780134  
 #&gt;   A new explainer has been created!</code></pre>
 <div id="fairness-check" class="section level3">
 <h3 class="hasAnchor">
-<a href="#fairness-check" class="anchor"></a>fairness check</h3>
+<a href="#fairness-check" class="anchor" aria-hidden="true"></a>fairness check</h3>
 <p>Than we create call function <code><a href="../reference/fairness_check.html">fairness_check()</a></code> This function aggregates many explainers so you may compare many models. We assign object to name <code>fobject</code> which is short version of <code>fairness_object</code> - object returned by <code><a href="../reference/fairness_check.html">fairness_check()</a></code>,</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">fobject</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fairness_check.html">fairness_check</a></span><span class="op">(</span><span class="va">rf_explainer</span>,                         <span class="co"># explainer</span>
@@ -188,7 +188,7 @@
 #&gt; -&gt; Cutoff values for explainers  : 0.5 ( for all subgroups )
 #&gt; -&gt; Fairness objects      : 0 objects 
 #&gt; -&gt; Checking explainers       : 1 in total (  compatible  )
-#&gt; -&gt; Metric calculation        : 10/12 metrics calculated for all models ( 2 NA created )
+#&gt; -&gt; Metric calculation        : 12/12 metrics calculated for all models
 #&gt;  Fairness object created succesfully</code></pre>
 <p>Let’s see if our ranger model has bias.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -197,7 +197,7 @@
 #&gt; Fairness check for models: ranger 
 #&gt; 
 #&gt; ranger passes 2/5 metrics
-#&gt; Total loss:  3.71044</code></pre>
+#&gt; Total loss:  3.771143</code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fobject</span><span class="op">)</span></code></pre></div>
 <p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-7-1.png" width="720" style="display: block; margin: auto;"></p>
@@ -207,7 +207,7 @@
 </div>
 <div id="plot-density" class="section level3">
 <h3 class="hasAnchor">
-<a href="#plot-density" class="anchor"></a>plot density</h3>
+<a href="#plot-density" class="anchor" aria-hidden="true"></a>plot density</h3>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plot_density.html">plot_density</a></span><span class="op">(</span><span class="va">fobject</span><span class="op">)</span></code></pre></div>
 <p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-8-1.png" width="720" style="display: block; margin: auto;"></p>
@@ -215,7 +215,7 @@
 </div>
 <div id="metric-scores-plot" class="section level3">
 <h3 class="hasAnchor">
-<a href="#metric-scores-plot" class="anchor"></a>Metric scores plot</h3>
+<a href="#metric-scores-plot" class="anchor" aria-hidden="true"></a>Metric scores plot</h3>
 <p>Sometimes it is worth it to see what the raw (unscaled) metrics are. User could use <code>fobject$groups_data</code> but the easier way is to plot <code>metric_scores</code> object.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="../reference/metric_scores.html">metric_scores</a></span><span class="op">(</span><span class="va">fobject</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -224,7 +224,7 @@
 </div>
 <div id="fairness-object---idea" class="section level2">
 <h2 class="hasAnchor">
-<a href="#fairness-object---idea" class="anchor"></a>fairness object - idea</h2>
+<a href="#fairness-object---idea" class="anchor" aria-hidden="true"></a>fairness object - idea</h2>
 <p>To really see what <code>fairness_object</code> is about, we need to make some more models and explainers.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/gbm-developers/gbm" class="external-link">gbm</a></span><span class="op">)</span>
@@ -268,22 +268,22 @@
 6. epsilon - numeric, boundary position in <code><a href="../reference/fairness_check.html">fairness_check()</a></code>. Fairness metrics are satisfied if parity loss values are between (-epsilon, epsilon)</p>
 <div id="what-consists-of-fairness-object" class="section level3">
 <h3 class="hasAnchor">
-<a href="#what-consists-of-fairness-object" class="anchor"></a>What consists of fairness object?</h3>
+<a href="#what-consists-of-fairness-object" class="anchor" aria-hidden="true"></a>What consists of fairness object?</h3>
 <p><code>fairness_object</code> is output value of <code><a href="../reference/fairness_check.html">fairness_check()</a></code> It is S3 object consisting of: * Parity loss metrics Popular confusion matrix metrics with parity loss - sum of absolute logarithms of ratios of unprivileged subgroups and privileged one (more on that in documentation <code><a href="../reference/fairness_check.html">?fairness_check</a></code>. If model would have 0 in certain parity loss metric it would mean that it treats all subgroups equally.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">fobject</span><span class="op">$</span><span class="va">parity_loss_metric_data</span></code></pre></div>
 <pre><code>#&gt;         TPR       TNR       PPV       NPV       FNR       FPR       FDR
 #&gt; 1 0.3976902 1.2511537 0.4859671 0.7339807 1.6654218 1.7041164 1.3910955
 #&gt; 2 0.5471779        NA 0.1630229        NA 3.2047184 1.9228318 0.3724644
-#&gt; 3 0.5887517 1.3226616 0.4224898 0.8146275        NA 1.9436451 1.3256554
+#&gt; 3 0.5055216 1.2254622 0.4798365 0.8911832        NA 1.7610793 1.5501167
 #&gt; 4 0.6611125 0.7401031 0.7674172 0.8209521 0.8762755 0.8532876 1.4329174
-#&gt; 5 0.3888338 2.4309903 0.3790442 1.0931021 1.8312131 2.1487469 1.0785027
+#&gt; 5 0.6175588 2.4308535 0.3343877 0.8975785 2.4850720 2.1610076 0.8890974
 #&gt;         FOR        TS       STP       ACC        F1
 #&gt; 1 1.3892629 0.7150599 0.8731178 0.4174524 0.4430506
 #&gt; 2 1.7116794 0.5362121 1.1034842 0.1969839 0.3361082
-#&gt; 3        NA 0.8113731 1.1343794 0.4667789 0.4953024
+#&gt; 3        NA 0.8020200 0.9928339 0.5028981 0.4838378
 #&gt; 4 0.6729784 0.8970468 0.5742171 0.3638060 0.6304323
-#&gt; 5 1.6089409 0.6186179 1.0105041 0.3377000 0.3826616</code></pre>
+#&gt; 5 1.0648672 0.5214245 1.2028830 0.2330709 0.3261491</code></pre>
 <ul>
 <li>groups_data</li>
 </ul>
@@ -297,7 +297,7 @@
 #&gt;        0.8333333        0.8858447</code></pre>
 <p>It is simply metrics for certain subgroup.</p>
 <p>What is relation between <code>$groups_data</code> and <code>$parity_loss_metric_data</code> ?</p>
-<p>If we were going only to take score from certain metric (Let’s say fpr and 0.3) we wouldn’t know if it is good or bad. But we are aiming for <strong>equal treatment over all groups</strong> so if this metric score would be the same in all groups it would be very good. But the metrics wouldn’t be comparable between each others (fpr - 0.3 in all groups and accuracy - 0.9 in all groups, both are good in terms of parity). That is why we use <strong>privileged</strong> - to set benchmark. And for example Caucasian in fpr had score of 0.3 and African American 0.6. After setting <code>privilieged = Caucasian</code> Caucasian would have score 0, and African American <code><a href="https://rdrr.io/r/base/Log.html" class="external-link">log(0.6/0.3)</a></code>. It enables comparing and adding scores.</p>
+<p>If we were going only to take score from certain metric (Let’s say fpr and 0.3) we wouldn’t know if it is good or bad. But we are aiming for <strong>equal treatment over all groups</strong> so if this metric score would be the same in all groups it would be very good. But the metrics wouldn’t be comparable between each others (fpr - 0.3 in all groups and accuracy - 0.9 in all groups, both are good in terms of parity). That is why we use <strong>privileged</strong> - to set benchmark. And for example Caucasian in fpr had score of 0.3 and African American 0.6. After setting <code>privilieged = Caucasian</code> Caucasian would have score 0, and African American <code>log(0.6/0.3)</code>. It enables comparing and adding scores.</p>
 <p><em>Note: When dealing with plots we use formula sum(abs(log(Mu/Mp))) for all unprivileged metrics (Mu - metric unprivileged, Mp - metric privileged) to represent aggregated score in subgroups. In short is how much it differs from ideal scores. The closer to zero the better</em></p>
 <ul>
 <li><p>group_confusion_matrices Similarly to groups data it stores confusion matrix for each subgroup</p></li>
@@ -337,12 +337,12 @@
 </div>
 <div id="choosing-best-model" class="section level1">
 <h1 class="hasAnchor">
-<a href="#choosing-best-model" class="anchor"></a>Choosing best model</h1>
+<a href="#choosing-best-model" class="anchor" aria-hidden="true"></a>Choosing best model</h1>
 <p>We now have a few models in our <code>fairness_object</code></p>
 <p>Let’s see how they perform in different metrics.</p>
 <div id="stacked-barplot" class="section level2">
 <h2 class="hasAnchor">
-<a href="#stacked-barplot" class="anchor"></a>Stacked Barplot</h2>
+<a href="#stacked-barplot" class="anchor" aria-hidden="true"></a>Stacked Barplot</h2>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_stacked_barplot.html">stack_metrics</a></span><span class="op">(</span><span class="va">fobject</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sm</span><span class="op">)</span></code></pre></div>
@@ -351,7 +351,7 @@
 </div>
 <div id="plot-metric" class="section level2">
 <h2 class="hasAnchor">
-<a href="#plot-metric" class="anchor"></a>Plot metric</h2>
+<a href="#plot-metric" class="anchor" aria-hidden="true"></a>Plot metric</h2>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/choose_metric.html">choose_metric</a></span><span class="op">(</span><span class="va">fobject</span>, <span class="st">"TPR"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cm</span><span class="op">)</span></code></pre></div>
@@ -359,23 +359,23 @@
 </div>
 <div id="plot-fairness-pca" class="section level2">
 <h2 class="hasAnchor">
-<a href="#plot-fairness-pca" class="anchor"></a>Plot fairness PCA</h2>
+<a href="#plot-fairness-pca" class="anchor" aria-hidden="true"></a>Plot fairness PCA</h2>
 <p>With this task we should use <code>PCA</code>. We call <code>create_fairness_pca()</code> to create fairness pca object.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">fair_pca</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fairness_pca.html">fairness_pca</a></span><span class="op">(</span><span class="va">fobject</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">fair_pca</span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt; Fairness PCA : 
-#&gt;             PC1        PC2        PC3         PC4           PC5
-#&gt; [1,]  0.2759198  1.0343731  0.8090335  0.24155290  5.551115e-17
-#&gt; [2,] -2.8142671 -1.5603952 -0.2312002  0.08219892 -1.110223e-16
-#&gt; [3,]  0.4782946  0.9969639 -1.4203328 -0.00234534  3.608225e-16
-#&gt; [4,]  3.4692141 -1.1924560  0.2034833 -0.05885389  6.661338e-16
-#&gt; [5,] -1.4091614  0.7215143  0.6390162 -0.26255259  1.110223e-15
+#&gt;             PC1        PC2         PC3         PC4           PC5
+#&gt; [1,]  0.5316535  1.4363978  0.62824497 -0.35725701  4.900594e-17
+#&gt; [2,] -2.5705539 -0.6721937  0.66085632  0.31671234  8.604228e-16
+#&gt; [3,]  0.9966123  1.2584549 -0.58868625  0.40204905  8.604228e-16
+#&gt; [4,]  3.2273227 -1.5086490  0.07778845 -0.03446254  1.110223e-16
+#&gt; [5,] -2.1850347 -0.5140099 -0.77820349 -0.32704185 -8.049117e-16
 #&gt; 
 #&gt; Created with: 
 #&gt; [1] "ranger"   "lm"       "ranger_2" "ranger_3" "gbm"     
 #&gt; 
-#&gt; First two components explained 90 % of variance.</code></pre>
+#&gt; First two components explained 93 % of variance.</code></pre>
 <p>Let’s plot!</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fair_pca</span><span class="op">)</span></code></pre></div>
@@ -383,7 +383,7 @@
 </div>
 <div id="plot-heatmap" class="section level2">
 <h2 class="hasAnchor">
-<a href="#plot-heatmap" class="anchor"></a>Plot Heatmap</h2>
+<a href="#plot-heatmap" class="anchor" aria-hidden="true"></a>Plot Heatmap</h2>
 <p>Another way to deal with grouped data is using heatmap.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">fheatmap</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fairness_heatmap.html">fairness_heatmap</a></span><span class="op">(</span><span class="va">fobject</span><span class="op">)</span>
@@ -393,7 +393,7 @@
 </div>
 <div id="metric-and-performance-plot" class="section level2">
 <h2 class="hasAnchor">
-<a href="#metric-and-performance-plot" class="anchor"></a>Metric and Performance Plot</h2>
+<a href="#metric-and-performance-plot" class="anchor" aria-hidden="true"></a>Metric and Performance Plot</h2>
 <p>Sometimes we would like to know how good are models in performance metrics and in fairness metrics at the same time, to see the tradeoff between them.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">fap</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/performance_and_fairness.html">performance_and_fairness</a></span><span class="op">(</span><span class="va">fobject</span>, fairness_metric <span class="op">=</span> <span class="st">"STP"</span><span class="op">)</span></code></pre></div>
@@ -408,7 +408,7 @@
 </div>
 <div id="group-metric" class="section level2">
 <h2 class="hasAnchor">
-<a href="#group-metric" class="anchor"></a>Group Metric</h2>
+<a href="#group-metric" class="anchor" aria-hidden="true"></a>Group Metric</h2>
 <p>When we have narrowed down our search for the best model we can use <code>group_metric</code> to check once again metrics within groups and decide which model to use.</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">fobject2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fairness_check.html">fairness_check</a></span><span class="op">(</span><span class="va">explainer_1</span>,<span class="va">explainer_2</span>, 
@@ -429,7 +429,7 @@
 </div>
 <div id="radar-plot" class="section level2">
 <h2 class="hasAnchor">
-<a href="#radar-plot" class="anchor"></a>Radar plot</h2>
+<a href="#radar-plot" class="anchor" aria-hidden="true"></a>Radar plot</h2>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">fradar</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fairness_radar.html">fairness_radar</a></span><span class="op">(</span><span class="va">fobject2</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fradar</span><span class="op">)</span></code></pre></div>
@@ -437,11 +437,11 @@
 </div>
 <div id="custom-cutoff" class="section level2">
 <h2 class="hasAnchor">
-<a href="#custom-cutoff" class="anchor"></a>Custom cutoff</h2>
+<a href="#custom-cutoff" class="anchor" aria-hidden="true"></a>Custom cutoff</h2>
 <p>We may see how cutoff affects parity loss of metrics</p>
 <div id="all-cutoffs" class="section level3">
 <h3 class="hasAnchor">
-<a href="#all-cutoffs" class="anchor"></a>All cutoffs</h3>
+<a href="#all-cutoffs" class="anchor" aria-hidden="true"></a>All cutoffs</h3>
 <p>All cutoffs measures where metrics exist (are not NA) and how they change if we modify cutoffs in all subgroups.</p>
 <p>In this plot <code>NA</code> values are natural, so warnings are to be expected.</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
@@ -452,7 +452,7 @@
 </div>
 <div id="ceteris-paribus-cutoff" class="section level3">
 <h3 class="hasAnchor">
-<a href="#ceteris-paribus-cutoff" class="anchor"></a>Ceteris paribus cutoff</h3>
+<a href="#ceteris-paribus-cutoff" class="anchor" aria-hidden="true"></a>Ceteris paribus cutoff</h3>
 <p>This function shows how parity loss metrics would change if we modified cutoff only for one subgroup (here African American) with other cutoffs fixed.</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cpc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ceteris_paribus_cutoff.html">ceteris_paribus_cutoff</a></span><span class="op">(</span><span class="va">fobject2</span>, subgroup <span class="op">=</span> <span class="st">"African_American"</span><span class="op">)</span>
@@ -464,7 +464,7 @@
 </div>
 <div id="summary" class="section level1">
 <h1 class="hasAnchor">
-<a href="#summary" class="anchor"></a>Summary</h1>
+<a href="#summary" class="anchor" aria-hidden="true"></a>Summary</h1>
 <p><code>fairmodels</code> is powerful and flexible tool for detecting bias and asserting fairness in models. Many metrics are available (there are tools to create own metrics based on confusion matrix). Besides bias detection <code>fairmodels</code> offers also bias mitigation. It is set of pre-processing and post-processing algorithms working either on data or on explainer which function is to lower parity loss in certain metrics. If you are interested in this and adult data case study, please check Advanced Tutorial. If you encountered a bug or you have cool idea for a new feature please write and issue <a href="https://github.com/ModelOriented/fairmodels/issues" class="external-link">here</a>.</p>
 </div>
   </div>

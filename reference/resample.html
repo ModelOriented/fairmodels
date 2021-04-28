@@ -221,49 +221,49 @@ will sample observations close to border or far from border.</p>
                                  data <span class='op'>=</span> <span class='va'>data</span><span class='op'>[</span>, <span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>,
                                  y <span class='op'>=</span> <span class='va'>y_numeric</span>,
                                  label <span class='op'>=</span> <span class='st'>"not_sampled"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+</div><div class='co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  not_sampled 
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
-#&gt;   -&gt; predict function  :  yhat.ranger  will be used ( <span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  No value for predict function target column. ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; predict function  :  yhat.ranger  will be used ( <span style='color: #BBBB00;'> default </span><span> )</span>
+#&gt;   -&gt; predicted values  :  No value for predict function target column. ( <span style='color: #BBBB00;'> default </span><span> )</span>
+#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( <span style='color: #BBBB00;'> default </span><span> ) </span>
 #&gt;   -&gt; predicted values  :  numerical, min =  0.03910317 , mean =  0.6979378 , max =  1  
-#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; residual function :  difference between y and yhat ( <span style='color: #BBBB00;'> default </span><span> )</span>
 #&gt;   -&gt; residuals         :  numerical, min =  -0.7584563 , mean =  0.002062232 , max =  0.6045234  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
+#&gt;  <span style='color: #00BB00;'> A new explainer has been created! </span><span> </span></div><div class='input'>
 <span class='va'>explainer_rf_u</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://dalex.drwhy.ai/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>rf_u</span>, data <span class='op'>=</span> <span class='va'>data</span><span class='op'>[</span>, <span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span>, label <span class='op'>=</span> <span class='st'>"sampled_uniform"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+</div><div class='co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  sampled_uniform 
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
-#&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  No value for predict function target column. ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; predict function  :  yhat.ranger  will be used ( <span style='color: #BBBB00;'> default </span><span> )</span>
+#&gt;   -&gt; predicted values  :  No value for predict function target column. ( <span style='color: #BBBB00;'> default </span><span> )</span>
+#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( <span style='color: #BBBB00;'> default </span><span> ) </span>
 #&gt;   -&gt; predicted values  :  numerical, min =  0.05183333 , mean =  0.7267497 , max =  1  
-#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; residual function :  difference between y and yhat ( <span style='color: #BBBB00;'> default </span><span> )</span>
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9955556 , mean =  -0.02674968 , max =  0.7960397  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
+#&gt;  <span style='color: #00BB00;'> A new explainer has been created! </span><span> </span></div><div class='input'>
 <span class='va'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span><span class='op'>(</span><span class='va'>explainer_rf</span>, <span class='va'>explainer_rf_u</span>,
                           protected <span class='op'>=</span> <span class='va'>data</span><span class='op'>$</span><span class='va'>Age</span>,
                           privileged <span class='op'>=</span> <span class='st'>"old"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Creating fairness object
-#&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
-#&gt; -&gt; Protected variable		: factor (</span><span style='color: #00BB00;'> Ok </span><span> ) 
+</div><div class='co'>#&gt; Creating fairness object
+#&gt; -&gt; Privileged subgroup		: character (<span style='color: #00BB00;'> Ok </span><span> )</span>
+#&gt; -&gt; Protected variable		: factor (<span style='color: #00BB00;'> Ok </span><span> ) </span>
 #&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
 #&gt; -&gt; Fairness objects		: 0 objects 
-#&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
+#&gt; -&gt; Checking explainers		: 2 in total ( <span style='color: #00BB00;'> compatible </span><span> )</span>
 #&gt; -&gt; Metric calculation		: 12/12 metrics calculated for all models
-#&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
+#&gt; <span style='color: #00BB00;'> Fairness object created succesfully </span><span> </span></div><div class='input'>
 <span class='va'>fobject</span>
-</div><div class='output co'>#&gt; 
+</div><div class='co'>#&gt; 
 #&gt; Fairness check for models: not_sampled, sampled_uniform 
 #&gt; 
-#&gt; </span><span style='color: #BBBB00;'>not_sampled passes 4/5 metrics
-#&gt; </span><span>Total loss:  0.489409 
+#&gt; <span style='color: #BBBB00;'>not_sampled passes 4/5 metrics</span>
+<span style='color: #BBBB00;'>#&gt; </span><span>Total loss:  0.489409 </span>
 #&gt; 
-#&gt; </span><span style='color: #BBBB00;'>sampled_uniform passes 4/5 metrics
-#&gt; </span><span>Total loss:  0.57555 
+#&gt; <span style='color: #BBBB00;'>sampled_uniform passes 4/5 metrics</span>
+<span style='color: #BBBB00;'>#&gt; </span><span>Total loss:  0.57555 </span>
 #&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>fobject</span><span class='op'>)</span>
 </div><div class='img'><img src='resample-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># \donttest{</span>
@@ -276,43 +276,43 @@ will sample observations close to border or far from border.</p>
 
 <span class='va'>explainer_rf_p</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://dalex.drwhy.ai/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>rf_p</span>, data <span class='op'>=</span> <span class='va'>data</span><span class='op'>[</span>, <span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span>,
                                  label <span class='op'>=</span> <span class='st'>"sampled_preferential"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
+</div><div class='co'>#&gt; Preparation of a new explainer is initiated
 #&gt;   -&gt; model label       :  sampled_preferential 
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
-#&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  No value for predict function target column. ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; predict function  :  yhat.ranger  will be used ( <span style='color: #BBBB00;'> default </span><span> )</span>
+#&gt;   -&gt; predicted values  :  No value for predict function target column. ( <span style='color: #BBBB00;'> default </span><span> )</span>
+#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( <span style='color: #BBBB00;'> default </span><span> ) </span>
 #&gt;   -&gt; predicted values  :  numerical, min =  0.02666667 , mean =  0.6985119 , max =  1  
-#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; residual function :  difference between y and yhat ( <span style='color: #BBBB00;'> default </span><span> )</span>
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9966667 , mean =  0.001488065 , max =  0.9442778  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
+#&gt;  <span style='color: #00BB00;'> A new explainer has been created! </span><span> </span></div><div class='input'>
 <span class='va'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span><span class='op'>(</span><span class='va'>explainer_rf</span>, <span class='va'>explainer_rf_u</span>, <span class='va'>explainer_rf_p</span>,
                           protected <span class='op'>=</span> <span class='va'>data</span><span class='op'>$</span><span class='va'>Age</span>,
                           privileged <span class='op'>=</span> <span class='st'>"old"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Creating fairness object
-#&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
-#&gt; -&gt; Protected variable		: factor (</span><span style='color: #00BB00;'> Ok </span><span> ) 
+</div><div class='co'>#&gt; Creating fairness object
+#&gt; -&gt; Privileged subgroup		: character (<span style='color: #00BB00;'> Ok </span><span> )</span>
+#&gt; -&gt; Protected variable		: factor (<span style='color: #00BB00;'> Ok </span><span> ) </span>
 #&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
 #&gt; -&gt; Fairness objects		: 0 objects 
-#&gt; -&gt; Checking explainers		: 3 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
-#&gt; -&gt; Metric calculation		: 10/12 metrics calculated for all models ( </span><span style='color: #BBBB00;'>2 NA created</span><span> )
-#&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
+#&gt; -&gt; Checking explainers		: 3 in total ( <span style='color: #00BB00;'> compatible </span><span> )</span>
+#&gt; -&gt; Metric calculation		: 10/12 metrics calculated for all models ( <span style='color: #BBBB00;'>2 NA created</span><span> )</span>
+#&gt; <span style='color: #00BB00;'> Fairness object created succesfully </span><span> </span></div><div class='input'>
 <span class='va'>fobject</span>
-</div><div class='output co'>#&gt; 
+</div><div class='co'>#&gt; 
 #&gt; Fairness check for models: not_sampled, sampled_uniform, sampled_preferential 
 #&gt; 
-#&gt; </span><span style='color: #BBBB00;'>not_sampled passes 4/5 metrics
-#&gt; </span><span>Total loss:  0.489409 
+#&gt; <span style='color: #BBBB00;'>not_sampled passes 4/5 metrics</span>
+<span style='color: #BBBB00;'>#&gt; </span><span>Total loss:  0.489409 </span>
 #&gt; 
-#&gt; </span><span style='color: #BBBB00;'>sampled_uniform passes 4/5 metrics
-#&gt; </span><span>Total loss:  0.57555 
+#&gt; <span style='color: #BBBB00;'>sampled_uniform passes 4/5 metrics</span>
+<span style='color: #BBBB00;'>#&gt; </span><span>Total loss:  0.57555 </span>
 #&gt; 
-#&gt; </span><span style='color: #BBBB00;'>sampled_preferential passes 4/5 metrics
-#&gt; </span><span>Total loss:  1.114705 
+#&gt; <span style='color: #BBBB00;'>sampled_preferential passes 4/5 metrics</span>
+<span style='color: #BBBB00;'>#&gt; </span><span>Total loss:  1.114705 </span>
 #&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>fobject</span><span class='op'>)</span>
 </div><div class='img'><img src='resample-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
-</div></span></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

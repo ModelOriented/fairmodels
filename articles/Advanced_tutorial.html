@@ -110,7 +110,7 @@
     
 <div id="model-explanation-bias" class="section level1">
 <h1 class="hasAnchor">
-<a href="#model-explanation-bias" class="anchor"></a>Model, explanation &amp; bias</h1>
+<a href="#model-explanation-bias" class="anchor" aria-hidden="true"></a>Model, explanation &amp; bias</h1>
 <p>In this tutorial you will learn how to tackle bias using the bias mitigation techniques supported by <code>fairmodels</code>. As always we will start from the data.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://fairmodels.drwhy.ai/" class="external-link">fairmodels</a></span><span class="op">)</span>
@@ -212,14 +212,14 @@
 </div>
 <div id="bias-mitigation-strategies" class="section level1">
 <h1 class="hasAnchor">
-<a href="#bias-mitigation-strategies" class="anchor"></a>Bias mitigation strategies</h1>
+<a href="#bias-mitigation-strategies" class="anchor" aria-hidden="true"></a>Bias mitigation strategies</h1>
 <div id="pre-processing-techniques" class="section level2">
 <h2 class="hasAnchor">
-<a href="#pre-processing-techniques" class="anchor"></a>Pre-processing techniques</h2>
+<a href="#pre-processing-techniques" class="anchor" aria-hidden="true"></a>Pre-processing techniques</h2>
 <p>Pre-processing techniques focus on changing data <strong>before</strong> model is trained. This reduces bias in data.</p>
 <div id="distribution-changing" class="section level3">
 <h3 class="hasAnchor">
-<a href="#distribution-changing" class="anchor"></a>Distribution changing</h3>
+<a href="#distribution-changing" class="anchor" aria-hidden="true"></a>Distribution changing</h3>
 <p>Firs technique you will learn about is <code>disparate_impact_remover</code>. It is somehow limited as it works on ordinal, numeric data. This technique returns “fixed” data frame. Through parameter <code>lambda</code> we can manipulate with how much the distribution will be fixed. <code>lambda = 1</code> (default) will return data with identical distributions for all levels of protected variable whereas <code>lambda = 0</code> will barely change anything. We will transform a few features.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_fixed</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/disparate_impact_remover.html">disparate_impact_remover</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">adult</span>, protected <span class="op">=</span> <span class="va">protected</span>, 
@@ -246,7 +246,7 @@
 </div>
 <div id="reweighting" class="section level3">
 <h3 class="hasAnchor">
-<a href="#reweighting" class="anchor"></a>Reweighting</h3>
+<a href="#reweighting" class="anchor" aria-hidden="true"></a>Reweighting</h3>
 <p>Reweighting is straightforward bias mitigation technique. It produces weights based on data to pass them to model so it can learn what to be careful about. As there can be multiple subgroups weights will come in form of vector.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">weights</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/reweight.html">reweight</a></span><span class="op">(</span>protected <span class="op">=</span> <span class="va">protected</span>, y <span class="op">=</span> <span class="va">adult</span><span class="op">$</span><span class="va">salary</span><span class="op">)</span>
@@ -271,7 +271,7 @@
 </div>
 <div id="resampling" class="section level3">
 <h3 class="hasAnchor">
-<a href="#resampling" class="anchor"></a>Resampling</h3>
+<a href="#resampling" class="anchor" aria-hidden="true"></a>Resampling</h3>
 <p>This method derives from reweighting the data but instead of weights it chooses observations from data the outcome of metrics. There is 2 types of resampling:<br>
 1. <strong>uniform</strong> - takes random observation from particular subgroup (in particular case - y == 1 or y == 0)<br>
 2. <strong>preferential</strong> - takes/omits observations either close to cutoff or as far from cutoff as possible. It needs probabilities (<code>probs</code>)</p>
@@ -317,11 +317,11 @@
 </div>
 <div id="post-processing-techniques" class="section level2">
 <h2 class="hasAnchor">
-<a href="#post-processing-techniques" class="anchor"></a>Post-processing techniques</h2>
+<a href="#post-processing-techniques" class="anchor" aria-hidden="true"></a>Post-processing techniques</h2>
 <p>Post-processing techniques focus on changing the output of model after model is generated</p>
 <div id="roc-pivot" class="section level3">
 <h3 class="hasAnchor">
-<a href="#roc-pivot" class="anchor"></a>ROC pivot</h3>
+<a href="#roc-pivot" class="anchor" aria-hidden="true"></a>ROC pivot</h3>
 <p>ROC stands for Reject Option based Classification and pivot for the behavior of <code>probs</code>/<code>y_hat</code> as it pivots around the cutoff when it is in close zone. Close zone is defined by the <code>theta</code> parameter equal to 0.1 by default. In simple words depending on whether subgroup is privileged or not certain observations will change their probabilities to the opposite (but in equal distance) side of cutoff. For example if observation is unprivileged and unfavorable with probability 0.45 (assuming the <code>cutoff = 0.5</code>) probability will change it’s value to 0.55.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># we will need normal explainer </span>
@@ -369,7 +369,7 @@
 </div>
 <div id="cutoff-manipulation" class="section level3">
 <h3 class="hasAnchor">
-<a href="#cutoff-manipulation" class="anchor"></a>Cutoff manipulation</h3>
+<a href="#cutoff-manipulation" class="anchor" aria-hidden="true"></a>Cutoff manipulation</h3>
 <p>Cutoff manipulation is simple technique that enables to set different cutoff for different subgroups. It is somewhat controversial as it increases individual unfairness (similar people might have different cutoffs and therefore are not treated similarly)</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
@@ -431,7 +431,7 @@
 </div>
 <div id="tradeoff-between-bias-and-accuracy" class="section level1">
 <h1 class="hasAnchor">
-<a href="#tradeoff-between-bias-and-accuracy" class="anchor"></a>Tradeoff between bias and accuracy</h1>
+<a href="#tradeoff-between-bias-and-accuracy" class="anchor" aria-hidden="true"></a>Tradeoff between bias and accuracy</h1>
 <p>There is significant tradeoff between bias and accuracy one way to visualize it is to use <code>performance_and_fairness</code> function</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">paf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/performance_and_fairness.html">performance_and_fairness</a></span><span class="op">(</span><span class="va">fc</span>, fairness_metric <span class="op">=</span> <span class="st">"STP"</span>,
@@ -447,7 +447,7 @@
 </div>
 <div id="summary" class="section level1">
 <h1 class="hasAnchor">
-<a href="#summary" class="anchor"></a>Summary</h1>
+<a href="#summary" class="anchor" aria-hidden="true"></a>Summary</h1>
 <p>There is many ways to tackle bias in models. Thanks to <code>fairmodels</code> it is easy to compare changes and experiment with new models and bias mitigation techniques. It is also good idea to combine few techniques (for example minimizing once with weights and then with cutoff). <code>fairness_check</code> interface is flexible and allows combining models that were trained on different features, encodings etc. Please if you encounter some bug or you have an idea for new feature please write and issue <a href="https://github.com/ModelOriented/fairmodels/issues" class="external-link">here</a>.</p>
 </div>
   </div>

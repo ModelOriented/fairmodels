@@ -1,8 +1,8 @@
 pandoc: 2.7.3
 pkgdown: 1.6.1.9001
-pkgdown_sha: 3dd1a1ad7740977491241c89eee15d9b58e75866
+pkgdown_sha: dff8062d297c001dba0dfaf567bfffdc8ad89f5c
 articles:
   Advanced_tutorial: Advanced_tutorial.html
   Basic_tutorial: Basic_tutorial.html
-last_built: 2021-04-13T15:31Z
+last_built: 2021-04-28T21:25Z
 

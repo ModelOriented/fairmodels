@@ -187,62 +187,62 @@
                            num.threads <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
 
 <span class='va'>explainer_lm</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://dalex.drwhy.ai/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>lm_model</span>, data <span class='op'>=</span> <span class='va'>german</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  lm  ( <span style='color: #BBBB00;'> default </span><span> )
+</div><div class='co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label       :  lm  ( <span style='color: #BBBB00;'> default </span><span> )</span>
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
-#&gt;   -&gt; predict function  :  yhat.glm  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  No value for predict function target column. ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; model_info        :  package stats , ver. 4.0.5 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; predict function  :  yhat.glm  will be used ( <span style='color: #BBBB00;'> default </span><span> )</span>
+#&gt;   -&gt; predicted values  :  No value for predict function target column. ( <span style='color: #BBBB00;'> default </span><span> )</span>
+#&gt;   -&gt; model_info        :  package stats , ver. 4.0.5 , task classification ( <span style='color: #BBBB00;'> default </span><span> ) </span>
 #&gt;   -&gt; predicted values  :  numerical, min =  0.1369187 , mean =  0.7 , max =  0.9832426  
-#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; residual function :  difference between y and yhat ( <span style='color: #BBBB00;'> default </span><span> )</span>
 #&gt;   -&gt; residuals         :  numerical, min =  -0.9572803 , mean =  1.940006e-17 , max =  0.8283475  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'><span class='va'>explainer_rf</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://dalex.drwhy.ai/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>rf_model</span>, data <span class='op'>=</span> <span class='va'>german</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  ranger  ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;  <span style='color: #00BB00;'> A new explainer has been created! </span><span> </span></div><div class='input'><span class='va'>explainer_rf</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://dalex.drwhy.ai/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>rf_model</span>, data <span class='op'>=</span> <span class='va'>german</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span><span class='op'>)</span>
+</div><div class='co'>#&gt; Preparation of a new explainer is initiated
+#&gt;   -&gt; model label       :  ranger  ( <span style='color: #BBBB00;'> default </span><span> )</span>
 #&gt;   -&gt; data              :  1000  rows  9  cols 
 #&gt;   -&gt; target variable   :  1000  values 
-#&gt;   -&gt; predict function  :  yhat.ranger  will be used ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; predicted values  :  No value for predict function target column. ( </span><span style='color: #BBBB00;'> default </span><span> )
-#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( </span><span style='color: #BBBB00;'> default </span><span> ) 
+#&gt;   -&gt; predict function  :  yhat.ranger  will be used ( <span style='color: #BBBB00;'> default </span><span> )</span>
+#&gt;   -&gt; predicted values  :  No value for predict function target column. ( <span style='color: #BBBB00;'> default </span><span> )</span>
+#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification ( <span style='color: #BBBB00;'> default </span><span> ) </span>
 #&gt;   -&gt; predicted values  :  numerical, min =  0.07604293 , mean =  0.6974079 , max =  0.9980556  
-#&gt;   -&gt; residual function :  difference between y and yhat ( </span><span style='color: #BBBB00;'> default </span><span> )
+#&gt;   -&gt; residual function :  difference between y and yhat ( <span style='color: #BBBB00;'> default </span><span> )</span>
 #&gt;   -&gt; residuals         :  numerical, min =  -0.7290471 , mean =  0.002592051 , max =  0.6966123  
-#&gt;  </span><span style='color: #00BB00;'> A new explainer has been created! </span><span> </div><div class='input'>
+#&gt;  <span style='color: #00BB00;'> A new explainer has been created! </span><span> </span></div><div class='input'>
 <span class='va'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span><span class='op'>(</span><span class='va'>explainer_lm</span>, <span class='va'>explainer_rf</span>,
                           protected <span class='op'>=</span> <span class='va'>german</span><span class='op'>$</span><span class='va'>Sex</span>,
                           privileged <span class='op'>=</span> <span class='st'>"male"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Creating fairness object
-#&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
-#&gt; -&gt; Protected variable		: factor (</span><span style='color: #00BB00;'> Ok </span><span> ) 
+</div><div class='co'>#&gt; Creating fairness object
+#&gt; -&gt; Privileged subgroup		: character (<span style='color: #00BB00;'> Ok </span><span> )</span>
+#&gt; -&gt; Protected variable		: factor (<span style='color: #00BB00;'> Ok </span><span> ) </span>
 #&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
 #&gt; -&gt; Fairness objects		: 0 objects 
-#&gt; -&gt; Checking explainers		: 2 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
-#&gt; -&gt; Metric calculation		: 10/12 metrics calculated for all models ( </span><span style='color: #BBBB00;'>2 NA created</span><span> )
-#&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
+#&gt; -&gt; Checking explainers		: 2 in total ( <span style='color: #00BB00;'> compatible </span><span> )</span>
+#&gt; -&gt; Metric calculation		: 10/12 metrics calculated for all models ( <span style='color: #BBBB00;'>2 NA created</span><span> )</span>
+#&gt; <span style='color: #00BB00;'> Fairness object created succesfully </span><span> </span></div><div class='input'>
  <span class='co'># same explainers with different cutoffs for female</span>
 <span class='va'>fobject</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fairness_check.html'>fairness_check</a></span><span class='op'>(</span><span class='va'>explainer_lm</span>, <span class='va'>explainer_rf</span>, <span class='va'>fobject</span>,
                           protected <span class='op'>=</span> <span class='va'>german</span><span class='op'>$</span><span class='va'>Sex</span>,
                           privileged <span class='op'>=</span> <span class='st'>"male"</span>,
                           cutoff <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>female <span class='op'>=</span> <span class='fl'>0.4</span><span class='op'>)</span>,
                           label <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"lm_2"</span>, <span class='st'>"rf_2"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Creating fairness object
-#&gt; -&gt; Privileged subgroup		: character (</span><span style='color: #00BB00;'> Ok </span><span> )
-#&gt; -&gt; Protected variable		: factor (</span><span style='color: #00BB00;'> Ok </span><span> ) 
+</div><div class='co'>#&gt; Creating fairness object
+#&gt; -&gt; Privileged subgroup		: character (<span style='color: #00BB00;'> Ok </span><span> )</span>
+#&gt; -&gt; Protected variable		: factor (<span style='color: #00BB00;'> Ok </span><span> ) </span>
 #&gt; -&gt; Cutoff values for explainers	: female: 0.4, male: 0.5 
-#&gt; -&gt; Fairness objects		: 1 object ( </span><span style='color: #00BB00;'> compatible </span><span> )
-#&gt; -&gt; Checking explainers		: 4 in total ( </span><span style='color: #00BB00;'> compatible </span><span> )
-#&gt; -&gt; Metric calculation		: 10/12 metrics calculated for all models ( </span><span style='color: #BBBB00;'>2 NA created</span><span> )
-#&gt; </span><span style='color: #00BB00;'> Fairness object created succesfully </span><span> </div><div class='input'>
+#&gt; -&gt; Fairness objects		: 1 object ( <span style='color: #00BB00;'> compatible </span><span> )</span>
+#&gt; -&gt; Checking explainers		: 4 in total ( <span style='color: #00BB00;'> compatible </span><span> )</span>
+#&gt; -&gt; Metric calculation		: 10/12 metrics calculated for all models ( <span style='color: #BBBB00;'>2 NA created</span><span> )</span>
+#&gt; <span style='color: #00BB00;'> Fairness object created succesfully </span><span> </span></div><div class='input'>
 <span class='va'>paf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='performance_and_fairness.html'>performance_and_fairness</a></span><span class='op'>(</span><span class='va'>fobject</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Fairness Metric is NULL, setting deafult parity loss metric ( TPR )  
+</div><div class='co'>#&gt; Fairness Metric is NULL, setting deafult parity loss metric ( TPR )  
 #&gt; Performace metric is NULL, setting deafult ( accuracy )  
 #&gt; 
 #&gt; Creating object with: 
 #&gt; Fairness metric: TPR 
 #&gt; Performance metric: accuracy </div><div class='input'>
 <span class='va'>paf</span>
-</div><div class='output co'>#&gt; performance_and_fairness object created for: 
+</div><div class='co'>#&gt; performance_and_fairness object created for: 
 #&gt; [1] "lm_2"   "rf_2"   "lm"     "ranger"
 #&gt; 
 #&gt; data: 
@@ -250,7 +250,7 @@
 #&gt; 1     0.004844913              0.751   lm_2
 #&gt; 2     0.014127379              0.919   rf_2
 #&gt; 3     0.096364988              0.757     lm
-#&gt; 4     0.014127379              0.936 ranger</div></span></pre>
+#&gt; 4     0.014127379              0.936 ranger</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
