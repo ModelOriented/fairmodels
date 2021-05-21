@@ -50,8 +50,6 @@
 #'}
 #'
 
-
-
 plot.fairness_object <- function(x, ...){
 
   n_exp   <- length(x$explainers)
@@ -92,10 +90,10 @@ plot.fairness_object <- function(x, ...){
   # bars should start at 0
   data$score <- data$score - 1
 
-  upper_bound <- max(na.omit(data$score), 1/epsilon -1) + 0.05
+  upper_bound <- max(na.omit(data$score), 1/epsilon -1) * 1.05
   if (upper_bound < 0.3) upper_bound <- 0.3
 
-  lower_bound <- min(na.omit(data$score), epsilon -1 ) - 0.05
+  lower_bound <- min(na.omit(data$score), epsilon -1 ) * 1.1
   if (lower_bound > -0.25) lower_bound <- -0.25
 
   #### plotting ####
@@ -135,16 +133,37 @@ plot.fairness_object <- function(x, ...){
     scale_y_continuous(limits = c(lower_bound, upper_bound),
                        breaks =  breaks - 1,
                        labels = breaks,
-                       expand = c(0, 0)) +
+                       expand = c(0, 0),
+                       minor_breaks = NULL) +
     theme_drwhy_vertical() +
     theme(panel.grid.major.y = element_blank()) +
     scale_fill_manual(values = colors_fairmodels(n_exp)) +
     ggtitle("Fairness check", subtitle = paste("Created with", paste(
                                                as.character(unique(data$model)), collapse = ", ")))
-
+    ####
     plt
 
 }
+
+
+
+#' Plot fairness object regression
+#'
+#' @description Please note that this is experimental approach. Plot fairness check regression enables to look how big differences are between base subgroup (privileged) and unprivileged ones.
+#' If bar plot reaches red zone it means that for this subgroup fairness goal is not satisfied. Multiple subgroups and models can be plotted.
+#' Red and green zone boundary can be moved through epsilon parameter, that needs to be passed through \code{fairness_check}.
+#'
+#' @param x \code{fairness_object_regression} object
+#' @param ... other plot parameters
+#'
+#' @import ggplot2
+#' @importFrom DALEX theme_drwhy_vertical
+#'
+#' @return \code{ggplot2} object
+#' @rdname plot_fairness_object_regression
+#' @export
+#'
+#' @examples
 
 plot.fairness_object_regression <- function(x, ...){
 
@@ -164,10 +183,10 @@ plot.fairness_object_regression <- function(x, ...){
 
   #### first the visible values and breaks ####
 
-  upper_bound <- max(na.omit(data$score), 1/epsilon -1) + 0.05
+  upper_bound <- max(na.omit(data$score), 1/epsilon -1) * 1.05
   if (upper_bound < 1.3) upper_bound <- 1.3
 
-  lower_bound <- min(na.omit(data$score), epsilon ) - 0.05
+  lower_bound <- min(na.omit(data$score), epsilon ) * 1.1
   if (lower_bound > 0.75) lower_bound <- 0.75
 
   green <- "#c7f5bf"
@@ -186,10 +205,10 @@ plot.fairness_object_regression <- function(x, ...){
   # bars should start at 0
   data$score <- data$score - 1
 
-  upper_bound <- max(na.omit(data$score), 1/epsilon -1) + 0.05
+  upper_bound <- max(na.omit(data$score), 1/epsilon -1) * 1.05
   if (upper_bound < 0.3) upper_bound <- 0.3
 
-  lower_bound <- min(na.omit(data$score), epsilon -1 ) - 0.05
+  lower_bound <- min(na.omit(data$score), epsilon -1 ) * 1.1
   if (lower_bound > -0.25) lower_bound <- -0.25
 
   #### plotting ####
@@ -226,16 +245,18 @@ plot.fairness_object_regression <- function(x, ...){
     geom_hline(yintercept = 0) +
     coord_flip() +
     facet_wrap(vars(metric), ncol = 1) +
-    scale_y_continuous(limits = c(lower_bound, upper_bound),
-                       breaks =  breaks - 1,
-                       labels = breaks,
-                       expand = c(0, 0)) +
     theme_drwhy_vertical() +
-    theme(panel.grid.major.y = element_blank()) +
+    scale_y_continuous(limits = c(lower_bound, upper_bound),
+                        breaks =  breaks - 1,
+                        labels = breaks,
+                        expand = c(0, 0),
+                        minor_breaks = NULL) +
+    theme(panel.grid.major.y = element_blank(),
+          panel.grid.minor.y = element_blank()) +
     scale_fill_manual(values = colors_fairmodels(n_exp)) +
     ggtitle("Fairness check", subtitle = paste("Created with", paste(
       as.character(unique(data$model)), collapse = ", ")))
-
+  ####
   plt
 
 }
