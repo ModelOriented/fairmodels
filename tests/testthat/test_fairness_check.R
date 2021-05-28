@@ -69,6 +69,10 @@ test_that("Test fairness_check", {
                               cutoff = list(female = 0.5),
                               epsilon = c(0.3, 0.5)))
 
+  exp2 <- explainer_glm
+  exp2$model_info$type <- 'regression'
+  expect_error(fairness_check(exp2, fobject))
+
   fobject2 <- fobject
   fobject2$protected <- compas$Sex[1:6000]
   suppressWarnings( expect_error(fairness_check(fobject, fobject2)))
@@ -108,6 +112,6 @@ test_that("Test fairness_check", {
 
   expect_equal(plt$labels$subtitle, "Created with lm, ranger")
   expect_equal(plt$labels$title , "Fairness check")
-  expect_class(plt, "ggplot")
+  expect_s3_class(plt, "ggplot")
 
 })

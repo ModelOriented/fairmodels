@@ -27,7 +27,7 @@ Suggests:
     covr,
     testthat,
     spelling
-RoxygenNote: 7.1.1.9000
+RoxygenNote: 7.1.1.9001
 VignetteBuilder: knitr
 URL: http://fairmodels.drwhy.ai/
 BugReports: https://github.com/ModelOriented/fairmodels/issues

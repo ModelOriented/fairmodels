@@ -264,16 +264,33 @@ check_fobjects <- function(fobjects, protected, privileged, verbose){
 }
 
 
-check_explainers <- function(all_explainers, protected, verbose){
-
-  y_to_compare <- all_explainers[[1]]$y
-
+check_explainers_clf <- function(all_explainers, protected, verbose){
 
   if(! all(sapply(all_explainers, function(x) x$model_info$type == 'classification'))) {
     verbose_cat("(", color_codes$red_start, "model type not supported", color_codes$red_end, ")\n", verbose = verbose)
     stop("All models must be binary classification type. To check fairness in regression use 'fairness_check_regression()'")
 
   }
+
+  return(check_explainers(all_explainers, protected, verbose))
+}
+
+
+check_explainers_reg <- function(all_explainers, protected, verbose){
+
+  if(! all(sapply(all_explainers, function(x) x$model_info$type == 'regression'))) {
+    verbose_cat("(", color_codes$red_start, "model type not supported", color_codes$red_end, ")\n", verbose = verbose)
+    stop("All models must be regression type. To check fairness in binary classification use 'fairness_check()'")
+
+  }
+
+  return(check_explainers(all_explainers, protected, verbose))
+
+}
+
+check_explainers <- function(all_explainers, protected, verbose){
+
+  y_to_compare <- all_explainers[[1]]$y
 
   if(! all(sapply(all_explainers, function(x) length(y_to_compare) == length(x$y)))) {
     verbose_cat("(", color_codes$red_start, "y not equal", color_codes$red_end, ")\n", verbose = verbose)
@@ -292,9 +309,7 @@ check_explainers <- function(all_explainers, protected, verbose){
 
   verbose_cat("(", color_codes$green_start, "compatible", color_codes$yellow_end,  ")\n", verbose = verbose)
   return(all_explainers)
-
 }
-
 
 check_labels <- function(label, explainers, fobjects_label){
 
@@ -372,10 +387,6 @@ verbose_cat <- function(..., verbose = TRUE) {
     cat(...)
   }
 }
-
-
-
-
 
 
 

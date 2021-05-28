@@ -1,23 +1,27 @@
 
 #' Regression metrics
 #'
-#' @param explainer
-#' @param protected
-#' @param privileged
+#' @param explainer object created with \code{\link[DALEX]{explain}}
+#' @param protected factor, protected variable (also called sensitive attribute), containing privileged and unprivileged groups
+#' @param privileged factor/character, one value of \code{protected}, denoting subgroup suspected of the most privilege
 #'
-#' @return
+#' @importFrom stats binomial
+#' @importFrom stats glm
+#'
+#' @return \code{data.frame}
 #' @export
 #'
-#' @examples
 #'
 
 
-regresion_metrics <- function(explainer, protected, privileged){
+regression_metrics <- function(explainer, protected, privileged){
+
+  stopifnot(explainer$model_info$type == 'regression')
 
   y <- explainer$y
   y_hat <- explainer$y_hat
 
-  protected_levels <- levels(protected)
+  protected_levels <- unique(as.character(protected))
 
   unprivileged_levels <- protected_levels[protected_levels != privileged]
 
@@ -28,7 +32,7 @@ regresion_metrics <- function(explainer, protected, privileged){
 
     unprivileged_indices <- which(unprivileged == protected)
     relevant_indices <- c(privileged_indices, unprivileged_indices)
-    new_protected <- protected[relevant_indices]
+    new_protected <- as.character(protected[relevant_indices])
 
     a <- rep(0, length(new_protected))
     a[new_protected == privileged] <- 1
@@ -40,9 +44,39 @@ regresion_metrics <- function(explainer, protected, privileged){
     p_s_data  <- data.frame(a = a, s = s_u)
     p_ys_data <- data.frame(a = a, s = s_u, y = y_u)
 
-    p_y  <- glm(a ~., data = p_y_data, family=binomial(link="logit"))
-    p_s  <- glm(a ~., data = p_s_data, family=binomial(link="logit"))
-    p_ys <- glm(a ~., data = p_ys_data, family=binomial(link="logit"))
+
+    glm_without_warnings <- function(data) {
+      r <-
+        tryCatch(
+          withCallingHandlers(
+            {
+              warnings_raised <- NULL
+              list(value = glm(a ~.,
+                               data = data,
+                               family=binomial(link="logit")),
+                   warnings_raised = warnings_raised)
+            },
+            warning = function(e){
+              warnings_raised <<- trimws(paste0("WARNING: ", e))
+              invokeRestart("muffleWarning")
+            }
+          ))
+      return(r)
+    }
+
+    p_y_obj <- glm_without_warnings(p_y_data)
+    p_s_obj <- glm_without_warnings(p_s_data)
+    p_ys_obj <- glm_without_warnings(p_ys_data)
+
+    p_y <- p_y_obj$value
+    p_s <- p_s_obj$value
+    p_ys <- p_ys_obj$value
+
+    warnings_p_y <- p_y_obj$warnings_raised
+    warnings_p_s <- p_s_obj$warnings_raised
+    warnings_p_ys <- p_ys_obj$warnings_raised
+
+    warnings_raised <- c(warnings_p_y, warnings_p_s, warnings_p_ys)
 
     pred_p_y  <- p_y$fitted.values
     pred_p_s  <- p_s$fitted.values
@@ -71,6 +105,6 @@ regresion_metrics <- function(explainer, protected, privileged){
 
   }
 
-  return(data)
+  return(list(data, warnings_raised))
 
 }

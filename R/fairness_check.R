@@ -220,7 +220,7 @@ fairness_check <- function(x,
   fobjects <- check_fobjects(fobjects, protected, privileged, verbose = verbose)
 
   verbose_cat("-> Checking explainers\t\t:", length(all_explainers), "in total ", verbose = verbose)
-  all_explainers <- check_explainers(all_explainers, protected, verbose = verbose)
+  all_explainers <- check_explainers_clf(all_explainers, protected, verbose = verbose)
 
 
   ############### labels ###############

@@ -11,7 +11,7 @@ test_that("test stack metric and plot",{
 
   plt <- plot(sm)
 
-  expect_class(plt, "ggplot")
+  expect_s3_class(plt, "ggplot")
 
   expect_equal(plt$labels$title, "Stacked Metric plot")
 

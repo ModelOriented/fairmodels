@@ -15,14 +15,14 @@ test_that("test helper functions",{
   expect_equal(to_compare, df[,c("a","d")])
 
   # colors may change
-  expect_class(colors_fairmodels(7), 'character')
-  expect_class(colors_fairmodels(8), 'character')
-  expect_class(colors_fairmodels(9), 'character')
-  expect_class(colors_fairmodels(10), 'character')
-  expect_class(colors_fairmodels(11), 'character')
-  expect_class(colors_fairmodels(12), 'character')
-  expect_class(colors_fairmodels(13), 'character')
-  expect_class(colors_fairmodels(100), 'character')
+  expect_s3_class(colors_fairmodels(7), 'character')
+  expect_s3_class(colors_fairmodels(8), 'character')
+  expect_s3_class(colors_fairmodels(9), 'character')
+  expect_s3_class(colors_fairmodels(10), 'character')
+  expect_s3_class(colors_fairmodels(11), 'character')
+  expect_s3_class(colors_fairmodels(12), 'character')
+  expect_s3_class(colors_fairmodels(13), 'character')
+  expect_s3_class(colors_fairmodels(100), 'character')
 
 })
 

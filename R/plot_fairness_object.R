@@ -153,19 +153,53 @@ plot.fairness_object <- function(x, ...){
 #' If bar plot reaches red zone it means that for this subgroup fairness goal is not satisfied. Multiple subgroups and models can be plotted.
 #' Red and green zone boundary can be moved through epsilon parameter, that needs to be passed through \code{fairness_check}.
 #'
-#' @param x \code{fairness_object_regression} object
+#' @param x \code{fairness_regression_object} object
 #' @param ... other plot parameters
 #'
 #' @import ggplot2
 #' @importFrom DALEX theme_drwhy_vertical
 #'
 #' @return \code{ggplot2} object
-#' @rdname plot_fairness_object_regression
+#' @rdname plot_fairness_regression_object
 #' @export
 #'
 #' @examples
+#'
+#' data <- data.frame(x = c(rnorm(500, 500, 100), rnorm(500, 400, 200)),
+#'                    pop = c(rep('A', 500 ), rep('B', 500 )))
+#'
+#' data$y <- rnorm(length(data$x), 1.5 * data$x, 100)
+#'
+#' # create model
+#' model <- lm(y~., data = data)
+#'
+#' # create explainer
+#' exp <- DALEX::explain(model, data = data, y = data$y)
+#'
+#' # create fobject
+#' fobject <- fairness_check_regression(exp, protected = data$pop, privileged = 'A')
+#'
+#' # results
+#'
+#' fobject
+#' plot(fobject)
+#'
+#' \donttest{
+#'
+#' model_ranger <- ranger::ranger(y~., data = data, seed = 123)
+#' exp2 <- DALEX::explain(model_ranger, data = data, y = data$y)
+#'
+#' fobject <- fairness_check_regression(exp2, fobject)
+#'
+#' # results
+#' fobject
+#'
+#' plot(fobject)
+#' }
+#'
+#'
 
-plot.fairness_object_regression <- function(x, ...){
+plot.fairness_regression_object <- function(x, ...){
 
   n_exp   <- length(x$explainers)
   data    <- x$fairness_check_data
@@ -254,7 +288,7 @@ plot.fairness_object_regression <- function(x, ...){
     theme(panel.grid.major.y = element_blank(),
           panel.grid.minor.y = element_blank()) +
     scale_fill_manual(values = colors_fairmodels(n_exp)) +
-    ggtitle("Fairness check", subtitle = paste("Created with", paste(
+    ggtitle("Fairness check regression", subtitle = paste("Created with", paste(
       as.character(unique(data$model)), collapse = ", ")))
   ####
   plt

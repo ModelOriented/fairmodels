@@ -30,9 +30,9 @@ test_that("Test_fairness_radar_and_plot", {
 
   # checking if plot data is equal to data scaled by max val
   expect_equal(plt$data$score, fradar$radar_data$score/max(fradar$radar_data$score))
-  expect_class(crd_radar, "CordRadar")
+  expect_s3_class(crd_radar, "CordRadar")
 
-  expect_class(plt, "ggplot")
+  expect_s3_class(plt, "ggplot")
 
   ggproto("CordRadar", CoordPolar, theta = "x", r = "y", start = - pi / 3,
           direction = 1, is_linear = function() TRUE, render_bg = render_bg_function)
