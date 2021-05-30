@@ -2,7 +2,7 @@ test_that("Test fairness_check_regression", {
 
 
   # no bias
-  data <- data.frame(x = c(rnorm(500, 500, 100), rnorm(500, 500, 200)),
+  data <- data.frame(x   = c(rnorm(500, 500, 100), rnorm(500, 500, 200)),
                      pop = c(rep('A', 500 ), rep('B', 500 )))
 
   data$y <- rnorm(length(data$x), 1.5 * data$x, 100)
@@ -23,7 +23,7 @@ test_that("Test fairness_check_regression", {
 
   expect_equal(fobject$protected, as.factor(data$pop))
   expect_equal(fobject$label, 'lm')
-  expect_equal(fobject$fairness_check_data$metric, c("independence", "separation", "sufficiency" ))
+  expect_equal(sort(as.character(fobject$fairness_check_data$metric)), c("independence", "separation", "sufficiency" ))
   expect_equal(fobject$epsilon, 0.8)
 
 
