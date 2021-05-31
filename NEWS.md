@@ -3,7 +3,8 @@
 * Added additional tests. 
 * Modularized `fairness_check()` code.
 * Changed x-axis ticks generation in `fairness_check()`. 
-* Fixed issues with `plot_density()`.
+* Fixed issues with `plot_density
+* Updated links in README and DESCRIPTION.
 
 # fairmodels 1.0.1 
 * Changed examples - added parameter `num.threads = 1` to `ranger` and added *donttest{}* to examples with long computation time. 
