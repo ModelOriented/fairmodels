@@ -131,7 +131,8 @@ Where `i` denotes the membership to unique subgroup from protected variable. Unp
 some fairness metrics like *Equalized odds* are satisfied if parity loss in both *TPR* and *FPR* is low 
 
 ### Fairness in regression
-R package fairmodels has support for regression models. Check fairness using `fairness_check_regression()` to approximate classification fairness metrics in regression setting.
+R package fairmodels has support for regression models. Check fairness using `fairness_check_regression()` to approximate classification fairness metrics in regression setting. Plot object with `plot()` to visualize *fairness check* or with `plot_density()` to see model's output. 
+
 
 ## Related works
 
