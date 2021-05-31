@@ -35,12 +35,12 @@ plot_density <- function(x, ...){
   stopifnot(class(x) == "fairness_object" | class(x) == "fairness_regression_object")
 
   explainers   <- x$explainers
-  m            <- length(x$protected)
+  m            <- length(unique(as.character(x$protected)))
   density_data <- data.frame()
 
   for (i in seq_along(explainers)){
     tmp_data <- data.frame(probability = explainers[[i]]$y_hat,
-                           label       = rep(x$label[i], m ),
+                           label       = rep(x$label[i], length(x$protected) ),
                            protected   = x$protected)
 
     # bind with rest
@@ -62,13 +62,14 @@ plot_density <- function(x, ...){
               strip.text.y = element_text(hjust = 0.5, vjust = 1),
               ) +
         ylab("protected variable") +
-        ggtitle("Density plot")
-  p + facet_grid(rows = vars(label))
+        ggtitle("Density plot") +
+        facet_grid(rows = vars(label))
 
   if (class(x) == "fairness_regression_object") {
-    p + xlab('predicted values')
+    p <- p + xlab('predicted values')
   }
 
+  p
 }
 
 

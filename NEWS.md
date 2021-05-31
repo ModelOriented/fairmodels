@@ -2,6 +2,8 @@
 * Added function `fairness_check_regression()` that supports regression models along with 2 plot types [(#38)](https://github.com/ModelOriented/fairmodels/issues/38).
 * Added additional tests. 
 * Modularized `fairness_check()` code.
+* Changed x-axis ticks generation in `fairness_check()`. 
+* Fixed issues with `plot_density()`.
 
 # fairmodels 1.0.1 
 * Changed examples - added parameter `num.threads = 1` to `ranger` and added *donttest{}* to examples with long computation time. 
