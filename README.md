@@ -11,7 +11,7 @@
   
 ## Overview
 
-Flexible tool for bias detection, visualization, and mitigation. Uses models explained with [DALEX](https://modeloriented.github.io/DALEX/) and calculates fairness metrics based on confusion matrix for protected group.  Allows to compare and gain information about various machine learning models. Mitigate bias with various pre-processing and post-processing techniques. *Make sure your models are classifying protected groups similarly*.
+Flexible tool for bias detection, visualization, and mitigation. Use models explained with [DALEX](https://modeloriented.github.io/DALEX/) and calculate fairness classification metrics based on confusion matrices using `fairness_check()` or try newly developed module for regression models using `fairness_check_regression()`. R package fairmodels allows to compare and gain information about various machine learning models. Mitigate bias with various pre-processing and post-processing techniques. *Make sure your models are classifying protected groups similarly*.
 
 
 ## Preview
@@ -69,10 +69,10 @@ plot(fobject)
 
 ```
 
-Compas recidivism data use case: [Basic tutorial](http://fairmodels.drwhy.ai/articles/Basic_tutorial.html)   
-Bias mitigation techniques on Adult data: [Advanced tutorial](http://fairmodels.drwhy.ai/articles/Advanced_tutorial.html)
+Compas recidivism data use case: [Basic tutorial](https://modeloriented.github.io/fairmodels/articles/Basic_tutorial.html)   
+Bias mitigation techniques on Adult data: [Advanced tutorial](https://modeloriented.github.io/fairmodels/articles/Advanced_tutorial.html)
 
-## How to evaluate fairness? 
+## How to evaluate fairness in classification models? 
 
 <p align="center">
 <img src="man/figures/flowchart.png" alt="drawing" width="700"/>
@@ -130,7 +130,14 @@ Where `i` denotes the membership to unique subgroup from protected variable. Unp
 
 some fairness metrics like *Equalized odds* are satisfied if parity loss in both *TPR* and *FPR* is low 
 
+### Fairness in regression
+R package fairmodels has support for regression models. Check fairness using `fairness_check_regression()` to approximate classification fairness metrics in regression setting. Plot object with `plot()` to visualize *fairness check* or with `plot_density()` to see model's output. 
+
+
 ## Related works
 
 Zafar, Valera, Rodriguez, Gummadi (2017)  https://arxiv.org/pdf/1610.08452.pdf
+
 Barocas, Hardt, Narayanan (2019) https://fairmlbook.org/
+
+Steinberg, Daniel & Reid, Alistair & O'Callaghan, Simon. (2020). Fairness Measures for Regression via Probabilistic Classification. - https://arxiv.org/pdf/2001.06089.pdf

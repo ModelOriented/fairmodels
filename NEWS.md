@@ -1,3 +1,11 @@
+# fairmodels 1.1.0
+* Added function `fairness_check_regression()` that supports regression models along with 2 plot types [(#38)](https://github.com/ModelOriented/fairmodels/issues/38).
+* Added additional tests. 
+* Modularized `fairness_check()` code.
+* Changed x-axis ticks generation in `fairness_check()`. 
+* Fixed issues with `plot_density
+* Updated links in README and DESCRIPTION.
+
 # fairmodels 1.0.1 
 * Changed examples - added parameter `num.threads = 1` to `ranger` and added *donttest{}* to examples with long computation time. 
 
@@ -7,20 +15,20 @@
 * Fixed links in DESCRIPTION and README. 
 
 # fairmodels 0.2.6 
-* Fixed bug which appeared when two fairness objects were passed to `fairness_check` without an explainer. (#36)
+* Fixed bug which appeared when two fairness objects were passed to `fairness_check` without an explainer. [(#36)](https://github.com/ModelOriented/fairmodels/issues/36)
 
 # fairmodels 0.2.5
 * Extended documentation for `epsilon` parameter in `fairness_check()` function.
 
 # fairmodels 0.2.4
 * Deleted on-load information message about four-fifths rule. 
-* Fixed bug with `NA` warning in metrics that are not chosen. (#32)
+* Fixed bug with `NA` warning in metrics that are not chosen. [(#32)](https://github.com/ModelOriented/fairmodels/issues/32)
 
 # fairmodels 0.2.3
-* Fixed the way the `parity_loss` is calculated in `all_cutoffs` and `ceteris_paribus_cutoff`. (#24)
+* Fixed the way the `parity_loss` is calculated in `all_cutoffs` and `ceteris_paribus_cutoff`. [(#24)](https://github.com/ModelOriented/fairmodels/issues/24)
 * Updated vignettes
-* changed documentation of functions to explicitly state metrics instead of `fairness_check_metrics()`. (#29)
-* Fixed typos (#27 and #28)
+* changed documentation of functions to explicitly state metrics instead of `fairness_check_metrics()`. [(#29)](https://github.com/ModelOriented/fairmodels/issues/29)
+* Fixed typos ([#27](https://github.com/ModelOriented/fairmodels/issues/27) and [#28](https://github.com/ModelOriented/fairmodels/issues/28))
 * Changed conclusion drawn from density plot in `Basic Tutorial` (#26)
 
 # fairmodels 0.2.2

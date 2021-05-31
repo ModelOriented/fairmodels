@@ -327,6 +327,108 @@ print.fairness_object <- function(x, ..., colorize = TRUE){
 
 ################################################################################
 
+#' Print Fairness Regression Object
+#'
+#'
+#' @param x \code{fairness_regression_object} object
+#' @param ... other parameters
+#' @param colorize logical, whether information about metrics should be in color or not
+#'
+#' @importFrom utils head
+#' @importFrom stats na.omit
+#'
+#' @export
+#' @rdname print_fairness_regression_object
+#'
+#' @examples
+#'
+#' set.seed(123)
+#' data <- data.frame(x = c(rnorm(500, 500, 100), rnorm(500, 400, 200)),
+#'                    pop = c(rep('A', 500 ), rep('B', 500 )))
+#'
+#' data$y <- rnorm(length(data$x), 1.5 * data$x, 100)
+#'
+#' # create model
+#' model <- lm(y~., data = data)
+#'
+#' # create explainer
+#' exp <- DALEX::explain(model, data = data, y = data$y)
+#'
+#' # create fobject
+#' fobject <- fairness_check_regression(exp, protected = data$pop, privileged = 'A')
+#'
+#' # results
+#'
+#' fobject
+#'
+#' \donttest{
+#'
+#' model_ranger <- ranger::ranger(y~., data = data, seed = 123)
+#' exp2 <- DALEX::explain(model_ranger, data = data, y = data$y)
+#'
+#' fobject <- fairness_check_regression(exp2, fobject)
+#'
+#' # results
+#' fobject
+#'
+#' }
+#'
+#'
+
+
+
+print.fairness_regression_object <- function(x, ..., colorize = TRUE){
+
+  if (! colorize) {
+    color_codes <- list(yellow_start = "", yellow_end = "",
+                        red_start = "", red_end = "",
+                        green_start = "", green_end = "")
+  }
+
+
+  data <- x$fairness_check_data
+
+  models  <- unique(data$model)
+  epsilon <- x$epsilon
+  metrics <- unique(data$metric)
+
+
+  if (any(is.na(data$score))){
+
+    warning("Omiting NA for models: ",
+            paste(unique(data[is.na(data$score), "model"]),
+                  collapse = ", "),
+            "\nInformation about passed metrics may be inaccurate due to NA present, it is advisable to check metric_scores plot.\n")
+  }
+
+
+
+  cat("\nFairness check regression for models:", paste(models, collapse = ", "), "\n")
+
+  for (model in models){
+    model_data <- data[data$model == model,]
+
+    failed_metrics <- unique(model_data[na.omit(model_data$score) < epsilon | na.omit(model_data$score) > 1/epsilon, "metric"])
+    passed_metrics <-  length(metrics[! metrics %in% failed_metrics])
+
+    if (passed_metrics < 2){
+      cat("\n", color_codes$red_start ,model, " passes ", passed_metrics, "/3 metrics\n", color_codes$red_end ,  sep = "")}
+    if (passed_metrics == 2){
+      cat("\n", color_codes$yellow_start ,model, " passes ", passed_metrics, "/3 metrics\n", color_codes$yellow_end ,  sep = "")
+    }
+    if (passed_metrics == 3){
+      cat("\n", color_codes$green_start ,model, " passes ", passed_metrics, "/3 metrics\n", color_codes$green_end ,  sep = "")}
+
+    cat("Total loss: ", sum(abs(na.omit(data[data$model == model, "score" ])- 1)), "\n")
+  }
+
+  cat("\n")
+  return(invisible(NULL))
+
+}
+
+################################################################################
+
 #' Print fairness PCA
 #'
 #' @description Print principal components after using pca on fairness object

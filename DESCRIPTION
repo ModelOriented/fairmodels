@@ -1,13 +1,13 @@
 Package: fairmodels
 Type: Package
 Title: Flexible Tool for Bias Detection, Visualization, and Mitigation
-Version: 1.0.1
+Version: 1.1.0
 Authors@R:
     c(person("Jakub", "Wiśniewski", role = c("aut", "cre"),
              email = "jakwisn@gmail.com"),
       person("Przemysław", "Biecek", role = c("aut"), 
              comment = c(ORCID = "0000-0001-8423-1823")))
-Description: Measure fairness metrics in one place for many models. Check how big is model's bias towards different races, sex, nationalities etc. Use measures such as Statistical Parity, Equal odds to detect the discrimination against unprivileged groups. Visualize the bias using heatmap, radar plot, biplot, bar chart (and more!). There are various pre-processing and post-processing bias mitigation algorithms implemented. Find more details in (Wiśniewski, Biecek (2021)) <arXiv:2104.00507>.  
+Description: Measure fairness metrics in one place for many models. Check how big is model's bias towards different races, sex, nationalities etc. Use measures such as Statistical Parity, Equal odds to detect the discrimination against unprivileged groups. Visualize the bias using heatmap, radar plot, biplot, bar chart (and more!). There are various pre-processing and post-processing bias mitigation algorithms implemented. Package also supports calculating fairness metrics for regression models. Find more details in (Wiśniewski, Biecek (2021)) <arXiv:2104.00507>.  
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -27,8 +27,8 @@ Suggests:
     covr,
     testthat,
     spelling
-RoxygenNote: 7.1.1.9000
+RoxygenNote: 7.1.1.9001
 VignetteBuilder: knitr
-URL: http://fairmodels.drwhy.ai/
+URL: https://fairmodels.drwhy.ai/
 BugReports: https://github.com/ModelOriented/fairmodels/issues
 Language: en-US

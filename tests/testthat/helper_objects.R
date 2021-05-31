@@ -65,6 +65,6 @@ fobject_big <- fairness_check(explainer_gbm, explainer_glm, explainer_ranger,
 
 # testthat ----------------------------------------------------------------
 error_message <- function(title, failed_values = NULL) paste0("Error! ", title, paste0(failed_values, collapse = ", "))
-expect_class <- function(object, class) expect(any(base::class(object) %in% class), error_message(paste("object is", base::class(object), "not", class)))
+expect_s3_class <- function(object, class) expect(any(base::class(object) %in% class), error_message(paste("object is", base::class(object), "not", class)))
 
 

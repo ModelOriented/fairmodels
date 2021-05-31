@@ -189,19 +189,204 @@ calculate_parity_loss <- function(gmm, privileged){
 }
 
 
+check_protected <-  function(protected, fobjects, verbose) {
+
+  if (is.null(protected)) {
+    if (length(fobjects) > 0) {
+      # getting from first explainer - checking is later
+      protected <- fobjects[[1]][["protected"]]
+      verbose_cat(color_codes$yellow_start, "from first fairness object", color_codes$yellow_end, ") \n", verbose = verbose)
+    } else {
+      stop("\nProtected cannot be NULL if fairness_objects are not provided")
+    }} else {
+      if (is.factor(protected)) {
+        verbose_cat(color_codes$green_start, "Ok", color_codes$green_end, ") \n", verbose = verbose)
+      } else {
+        verbose_cat(color_codes$yellow_start, "changed from", class(protected),  color_codes$yellow_end, ")\n", verbose = verbose)
+        protected <- as.factor(protected)
+      }}
+
+  return(protected)
+
+  }
+
+check_privileged <- function(privileged, fobjects, verbose) {
+
+  if (is.null(privileged)) {
+
+    if (length(fobjects) > 0) {
+
+      # getting from first explainer - checking is done later
+      privileged <- fobjects[[1]][["privileged"]]
+      verbose_cat(class(privileged), "(" , verbose = verbose)
+      verbose_cat(color_codes$yellow_start, "from first fairness object", color_codes$yellow_end, ") \n", verbose = verbose)
+
+      } else {
+      stop ("\nPrivileged cannot be NULL if fairness_objects are not provided")}
+
+    } else {
+      # if protected and privileged are not characters, changing them
+      if (is.character(privileged) | is.factor(privileged)) {
+        verbose_cat(class(privileged), "(", verbose = verbose)
+        verbose_cat(color_codes$green_start, "Ok", color_codes$green_end, ")\n", verbose = verbose)
+      } else {
+        verbose_cat("character (", verbose = verbose)
+        verbose_cat(color_codes$yellow_start, "changed from", class(privileged), color_codes$yellow_end, ")\n", verbose = verbose)
+      }
+    }
+
+  return(privileged)
+}
+
+check_fobjects <- function(fobjects, protected, privileged, verbose){
+
+  if (length(fobjects) == 1){
+    verbose_cat(" object ", verbose = verbose)
+  } else {
+    verbose_cat(" objects ", verbose = verbose)
+  }
+
+
+  if (length(fobjects) > 0) {
+    if(! all(sapply(fobjects, function(x) x$protected == protected))) {
+      verbose_cat("(",color_codes$red_start, "not compatible" ,color_codes$red_end, ") \n", verbose = verbose)
+      stop("fairness objects must have the same protected vector as one passed in fairness check")
+    }
+    if(! all(sapply(fobjects, function(x) x$privileged == privileged))) {
+      verbose_cat("(", color_codes$red_start, "not compatible" ,color_codes$red_end, ") \n", verbose = verbose)
+      stop("fairness objects must have the same privlieged argument as one passed in fairness check")
+    }
+    verbose_cat("(", color_codes$green_start, "compatible", color_codes$yellow_end,  ")\n", verbose = verbose)
+  } else {
+    verbose_cat("\n", verbose = verbose)}
+
+  return(fobjects)
+}
+
+
+check_explainers_clf <- function(all_explainers, protected, verbose){
+
+  if(! all(sapply(all_explainers, function(x) x$model_info$type == 'classification'))) {
+    verbose_cat("(", color_codes$red_start, "model type not supported", color_codes$red_end, ")\n", verbose = verbose)
+    stop("All models must be binary classification type. To check fairness in regression use 'fairness_check_regression()'")
+
+  }
+
+  return(check_explainers(all_explainers, protected, verbose))
+}
+
+
+check_explainers_reg <- function(all_explainers, protected, verbose){
+
+  if(! all(sapply(all_explainers, function(x) x$model_info$type == 'regression'))) {
+    verbose_cat("(", color_codes$red_start, "model type not supported", color_codes$red_end, ")\n", verbose = verbose)
+    stop("All models must be regression type. To check fairness in binary classification use 'fairness_check()'")
+
+  }
+
+  return(check_explainers(all_explainers, protected, verbose))
+
+}
+
+check_explainers <- function(all_explainers, protected, verbose){
+
+  y_to_compare <- all_explainers[[1]]$y
+
+  if(! all(sapply(all_explainers, function(x) length(y_to_compare) == length(x$y)))) {
+    verbose_cat("(", color_codes$red_start, "y not equal", color_codes$red_end, ")\n", verbose = verbose)
+    stop("All explainer predictions (y) must have same length")
+  }
+
+  if(! all(sapply(all_explainers, function(x) y_to_compare == x$y))) {
+    verbose_cat("(", color_codes$red_start, "y not equal", color_codes$red_end, ")\n", verbose = verbose)
+    stop("All explainers must have same values of target variable")
+  }
+
+  if(! all(sapply(all_explainers, function(x) length(x$y) == length(protected)))) {
+    verbose_cat("(", color_codes$red_start, "not compatible", color_codes$red_end, ")\n", verbose = verbose)
+    stop("Lengths of protected variable and target variable in explainer differ")
+  }
+
+  verbose_cat("(", color_codes$green_start, "compatible", color_codes$yellow_end,  ")\n", verbose = verbose)
+  return(all_explainers)
+}
+
+check_labels <- function(label, explainers, fobjects_label){
+
+  if (is.null(label)) {
+    label     <- sapply(explainers, function(x) x$label)
+  } else {
+    if (length(label) != length(explainers)) stop("Number of labels must be equal to number of explainers (outside fairness objects)")
+  }
+
+  # explainers must have unique labels
+  if (length(unique(label)) != length(label) ) {
+    stop("Explainers don't have unique labels
+        ( pass paramter \'label\' to fairness_check() or before to explain() function)")
+  }
+
+  # labels must be unique for all explainers, those in fairness objects too
+  if (any(label %in% fobjects_label)) {
+    stop("Explainer has the same label as label in fairness_object")
+  }
+  return(label)
+}
 
 
 
+get_nice_ticks <- function(min_value, max_value, max_ticks = 9){
+
+  tick_range <- readable_number(max_value - min_value, FALSE)
+  tick_spacing <- readable_number(tick_range / (max_ticks - 1), TRUE)
+  readable_minimum <- floor(min_value / tick_spacing) * tick_spacing
+  readable_maximum <- ceiling(max_value / tick_spacing) * tick_spacing
+  return(list(min = readable_minimum, max = readable_maximum, spacing = tick_spacing))
+}
+
+readable_number <- function(tick_range, round_number){
+
+  exponent <- floor(log10(tick_range))
+  fraction <- tick_range/(10**exponent)
+
+  if (round_number){
+
+    if(fraction < 1.5){
+      readable_tick <- 1
+    } else if (fraction < 3) {
+      readable_tick <- 2
+    } else if (fraction < 7) {
+      readable_tick <- 5
+    } else {
+      readable_tick <- 10
+    }
+  } else {
+
+    if(fraction <= 1){
+      readable_tick <- 1
+    } else if (fraction <= 2) {
+      readable_tick <- 2
+    } else if (fraction <= 5) {
+      readable_tick <- 5
+    } else {
+      readable_tick <- 10
+    }
+  }
+
+  return(readable_tick * 10**exponent)
+}
+
+
+color_codes <- list(yellow_start = "\033[33m", yellow_end = "\033[39m",
+                    red_start = "\033[31m", red_end = "\033[39m",
+                    green_start = "\033[32m", green_end = "\033[39m")
 
 
 
-
-
-
-
-
-
-
+verbose_cat <- function(..., verbose = TRUE) {
+  if (verbose) {
+    cat(...)
+  }
+}
 
 
 

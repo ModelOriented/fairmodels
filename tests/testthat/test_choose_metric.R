@@ -7,7 +7,7 @@ test_that("Test choose_metric", {
   cm <- choose_metric(fobject, "TPR")
   cm_plot <- plot(cm)
 
-  expect_class(cm_plot, "ggplot")
+  expect_s3_class(cm_plot, "ggplot")
 
 
 })

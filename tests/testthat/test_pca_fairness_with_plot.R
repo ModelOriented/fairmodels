@@ -32,7 +32,7 @@ test_that("PCA fairness and plot", {
   fp <- suppressWarnings(fairness_pca(fobject_big))
   plt <- plot(fp)
 
-  expect_class(plt, "ggplot")
+  expect_s3_class(plt, "ggplot")
 
   expect_equal(plt$labels$title, "Fairness PCA plot")
 

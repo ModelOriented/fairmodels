@@ -21,10 +21,10 @@ test_that("test ceteris_paribus_cutoff with plot", {
   plt <- plot(cpc)
 
   expect_equal(plt$labels$subtitle, "Based on African_American and cumulated" )
-  expect_class(plt, "ggplot")
+  expect_s3_class(plt, "ggplot")
 
   cpc <- ceteris_paribus_cutoff(fobject, subgroup = "African_American")
 
   plt <- plot(cpc)
-  expect_class(plt, "ggplot")
+  expect_s3_class(plt, "ggplot")
 })

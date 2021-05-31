@@ -32,27 +32,29 @@
 
 plot_density <- function(x, ...){
 
-  stopifnot(class(x) == "fairness_object")
+  stopifnot(class(x) == "fairness_object" | class(x) == "fairness_regression_object")
 
   explainers   <- x$explainers
-  m            <- length(x$protected)
+  m            <- length(unique(as.character(x$protected)))
   density_data <- data.frame()
 
   for (i in seq_along(explainers)){
     tmp_data <- data.frame(probability = explainers[[i]]$y_hat,
-                           label       = rep(x$label[i], m ),
+                           label       = rep(x$label[i], length(x$protected) ),
                            protected   = x$protected)
 
     # bind with rest
     density_data <- rbind(density_data , tmp_data)
   }
 
+  limits <- c(0,1)
+  if (class(x) == "fairness_regression_object") limits <- NULL
 
-  probability <- protected <- label <-  NULL
+    probability <- protected <- label <-  NULL
   p <- ggplot(density_data, aes(probability, protected)) +
         geom_violin(color = "#ceced9", fill = "#ceced9" , alpha = 0.5) +
         geom_boxplot(aes(fill = protected) ,width = 0.3, alpha = 0.5, outlier.alpha = 0) +
-        scale_x_continuous(limits = c(0,1)) +
+        scale_x_continuous(limits = limits) +
         theme_drwhy_vertical() +
         scale_fill_manual(values = colors_fairmodels(m)) +
         theme(legend.position = "none", # legend off
@@ -60,9 +62,14 @@ plot_density <- function(x, ...){
               strip.text.y = element_text(hjust = 0.5, vjust = 1),
               ) +
         ylab("protected variable") +
-        ggtitle("Density plot")
-  p + facet_grid(rows = vars(label))
+        ggtitle("Density plot") +
+        facet_grid(rows = vars(label))
 
+  if (class(x) == "fairness_regression_object") {
+    p <- p + xlab('predicted values')
+  }
+
+  p
 }
 
 

@@ -137,9 +137,9 @@ test_that("test fairness object", {
 
   ######################## plot #############################
 
-  plt <- plot_density(fc)
+  plt <- plot(fc)
 
-  expect_class(plt, "ggplot")
+  expect_s3_class(plt, "ggplot")
 
 })
 
