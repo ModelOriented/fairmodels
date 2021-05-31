@@ -342,6 +342,7 @@ print.fairness_object <- function(x, ..., colorize = TRUE){
 #'
 #' @examples
 #'
+#' set.seed(123)
 #' data <- data.frame(x = c(rnorm(500, 500, 100), rnorm(500, 400, 200)),
 #'                    pop = c(rep('A', 500 ), rep('B', 500 )))
 #'
