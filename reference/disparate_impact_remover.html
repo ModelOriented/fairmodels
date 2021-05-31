@@ -99,7 +99,7 @@ earth mover distance. It works best if among subgroups there is similar number o
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">1.0.1</span>
+          <span class="version version-default">1.1.0</span>
         </div>
       </div>
     </div>
@@ -155,7 +155,7 @@ earth mover distance. It works best if among subgroups there is similar number o
 earth mover distance. It works best if among subgroups there is similar number of observations.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>disparate_impact_remover</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>protected</span>, <span class='va'>features_to_transform</span>, lambda <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>disparate_impact_remover</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>protected</span>, <span class='va'>features_to_transform</span>, lambda <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -192,43 +192,47 @@ the distribution is discrete with small number of variables then there will be s
     <p>This method was implemented based on Feldman, Friedler, Moeller, Scheidegger, Venkatasubramanian 2015 <a href='https://arxiv.org/pdf/1412.3756.pdf'>https://arxiv.org/pdf/1412.3756.pdf</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://ggplot2.tidyverse.org'>"ggplot2"</a></span><span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
-<span class='co'># custom data frame with kind and score</span>
-<span class='va'>custom_data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>kind <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>"second"</span>, <span class='fl'>500</span><span class='op'>)</span>,<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>"first"</span>,<span class='fl'>500</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>,
-                          score <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>500</span>, <span class='fl'>400</span>,<span class='fl'>40</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>500</span>, <span class='fl'>600</span>, <span class='fl'>100</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>custom_data</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>score</span>, fill <span class='op'>=</span> <span class='va'>kind</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_density.html'>geom_density</a></span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span>
-</div><div class='img'><img src='disparate_impact_remover-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='va'>fixed_data</span> <span class='op'>&lt;-</span> <span class='fu'>disparate_impact_remover</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>custom_data</span>,
-                                       protected <span class='op'>=</span> <span class='va'>custom_data</span><span class='op'>$</span><span class='va'>kind</span>,
-                                       features_to_transform <span class='op'>=</span> <span class='st'>"score"</span>,
-                                       lambda <span class='op'>=</span> <span class='fl'>0.8</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>fixed_data</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>score</span>, fill <span class='op'>=</span> <span class='va'>kind</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_density.html'>geom_density</a></span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span>
-</div><div class='img'><img src='disparate_impact_remover-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># lambda 1 gives identical distribution, lambda 0 (almost) original distributions</span>
-
-<span class='va'>fixed_data_unchanged</span> <span class='op'>&lt;-</span> <span class='fu'>disparate_impact_remover</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>custom_data</span>,
-                                                 protected <span class='op'>=</span> <span class='va'>custom_data</span><span class='op'>$</span><span class='va'>kind</span>,
-                                                 features_to_transform <span class='op'>=</span> <span class='st'>"score"</span>,
-                                                 lambda <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>fixed_data_unchanged</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>score</span>, fill <span class='op'>=</span> <span class='va'>kind</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_density.html'>geom_density</a></span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span>
-</div><div class='img'><img src='disparate_impact_remover-3.png' alt='' width='700' height='433' /></div><div class='input'>
-
-<span class='va'>fixed_data_fully_changed</span> <span class='op'>&lt;-</span> <span class='fu'>disparate_impact_remover</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>custom_data</span>,
-                                                     protected <span class='op'>=</span> <span class='va'>custom_data</span><span class='op'>$</span><span class='va'>kind</span>,
-                                                     features_to_transform <span class='op'>=</span> <span class='st'>"score"</span>,
-                                                     lambda <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>fixed_data_fully_changed</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>score</span>, fill <span class='op'>=</span> <span class='va'>kind</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_density.html'>geom_density</a></span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span><span class='op'>(</span><span class='va'>kind</span><span class='op'>~</span><span class='va'>.</span>, nrow <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-</div><div class='img'><img src='disparate_impact_remover-4.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://ggplot2.tidyverse.org'>"ggplot2"</a></span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># custom data frame with kind and score</span></span>
+<span class='r-in'><span class='va'>custom_data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>kind <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>"second"</span>, <span class='fl'>500</span><span class='op'>)</span>,<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>"first"</span>,<span class='fl'>500</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>,</span>
+<span class='r-in'>                          score <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>500</span>, <span class='fl'>400</span>,<span class='fl'>40</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>500</span>, <span class='fl'>600</span>, <span class='fl'>100</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>custom_data</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>score</span>, fill <span class='op'>=</span> <span class='va'>kind</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_density.html'>geom_density</a></span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='disparate_impact_remover-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>fixed_data</span> <span class='op'>&lt;-</span> <span class='fu'>disparate_impact_remover</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>custom_data</span>,</span>
+<span class='r-in'>                                       protected <span class='op'>=</span> <span class='va'>custom_data</span><span class='op'>$</span><span class='va'>kind</span>,</span>
+<span class='r-in'>                                       features_to_transform <span class='op'>=</span> <span class='st'>"score"</span>,</span>
+<span class='r-in'>                                       lambda <span class='op'>=</span> <span class='fl'>0.8</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>fixed_data</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>score</span>, fill <span class='op'>=</span> <span class='va'>kind</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_density.html'>geom_density</a></span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='disparate_impact_remover-2.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># lambda 1 gives identical distribution, lambda 0 (almost) original distributions</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>fixed_data_unchanged</span> <span class='op'>&lt;-</span> <span class='fu'>disparate_impact_remover</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>custom_data</span>,</span>
+<span class='r-in'>                                                 protected <span class='op'>=</span> <span class='va'>custom_data</span><span class='op'>$</span><span class='va'>kind</span>,</span>
+<span class='r-in'>                                                 features_to_transform <span class='op'>=</span> <span class='st'>"score"</span>,</span>
+<span class='r-in'>                                                 lambda <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>fixed_data_unchanged</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>score</span>, fill <span class='op'>=</span> <span class='va'>kind</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_density.html'>geom_density</a></span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='disparate_impact_remover-3.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>fixed_data_fully_changed</span> <span class='op'>&lt;-</span> <span class='fu'>disparate_impact_remover</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>custom_data</span>,</span>
+<span class='r-in'>                                                     protected <span class='op'>=</span> <span class='va'>custom_data</span><span class='op'>$</span><span class='va'>kind</span>,</span>
+<span class='r-in'>                                                     features_to_transform <span class='op'>=</span> <span class='st'>"score"</span>,</span>
+<span class='r-in'>                                                     lambda <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>fixed_data_fully_changed</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>score</span>, fill <span class='op'>=</span> <span class='va'>kind</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_density.html'>geom_density</a></span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span><span class='op'>(</span><span class='va'>kind</span><span class='op'>~</span><span class='va'>.</span>, nrow <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='disparate_impact_remover-4.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

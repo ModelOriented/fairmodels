@@ -20,7 +20,7 @@
 <link href="dalexverse-2.css" rel="stylesheet">
 <!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Flexible Tool for Bias Detection, Visualization, and Mitigation">
-<meta property="og:description" content="Measure fairness metrics in one place for many models. Check how big is model's bias towards different races, sex, nationalities etc. Use measures such as Statistical Parity, Equal odds to detect the discrimination against unprivileged groups. Visualize the bias using heatmap, radar plot, biplot, bar chart (and more!). There are various pre-processing and post-processing bias mitigation algorithms implemented. Find more details in (Wiśniewski, Biecek (2021)) &lt;arXiv:2104.00507&gt;.  ">
+<meta property="og:description" content="Measure fairness metrics in one place for many models. Check how big is model's bias towards different races, sex, nationalities etc. Use measures such as Statistical Parity, Equal odds to detect the discrimination against unprivileged groups. Visualize the bias using heatmap, radar plot, biplot, bar chart (and more!). There are various pre-processing and post-processing bias mitigation algorithms implemented. Package also supports calculating fairness metrics for regression models. Find more details in (Wiśniewski, Biecek (2021)) &lt;arXiv:2104.00507&gt;.  ">
 <meta property="og:image" content="/logo.png">
 <meta name="robots" content="noindex">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -51,7 +51,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">1.0.1</span>
+          <span class="version version-default">1.1.0</span>
         </div>
       </div>
     </div>
@@ -104,7 +104,7 @@
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor" aria-hidden="true"></a>Overview</h2>
-<p>Flexible tool for bias detection, visualization, and mitigation. Uses models explained with <a href="https://modeloriented.github.io/DALEX/" class="external-link">DALEX</a> and calculates fairness metrics based on confusion matrix for protected group. Allows to compare and gain information about various machine learning models. Mitigate bias with various pre-processing and post-processing techniques. <em>Make sure your models are classifying protected groups similarly</em>.</p>
+<p>Flexible tool for bias detection, visualization, and mitigation. Use models explained with <a href="https://modeloriented.github.io/DALEX/" class="external-link">DALEX</a> and calculate fairness classification metrics based on confusion matrices using <code><a href="reference/fairness_check.html">fairness_check()</a></code> or try newly developed module for regression models using <code><a href="reference/fairness_check_regression.html">fairness_check_regression()</a></code>. R package fairmodels allows to compare and gain information about various machine learning models. Mitigate bias with various pre-processing and post-processing techniques. <em>Make sure your models are classifying protected groups similarly</em>.</p>
 </div>
 <div id="preview" class="section level2">
 <h2 class="hasAnchor">
@@ -125,7 +125,7 @@
 <h2 class="hasAnchor">
 <a href="#example" class="anchor" aria-hidden="true"></a>Example</h2>
 <p>Checking fairness is easy!</p>
-<pre><code><a href="http://fairmodels.drwhy.ai/" class="external-link">library(fairmodels)
+<pre><code><a href="https://fairmodels.drwhy.ai/" class="external-link">library(fairmodels)
 library(ranger)
 library(DALEX)
 
@@ -160,12 +160,12 @@ fobject &lt;- fairness_check(explainer_lm, explainer_rf,
 print(fobject)
 plot(fobject)
 </a></code></pre>
-<p>Compas recidivism data use case: <a href="http://fairmodels.drwhy.ai/articles/Basic_tutorial.html" class="external-link">Basic tutorial</a><br>
-Bias mitigation techniques on Adult data: <a href="http://fairmodels.drwhy.ai/articles/Advanced_tutorial.html" class="external-link">Advanced tutorial</a></p>
+<p>Compas recidivism data use case: <a href="https://modeloriented.github.io/fairmodels/articles/Basic_tutorial.html" class="external-link">Basic tutorial</a><br>
+Bias mitigation techniques on Adult data: <a href="https://modeloriented.github.io/fairmodels/articles/Advanced_tutorial.html" class="external-link">Advanced tutorial</a></p>
 </div>
-<div id="how-to-evaluate-fairness" class="section level2">
+<div id="how-to-evaluate-fairness-in-classification-models" class="section level2">
 <h2 class="hasAnchor">
-<a href="#how-to-evaluate-fairness" class="anchor" aria-hidden="true"></a>How to evaluate fairness?</h2>
+<a href="#how-to-evaluate-fairness-in-classification-models" class="anchor" aria-hidden="true"></a>How to evaluate fairness in classification models?</h2>
 <p align="center">
 <img src="reference/figures/flowchart.png" alt="drawing" width="700"></p>
 <div id="fairness-checking-is-flexible" class="section level3">
@@ -278,11 +278,18 @@ How is <em>parity loss</em> calculated?</p>
 </div>
 <p>Where <code>i</code> denotes the membership to unique subgroup from protected variable. Unprivileged subgroups are represented by small letters and privileged by simply “privileged”.</p>
 <p>some fairness metrics like <em>Equalized odds</em> are satisfied if parity loss in both <em>TPR</em> and <em>FPR</em> is low</p>
+<div id="fairness-in-regression" class="section level3">
+<h3 class="hasAnchor">
+<a href="#fairness-in-regression" class="anchor" aria-hidden="true"></a>Fairness in regression</h3>
+<p>R package fairmodels has support for regression models. Check fairness using <code><a href="reference/fairness_check_regression.html">fairness_check_regression()</a></code> to approximate classification fairness metrics in regression setting. Plot object with <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> to visualize <em>fairness check</em> or with <code><a href="reference/plot_density.html">plot_density()</a></code> to see model’s output.</p>
+</div>
 </div>
 <div id="related-works" class="section level2">
 <h2 class="hasAnchor">
 <a href="#related-works" class="anchor" aria-hidden="true"></a>Related works</h2>
-<p>Zafar, Valera, Rodriguez, Gummadi (2017) https://arxiv.org/pdf/1610.08452.pdf Barocas, Hardt, Narayanan (2019) https://fairmlbook.org/</p>
+<p>Zafar, Valera, Rodriguez, Gummadi (2017) <a href="https://arxiv.org/pdf/1610.08452.pdf" class="external-link uri">https://arxiv.org/pdf/1610.08452.pdf</a></p>
+<p>Barocas, Hardt, Narayanan (2019) <a href="https://fairmlbook.org/" class="external-link uri">https://fairmlbook.org/</a></p>
+<p>Steinberg, Daniel &amp; Reid, Alistair &amp; O’Callaghan, Simon. (2020). Fairness Measures for Regression via Probabilistic Classification. - <a href="https://arxiv.org/pdf/2001.06089.pdf" class="external-link uri">https://arxiv.org/pdf/2001.06089.pdf</a></p>
 </div>
 </div>
   </div>

@@ -98,7 +98,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/">MI^2 DataLab</a> </span>
-          <span class="version version-default">1.0.1</span>
+          <span class="version version-default">1.1.0</span>
         </div>
       </div>
     </div>
@@ -153,7 +153,7 @@
     <p>Plot distribution for models output probabilities. See how being in particular subgroup affects models decision.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_density</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>plot_density</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -173,38 +173,41 @@
     <p><code>ggplot2</code> object</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"compas"</span><span class='op'>)</span>
-
-<span class='va'>glm_compas</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span><span class='op'>(</span><span class='va'>Two_yr_Recidivism</span><span class='op'>~</span><span class='va'>.</span>, data<span class='op'>=</span><span class='va'>compas</span>, family<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span><span class='op'>(</span>link<span class='op'>=</span><span class='st'>"logit"</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='va'>y_numeric</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>compas</span><span class='op'>$</span><span class='va'>Two_yr_Recidivism</span><span class='op'>)</span><span class='op'>-</span><span class='fl'>1</span>
-
-<span class='va'>explainer_glm</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://dalex.drwhy.ai/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>glm_compas</span>, data <span class='op'>=</span> <span class='va'>compas</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span><span class='op'>)</span>
-</div><div class='co'>#&gt; Preparation of a new explainer is initiated
-#&gt;   -&gt; model label       :  lm  ( <span style='color: #BBBB00;'> default </span><span> )</span>
-#&gt;   -&gt; data              :  6172  rows  7  cols 
-#&gt;   -&gt; target variable   :  6172  values 
-#&gt;   -&gt; predict function  :  yhat.glm  will be used ( <span style='color: #BBBB00;'> default </span><span> )</span>
-#&gt;   -&gt; predicted values  :  No value for predict function target column. ( <span style='color: #BBBB00;'> default </span><span> )</span>
-#&gt;   -&gt; model_info        :  package stats , ver. 4.0.5 , task classification ( <span style='color: #BBBB00;'> default </span><span> ) </span>
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1144574 , mean =  0.4551199 , max =  0.995477  
-#&gt;   -&gt; residual function :  difference between y and yhat ( <span style='color: #BBBB00;'> default </span><span> )</span>
-#&gt;   -&gt; residuals         :  numerical, min =  -0.9767658 , mean =  5.070175e-13 , max =  0.8822826  
-#&gt;  <span style='color: #00BB00;'> A new explainer has been created! </span><span> </span></div><div class='input'>
-<span class='va'>fobject</span> <span class='op'>&lt;-</span>  <span class='fu'><a href='fairness_check.html'>fairness_check</a></span><span class='op'>(</span><span class='va'>explainer_glm</span>,
-                             protected <span class='op'>=</span> <span class='va'>compas</span><span class='op'>$</span><span class='va'>Ethnicity</span>,
-                             privileged <span class='op'>=</span> <span class='st'>"Caucasian"</span><span class='op'>)</span>
-</div><div class='co'>#&gt; Creating fairness object
-#&gt; -&gt; Privileged subgroup		: character (<span style='color: #00BB00;'> Ok </span><span> )</span>
-#&gt; -&gt; Protected variable		: factor (<span style='color: #00BB00;'> Ok </span><span> ) </span>
-#&gt; -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) 
-#&gt; -&gt; Fairness objects		: 0 objects 
-#&gt; -&gt; Checking explainers		: 1 in total ( <span style='color: #00BB00;'> compatible </span><span> )</span>
-#&gt; -&gt; Metric calculation		: 8/12 metrics calculated for all models ( <span style='color: #BBBB00;'>4 NA created</span><span> )</span>
-#&gt; <span style='color: #00BB00;'> Fairness object created succesfully </span><span> </span></div><div class='input'>
-<span class='fu'>plot_density</span><span class='op'>(</span><span class='va'>fobject</span><span class='op'>)</span>
-</div><div class='img'><img src='plot_density-1.png' alt='' width='700' height='433' /></div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"compas"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>glm_compas</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span><span class='op'>(</span><span class='va'>Two_yr_Recidivism</span><span class='op'>~</span><span class='va'>.</span>, data<span class='op'>=</span><span class='va'>compas</span>, family<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span><span class='op'>(</span>link<span class='op'>=</span><span class='st'>"logit"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>y_numeric</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>compas</span><span class='op'>$</span><span class='va'>Two_yr_Recidivism</span><span class='op'>)</span><span class='op'>-</span><span class='fl'>1</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>explainer_glm</span> <span class='op'>&lt;-</span> <span class='fu'>DALEX</span><span class='fu'>::</span><span class='fu'><a href='https://dalex.drwhy.ai/reference/explain.html'>explain</a></span><span class='op'>(</span><span class='va'>glm_compas</span>, data <span class='op'>=</span> <span class='va'>compas</span>, y <span class='op'>=</span> <span class='va'>y_numeric</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Preparation of a new explainer is initiated</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; model label       :  lm  ( <span style='color: #BBBB00;'> default </span> )</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; data              :  6172  rows  7  cols </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; target variable   :  6172  values </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; predict function  :  yhat.glm  will be used ( <span style='color: #BBBB00;'> default </span> )</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style='color: #BBBB00;'> default </span> )</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; model_info        :  package stats , ver. 4.1.0 , task classification ( <span style='color: #BBBB00;'> default </span> ) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; predicted values  :  numerical, min =  0.1144574 , mean =  0.4551199 , max =  0.995477  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style='color: #BBBB00;'> default </span> )</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -&gt; residuals         :  numerical, min =  -0.9767658 , mean =  5.070175e-13 , max =  0.8822826  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  <span style='color: #00BB00;'> A new explainer has been created! </span> </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>fobject</span> <span class='op'>&lt;-</span>  <span class='fu'><a href='fairness_check.html'>fairness_check</a></span><span class='op'>(</span><span class='va'>explainer_glm</span>,</span>
+<span class='r-in'>                             protected <span class='op'>=</span> <span class='va'>compas</span><span class='op'>$</span><span class='va'>Ethnicity</span>,</span>
+<span class='r-in'>                             privileged <span class='op'>=</span> <span class='st'>"Caucasian"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Creating fairness classification object</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -&gt; Privileged subgroup		: character (<span style='color: #00BB00;'> Ok </span> )</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -&gt; Protected variable		: factor (<span style='color: #00BB00;'> Ok </span> ) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -&gt; Cutoff values for explainers	: 0.5 ( for all subgroups ) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -&gt; Fairness objects		: 0 objects </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -&gt; Checking explainers		: 1 in total ( <span style='color: #00BB00;'> compatible </span> )</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -&gt; Metric calculation		: 8/12 metrics calculated for all models ( <span style='color: #BBBB00;'>4 NA created</span> )</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'> Fairness object created succesfully </span> </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>plot_density</span><span class='op'>(</span><span class='va'>fobject</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='plot_density-1.png' alt='' width='700' height='433' /></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

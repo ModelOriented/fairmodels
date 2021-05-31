@@ -51,7 +51,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy" class="external-link">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/" class="external-link">MI^2 DataLab</a> </span>
-          <span class="version version-default">1.0.1</span>
+          <span class="version version-default">1.1.0</span>
         </div>
       </div>
     </div>
@@ -113,7 +113,7 @@
 <a href="#model-explanation-bias" class="anchor" aria-hidden="true"></a>Model, explanation &amp; bias</h1>
 <p>In this tutorial you will learn how to tackle bias using the bias mitigation techniques supported by <code>fairmodels</code>. As always we will start from the data.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://fairmodels.drwhy.ai/" class="external-link">fairmodels</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://fairmodels.drwhy.ai/" class="external-link">fairmodels</a></span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"adult"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">adult</span><span class="op">)</span></code></pre></div>
@@ -189,12 +189,12 @@
                           protected  <span class="op">=</span> <span class="va">protected</span>, 
                           privileged <span class="op">=</span> <span class="st">"Male"</span>, 
                           colorize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<pre><code>#&gt; Creating fairness object
-#&gt; -&gt; Privileged subgroup       : character ( Ok  )
-#&gt; -&gt; Protected variable        : factor ( Ok  ) 
+<pre><code>#&gt; Creating fairness classification object
+#&gt; -&gt; Privileged subgroup       : character ([32m Ok [39m )
+#&gt; -&gt; Protected variable        : factor ([32m Ok [39m ) 
 #&gt; -&gt; Cutoff values for explainers  : 0.5 ( for all subgroups ) 
 #&gt; -&gt; Fairness objects      : 0 objects 
-#&gt; -&gt; Checking explainers       : 1 in total (  compatible  )
+#&gt; -&gt; Checking explainers       : 1 in total ( [32m compatible [39m )
 #&gt; -&gt; Metric calculation        : 12/12 metrics calculated for all models
 #&gt;  Fairness object created succesfully</code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
