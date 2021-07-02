@@ -1,3 +1,8 @@
+# fairmodels 1.1.1
+* Fixed error which appeared when 2 fairness objects had the same labels in them. Now if this appears it throws an error. [(#41)](https://github.com/ModelOriented/fairmodels/issues/41)
+* `privileged` parameter is now converted to character. [(#41)](https://github.com/ModelOriented/fairmodels/issues/41)
+* `reweight()` function now accepts factors [(#41)](https://github.com/ModelOriented/fairmodels/issues/41)
+
 # fairmodels 1.1.0
 * Added function `fairness_check_regression()` that supports regression models along with 2 plot types [(#38)](https://github.com/ModelOriented/fairmodels/issues/38).
 * Added additional tests. 

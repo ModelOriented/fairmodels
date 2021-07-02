@@ -46,6 +46,13 @@
 
 
 reweight <- function(protected, y){
+
+  if (! is.factor(protected)) {
+    cat("\nchanging protected to factor \n")
+    protected <- as.factor(protected)
+  }
+
+
   stopifnot(is.factor(protected))
   stopifnot(is.numeric(y))
   stopifnot(length(y) == length(protected))

@@ -150,7 +150,7 @@ fairness_check <- function(x,
   fobjects_fcheck_data <- extract_data(fobjects, "fairness_check_data")
   fobjects_cf          <- extract_data(fobjects, "groups_confusion_matrices")
 
-  fobjects_label       <- sapply(fobjects, function(x) x$label)
+  fobjects_label       <- unlist(lapply(fobjects, function(x) x$label))
   fobjects_cuttofs     <- extract_data(fobjects, "cutoff")
   n_exp                <- length(explainers)
 
