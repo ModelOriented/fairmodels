@@ -232,6 +232,7 @@ check_privileged <- function(privileged, fobjects, verbose) {
       } else {
         verbose_cat("character (", verbose = verbose)
         verbose_cat(color_codes$yellow_start, "changed from", class(privileged), color_codes$yellow_end, ")\n", verbose = verbose)
+        privileged <- as.character(privileged)
       }
     }
 
@@ -302,6 +303,7 @@ check_explainers <- function(all_explainers, protected, verbose){
     stop("All explainers must have same values of target variable")
   }
 
+
   if(! all(sapply(all_explainers, function(x) length(x$y) == length(protected)))) {
     verbose_cat("(", color_codes$red_start, "not compatible", color_codes$red_end, ")\n", verbose = verbose)
     stop("Lengths of protected variable and target variable in explainer differ")
@@ -323,6 +325,12 @@ check_labels <- function(label, explainers, fobjects_label){
   if (length(unique(label)) != length(label) ) {
     stop("Explainers don't have unique labels
         ( pass paramter \'label\' to fairness_check() or before to explain() function)")
+  }
+
+  # fobjects must have unique labels
+  if (length(unique(fobjects_label)) != length(fobjects_label) ) {
+    stop("Fairness objects don't have unique labels
+        ( make sure that Fairness Objects will have unique labels of explainers before running fainress check")
   }
 
   # labels must be unique for all explainers, those in fairness objects too

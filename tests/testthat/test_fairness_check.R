@@ -34,6 +34,19 @@ test_that("Test fairness_check", {
                               cutoff = 0.5,
                               colorize = FALSE))
 
+  expect_equal(fairness_check(explainer_glm, explainer_rf,
+                              protected = as.numeric(compas$Sex)-1,
+                              privileged = 0,
+                              cutoff = 0.5,
+                              verbose = FALSE),
+               fairness_check(explainer_glm, explainer_rf,
+                              protected = as.numeric(compas$Sex)-1,
+                              privileged = "0",
+                              cutoff = 0.5,
+                              colorize = FALSE))
+
+
+
   # errors
 
   expect_error(fairness_check(explainer_glm, explainer_rf,
@@ -69,11 +82,15 @@ test_that("Test fairness_check", {
                               cutoff = list(female = 0.5),
                               epsilon = c(0.3, 0.5)))
 
+  fobject2 <- fobject
+  expect_error(fairness_check(fobject, fobject2))
+
+
   exp2 <- explainer_glm
   exp2$model_info$type <- 'regression'
   expect_error(fairness_check(exp2, fobject))
 
-  fobject2 <- fobject
+
   fobject2$protected <- compas$Sex[1:6000]
   suppressWarnings( expect_error(fairness_check(fobject, fobject2)))
   suppressWarnings( expect_error(fairness_check(fobject, fobject2, privileged = "Female")))

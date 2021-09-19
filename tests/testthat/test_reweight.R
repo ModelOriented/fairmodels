@@ -9,9 +9,14 @@ expect_equal(round(predicted_weights,2), actual_weights)
 y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
 
 # numeric protected
-expect_error(reweight(compas$Number_of_Priors, y_numeric))
-# non numeric y
-expect_error(reweight(compas$Sex, compas$Two_yr_Recidivism))
+
+expect_equal(reweight(compas$Sex, y_numeric),
+             reweight(as.factor(compas$Sex), y_numeric))
+
+expect_equal(reweight(compas$Sex, y_numeric),
+             reweight(as.numeric(compas$Sex), y_numeric))
+
+
 # difference in length
 expect_error(reweight(compas$Sex[,-1], y_numeric))
 # y must be 0 and 1
