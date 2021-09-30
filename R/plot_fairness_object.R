@@ -7,8 +7,6 @@
 #' @param x \code{fairness_object} object
 #' @param ... other plot parameters
 #'
-#' @import ggplot2
-#' @importFrom DALEX theme_drwhy_vertical
 #'
 #' @return \code{ggplot2} object
 #' @rdname plot_fairness_object
@@ -47,10 +45,14 @@
 #' fobject <- fairness_check(explainer_rf, fobject)
 #'
 #' plot(fobject)
+#'
+#' # custom print
+#' plot(fobject, fairness_metrics = c("ACC", "TPR"))
+#'
 #'}
 #'
 
-plot.fairness_object <- function(x, ...){
+plot.fairness_object <- function(x, ..., fairness_metrics = c("ACC", "TPR", "PPV", "FPR", "STP")){
 
   n_exp   <- length(x$explainers)
   data    <- x$fairness_check_data
@@ -58,12 +60,17 @@ plot.fairness_object <- function(x, ...){
   n_met   <- length(metrics)
   epsilon <- x$epsilon
 
+  filtered <- filter_fairness_check_metrics(data, metric, fairness_metrics)
+
+  data <- filtered$data
+  metrics <- filtered$metrics
+
   if (any(is.na(data$score))){
 
-   warning("Omiting NA for models: ",
+    warning("Omiting NA for models: ",
             paste(unique(data[is.na(data$score), "model"]),
-            collapse = ", "),
-           "\nInformation about passed metrics may be inaccurate due to NA present, it is advisable to check metric_scores plot.\n")
+                  collapse = ", "),
+            "\nInformation about passed metrics may be inaccurate due to NA present, it is advisable to check metric_scores plot.\n")
   }
 
   #### first the visible values and breaks ####
@@ -103,29 +110,29 @@ plot.fairness_object <- function(x, ...){
 
     # middle (green)
     annotate("rect",
-              xmin  = -Inf,
-              xmax  = Inf,
-              ymin  =  epsilon -1 ,
-              ymax  =  1/epsilon -1,
-              fill  = green,
-              alpha = 0.1) +
+             xmin  = -Inf,
+             xmax  = Inf,
+             ymin  =  epsilon -1 ,
+             ymax  =  1/epsilon -1,
+             fill  = green,
+             alpha = 0.1) +
     # left (red)
     annotate("rect",
-              xmin  = -Inf,
-              xmax  = Inf,
-              ymin  =  -Inf,
-              ymax  =  epsilon -1,
-              fill  = red,
-              alpha = 0.1) +
+             xmin  = -Inf,
+             xmax  = Inf,
+             ymin  =  -Inf,
+             ymax  =  epsilon -1,
+             fill  = red,
+             alpha = 0.1) +
 
     # right (red)
     annotate("rect",
-              xmin  = -Inf,
-              xmax  = Inf,
-              ymin  =  1/epsilon -1,
-              ymax  =  Inf,
-              fill  = red,
-              alpha = 0.1) +
+             xmin  = -Inf,
+             xmax  = Inf,
+             ymin  =  1/epsilon -1,
+             ymax  =  Inf,
+             fill  = red,
+             alpha = 0.1) +
     geom_bar(stat = "identity", position = "dodge") +
     geom_hline(yintercept = 0) +
     coord_flip() +
@@ -135,13 +142,13 @@ plot.fairness_object <- function(x, ...){
                        labels = breaks,
                        expand = c(0, 0),
                        minor_breaks = NULL) +
-    theme_drwhy_vertical() +
+    DALEX::theme_drwhy_vertical() +
     theme(panel.grid.major.y = element_blank()) +
     scale_fill_manual(values = colors_fairmodels(n_exp)) +
     ggtitle("Fairness check", subtitle = paste("Created with", paste(
-                                               as.character(unique(data$model)), collapse = ", ")))
-    ####
-    plt
+      as.character(unique(data$model)), collapse = ", ")))
+  ####
+  plt
 
 }
 

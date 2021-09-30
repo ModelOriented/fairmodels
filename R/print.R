@@ -235,6 +235,17 @@ print.fairness_heatmap <- function(x, ...) {
 #' @param x \code{fairness_object} object
 #' @param ... other parameters
 #' @param colorize logical, whether information about metrics should be in color or not
+#' @param fairness_metrics character, vector of metrics. Subset of fairness metrics to be used.
+#'  The full set is defined as c("ACC", "TPR", "PPV", "FPR", "STP").
+#' @param fair_level numerical, amount of fairness metrics that need do be passed in
+#'  order to call a model fair. Default is 5.
+#' @param border_width numerical, width of border between fair and unfair models.
+#'  If \code{border_width} is 1 and model passes one metric less than the \code{fair_level} it will be
+#'  printed with yellow. If \code{border_width} is 0 information will be printed in either red or green.
+#' @param loss_aggregating_function function, loss aggregating function that may be provided. It takes
+#'  metric scores as vector and aggregates them to one value. The default is 'Total loss' that
+#'  measures the total sum of distances to 1. It may be interpreted as sum of bar heights in
+#'  fairness_check.
 #'
 #' @importFrom utils head
 #' @importFrom stats na.omit
@@ -272,15 +283,38 @@ print.fairness_heatmap <- function(x, ...) {
 #'
 #' print(fobject)
 #'
+#' # custom print
+#' print(fobject,
+#' fairness_metrics = c("ACC", "TPR"), # amount of metrics to be printed
+#' border_width = 0, # in our case 2/2 will be printed in green and 1/2 in red
+#' loss_aggregating_function = function(x) sum(abs(x)) + 10) # custom loss function - takes vector
 #'
 
 
-print.fairness_object <- function(x, ..., colorize = TRUE){
+print.fairness_object <- function(x, ...,
+                                  colorize = TRUE,
+                                  fairness_metrics = c("ACC", "TPR", "PPV", "FPR", "STP"),
+                                  fair_level = NULL,
+                                  border_width = 1,
+                                  loss_aggregating_function = NULL){
 
   if (! colorize) {
     color_codes <- list(yellow_start = "", yellow_end = "",
                         red_start = "", red_end = "",
                         green_start = "", green_end = "")
+  }
+
+  if (is.null(fair_level)) fair_level   <- length((fairness_metrics))
+  unfair_level <-  fair_level - border_width - 1
+
+  stopifnot(border_width >= 0)
+  stopifnot(is.numeric(border_width))
+  stopifnot(is.numeric(fair_level))
+  stopifnot(fair_level >= border_width)
+  stopifnot(length(fairness_metrics) >= fair_level)
+
+  if (! is.null(loss_aggregating_function)){
+    stopifnot(is.function(loss_aggregating_function))
   }
 
 
@@ -291,6 +325,14 @@ print.fairness_object <- function(x, ..., colorize = TRUE){
   metrics <- unique(data$metric)
 
 
+  filtered <- filter_fairness_check_metrics(data, metric, fairness_metrics)
+
+  data <- filtered$data
+  metrics <- filtered$metrics
+
+
+
+
   if (any(is.na(data$score))){
 
     warning("Omiting NA for models: ",
@@ -299,6 +341,14 @@ print.fairness_object <- function(x, ..., colorize = TRUE){
             "\nInformation about passed metrics may be inaccurate due to NA present, it is advisable to check metric_scores plot.\n")
   }
 
+  if ( is.null(loss_aggregating_function )){
+    loss_aggregating_function <- function(x){
+      return(sum(abs(na.omit(x)- 1)))
+    }
+    function_name <- "Total loss"
+  } else{
+    function_name <- "Custom loss"
+  }
 
 
   cat("\nFairness check for models:", paste(models, collapse = ", "), "\n")
@@ -309,15 +359,16 @@ print.fairness_object <- function(x, ..., colorize = TRUE){
     failed_metrics <- unique(model_data[na.omit(model_data$score) < epsilon | na.omit(model_data$score) > 1/epsilon, "metric"])
     passed_metrics <-  length(metrics[! metrics %in% failed_metrics])
 
-    if (passed_metrics < 4){
-      cat("\n", color_codes$red_start ,model, " passes ", passed_metrics, "/5 metrics\n", color_codes$red_end ,  sep = "")}
-    if (passed_metrics == 4){
-      cat("\n", color_codes$yellow_start ,model, " passes ", passed_metrics, "/5 metrics\n", color_codes$yellow_end ,  sep = "")
+    if (passed_metrics <= unfair_level){
+      cat("\n", color_codes$red_start ,model, " passes ", passed_metrics, "/", as.character(length((fairness_metrics))),  " metrics\n", color_codes$red_end ,  sep = "")}
+    if (passed_metrics > unfair_level & passed_metrics < fair_level){
+      cat("\n", color_codes$yellow_start ,model, " passes ", passed_metrics, "/", as.character(length((fairness_metrics))),  " metrics\n", color_codes$yellow_end ,  sep = "")
     }
-    if (passed_metrics == 5){
-      cat("\n", color_codes$green_start ,model, " passes ", passed_metrics, "/5 metrics\n", color_codes$green_end ,  sep = "")}
+    if (passed_metrics >= fair_level){
+      cat("\n", color_codes$green_start ,model, " passes ", passed_metrics, "/", as.character(length((fairness_metrics))),  " metrics\n", color_codes$green_end ,  sep = "")}
 
-    cat("Total loss: ", sum(abs(na.omit(data[data$model == model, "score" ])- 1)), "\n")
+
+    cat(function_name, ": ", loss_aggregating_function(data[data$model == model, "score" ]), "\n")
   }
 
   cat("\n")
