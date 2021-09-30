@@ -21,21 +21,19 @@
 #'
 #' @examples
 #'
-#' probs    <- rnorm(20, 0.4,0.1)
+#' probs <- rnorm(20, 0.4, 0.1)
 #' observed <- round(runif(20))
 #'
 #' confusion_matrix(probs, observed, 0.5)
-#'
-
-confusion_matrix <- function(probs, observed , cutoff){
+confusion_matrix <- function(probs, observed, cutoff) {
   stopifnot(length(probs) == length(observed))
   stopifnot(is.numeric(probs) & is.numeric(observed))
   stopifnot(is.numeric(cutoff))
 
-  tp = sum((observed == 1)  * (probs >= cutoff))
-  fp = sum((observed == 0) * (probs >= cutoff))
-  tn = sum((observed == 0)  * (probs < cutoff))
-  fn = sum((observed == 1) * (probs < cutoff))
+  tp <- sum((observed == 1) * (probs >= cutoff))
+  fp <- sum((observed == 0) * (probs >= cutoff))
+  tn <- sum((observed == 0) * (probs < cutoff))
+  fn <- sum((observed == 1) * (probs < cutoff))
 
   confusion_matrix <- list(tp = tp, fp = fp, tn = tn, fn = fn)
   class(confusion_matrix) <- "confusion_matrix"

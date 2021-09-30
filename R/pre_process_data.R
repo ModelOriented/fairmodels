@@ -22,24 +22,26 @@
 #' data("german")
 #'
 #' pre_process_data(german,
-#'                  german$Sex,
-#'                  as.numeric(german$Risk)-1,
-#'                  type = "disparate_impact_remover",
-#'                  features_to_transform = 'Age')
-
-
-
-pre_process_data <- function(data, protected, y,  type = 'resample_uniform', ...){
-
+#'   german$Sex,
+#'   as.numeric(german$Risk) - 1,
+#'   type = "disparate_impact_remover",
+#'   features_to_transform = "Age"
+#' )
+pre_process_data <- function(data, protected, y, type = "resample_uniform", ...) {
   switch(type,
-         resample_uniform      = { return( data[resample(protected, y, ...), ] )},
-         resample_preferential = { return( data[resample(protected, y, type = "preferential", ...), ] )},
-         reweight              = {
-           data$`_weights_` <- reweight(protected, y)
-           return(data)
-         },
-
-         disparate_impact_remover = {return( disparate_impact_remover(data, protected, ...))}
+    resample_uniform = {
+      return(data[resample(protected, y, ...), ])
+    },
+    resample_preferential = {
+      return(data[resample(protected, y, type = "preferential", ...), ])
+    },
+    reweight = {
+      data$`_weights_` <- reweight(protected, y)
+      return(data)
+    },
+    disparate_impact_remover = {
+      return(disparate_impact_remover(data, protected, ...))
+    }
   )
 
   # if not in switch:

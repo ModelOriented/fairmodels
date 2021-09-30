@@ -20,63 +20,63 @@
 #'
 #' data("german")
 #'
-#' y_numeric <- as.numeric(german$Risk) -1
+#' y_numeric <- as.numeric(german$Risk) - 1
 #'
-#' lm_model <- glm(Risk~.,
-#'                 data = german,
-#'                 family=binomial(link="logit"))
+#' lm_model <- glm(Risk ~ .,
+#'   data = german,
+#'   family = binomial(link = "logit")
+#' )
 #'
-#' rf_model <- ranger::ranger(Risk ~.,
-#'                            data = german,
-#'                            probability = TRUE,
-#'                            num.trees = 200,
-#'                            num.threads = 1)
+#' rf_model <- ranger::ranger(Risk ~ .,
+#'   data = german,
+#'   probability = TRUE,
+#'   num.trees = 200,
+#'   num.threads = 1
+#' )
 #'
-#' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
-#' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
+#' explainer_lm <- DALEX::explain(lm_model, data = german[, -1], y = y_numeric)
+#' explainer_rf <- DALEX::explain(rf_model, data = german[, -1], y = y_numeric)
 #'
 #' fobject <- fairness_check(explainer_lm, explainer_rf,
-#'                           protected = german$Sex,
-#'                           privileged = "male")
+#'   protected = german$Sex,
+#'   privileged = "male"
+#' )
 #'
-#'  # same explainers with different cutoffs for female
+#' # same explainers with different cutoffs for female
 #' fobject <- fairness_check(explainer_lm, explainer_rf, fobject,
-#'                           protected = german$Sex,
-#'                           privileged = "male",
-#'                           cutoff = list( female = 0.4),
-#'                           label = c("lm_2", "rf_2"))
+#'   protected = german$Sex,
+#'   privileged = "male",
+#'   cutoff = list(female = 0.4),
+#'   label = c("lm_2", "rf_2")
+#' )
 #'
 #' fpca <- fairness_pca(fobject)
 #'
 #' plot(fpca)
-#'
-#'
 #' @export
 #' @rdname fairness_pca
 
 fairness_pca <- function(x, omit_models_with_NA = FALSE) {
-
   stopifnot(is.logical(omit_models_with_NA))
   stopifnot(class(x) == "fairness_object")
 
   # extracting metric data from object
-  data        <- x$parity_loss_metric_data
-  labels      <- x$label
+  data <- x$parity_loss_metric_data
+  labels <- x$label
 
   data <- data[, colnames(data) %in% parity_loss_metrics()]
 
   # NA handling
   if (any(is.na(data))) {
-
     if (omit_models_with_NA) {
       # omit models with NA
-      na_model_index      <- apply(data, 1, function(x) any(is.na(x)))
+      na_model_index <- apply(data, 1, function(x) any(is.na(x)))
       models_with_missing <- as.character(labels)[na_model_index]
       warning("Found models with NA: ", models_with_missing, ", ommiting it\n")
-      data               <- data[!na_model_index, ]
+      data <- data[!na_model_index, ]
     } else {
       # omit metrics with NA
-     data <- drop_metrics_with_na(data)
+      data <- drop_metrics_with_na(data)
     }
   }
 
@@ -91,18 +91,14 @@ fairness_pca <- function(x, omit_models_with_NA = FALSE) {
   pca_summary <- summary(pca_fair)
   pc_1_2 <- round(pca_summary$importance[2, ][1:2], 2)
 
-  fairness_pca <- list(pc_1_2   = pc_1_2,
-                       rotation = pca_fair$rotation,
-                       x        = pca_fair$x,
-                       sdev     = pca_fair$sdev,
-                       label    = x$label)
+  fairness_pca <- list(
+    pc_1_2 = pc_1_2,
+    rotation = pca_fair$rotation,
+    x = pca_fair$x,
+    sdev = pca_fair$sdev,
+    label = x$label
+  )
 
   class(fairness_pca) <- "fairness_pca"
   return(fairness_pca)
 }
-
-
-
-
-
-
