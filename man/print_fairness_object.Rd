@@ -4,7 +4,15 @@
 \alias{print.fairness_object}
 \title{Print Fairness Object}
 \usage{
-\method{print}{fairness_object}(x, ..., colorize = TRUE)
+\method{print}{fairness_object}(
+  x,
+  ...,
+  colorize = TRUE,
+  fairness_metrics = c("ACC", "TPR", "PPV", "FPR", "STP"),
+  fair_level = NULL,
+  border_width = 1,
+  loss_aggregating_function = NULL
+)
 }
 \arguments{
 \item{x}{\code{fairness_object} object}
@@ -12,6 +20,21 @@
 \item{...}{other parameters}
 
 \item{colorize}{logical, whether information about metrics should be in color or not}
+
+\item{fairness_metrics}{character, vector of metrics. Subset of fairness metrics to be used.
+The full set is defined as c("ACC", "TPR", "PPV", "FPR", "STP").}
+
+\item{fair_level}{numerical, amount of fairness metrics that need do be passed in
+order to call a model fair. Default is 5.}
+
+\item{border_width}{numerical, width of border between fair and unfair models.
+If \code{border_width} is 1 and model passes one metric less than the \code{fair_level} it will be
+printed with yellow. If \code{border_width} is 0 information will be printed in either red or green.}
+
+\item{loss_aggregating_function}{function, loss aggregating function that may be provided. It takes
+metric scores as vector and aggregates them to one value. The default is 'Total loss' that
+measures the total sum of distances to 1. It may be interpreted as sum of bar heights in
+fairness_check.}
 }
 \description{
 Print Fairness Object
@@ -46,5 +69,10 @@ fobject <- fairness_check(explainer_lm, explainer_rf,
 
 print(fobject)
 
+# custom print
+print(fobject,
+fairness_metrics = c("ACC", "TPR"), # amount of metrics to be printed
+border_width = 0, # in our case 2/2 will be printed in green and 1/2 in red
+loss_aggregating_function = function(x) sum(abs(x)) + 10) # custom loss function - takes vector
 
 }

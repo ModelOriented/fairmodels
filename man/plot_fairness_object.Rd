@@ -4,7 +4,7 @@
 \alias{plot.fairness_object}
 \title{Plot fairness object}
 \usage{
-\method{plot}{fairness_object}(x, ...)
+\method{plot}{fairness_object}(x, ..., fairness_metrics = c("ACC", "TPR", "PPV", "FPR", "STP"))
 }
 \arguments{
 \item{x}{\code{fairness_object} object}
@@ -52,6 +52,10 @@ explainer_rf <- DALEX::explain(rf_model,
 fobject <- fairness_check(explainer_rf, fobject)
 
 plot(fobject)
+
+# custom print
+plot(fobject, fairness_metrics = c("ACC", "TPR"))
+
 }
 
 }

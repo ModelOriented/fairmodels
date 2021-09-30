@@ -129,6 +129,9 @@ explainer_rf <- DALEX::explain(rf_model,
 fobject <- fairness_check(explainer_rf, fobject)
 
 plot(fobject)
+
+# custom print
+plot(fobject, fairness_metrics = c("ACC", "TPR"))
 }
 }
 \references{
