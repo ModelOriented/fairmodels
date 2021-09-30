@@ -15,10 +15,8 @@ Depends: R (>= 3.5)
 Imports: 
     DALEX, 
     ggplot2,
-    patchwork,
-    ggdendro, 
-    ggrepel, 
-    scales
+    scales, 
+    stats
 Suggests:
     ranger,
     gbm,
@@ -26,7 +24,10 @@ Suggests:
     rmarkdown,
     covr,
     testthat,
-    spelling
+    spelling,
+    patchwork,
+    ggdendro, 
+    ggrepel, 
 RoxygenNote: 7.1.1.9001
 VignetteBuilder: knitr
 URL: https://fairmodels.drwhy.ai/

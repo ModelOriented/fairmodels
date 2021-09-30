@@ -7,8 +7,6 @@
 #' @param x \code{fairness_regression_object} object
 #' @param ... other plot parameters
 #'
-#' @import ggplot2
-#' @importFrom DALEX theme_drwhy_vertical
 #'
 #' @return \code{ggplot2} object
 #' @rdname plot_fairness_regression_object
@@ -131,7 +129,7 @@ plot.fairness_regression_object <- function(x, ...){
     geom_hline(yintercept = 0) +
     coord_flip() +
     facet_wrap(vars(metric), ncol = 1) +
-    theme_drwhy_vertical() +
+    DALEX::theme_drwhy_vertical() +
     scale_y_continuous(limits = c(lower_bound, upper_bound),
                        breaks =  breaks - 1,
                        labels = breaks,

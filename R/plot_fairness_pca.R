@@ -9,9 +9,7 @@
 #' @param ... other plot parameters
 #'
 #'
-#' @import ggplot2
-#' @importFrom ggrepel geom_text_repel
-#' @importFrom DALEX theme_drwhy
+#' @import ggrepel
 #'
 #' @return \code{ggplot2} object
 #' @export
@@ -91,17 +89,17 @@ plot.fairness_pca <- function(x, scale = 0.5,  ...){
                  color = "red",
                  alpha = 0.5,
                  arrow = arrow(length = unit(0.2, "cm"))) +
-    geom_text_repel(data = pca_feature,
+    ggrepel::geom_text_repel(data = pca_feature,
                     aes(  x = PC1,
                           y = PC2,
                           label = labels),
                     color = "red", alpha = 0.5, size = 4) +
-    geom_text_repel(data = pca_data,
+    ggrepel::geom_text_repel(data = pca_data,
                     aes(PC1, PC2, label = labels),
                     size = 5,
                     color = "black") +
     geom_point(data = pca_data, aes(PC1, PC2)) +
-    theme_drwhy() +
+    DALEX::theme_drwhy() +
     theme(legend.position = "none") + #without legend
     xlab(lab_x) +
     ylab(lab_y) +

@@ -9,9 +9,6 @@
 #' @export
 #'
 #'
-#' @import ggplot2
-#' @importFrom ggrepel geom_text_repel
-#'
 #' @rdname plot_performance_and_fairness
 #'
 #' @examples

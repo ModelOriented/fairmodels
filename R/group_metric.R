@@ -151,7 +151,7 @@ group_metric <- function(x, fairness_metric = NULL, performance_metric = NULL, p
   for (i in seq_len(n_exp)){
 
     if (performance_metric == "auc"){
-      mod_perf[i]  <- model_performance(x$explainers[[i]])$measures[performance_metric][[1]]
+      mod_perf[i]  <- DALEX::model_performance(x$explainers[[i]])$measures[performance_metric][[1]]
 
     } else {
       # if else use custom cutoff function implemented in fairmodels

@@ -6,9 +6,6 @@
 #' @param ... other plot parameters
 #'
 #'
-#' @import ggplot2
-#' @importFrom DALEX theme_drwhy_vertical
-#'
 #' @return \code{ggplot2} object
 #' @export
 #' @rdname plot_density

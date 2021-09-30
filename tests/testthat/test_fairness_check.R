@@ -131,4 +131,9 @@ test_that("Test fairness_check", {
   expect_equal(plt$labels$title , "Fairness check")
   expect_s3_class(plt, "ggplot")
 
+  plt <- plot(fobject, fairness_metrics = c("ACC"))
+  expect_s3_class(plt, "ggplot")
+
+  expect_error(plot(fobject, fairness_metrics = c("not existing")))
+
 })

@@ -8,8 +8,6 @@
 #' @param ... other plot parameters
 #' @param label character, label of model to plot. Default NULL. If default prints all models.
 #'
-#' @import ggplot2
-#' @importFrom DALEX theme_drwhy
 #'
 #' @return \code{ggplot2} object
 #' @export
@@ -67,7 +65,7 @@ plot.all_cutoffs <- function(x, ..., label = NULL){
   cutoff <- parity_loss <- metric <- NULL
   plt <- ggplot(data, aes(cutoff, parity_loss, color = metric)) +
     geom_line() +
-    theme_drwhy() +
+    DALEX::theme_drwhy() +
     scale_color_manual(values = c(colors_fairmodels(n_met))) +
     labs(color = "parity loss metric") +
     ggtitle("All cutoffs plot", subtitle = paste("created with", paste(label, collapse = ", "), collapse = " ")) +

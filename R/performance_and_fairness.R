@@ -9,7 +9,6 @@
 #' @param fairness_metric fairness metric, one of metrics in fairness_objects parity_loss_metric_data  (ACC, TPR, PPV, ...) Full list in \code{fairness_check} documentation.
 #' @param performance_metric performance metric, one of
 #'
-#' @importFrom DALEX model_performance
 #'
 #' @return \code{performance_and_fairness} object.
 #' It is list containing:
@@ -96,7 +95,7 @@ performance_and_fairness <- function(x, fairness_metric = NULL, performance_metr
     # if auc get it from DALEX
     if (performance_metric == "auc"){
       warning("Note that cutoff has no effect in AUC metric")
-      mod_perf[i]  <- model_performance(x$explainers[[i]])$measures[performance_metric][[1]]
+      mod_perf[i]  <- DALEX::model_performance(x$explainers[[i]])$measures[performance_metric][[1]]
 
     } else {
       # if else use custom cutoff function implemented in fairmodels

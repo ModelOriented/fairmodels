@@ -16,7 +16,6 @@
 #' @param lambda numeric, amount of repair desired. Value from 0 to 1, where 0 will return almost unchanged dataset and 1 fully repaired dataset
 #'
 #'
-#' @importFrom stats ecdf median quantile
 #'
 #' @return repaired data (\code{data.frame} object)
 #' @export
@@ -66,7 +65,6 @@ disparate_impact_remover <- function(data,
                                      lambda = 1){
 
 
-
   if (is.null(data)) stop("You must provide a dataframe")
   if (! all(features_to_transform %in% colnames(data))) stop("features to transform must be array with column names to repair")
 
@@ -94,7 +92,7 @@ disparate_impact_remover <- function(data,
 
       # now let this be product of Fx^-1
 
-      quantiles[[subgroup]] <- quantile(Y, probs = seq(0,1, length.out = num_buckets))
+      quantiles[[subgroup]] <- stats::quantile(Y, probs = seq(0,1, length.out = num_buckets))
 
     }
 
@@ -104,18 +102,18 @@ disparate_impact_remover <- function(data,
     inversed_Fa <- rep(NA, num_buckets)
 
     for (i in seq_len(num_buckets)){
-      inversed_Fa[i] <- median(sapply(quantiles, function(x) x[i]))
+      inversed_Fa[i] <- stats::median(sapply(quantiles, function(x) x[i]))
     }
 
     for (subgroup in protected_levels){
       Y <- data[protected == subgroup, feature]
 
-      inversed_Fx <- quantile(Y, probs = seq(0,1, length.out = num_buckets))
+      inversed_Fx <- stats::quantile(Y, probs = seq(0,1, length.out = num_buckets))
 
       # each position corresponds to percentile
       inversed_Fa_fixed <- (1-lambda)*inversed_Fx + lambda*inversed_Fa
 
-      Y_bucketized <- bucketize(num_buckets, ecdf(Y)(Y))
+      Y_bucketized <- bucketize(num_buckets, stats::ecdf(Y)(Y))
 
       levels(Y_bucketized) <- inversed_Fa_fixed
       Y_repaired <- as.numeric(as.character(Y_bucketized))

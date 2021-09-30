@@ -6,8 +6,6 @@
 #' @param x object of class group_metric
 #' @param ... other group_metric objects and other parameters
 #'
-#' @import ggplot2
-#' @importFrom DALEX theme_drwhy
 #'
 #'
 #' @return list of \code{ggplot2} objects
@@ -72,7 +70,7 @@ plot.group_metric <- function(x, ...){
   plot1 <- ggplot(data, aes(x = group, y = score, fill = model)) +
             geom_bar(stat="identity",
                      position = "dodge")  +
-            theme_drwhy() +
+            DALEX::theme_drwhy() +
             theme(axis.text.x=element_text(angle=90, hjust=1),
                   legend.position = "none") +
             ylab(fairness_metric) +
@@ -88,7 +86,7 @@ plot.group_metric <- function(x, ...){
                         color="black",
                         size=3,
                         fontface = "bold") +
-              theme_drwhy() +
+              DALEX::theme_drwhy() +
               theme(legend.title = element_blank(),
                     axis.text.x=element_text(angle=90, hjust=0.3)) +
               scale_fill_manual(values = colors_fairmodels(n)) +

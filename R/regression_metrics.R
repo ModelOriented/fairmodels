@@ -5,8 +5,6 @@
 #' @param protected factor, protected variable (also called sensitive attribute), containing privileged and unprivileged groups
 #' @param privileged factor/character, one value of \code{protected}, denoting subgroup suspected of the most privilege
 #'
-#' @importFrom stats binomial
-#' @importFrom stats glm
 #'
 #' @return \code{data.frame}
 #' @export

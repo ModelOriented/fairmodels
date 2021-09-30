@@ -6,7 +6,6 @@
 #' @param x \code{stacked_metrics} object
 #' @param ... other plot parameters
 #'
-#' @import ggplot2
 #'
 #' @examples
 #'

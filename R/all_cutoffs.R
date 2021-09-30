@@ -49,20 +49,21 @@
 
 all_cutoffs <- function(x,
                         grid_points = 101,
-                        fairness_metrics = c('ACC', 'TPR', 'PPV', 'FPR', 'STP')){
-
+                        fairness_metrics = c('ACC', 'TPR', 'PPV', 'FPR', 'STP')) {
   stopifnot(class(x) == "fairness_object")
 
   # error if not in metrics
   lapply(fairness_metrics, assert_parity_metrics)
 
-  if (! is.numeric(grid_points) | length(grid_points) > 1) stop("grid points must be single numeric value")
+  if (!is.numeric(grid_points) |
+      length(grid_points) > 1)
+    stop("grid points must be single numeric value")
 
 
 
   explainers <- x$explainers
   n_exp      <- length(explainers)
-  cutoffs    <- seq(0,1, length.out =  grid_points)
+  cutoffs    <- seq(0, 1, length.out =  grid_points)
   protected  <- x$protected
   privileged <- x$privileged
 
@@ -73,29 +74,31 @@ all_cutoffs <- function(x,
   # so for code below they will be suppressed
   parity_loss_metric_data       <- matrix(nrow = n_exp, ncol = 12)
 
-  suppressMessages(
-  for (i in seq_along(explainers)){
-  for (custom_cutoff in cutoffs){
-
+  suppressMessages(for (i in seq_along(explainers)) {
+    for (custom_cutoff in cutoffs) {
       custom_cutoff_vec        <- as.list(rep(custom_cutoff, n_subgroups))
       names(custom_cutoff_vec) <- levels(protected)
       explainer                <- explainers[[i]]
 
 
-      group_matrices <- group_matrices(protected = protected,
-                                       probs = explainer$y_hat,
-                                       preds = explainer$y,
-                                       cutoff = custom_cutoff_vec)
+      group_matrices <- group_matrices(
+        protected = protected,
+        probs     = explainer$y_hat,
+        preds     = explainer$y,
+        cutoff    = custom_cutoff_vec
+      )
 
       # like in create fobject
       gmm            <- calculate_group_fairness_metrics(group_matrices)
       parity_loss    <- calculate_parity_loss(gmm, privileged)
-      parity_loss <- parity_loss[names(parity_loss) %in% fairness_metrics]
+      parity_loss    <-parity_loss[names(parity_loss) %in% fairness_metrics]
 
-      to_add <- data.frame(parity_loss = as.numeric(parity_loss),
-                           metric      = names(parity_loss),
-                           cutoff      = rep(custom_cutoff, length(parity_loss)),
-                           label       = x$label[i])
+      to_add <- data.frame(
+        parity_loss = as.numeric(parity_loss),
+        metric      = names(parity_loss),
+        cutoff      = rep(custom_cutoff, length(parity_loss)),
+        label       = x$label[i]
+      )
 
       cutoff_data <- rbind(cutoff_data , to_add)
 
@@ -107,18 +110,3 @@ all_cutoffs <- function(x,
 
   return(all_cutoffs)
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

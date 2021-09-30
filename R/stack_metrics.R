@@ -10,7 +10,6 @@
 #'
 #' @export
 #'
-#' @import ggplot2
 #'
 #' @rdname plot_stacked_barplot
 #'

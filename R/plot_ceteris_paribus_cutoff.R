@@ -7,9 +7,7 @@
 #' @param x ceteris_paribus_cutoff object
 #' @param ... other plot parameters
 #'
-#' @import ggplot2
-#' @importFrom DALEX theme_drwhy
-#' @importFrom ggrepel geom_text_repel
+#' @import ggrepel
 #'
 #' @return \code{ggplot2} object
 #' @rdname plot_ceteris_paribus_cutoff
@@ -58,6 +56,11 @@
 
 plot.ceteris_paribus_cutoff <- function(x, ...){
 
+  if (!requireNamespace("ggrepel", quietly = TRUE)) {
+    stop("Package \"ggrepel\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
+
   data       <- x$cutoff_data
 
   models     <- unique(data$model)
@@ -92,7 +95,7 @@ plot.ceteris_paribus_cutoff <- function(x, ...){
                       xlab("value of cutoff") +
                       ylab("parity loss")
       plt <- plt + geom_segment(data = min_data, aes(x = mins , xend = mins, y = y, yend = yend), linetype = "dashed") +
-        geom_text_repel(data = min_data, aes(x = mins,
+        ggrepel::geom_text_repel(data = min_data, aes(x = mins,
                                              y = yend,
                                              label = mins,
                                              hjust = 0.5,
