@@ -6,6 +6,7 @@
 #' @param x object of class \code{chosen_metric}
 #' @param ... other objects of class \code{chosen_metric}
 #'
+#' @import ggplot2
 #'
 #' @return \code{ggplot2} object
 #' @export
@@ -56,7 +57,7 @@ plot.chosen_metric <- function(x, ...) {
   ggplot(data, aes(x = label, y = parity_loss_metric)) +
     geom_bar(stat = "identity", fill = "#46bac2", alpha = 0.8) +
     coord_flip() +
-    theme_drwhy_vertical() +
+    DALEX::theme_drwhy_vertical() +
     ggtitle("Chosen metric plot",
       subtitle = paste(fairness_metric, "parity loss in all models")
     ) +

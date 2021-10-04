@@ -9,6 +9,8 @@
 #' @param fairness_metrics character, vector of metrics. Subset of fairness metrics to be used.
 #'  The full set is defined as c("ACC", "TPR", "PPV", "FPR", "STP").
 #'
+#' @import ggplot2
+#'
 #' @return \code{ggplot2} object
 #' @rdname plot_fairness_object
 #' @export

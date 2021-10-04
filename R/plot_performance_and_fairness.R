@@ -5,6 +5,8 @@
 #' @param x \code{performance_and_fairness} object
 #' @param ... other plot parameters
 #'
+#' @import ggplot2
+#'
 #' @return \code{ggplot} object
 #' @export
 #'
@@ -58,6 +60,11 @@
 #' }
 #'
 plot.performance_and_fairness <- function(x, ...) {
+  if (!requireNamespace("ggrepel", quietly = TRUE)) {
+    stop("Package \"ggrepel\" needed for this function to work. Please install it.",
+         call. = FALSE
+    )
+  }
   data <- x$paf_data
 
   performance_metric <- x$performance_metric
@@ -68,13 +75,13 @@ plot.performance_and_fairness <- function(x, ...) {
   inversed_fairness_metric <- paste("inversed", fairness_metric, "parity loss", collapse = " ")
 
   ggplot(data, aes(x = performance_metric, y = fairness_metric)) +
-    geom_text_repel(aes(label = labels),
+    ggrepel::geom_text_repel(aes(label = labels),
       segment.size = 0.2,
       segment.color = "grey50",
       size = 4
     ) +
     geom_point(aes(color = labels)) +
-    theme_drwhy() +
+    DALEX::theme_drwhy() +
     scale_color_manual(values = colors_fairmodels(n)) +
     scale_y_reverse() +
     ggtitle("Performance and fairness plot") +

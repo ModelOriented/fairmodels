@@ -8,6 +8,7 @@
 #' @param ... other plot parameters
 #' @param label character, label of model to plot. Default NULL. If default prints all models.
 #'
+#' @import ggplot2
 #'
 #' @return \code{ggplot2} object
 #' @export

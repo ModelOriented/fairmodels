@@ -5,7 +5,10 @@
 #' The metrics in use are independence, separation, and sufficiency. The intuition behind this method is that the closer to 1 the metrics are the better.
 #' When all metrics are close to 1 then it means that from the perspective of a predictive model there are no meaningful differences between subgroups.
 #'
-#' @param x object created with \code{\link[DALEX]{explain}} or of class \code{fairness_regression_object}
+#' @param x object created with \code{\link[DALEX]{explain}} or of class \code{fairness_regression_object}.
+#' It can be multiple fairness_objects, multiple explainers, or combination on both, as long as
+#' they predict the same data. If at least one fairness_object is provided there is no need to
+#' pass protected and privileged parameters. Explainers must be of type regression
 #' @param ... possibly more objects created with \code{\link[DALEX]{explain}} and/or objects of class \code{fairness_regression_object}
 #' @param protected factor, protected variable (also called sensitive attribute), containing privileged and unprivileged groups
 #' @param privileged factor/character, one value of \code{protected}, denoting subgroup suspected of the most privilege

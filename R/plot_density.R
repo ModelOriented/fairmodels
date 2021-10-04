@@ -5,6 +5,7 @@
 #' @param x object of class \code{fairness_object}
 #' @param ... other plot parameters
 #'
+#' @import ggplot2
 #'
 #' @return \code{ggplot2} object
 #' @export
@@ -52,7 +53,7 @@ plot_density <- function(x, ...) {
     geom_violin(color = "#ceced9", fill = "#ceced9", alpha = 0.5) +
     geom_boxplot(aes(fill = protected), width = 0.3, alpha = 0.5, outlier.alpha = 0) +
     scale_x_continuous(limits = limits) +
-    theme_drwhy_vertical() +
+    DALEX::theme_drwhy_vertical() +
     scale_fill_manual(values = colors_fairmodels(m)) +
     theme(
       legend.position = "none", # legend off

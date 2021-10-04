@@ -4,6 +4,7 @@
 #'
 #' @param x object of class \code{group_matrices}
 #'
+#'
 #' @return \code{group_metric_matrix} object
 #' It's a \code{data.frame} with metrics as row names and scores for those metrics for each subgroup in columns
 #' @export

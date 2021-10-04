@@ -3,6 +3,8 @@
 #' @param x \code{metric_scores} object
 #' @param ... other plot parameters
 #'
+#' @import ggplot2
+#'
 #' @return \code{ggplot2} object
 #' @export
 #' @rdname plot_metric_scores
@@ -81,7 +83,7 @@ plot.metric_scores <- function(x, ...) {
       breaks = unique(data$model_numeric),
       labels = levels(data$model)
     ) +
-    theme_drwhy_vertical() +
+    DALEX::theme_drwhy_vertical() +
     scale_color_manual(values = DALEX::colors_discrete_drwhy(length(levels(data$model)))) +
     ggtitle("Metric scores plot",
       subtitle = paste("Created with", paste(

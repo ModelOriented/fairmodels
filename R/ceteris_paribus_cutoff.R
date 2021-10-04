@@ -15,6 +15,7 @@
 #' @param grid_points numeric, grid for cutoffs to test. Number of points between 0 and 1 spread evenly.
 #' @param cumulated logical, if \code{TRUE}  facets will collapse to one plot and parity loss for each model will be summed. Default \code{FALSE}.
 #'
+#'
 #' @return \code{ceteris_paribus_cutoff} \code{data.frame} containing information about label, metric and parity_loss at particular cutoff
 #' @export
 #'

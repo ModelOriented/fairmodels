@@ -5,7 +5,10 @@
 #' While other fairness objects values are not changed, fairness check assigns cutoffs and labels to provided explainers so same explainers with changed labels/cutoffs might be gradually added to fairness object.
 #' Users through print and plot methods may quickly check values of most popular fairness metrics. More on that topic in details.
 #'
-#' @param x object created with \code{\link[DALEX]{explain}} or of class \code{fairness_object}
+#' @param x object created with \code{\link[DALEX]{explain}} or of class \code{fairness_object}.
+#' It can be multiple fairness_objects, multiple explainers, or combination on both, as long as
+#' they predict the same data. If at least one fairness_object is provided there is no need to
+#' pass protected and privileged parameters. Explainers must be binary classification type.
 #' @param ... possibly more objects created with \code{\link[DALEX]{explain}} and/or objects of class \code{fairness_object}
 #' @param protected factor, protected variable (also called sensitive attribute), containing privileged and unprivileged groups
 #' @param privileged factor/character, one value of \code{protected}, in regard to what subgroup parity loss is calculated
@@ -14,6 +17,7 @@
 #' @param epsilon numeric, boundary for fairness checking, lowest acceptable ratio of metrics between unprivileged and privileged subgroups. Default value is 0.8. More on the idea behind epsilon in details section.
 #' @param verbose logical, whether to print information about creation of fairness object
 #' @param colorize logical, whether to print information in color
+#'
 #'
 #' @details
 #' Fairness check
@@ -79,6 +83,7 @@
 #' Verma, Rubin (2018) \url{https://fairware.cs.umass.edu/papers/Verma.pdf}
 #'
 #' Barocas, Hardt, Narayanan (2019) \url{https://fairmlbook.org/}
+#'
 #'
 #' @export
 #' @rdname fairness_check

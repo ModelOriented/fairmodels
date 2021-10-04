@@ -6,7 +6,7 @@
 #' @param x object of class group_metric
 #' @param ... other group_metric objects and other parameters
 #'
-#'
+#' @import ggplot2
 #'
 #' @return list of \code{ggplot2} objects
 #' @export

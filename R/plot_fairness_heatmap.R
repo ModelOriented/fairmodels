@@ -16,10 +16,8 @@
 #'
 #' @return list of \code{ggplot2} objects
 #'
-#'
 #' @import patchwork
-#' @import stats
-#' @import ggdendro
+#' @import ggplot2
 #'
 #' @examples
 #'
@@ -71,6 +69,13 @@ plot.fairness_heatmap <- function(x, ...,
                                   text = TRUE,
                                   text_size = 3,
                                   flip_axis = FALSE) {
+
+  if (!requireNamespace("ggdendro", quietly = TRUE)) {
+    stop("Package \"ggdendro\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
+
+
   matrix_model <- x$matrix_model
   data <- x$heatmap_data
   scale <- x$scale
@@ -139,7 +144,7 @@ plot.fairness_heatmap <- function(x, ...,
     color = "#371ea3"
     ) +
     # theme = nothing
-    theme_drwhy() +
+    DALEX::theme_drwhy() +
     theme(
       panel.grid = element_blank(),
       axis.text = element_blank(),
@@ -178,7 +183,7 @@ plot.fairness_heatmap <- function(x, ...,
       midpoint = midpoint,
       na.value = "grey"
     ) +
-    theme_drwhy() +
+    DALEX::theme_drwhy() +
     theme(
       legend.position = "bottom",
       axis.ticks = element_blank(),

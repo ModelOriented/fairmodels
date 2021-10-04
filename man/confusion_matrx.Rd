@@ -28,9 +28,8 @@ Calculates confusion matrix for given cutoff
 }
 \examples{
 
-probs    <- rnorm(20, 0.4,0.1)
+probs <- rnorm(20, 0.4, 0.1)
 observed <- round(runif(20))
 
 confusion_matrix(probs, observed, 0.5)
-
 }

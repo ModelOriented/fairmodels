@@ -332,7 +332,7 @@ print.fairness_object <- function(x, ...,
   metrics <- unique(data$metric)
 
 
-  filtered <- filter_fairness_check_metrics(data, metric, fairness_metrics)
+  filtered <- filter_fairness_check_metrics(data, metrics, fairness_metrics)
 
   data <- filtered$data
   metrics <- filtered$metrics

@@ -7,6 +7,7 @@
 #' @param x \code{fairness_regression_object} object
 #' @param ... other plot parameters
 #'
+#' @import ggplot2
 #'
 #' @return \code{ggplot2} object
 #' @rdname plot_fairness_regression_object

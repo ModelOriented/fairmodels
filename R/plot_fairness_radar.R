@@ -5,6 +5,7 @@
 #' @param x \code{fairness_radar} object
 #' @param ... other plot parameters
 #'
+#' @import ggplot2
 #'
 #' @return \code{ggplot2} object
 #' @export

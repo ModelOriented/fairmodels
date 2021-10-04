@@ -6,6 +6,7 @@
 #' @param x object of class \code{fairness_object}
 #' @param fairness_metric \code{char}, single name of metric, one of metrics:
 #'
+#'
 #' \itemize{
 #'
 #' \item TPR - parity loss of True Positive Rate (Sensitivity, Recall, Equal Odds)

@@ -34,8 +34,9 @@ Function aggregates all pre-processing algorithms for bias mitigation. User pass
 data("german")
 
 pre_process_data(german,
-                 german$Sex,
-                 as.numeric(german$Risk)-1,
-                 type = "disparate_impact_remover",
-                 features_to_transform = 'Age')
+  german$Sex,
+  as.numeric(german$Risk) - 1,
+  type = "disparate_impact_remover",
+  features_to_transform = "Age"
+)
 }

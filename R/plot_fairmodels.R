@@ -24,6 +24,8 @@
 #' \item ceteris_paribus_cutoff
 #' }
 #'
+#' @import ggplot2
+#'
 #' @return \code{ggplot2} object
 #'
 #' @examples

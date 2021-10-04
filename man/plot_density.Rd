@@ -21,15 +21,16 @@ Plot distribution for models output probabilities. See how being in particular s
 
 data("compas")
 
-glm_compas <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
+glm_compas <- glm(Two_yr_Recidivism ~ ., data = compas, family = binomial(link = "logit"))
 
-y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
+y_numeric <- as.numeric(compas$Two_yr_Recidivism) - 1
 
 explainer_glm <- DALEX::explain(glm_compas, data = compas, y = y_numeric)
 
-fobject <-  fairness_check(explainer_glm,
-                             protected = compas$Ethnicity,
-                             privileged = "Caucasian")
+fobject <- fairness_check(explainer_glm,
+  protected = compas$Ethnicity,
+  privileged = "Caucasian"
+)
 
 plot_density(fobject)
 }

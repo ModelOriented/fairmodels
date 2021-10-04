@@ -48,9 +48,9 @@ regression_metrics <- function(explainer, protected, privileged) {
             {
               warnings_raised <- NULL
               list(
-                value = glm(a ~ .,
+                value = stats::glm(a ~ .,
                   data = data,
-                  family = binomial(link = "logit")
+                  family = stats::binomial(link = "logit")
                 ),
                 warnings_raised = warnings_raised
               )

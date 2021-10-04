@@ -16,7 +16,8 @@ Imports:
     DALEX, 
     ggplot2,
     scales, 
-    stats
+    stats,
+    patchwork,
 Suggests:
     ranger,
     gbm,
@@ -25,7 +26,6 @@ Suggests:
     covr,
     testthat,
     spelling,
-    patchwork,
     ggdendro, 
     ggrepel, 
 RoxygenNote: 7.1.1.9001

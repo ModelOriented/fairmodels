@@ -6,6 +6,7 @@
 #' @param x \code{stacked_metrics} object
 #' @param ... other plot parameters
 #'
+#' @import ggplot2
 #'
 #' @examples
 #'
@@ -61,7 +62,7 @@ plot.stacked_metrics <- function(x, ...) {
   )) +
     geom_bar(stat = "identity", position = "stack", alpha = 0.8) +
     coord_flip() +
-    theme_drwhy_vertical() +
+    DALEX::theme_drwhy_vertical() +
     scale_fill_manual(values = colors_fairmodels(n)) +
     xlab("model") +
     ylab("Acummulated parity loss metrics value") +

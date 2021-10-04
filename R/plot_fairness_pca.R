@@ -8,8 +8,7 @@
 #' @param scale scaling loadings plot, from 0 to 1
 #' @param ... other plot parameters
 #'
-#'
-#' @import ggrepel
+#' @import ggplot2
 #'
 #' @return \code{ggplot2} object
 #' @export
@@ -52,7 +51,11 @@
 #'
 #' plot(fpca)
 plot.fairness_pca <- function(x, scale = 0.5, ...) {
-
+  if (!requireNamespace("ggrepel", quietly = TRUE)) {
+    stop("Package \"ggrepel\" needed for this function to work. Please install it.",
+         call. = FALSE
+    )
+  }
 
   # scaling like in stats::biplot
   lam <- x$sdev[1:2]

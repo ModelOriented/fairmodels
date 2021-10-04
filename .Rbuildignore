@@ -6,3 +6,5 @@
 ^codecov\.yml$
 ^\.github$
 ^LICENSE$
+^doc$
+^Meta$

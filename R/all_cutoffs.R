@@ -7,6 +7,8 @@
 #' @param grid_points numeric, grid for cutoffs to test. Number of points between 0 and 1 spread evenly
 #' @param fairness_metrics character, name of parity_loss metric or vector of multiple metrics names. Full names can be found in \code{fairness_check} documentation.
 #'
+#' @import ggplot2
+#'
 #' @return \code{all_cutoffs} object, \code{data.frame} containing information about label, metric and parity_loss at particular cutoff
 #' @export
 #'

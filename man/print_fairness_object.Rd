@@ -43,36 +43,40 @@ Print Fairness Object
 
 data("german")
 
-y_numeric <- as.numeric(german$Risk) -1
+y_numeric <- as.numeric(german$Risk) - 1
 
-lm_model <- glm(Risk~.,
-                data = german,
-                family=binomial(link="logit"))
+lm_model <- glm(Risk ~ .,
+  data = german,
+  family = binomial(link = "logit")
+)
 
-rf_model <- ranger::ranger(Risk ~.,
-                           data = german,
-                           probability = TRUE,
-                           max.depth = 3,
-                           num.trees = 100,
-                           seed = 1,
-                           num.threads = 1)
+rf_model <- ranger::ranger(Risk ~ .,
+  data = german,
+  probability = TRUE,
+  max.depth = 3,
+  num.trees = 100,
+  seed = 1,
+  num.threads = 1
+)
 
-explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+explainer_lm <- DALEX::explain(lm_model, data = german[, -1], y = y_numeric)
 
 explainer_rf <- DALEX::explain(rf_model,
-                               data = german[,-1],
-                               y = y_numeric)
+  data = german[, -1],
+  y = y_numeric
+)
 
 fobject <- fairness_check(explainer_lm, explainer_rf,
-                          protected = german$Sex,
-                          privileged = "male")
+  protected = german$Sex,
+  privileged = "male"
+)
 
 print(fobject)
 
 # custom print
 print(fobject,
-fairness_metrics = c("ACC", "TPR"), # amount of metrics to be printed
-border_width = 0, # in our case 2/2 will be printed in green and 1/2 in red
-loss_aggregating_function = function(x) sum(abs(x)) + 10) # custom loss function - takes vector
-
+  fairness_metrics = c("ACC", "TPR"), # amount of metrics to be printed
+  border_width = 0, # in our case 2/2 will be printed in green and 1/2 in red
+  loss_aggregating_function = function(x) sum(abs(x)) + 10
+) # custom loss function - takes vector
 }

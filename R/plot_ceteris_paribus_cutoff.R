@@ -7,7 +7,7 @@
 #' @param x ceteris_paribus_cutoff object
 #' @param ... other plot parameters
 #'
-#' @import ggrepel
+#' @import ggplot2
 #'
 #' @return \code{ggplot2} object
 #' @rdname plot_ceteris_paribus_cutoff
@@ -83,7 +83,7 @@ plot.ceteris_paribus_cutoff <- function(x, ...) {
 
   if (!cumulated) {
     plt <- plt + geom_line(aes(cutoff, parity_loss, color = metric)) +
-      theme_drwhy() +
+      DALEX::theme_drwhy() +
       facet_wrap(vars(model), nrow = n_models) +
       ggtitle("Ceteris paribus cutoff plot",
         subtitle = paste("Based on",
@@ -111,7 +111,7 @@ plot.ceteris_paribus_cutoff <- function(x, ...) {
       )
   } else {
     plt <- plt + geom_line(aes(cutoff, parity_loss, color = model)) +
-      theme_drwhy() +
+      DALEX::theme_drwhy() +
       ggtitle("Ceteris paribus cutoff plot",
         subtitle = paste("Based on", subgroup, "and cumulated", collapse = " ")
       ) +
@@ -121,7 +121,7 @@ plot.ceteris_paribus_cutoff <- function(x, ...) {
 
 
     plt <- plt + geom_segment(data = min_data, aes(x = mins, xend = mins, y = y, yend = yend, color = model), linetype = "dashed") +
-      geom_text_repel(
+      ggrepel::geom_text_repel(
         data = min_data, aes(
           x = mins,
           y = yend,
