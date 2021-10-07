@@ -244,7 +244,7 @@ fairness_check <- function(x,
   created_na <- FALSE
   # number of metrics must be fixed. If changed add metric to metric labels
   # and change in calculate group fairness metrics
-  parity_loss_metric_data <- matrix(nrow = n_exp, ncol = 12)
+  parity_loss_metric_data <- matrix(nrow = n_exp, ncol = 13)
   explainers_confusion_matrices <- list(rep(0, n_exp))
 
   explainers_groups <- list(rep(0, n_exp))

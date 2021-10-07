@@ -50,7 +50,7 @@ assert_performance_metrics <- function(metric) {
 }
 
 parity_loss_metrics <- function() {
-  return(c("TPR", "TNR", "PPV", "NPV", "FNR", "FPR", "FDR", "FOR", "TS", "STP", "ACC", "F1"))
+  return(c("TPR", "TNR", "PPV", "NPV", "FNR", "FPR", "FDR", "FOR", "TS", "STP", "ACC", "F1", "NEW_METRIC"))
 }
 
 assert_parity_metrics <- function(metric) {

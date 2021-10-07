@@ -53,7 +53,7 @@
 plot.fairness_pca <- function(x, scale = 0.5, ...) {
   if (!requireNamespace("ggrepel", quietly = TRUE)) {
     stop("Package \"ggrepel\" needed for this function to work. Please install it.",
-         call. = FALSE
+      call. = FALSE
     )
   }
 

@@ -69,10 +69,10 @@ plot.fairness_heatmap <- function(x, ...,
                                   text = TRUE,
                                   text_size = 3,
                                   flip_axis = FALSE) {
-
   if (!requireNamespace("ggdendro", quietly = TRUE)) {
     stop("Package \"ggdendro\" needed for this function to work. Please install it.",
-         call. = FALSE)
+      call. = FALSE
+    )
   }
 
 

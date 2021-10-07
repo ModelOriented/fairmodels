@@ -62,7 +62,7 @@
 plot.performance_and_fairness <- function(x, ...) {
   if (!requireNamespace("ggrepel", quietly = TRUE)) {
     stop("Package \"ggrepel\" needed for this function to work. Please install it.",
-         call. = FALSE
+      call. = FALSE
     )
   }
   data <- x$paf_data
