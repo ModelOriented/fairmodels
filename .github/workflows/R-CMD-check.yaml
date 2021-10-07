@@ -39,7 +39,6 @@ jobs:
           - {os: macOS-latest,   r: '4.1'}
           - {os: macOS-latest,   r: '4.0'}
           - {os: macOS-latest,   r: '3.6'}
-          - {os: macOS-latest,   r: '3.5'}
           - {os: ubuntu-18.04, r: '4.1', vdiffr: true,  xref: true, rspm: "https://packagemanager.rstudio.com/cran/__linux__/bionic/latest"}
           - {os: ubuntu-18.04, r: '4.0', vdiffr: true,  xref: true, rspm: "https://packagemanager.rstudio.com/cran/__linux__/bionic/latest"}
           - {os: ubuntu-18.04, r: '3.6', vdiffr: true,  xref: true, rspm: "https://packagemanager.rstudio.com/cran/__linux__/bionic/latest"}
