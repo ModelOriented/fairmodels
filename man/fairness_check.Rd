@@ -17,7 +17,10 @@ fairness_check(
 )
 }
 \arguments{
-\item{x}{object created with \code{\link[DALEX]{explain}} or of class \code{fairness_object}}
+\item{x}{object created with \code{\link[DALEX]{explain}} or of class \code{fairness_object}.
+It can be multiple fairness_objects, multiple explainers, or combination on both, as long as
+they predict the same data. If at least one fairness_object is provided there is no need to
+pass protected and privileged parameters. Explainers must be binary classification type.}
 
 \item{...}{possibly more objects created with \code{\link[DALEX]{explain}} and/or objects of class \code{fairness_object}}
 

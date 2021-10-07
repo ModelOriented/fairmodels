@@ -60,6 +60,9 @@ plot.metric_scores <- function(x, ...) {
   data <- data[data$subgroup != x$privileged, ]
   data$model_numeric <- as.numeric(data$model)
 
+  data$metric <- factor(data$metric, levels = c("ACC", "TPR", "FPR", "PPV", "STP"))
+  data <- data[order(data$metric),]
+
   score <- line_position <- model_jitter <- model_numeric <- model <- subgroup <- NULL
   ggplot() +
     geom_segment(
