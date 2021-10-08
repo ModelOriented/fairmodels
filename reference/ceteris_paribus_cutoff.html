@@ -167,9 +167,9 @@ Position corresponding to subgroups in levels will be changed. Default is NULL</
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predict function  :  yhat.ranger  will be used ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  No value for predict function target column. ( <span style="color: #BBBB00;"> default </span> )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; model_info        :  package ranger , ver. 0.13.1 , task classification ( <span style="color: #BBBB00;"> default </span> ) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  0.1685902 , mean =  0.5444153 , max =  0.8659704  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; predicted values  :  numerical, min =  0.1527663 , mean =  0.544773 , max =  0.8735543  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residual function :  difference between y and yhat ( <span style="color: #BBBB00;"> default </span> )</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -0.8510592 , mean =  0.0004648009 , max =  0.7766304  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   -&gt; residuals         :  numerical, min =  -0.8570773 , mean =  0.0001070921 , max =  0.786994  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  <span style="color: #00BB00;"> A new explainer has been created! </span> </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">fobject</span> <span class="op">&lt;-</span> <span class="fu"><a href="fairness_check.html">fairness_check</a></span><span class="op">(</span><span class="va">explainer_lm</span>, <span class="va">explainer_rf</span>,</span>
@@ -187,7 +187,7 @@ Position corresponding to subgroups in levels will be changed. Default is NULL</
 <span class="r-in"></span>
 <span class="r-in"><span class="va">cpc</span> <span class="op">&lt;-</span> <span class="fu">ceteris_paribus_cutoff</span><span class="op">(</span><span class="va">fobject</span>, <span class="st">"African_American"</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">cpc</span><span class="op">)</span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 77 row(s) containing missing values (geom_path).</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 74 row(s) containing missing values (geom_path).</span>
 <span class="r-plt"><img src="ceteris_paribus_cutoff-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span class="co"># }</span></span>
 <span class="r-in"></span>
