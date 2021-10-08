@@ -1,7 +1,7 @@
 Package: fairmodels
 Type: Package
 Title: Flexible Tool for Bias Detection, Visualization, and Mitigation
-Version: 1.1.1
+Version: 1.2.0
 Authors@R:
     c(person("Jakub", "Wiśniewski", role = c("aut", "cre"),
              email = "jakwisn@gmail.com"),
@@ -15,10 +15,9 @@ Depends: R (>= 3.5)
 Imports: 
     DALEX, 
     ggplot2,
+    scales, 
+    stats,
     patchwork,
-    ggdendro, 
-    ggrepel, 
-    scales
 Suggests:
     ranger,
     gbm,
@@ -26,7 +25,9 @@ Suggests:
     rmarkdown,
     covr,
     testthat,
-    spelling
+    spelling,
+    ggdendro, 
+    ggrepel, 
 RoxygenNote: 7.1.1.9001
 VignetteBuilder: knitr
 URL: https://fairmodels.drwhy.ai/

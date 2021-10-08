@@ -1,7 +1,8 @@
 test_that("test resample", {
-
-  df <- data.frame(sex = as.factor(c(rep("M",5),rep("F",5),rep("N",5))),
-                   target = c(1,1,1,1,0,0,0,1,0,1, 0,0,0,0,1))
+  df <- data.frame(
+    sex = as.factor(c(rep("M", 5), rep("F", 5), rep("N", 5))),
+    target = c(1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1)
+  )
 
   MN <- sum(df$sex == "M" & df$target == 0)
   MP <- sum(df$sex == "M" & df$target == 1)
@@ -28,7 +29,7 @@ test_that("test resample", {
   E_NN <- round(NN * wNN)
 
   # uniform
-  df_2 <- df[resample(df$sex, df$target),]
+  df_2 <- df[resample(df$sex, df$target), ]
 
   MN_2 <- sum(df_2$sex == "M" & df_2$target == 0)
   MP_2 <- sum(df_2$sex == "M" & df_2$target == 1)
@@ -45,19 +46,18 @@ test_that("test resample", {
   expect_equal(E_NN, NN_2)
 
   # preferential
-  df <- data.frame(sex = as.factor(c(rep("M",5),rep("F",5),rep("N",5))),
-                   target = c(1,1,1,1,0,0,0,1,0,1, 0,0,0,0,1),
-                   name = as.character(1:15),
-                   probs = c(0.9, 0.82, 0.56, 0.78, 0.45, 0.12, 0.48,0.63,0.48, 0.88, 0.34, 0.12, 0.34, 0.49, 0.9 ),
-                   stringsAsFactors = FALSE)
+  df <- data.frame(
+    sex = as.factor(c(rep("M", 5), rep("F", 5), rep("N", 5))),
+    target = c(1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1),
+    name = as.character(1:15),
+    probs = c(0.9, 0.82, 0.56, 0.78, 0.45, 0.12, 0.48, 0.63, 0.48, 0.88, 0.34, 0.12, 0.34, 0.49, 0.9),
+    stringsAsFactors = FALSE
+  )
 
-  df_3 <- df[resample(df$sex, df$target, type = "preferential", probs = df$probs),]
+  df_3 <- df[resample(df$sex, df$target, type = "preferential", probs = df$probs), ]
 
-  expect_equal(sort(as.numeric(df_3$name)), c(1,2,5,5,5,6,7,8,9,10,11,12,13,15,15))
+  expect_equal(sort(as.numeric(df_3$name)), c(1, 2, 5, 5, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 15))
 
   expect_error(resample(df$sex, df$target, type = "preferential", probs = df$probs, cutoff = 12))
   expect_error(resample(df$sex, df$target, type = "preferential", probs = df$probs, cutoff = c(0.3, 0.4)))
-
-
-
 })

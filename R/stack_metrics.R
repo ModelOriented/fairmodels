@@ -10,7 +10,6 @@
 #'
 #' @export
 #'
-#' @import ggplot2
 #'
 #' @rdname plot_stacked_barplot
 #'
@@ -18,58 +17,58 @@
 #'
 #' data("german")
 #'
-#' y_numeric <- as.numeric(german$Risk) -1
+#' y_numeric <- as.numeric(german$Risk) - 1
 #'
-#' lm_model <- glm(Risk~.,
-#'                 data = german,
-#'                 family=binomial(link="logit"))
+#' lm_model <- glm(Risk ~ .,
+#'   data = german,
+#'   family = binomial(link = "logit")
+#' )
 #'
 #'
-#' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+#' explainer_lm <- DALEX::explain(lm_model, data = german[, -1], y = y_numeric)
 #'
 #' fobject <- fairness_check(explainer_lm,
-#'                           protected = german$Sex,
-#'                           privileged = "male")
+#'   protected = german$Sex,
+#'   privileged = "male"
+#' )
 #'
 #' sm <- stack_metrics(fobject)
 #' plot(sm)
-#'
 #' \donttest{
 #'
-#' rf_model <- ranger::ranger(Risk ~.,
-#'                            data = german,
-#'                            probability = TRUE,
-#'                            num.trees = 200)
+#' rf_model <- ranger::ranger(Risk ~ .,
+#'   data = german,
+#'   probability = TRUE,
+#'   num.trees = 200
+#' )
 #'
-#' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
+#' explainer_rf <- DALEX::explain(rf_model, data = german[, -1], y = y_numeric)
 #'
 #' fobject <- fairness_check(explainer_rf, fobject)
 #'
 #' sm <- stack_metrics(fobject)
 #' plot(sm)
 #' }
-
-
-
-stack_metrics <- function(x, fairness_metrics = c('ACC', 'TPR', 'PPV', 'FPR', 'STP') ){
-
+#'
+stack_metrics <- function(x, fairness_metrics = c("ACC", "TPR", "PPV", "FPR", "STP")) {
   stopifnot(class(x) == "fairness_object")
 
   if (is.null(fairness_metrics)) fairness_metrics <- fairness_check_metrics()
-  if (! is.character(fairness_metrics) ) stop("metric argument must be character metric")
-  sapply(fairness_metrics,assert_parity_metrics)
+  if (!is.character(fairness_metrics)) stop("metric argument must be character metric")
+  sapply(fairness_metrics, assert_parity_metrics)
 
   expanded_data <- expand_fairness_object(x,
-                                          drop_metrics_with_na = TRUE,
-                                          fairness_metrics = fairness_metrics)
+    drop_metrics_with_na = TRUE,
+    fairness_metrics = fairness_metrics
+  )
 
-  expanded_data           <- as.data.frame(expanded_data)
-  colnames(expanded_data) <- c("metric","model","score")
-  expanded_data$metric    <- as.factor(expanded_data$metric)
-  expanded_data$model     <- as.factor(expanded_data$model)
-  expanded_data$score     <- round(as.numeric(expanded_data$score),3)
+  expanded_data <- as.data.frame(expanded_data)
+  colnames(expanded_data) <- c("metric", "model", "score")
+  expanded_data$metric <- as.factor(expanded_data$metric)
+  expanded_data$model <- as.factor(expanded_data$model)
+  expanded_data$score <- round(as.numeric(expanded_data$score), 3)
 
-  expanded_data <- expanded_data[expanded_data$metric %in% fairness_metrics,]
+  expanded_data <- expanded_data[expanded_data$metric %in% fairness_metrics, ]
 
 
   stacked_metrics <- list(stacked_data = expanded_data)
@@ -77,5 +76,3 @@ stack_metrics <- function(x, fairness_metrics = c('ACC', 'TPR', 'PPV', 'FPR', 'S
 
   return(stacked_metrics)
 }
-
-

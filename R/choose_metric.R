@@ -6,6 +6,7 @@
 #' @param x object of class \code{fairness_object}
 #' @param fairness_metric \code{char}, single name of metric, one of metrics:
 #'
+#'
 #' \itemize{
 #'
 #' \item TPR - parity loss of True Positive Rate (Sensitivity, Recall, Equal Odds)
@@ -35,69 +36,56 @@
 #' @examples
 #' data("german")
 #'
-#' y_numeric <- as.numeric(german$Risk) -1
+#' y_numeric <- as.numeric(german$Risk) - 1
 #'
-#' lm_model <- glm(Risk~.,
-#'                 data = german,
-#'                 family=binomial(link="logit"))
+#' lm_model <- glm(Risk ~ .,
+#'   data = german,
+#'   family = binomial(link = "logit")
+#' )
 #'
-#' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+#' explainer_lm <- DALEX::explain(lm_model, data = german[, -1], y = y_numeric)
 #'
 #' fobject <- fairness_check(explainer_lm,
-#'                           protected = german$Sex,
-#'                           privileged = "male")
+#'   protected = german$Sex,
+#'   privileged = "male"
+#' )
 #'
 #'
 #' cm <- choose_metric(fobject, "TPR")
 #' plot(cm)
-#'
 #' \donttest{
-#' rf_model <- ranger::ranger(Risk ~.,
-#'                            data = german,
-#'                            probability = TRUE,
-#'                            num.trees = 200)
+#' rf_model <- ranger::ranger(Risk ~ .,
+#'   data = german,
+#'   probability = TRUE,
+#'   num.trees = 200
+#' )
 #'
 #'
-#' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
+#' explainer_rf <- DALEX::explain(rf_model, data = german[, -1], y = y_numeric)
 #'
 #' fobject <- fairness_check(explainer_rf, fobject)
 #'
 #' cm <- choose_metric(fobject, "TPR")
 #' plot(cm)
-#'
 #' }
 #'
-
-
-choose_metric <- function(x, fairness_metric = "FPR"){
-
+choose_metric <- function(x, fairness_metric = "FPR") {
   stopifnot(class(x) == "fairness_object")
   assert_parity_metrics(fairness_metric)
 
-  data                       <- cbind(x$parity_loss_metric_data[,fairness_metric], x$label)
-  data                       <- as.data.frame(data)
-  colnames(data)             <- c("parity_loss_metric", "label")
-  data$parity_loss_metric    <- as.numeric(data$parity_loss_metric)
+  data <- cbind(x$parity_loss_metric_data[, fairness_metric], x$label)
+  data <- as.data.frame(data)
+  colnames(data) <- c("parity_loss_metric", "label")
+  data$parity_loss_metric <- as.numeric(data$parity_loss_metric)
 
 
-  choosen_metric <- list(parity_loss_metric_data = data,
-                         metric = fairness_metric,
-                         label  = x$label)
+  choosen_metric <- list(
+    parity_loss_metric_data = data,
+    metric = fairness_metric,
+    label = x$label
+  )
 
   class(choosen_metric) <- "chosen_metric"
 
   return(choosen_metric)
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

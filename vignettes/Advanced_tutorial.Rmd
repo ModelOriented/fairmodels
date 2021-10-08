@@ -6,7 +6,8 @@ output:
     df_print: paged
     toc: true
     toc_float: true
-    number_sections: true      
+    number_sections: true    
+bibliography: references.bib      
 vignette: >
   %\VignetteIndexEntry{Advanced tutorial}
   %\VignetteEngine{knitr::rmarkdown}
@@ -42,7 +43,7 @@ head(adult)
 
 ```
 
-We will use adult data to predict whether certain person has yearly salary exceeding 50 000 or not. Our protected variable will be sex. For this tutorial we will be using `gbm` and of course we will explain it with `DALEX`.
+We will use adult data to predict whether certain person has yearly salary exceeding 50 000 or not. Our protected variable will be sex. For this tutorial we will be using `gbm` and of course we will explain it with `DALEX` (@dalex).
 
 ```{r}
 library(gbm)
@@ -91,7 +92,7 @@ Pre-processing techniques focus on changing data **before** model is trained. Th
 
 ### Distribution changing
 
-Firs technique you will learn about is `disparate_impact_remover`. It is somehow limited as it works on ordinal, numeric data. This technique returns "fixed" data frame. Through parameter `lambda` we can manipulate with how much the distribution will be fixed. `lambda = 1` (default) will return data with identical distributions for all levels of protected variable whereas `lambda = 0` will barely change anything. We will transform a few features.
+Firs technique you will learn about is `disparate_impact_remover` (@disparateImpact). It is somehow limited as it works on ordinal, numeric data. This technique returns "fixed" data frame. Through parameter `lambda` we can manipulate with how much the distribution will be fixed. `lambda = 1` (default) will return data with identical distributions for all levels of protected variable whereas `lambda = 0` will barely change anything. We will transform a few features.
 
 ```{r}
 data_fixed <- disparate_impact_remover(data = adult, protected = protected, 
@@ -119,7 +120,7 @@ plot(fobject)
 As we can see bias has diminished. But it is not on acceptable level for us. Let's try something else. As for now we will add explainers to existing `fairness_object` to compare methods among themselves.
 
 ### Reweighting
-Reweighting is straightforward bias mitigation technique. It produces weights based on data to pass them to model so it can learn what to be careful about. As there can be multiple subgroups weights will come in form of vector.
+Reweighting (@kamiran) is straightforward bias mitigation technique. It produces weights based on data to pass them to model so it can learn what to be careful about. As there can be multiple subgroups weights will come in form of vector.
 
 ```{r}
 weights <- reweight(protected = protected, y = adult$salary)
@@ -144,7 +145,7 @@ plot(fobject)
 Our metric of interest (`Statistical parity ratio`) has been diminished but not enough. Other metrics are within boundaries, so `weighted` passes 4/5 metrics. There are some tradeoffs visible, some metrics increased their scores. It is not something uncommon. To lower the statistical parity the model must classify some unfavorable cases from unprivileged subgroup as favorable and the opposite for privileged subgroup. Similar outcome will be visible in the next method
 
 ### Resampling
-This method derives from reweighting the data but instead of weights it chooses observations from data the outcome of metrics. There is 2 types of resampling:    
+This method derives from reweighting the data but instead of weights it chooses observations from data the outcome of metrics (@kamiran). There is 2 types of resampling:    
 1. **uniform** - takes random observation from particular subgroup (in particular case - y == 1 or y == 0)    
 2. **preferential** - takes/omits observations either close to cutoff or as far from cutoff as possible. It needs probabilities (`probs`)   
 
@@ -193,7 +194,7 @@ As we can see `preferential` sampling is best at mitigating `Statistical parity 
 Post-processing techniques focus on changing the output of model after model is generated
 
 ### ROC pivot
-ROC stands for Reject Option based Classification and pivot for the behavior of `probs`/`y_hat` as it pivots around the cutoff when it is in close zone. Close zone is defined by the `theta` parameter equal to 0.1 by default. In simple words depending on whether subgroup is privileged or not certain observations will change their probabilities to the opposite (but in equal distance) side of cutoff. For example if observation is unprivileged and unfavorable with probability 0.45 (assuming the `cutoff = 0.5`) probability will change it's value to 0.55.
+ROC stands for Reject Option based Classification (@postKamiran) and pivot for the behavior of `probs`/`y_hat` as it pivots around the cutoff when it is in close zone. Close zone is defined by the `theta` parameter equal to 0.1 by default. In simple words depending on whether subgroup is privileged or not certain observations will change their probabilities to the opposite (but in equal distance) side of cutoff. For example if observation is unprivileged and unfavorable with probability 0.45 (assuming the `cutoff = 0.5`) probability will change it's value to 0.55.
 
 ```{r}
 # we will need normal explainer 
@@ -277,12 +278,46 @@ plot(paf)
 ```
 
 The tradeoff is significant and it should be always be taken into consideration. 
+# Checking fairness on a test set
+
+While performing standard model development developers usually split the data into train-test subsets. It is not only possible but advisable to check fairness on a test set. This may be done in following way:
+
+```{r}
+data("adult_test")
+
+adult_test$salary <- as.numeric(adult_test$salary) -1 
+protected_test <- adult_test$sex
+
+adult_test <- adult_test[colnames(adult_test) != "sex"]
+
+
+# on test
+gbm_explainer_test <- explain(gbm_model,
+                              data = adult_test[,-1],
+                              y = adult_test$salary,
+                              verbose = FALSE)
+
+# the objects are tested on different data, so we cannot compare them on one plot
+fobject_train <- fairness_check(gbm_explainer, 
+                                 protected = protected, 
+                                 privileged = "Male", 
+                                 verbose = FALSE)
+
+fobject_test  <- fairness_check(gbm_explainer_test, 
+                                 protected = protected_test, 
+                                 privileged = "Male", 
+                                 verbose = FALSE)
+
+library(patchwork) # with patchwork library we will nicely compare the plots
+
+plot(fobject_train) + plot(fobject_test) 
+```
+
 
 # Summary
 
 There is many ways to tackle bias in models. Thanks to `fairmodels` it is easy to compare changes and experiment with new models and bias mitigation techniques. It is also good idea to combine few techniques (for example minimizing once with weights and then with cutoff). `fairness_check` interface is flexible and allows combining models that were trained on different features, encodings etc. Please if you encounter some bug or you have an idea for new feature please write and issue [here](https://github.com/ModelOriented/fairmodels/issues). 
 
-
-
+# References
 
 

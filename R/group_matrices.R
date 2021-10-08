@@ -24,39 +24,40 @@
 #' @examples
 #' data("compas")
 #'
-#' glm_compas <- glm(Two_yr_Recidivism~., data=compas, family=binomial(link="logit"))
+#' glm_compas <- glm(Two_yr_Recidivism ~ ., data = compas, family = binomial(link = "logit"))
 #' y_prob <- glm_compas$fitted.values
 #'
-#' y_numeric <- as.numeric(compas$Two_yr_Recidivism)-1
+#' y_numeric <- as.numeric(compas$Two_yr_Recidivism) - 1
 #'
 #' gm <- group_matrices(compas$Ethnicity,
-#'                      y_prob,
-#'                      y_numeric,
-#'                      cutoff = list(Asian = 0.45,
-#'                      African_American = 0.5,
-#'                      Other = 0.5,
-#'                      Hispanic = 0.5,
-#'                      Caucasian = 0.4,
-#'                      Native_American = 0.5))
+#'   y_prob,
+#'   y_numeric,
+#'   cutoff = list(
+#'     Asian = 0.45,
+#'     African_American = 0.5,
+#'     Other = 0.5,
+#'     Hispanic = 0.5,
+#'     Caucasian = 0.4,
+#'     Native_American = 0.5
+#'   )
+#' )
 #'
 #' gm
-#'
-
-
-group_matrices <- function(protected, probs, preds , cutoff){
-
+group_matrices <- function(protected, probs, preds, cutoff) {
   protected_levels <- levels(protected)
   group_confusion_matrices <- list()
 
-  group_data <- data.frame(preds     = preds,
-                           probs     = probs,
-                           protected = protected  )
+  group_data <- data.frame(
+    preds = preds,
+    probs = probs,
+    protected = protected
+  )
 
-  for (i in seq_along(protected_levels)){
+  for (i in seq_along(protected_levels)) {
     subgroup <- protected_levels[i]
-    sub_data <- group_data[group_data[,"protected"] == subgroup,]
+    sub_data <- group_data[group_data[, "protected"] == subgroup, ]
 
-    observed      <- sub_data$preds
+    observed <- sub_data$preds
     probabilities <- sub_data$probs
 
     cm <- confusion_matrix(probabilities, observed, cutoff = cutoff[[subgroup]])
@@ -67,4 +68,3 @@ group_matrices <- function(protected, probs, preds , cutoff){
   class(group_confusion_matrices) <- "group_matrices"
   return(group_confusion_matrices)
 }
-

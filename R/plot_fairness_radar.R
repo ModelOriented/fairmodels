@@ -16,56 +16,60 @@
 #' @examples
 #' data("german")
 #'
-#' y_numeric <- as.numeric(german$Risk) -1
+#' y_numeric <- as.numeric(german$Risk) - 1
 #'
-#' lm_model <- glm(Risk~.,
-#'                 data = german,
-#'                 family=binomial(link="logit"))
+#' lm_model <- glm(Risk ~ .,
+#'   data = german,
+#'   family = binomial(link = "logit")
+#' )
 #'
-#' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+#' explainer_lm <- DALEX::explain(lm_model, data = german[, -1], y = y_numeric)
 #'
 #' fobject <- fairness_check(explainer_lm,
-#'                           protected = german$Sex,
-#'                           privileged = "male")
+#'   protected = german$Sex,
+#'   privileged = "male"
+#' )
 #'
-#' fradar <- fairness_radar(fobject, fairness_metrics = c("ACC", "STP", "TNR",
-#'                                                        "TPR", "PPV"))
+#' fradar <- fairness_radar(fobject, fairness_metrics = c(
+#'   "ACC", "STP", "TNR",
+#'   "TPR", "PPV"
+#' ))
 #'
 #' plot(fradar)
-#'
 #' \donttest{
 #'
-#' rf_model <- ranger::ranger(Risk ~.,
-#'                            data = german,
-#'                            probability = TRUE,
-#'                            num.trees = 200,
-#'                            num.threads = 1)
+#' rf_model <- ranger::ranger(Risk ~ .,
+#'   data = german,
+#'   probability = TRUE,
+#'   num.trees = 200,
+#'   num.threads = 1
+#' )
 #'
 #'
-#' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
+#' explainer_rf <- DALEX::explain(rf_model, data = german[, -1], y = y_numeric)
 #'
 #' fobject <- fairness_check(explainer_rf, fobject)
 #'
 #'
-#' fradar <- fairness_radar(fobject, fairness_metrics = c("ACC", "STP", "TNR",
-#'                                                        "TPR", "PPV"))
+#' fradar <- fairness_radar(fobject, fairness_metrics = c(
+#'   "ACC", "STP", "TNR",
+#'   "TPR", "PPV"
+#' ))
 #'
 #' plot(fradar)
 #' }
 #'
-
 plot.fairness_radar <- function(x, ...) {
-
-  data      <- x$radar_data
-  n         <- length(unique(data$model))
+  data <- x$radar_data
+  n <- length(unique(data$model))
   max_score <- max(data$score)
-  data$score<- data$score/max_score
-  labels    <- round(seq(0, 1, 0.25)*max_score, 2)
+  data$score <- data$score / max_score
+  labels <- round(seq(0, 1, 0.25) * max_score, 2)
 
-  df_text <- data.frame(x = rep(data$parity_loss_metric[1],5), y = c(0.01, 0.25, 0.50, 0.75, 1), label = labels)
+  df_text <- data.frame(x = rep(data$parity_loss_metric[1], 5), y = c(0.01, 0.25, 0.50, 0.75, 1), label = labels)
 
   # global variables
-  parity_loss_metric <- score <- model <- y <- label <-  NULL
+  parity_loss_metric <- score <- model <- y <- label <- NULL
   # plot
   p <- ggplot(data = data, aes(x = parity_loss_metric, y = score)) +
     coord_radar(names_n = length(unique(data$parity_loss_metric))) +
@@ -78,9 +82,11 @@ plot.fairness_radar <- function(x, ...) {
     ylab("") +
     ggtitle("Parity loss metric radar plot") +
     theme_minimal() +
-    theme(axis.text.y = element_blank(),
-          axis.text.x = element_text(size = 8),
-          plot.title = element_text(color = "#371ea3", face = "bold", hjust = 0.5))
+    theme(
+      axis.text.y = element_blank(),
+      axis.text.x = element_text(size = 8),
+      plot.title = element_text(color = "#371ea3", face = "bold", hjust = 0.5)
+    )
 
   p
 }
@@ -88,9 +94,10 @@ plot.fairness_radar <- function(x, ...) {
 
 # Code from Model's oriented auditor package , thanks agosiewska!
 coord_radar <- function(names_n = 2) {
-
-  ggproto("CordRadar", CoordPolar, theta = "x", r = "y", start = - pi / names_n,
-          direction = 1, is_linear = function() TRUE, render_bg = render_bg_function)
+  ggproto("CordRadar", CoordPolar,
+    theta = "x", r = "y", start = -pi / names_n,
+    direction = 1, is_linear = function() TRUE, render_bg = render_bg_function
+  )
 }
 
 rename_data <- function(coord, data) {
@@ -114,40 +121,48 @@ r_rescale <- function(coord, x, scale_details) {
 render_bg_function <- function(self, scale_details, theme) {
   scale_details <- rename_data(self, scale_details)
 
-  theta <- if (length(scale_details$theta.major) > 0)
+  theta <- if (length(scale_details$theta.major) > 0) {
     theta_rescale(self, scale_details$theta.major, scale_details)
-  thetamin <- if (length(scale_details$theta.minor) > 0)
+  }
+  thetamin <- if (length(scale_details$theta.minor) > 0) {
     theta_rescale(self, scale_details$theta.minor, scale_details)
+  }
   thetafine <- seq(0, 2 * pi, length.out = 100)
 
   rfine <- c(r_rescale(self, scale_details$r.major, scale_details))
 
   majortheta <- paste("panel.grid.major.", self$theta, sep = "")
   minortheta <- paste("panel.grid.minor.", self$theta, sep = "")
-  majorr     <- paste("panel.grid.major.", self$r,     sep = "")
+  majorr <- paste("panel.grid.major.", self$r, sep = "")
 
   ggname <- get("ggname", envir = asNamespace("ggplot2"), inherits = FALSE)
   element_render <- get("element_render", envir = asNamespace("ggplot2"), inherits = FALSE)
 
   ggname("grill", grid::grobTree(
     element_render(theme, "panel.background"),
-    if (length(theta) > 0) element_render(
-      theme, majortheta, name = "angle",
-      x = c(rbind(0, 0.45 * sin(theta))) + 0.5,
-      y = c(rbind(0, 0.45 * cos(theta))) + 0.5,
-      id.lengths = rep(2, length(theta)),
-      default.units = "native"
-    ),
-    if (length(thetamin) > 0) element_render(
-      theme, minortheta, name = "angle",
-      x = c(rbind(0, 0.45 * sin(thetamin))) + 0.5,
-      y = c(rbind(0, 0.45 * cos(thetamin))) + 0.5,
-      id.lengths = rep(2, length(thetamin)),
-      default.units = "native"
-    ),
-
+    if (length(theta) > 0) {
+      element_render(
+        theme, majortheta,
+        name = "angle",
+        x = c(rbind(0, 0.45 * sin(theta))) + 0.5,
+        y = c(rbind(0, 0.45 * cos(theta))) + 0.5,
+        id.lengths = rep(2, length(theta)),
+        default.units = "native"
+      )
+    },
+    if (length(thetamin) > 0) {
+      element_render(
+        theme, minortheta,
+        name = "angle",
+        x = c(rbind(0, 0.45 * sin(thetamin))) + 0.5,
+        y = c(rbind(0, 0.45 * cos(thetamin))) + 0.5,
+        id.lengths = rep(2, length(thetamin)),
+        default.units = "native"
+      )
+    },
     element_render(
-      theme, majorr, name = "radius",
+      theme, majorr,
+      name = "radius",
       x = rep(rfine, each = length(thetafine)) * sin(thetafine) + 0.5,
       y = rep(rfine, each = length(thetafine)) * cos(thetafine) + 0.5,
       id.lengths = rep(length(thetafine), length(rfine)),
@@ -155,4 +170,3 @@ render_bg_function <- function(self, scale_details, theme) {
     )
   ))
 }
-

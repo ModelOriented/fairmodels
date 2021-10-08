@@ -52,23 +52,26 @@ types (function names) available:
 
 data("german")
 
-y_numeric <- as.numeric(german$Risk) -1
+y_numeric <- as.numeric(german$Risk) - 1
 
-lm_model <- glm(Risk~.,
-                data = german,
-                family=binomial(link="logit"))
-explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+lm_model <- glm(Risk ~ .,
+  data = german,
+  family = binomial(link = "logit")
+)
+explainer_lm <- DALEX::explain(lm_model, data = german[, -1], y = y_numeric)
 
 # works with explainer when protected and privileged are passed
 plot_fairmodels(explainer_lm,
-                type = "fairness_radar",
-                protected = german$Sex,
-                privileged = "male")
+  type = "fairness_radar",
+  protected = german$Sex,
+  privileged = "male"
+)
 
 # or with fairness_object
 fobject <- fairness_check(explainer_lm,
-                          protected = german$Sex,
-                          privileged = "male")
+  protected = german$Sex,
+  privileged = "male"
+)
 
 plot_fairmodels(fobject, type = "fairness_radar")
 }

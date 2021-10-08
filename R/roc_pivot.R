@@ -28,59 +28,60 @@
 #' data("german")
 #' data <- german
 #' data$Age <- as.factor(ifelse(data$Age <= 25, "young", "old"))
-#' y_numeric <- as.numeric(data$Risk) -1
+#' y_numeric <- as.numeric(data$Risk) - 1
 #'
-#' lr_model     <- stats::glm(Risk ~., data = data, family = binomial())
-#' lr_explainer <- DALEX::explain(lr_model, data = data[,-1], y = y_numeric)
+#' lr_model <- stats::glm(Risk ~ ., data = data, family = binomial())
+#' lr_explainer <- DALEX::explain(lr_model, data = data[, -1], y = y_numeric)
 #'
 #' fobject <- fairness_check(lr_explainer,
-#'                           protected = data$Age,
-#'                           privileged = "old")
+#'   protected = data$Age,
+#'   privileged = "old"
+#' )
 #' plot(fobject)
 #'
 #' lr_explainer_fixed <- roc_pivot(lr_explainer,
-#'                                 protected = data$Age,
-#'                                 privileged = "old")
+#'   protected = data$Age,
+#'   privileged = "old"
+#' )
 #'
 #' fobject2 <- fairness_check(lr_explainer_fixed, fobject,
-#'                            protected = data$Age,
-#'                            privileged = "old",
-#'                            label = "lr_fixed")
+#'   protected = data$Age,
+#'   privileged = "old",
+#'   label = "lr_fixed"
+#' )
 #' fobject2
 #' plot(fobject2)
-
-roc_pivot <- function(explainer, protected, privileged,  cutoff = 0.5, theta = 0.1){
-
+roc_pivot <- function(explainer, protected, privileged, cutoff = 0.5, theta = 0.1) {
   stopifnot(class(explainer) == "explainer")
   stopifnot(explainer$model_info$type == "classification")
 
   x <- explainer
   probs <- x$y_hat
-  y     <- x$y
+  y <- x$y
 
-  if (is.character(protected)){
+  if (is.character(protected)) {
     cat("changing protected to factor \n")
     protected <- as.factor(protected)
   }
   stopifnot(is.factor(protected))
   stopifnot(is.numeric(y))
   stopifnot(length(y) == length(protected) & length(y) == length(probs))
-  if (! (all(unique(y) == c(1,0)) | all(unique(y) == c(0,1)) )) stop("y must be numeric vector with values 0 and 1")
-  if (! check_if_numeric_and_single(cutoff)) stop("cutoff must be single numeric value")
-  if (! check_values(cutoff, 0, 1))          stop("cutoff must be between 0 and 1")
-  if (! check_if_numeric_and_single(theta))  stop("theta must be single numeric value")
-  if (! check_values(theta, 0, 1))           stop("theta must be between 0 and 1")
+  if (!(all(unique(y) == c(1, 0)) | all(unique(y) == c(0, 1)))) stop("y must be numeric vector with values 0 and 1")
+  if (!check_if_numeric_and_single(cutoff)) stop("cutoff must be single numeric value")
+  if (!check_values(cutoff, 0, 1)) stop("cutoff must be between 0 and 1")
+  if (!check_if_numeric_and_single(theta)) stop("theta must be single numeric value")
+  if (!check_values(theta, 0, 1)) stop("theta must be between 0 and 1")
 
   protected_levels <- levels(protected)
-  if(! (is.character(privileged) | is.factor(privileged)) | !(privileged %in% protected_levels) ) stop("privileged must be character/factor denoting privileged subgroup level in protected variable")
+  if (!(is.character(privileged) | is.factor(privileged)) | !(privileged %in% protected_levels)) stop("privileged must be character/factor denoting privileged subgroup level in protected variable")
 
   # ROC affecting only probs close (within +/- theta) to cutoff threshold
-  is_close      <- abs(probs - cutoff) < theta
+  is_close <- abs(probs - cutoff) < theta
   is_privileged <- privileged == protected
   is_favourable <- probs > cutoff
 
   # if affected by above inverse the predictions
-  probs[is_close & is_privileged & is_favourable]   <- cutoff - (probs[is_close & is_privileged & is_favourable] - cutoff)
+  probs[is_close & is_privileged & is_favourable] <- cutoff - (probs[is_close & is_privileged & is_favourable] - cutoff)
   probs[is_close & !is_privileged & !is_favourable] <- cutoff + (cutoff - probs[is_close & !is_privileged & !is_favourable])
   # if exceeded boundaries
   probs[probs < 0] <- 0
@@ -89,21 +90,3 @@ roc_pivot <- function(explainer, protected, privileged,  cutoff = 0.5, theta = 0
   x$y_hat <- probs
   return(x)
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

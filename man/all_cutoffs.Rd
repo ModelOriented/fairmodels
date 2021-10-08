@@ -27,32 +27,35 @@ User can pick which fairness metrics to create the object with via fairness_metr
 \examples{
 data("german")
 
-y_numeric <- as.numeric(german$Risk) -1
+y_numeric <- as.numeric(german$Risk) - 1
 
-lm_model <- glm(Risk~.,
-                data = german,
-                family=binomial(link="logit"))
+lm_model <- glm(Risk ~ .,
+  data = german,
+  family = binomial(link = "logit")
+)
 
-explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+explainer_lm <- DALEX::explain(lm_model, data = german[, -1], y = y_numeric)
 
 fobject <- fairness_check(explainer_lm,
-                          protected = german$Sex,
-                          privileged = "male")
+  protected = german$Sex,
+  privileged = "male"
+)
 
 ac <- all_cutoffs(fobject)
 plot(ac)
-
 \donttest{
-rf_model <- ranger::ranger(Risk ~.,
-                           data = german,
-                           probability = TRUE,
-                           num.trees = 100,
-                           seed = 1)
+rf_model <- ranger::ranger(Risk ~ .,
+  data = german,
+  probability = TRUE,
+  num.trees = 100,
+  seed = 1
+)
 
 
 explainer_rf <- DALEX::explain(rf_model,
-                               data = german[,-1],
-                               y = y_numeric)
+  data = german[, -1],
+  y = y_numeric
+)
 
 fobject <- fairness_check(explainer_rf, fobject)
 
@@ -60,4 +63,5 @@ ac <- all_cutoffs(fobject)
 
 plot(ac)
 }
+
 }

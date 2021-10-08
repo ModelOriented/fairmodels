@@ -16,46 +16,45 @@
 #'
 #' data("german")
 #'
-#' y_numeric <- as.numeric(german$Risk) -1
+#' y_numeric <- as.numeric(german$Risk) - 1
 #'
-#' lm_model <- glm(Risk~.,
-#'                 data = german,
-#'                 family=binomial(link="logit"))
+#' lm_model <- glm(Risk ~ .,
+#'   data = german,
+#'   family = binomial(link = "logit")
+#' )
 #'
-#' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+#' explainer_lm <- DALEX::explain(lm_model, data = german[, -1], y = y_numeric)
 #'
 #' fobject <- fairness_check(explainer_lm,
-#'                           protected = german$Sex,
-#'                           privileged = "male")
+#'   protected = german$Sex,
+#'   privileged = "male"
+#' )
 #' expand_fairness_object(fobject, drop_metrics_with_na = TRUE)
-#'
 #' \donttest{
-#' rf_model <- ranger::ranger(Risk ~.,
-#'                            data = german,
-#'                            probability = TRUE,
-#'                            num.trees = 200)
+#' rf_model <- ranger::ranger(Risk ~ .,
+#'   data = german,
+#'   probability = TRUE,
+#'   num.trees = 200
+#' )
 #'
 #'
-#' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
+#' explainer_rf <- DALEX::explain(rf_model, data = german[, -1], y = y_numeric)
 #'
 #' fobject <- fairness_check(explainer_rf, fobject)
 #'
 #' expand_fairness_object(fobject, drop_metrics_with_na = TRUE)
-#'
 #' }
-
-expand_fairness_object <- function(x, scale = FALSE, drop_metrics_with_na = FALSE, fairness_metrics = NULL){
-
-
+#'
+expand_fairness_object <- function(x, scale = FALSE, drop_metrics_with_na = FALSE, fairness_metrics = NULL) {
   stopifnot(is.logical(scale))
   stopifnot(is.logical(drop_metrics_with_na))
   stopifnot(class(x) == "fairness_object")
 
-  n_exp                      <- length(x$explainers)
-  parity_loss_metric_data    <- x$parity_loss_metric_data
-  labels                     <- x$label
+  n_exp <- length(x$explainers)
+  parity_loss_metric_data <- x$parity_loss_metric_data
+  labels <- x$label
 
-  if (! is.null(fairness_metrics)){
+  if (!is.null(fairness_metrics)) {
     parity_loss_metric_data <- parity_loss_metric_data[fairness_metrics]
   }
 
@@ -72,10 +71,12 @@ expand_fairness_object <- function(x, scale = FALSE, drop_metrics_with_na = FALS
 
   n_metrics <- ncol(parity_loss_metric_data)
 
-  for (i in seq_len(n_metrics)){
-    to_add <- data.frame(metric = rep(column_names[i], n_exp),
-                         model  = labels,
-                         score  = parity_loss_metric_data[,i])
+  for (i in seq_len(n_metrics)) {
+    to_add <- data.frame(
+      metric = rep(column_names[i], n_exp),
+      model = labels,
+      score = parity_loss_metric_data[, i]
+    )
     expanded_data <- rbind(expanded_data, to_add)
   }
 

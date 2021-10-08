@@ -17,7 +17,10 @@ fairness_check(
 )
 }
 \arguments{
-\item{x}{object created with \code{\link[DALEX]{explain}} or of class \code{fairness_object}}
+\item{x}{object created with \code{\link[DALEX]{explain}} or of class \code{fairness_object}.
+It can be multiple fairness_objects, multiple explainers, or combination on both, as long as
+they predict the same data. If at least one fairness_object is provided there is no need to
+pass protected and privileged parameters. Explainers must be binary classification type.}
 
 \item{...}{possibly more objects created with \code{\link[DALEX]{explain}} and/or objects of class \code{fairness_object}}
 
@@ -100,36 +103,43 @@ base_metric - scalar, value of metric for base subgroup
 \examples{
 data("german")
 
-y_numeric <- as.numeric(german$Risk) -1
+y_numeric <- as.numeric(german$Risk) - 1
 
-lm_model <- glm(Risk~.,
-                data = german,
-                family=binomial(link="logit"))
+lm_model <- glm(Risk ~ .,
+  data = german,
+  family = binomial(link = "logit")
+)
 
-explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+explainer_lm <- DALEX::explain(lm_model, data = german[, -1], y = y_numeric)
 
 fobject <- fairness_check(explainer_lm,
-                          protected = german$Sex,
-                          privileged = "male")
+  protected = german$Sex,
+  privileged = "male"
+)
 plot(fobject)
-
 \donttest{
-rf_model <- ranger::ranger(Risk ~.,
-                           data = german,
-                           probability = TRUE,
-                           max.depth = 3,
-                           num.trees = 100,
-                           seed = 1)
+rf_model <- ranger::ranger(Risk ~ .,
+  data = german,
+  probability = TRUE,
+  max.depth = 3,
+  num.trees = 100,
+  seed = 1
+)
 
 
 explainer_rf <- DALEX::explain(rf_model,
-                               data = german[,-1],
-                               y = y_numeric)
+  data = german[, -1],
+  y = y_numeric
+)
 
 fobject <- fairness_check(explainer_rf, fobject)
 
 plot(fobject)
+
+# custom print
+plot(fobject, fairness_metrics = c("ACC", "TPR"))
 }
+
 }
 \references{
 Zafar,Valera, Rodriguez, Gummadi (2017)  \url{https://arxiv.org/pdf/1610.08452.pdf}

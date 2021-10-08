@@ -28,21 +28,22 @@ data("german")
 
 data <- german
 data$Age <- as.factor(ifelse(data$Age <= 25, "young", "old"))
-data$Risk <- as.numeric(data$Risk) -1
+data$Risk <- as.numeric(data$Risk) - 1
 
 # training 2 models
 weights <- reweight(protected = data$Age, y = data$Risk)
 
-gbm_model          <- gbm::gbm(Risk ~. , data = data)
-gbm_model_weighted <- gbm::gbm(Risk ~. , data = data, weights = weights)
+gbm_model <- gbm::gbm(Risk ~ ., data = data)
+gbm_model_weighted <- gbm::gbm(Risk ~ ., data = data, weights = weights)
 
-gbm_explainer          <- DALEX::explain(gbm_model, data = data[,-1], y = data$Risk)
-gbm_weighted_explainer <- DALEX::explain(gbm_model_weighted, data = data[,-1], y = data$Risk)
+gbm_explainer <- DALEX::explain(gbm_model, data = data[, -1], y = data$Risk)
+gbm_weighted_explainer <- DALEX::explain(gbm_model_weighted, data = data[, -1], y = data$Risk)
 
 fobject <- fairness_check(gbm_explainer, gbm_weighted_explainer,
-                          protected = data$Age,
-                          privileged = "old",
-                          label = c("original","weighted"))
+  protected = data$Age,
+  privileged = "old",
+  label = c("original", "weighted")
+)
 # fairness check
 fobject
 plot(fobject)

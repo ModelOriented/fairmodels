@@ -21,43 +21,46 @@ visualize fairness and model metric at the same time. Note that fairness metric 
 
 data("german")
 
-y_numeric <- as.numeric(german$Risk) -1
+y_numeric <- as.numeric(german$Risk) - 1
 
-lm_model <- glm(Risk~.,
-                data = german,
-                family=binomial(link="logit"))
+lm_model <- glm(Risk ~ .,
+  data = german,
+  family = binomial(link = "logit")
+)
 
 
-explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+explainer_lm <- DALEX::explain(lm_model, data = german[, -1], y = y_numeric)
 
 fobject <- fairness_check(explainer_lm,
-                          protected = german$Sex,
-                          privileged = "male")
+  protected = german$Sex,
+  privileged = "male"
+)
 
 paf <- performance_and_fairness(fobject)
 plot(paf)
-
 \donttest{
 
-rf_model <- ranger::ranger(Risk ~.,
-                           data = german,
-                           probability = TRUE,
-                           num.trees = 200)
+rf_model <- ranger::ranger(Risk ~ .,
+  data = german,
+  probability = TRUE,
+  num.trees = 200
+)
 
-explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
+explainer_rf <- DALEX::explain(rf_model, data = german[, -1], y = y_numeric)
 
 fobject <- fairness_check(explainer_rf, fobject)
 
- # same explainers with different cutoffs for female
+# same explainers with different cutoffs for female
 fobject <- fairness_check(explainer_lm, explainer_rf, fobject,
-                          protected = german$Sex,
-                          privileged = "male",
-                          cutoff = list( female = 0.4),
-                          label = c("lm_2", "rf_2"))
+  protected = german$Sex,
+  privileged = "male",
+  cutoff = list(female = 0.4),
+  label = c("lm_2", "rf_2")
+)
 
 paf <- performance_and_fairness(fobject)
 
 plot(paf)
-
 }
+
 }

@@ -3,3 +3,6 @@
 .RData
 .Ruserdata
 inst/doc
+CRAN-RELEASE
+/doc/
+/Meta/

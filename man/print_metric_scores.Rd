@@ -18,25 +18,28 @@ Print metric scores data
 
 data("german")
 
-y_numeric <- as.numeric(german$Risk) -1
+y_numeric <- as.numeric(german$Risk) - 1
 
-lm_model <- glm(Risk~.,
-                data = german,
-                family=binomial(link="logit"))
+lm_model <- glm(Risk ~ .,
+  data = german,
+  family = binomial(link = "logit")
+)
 
-rf_model <- ranger::ranger(Risk ~.,
-                           data = german,
-                           probability = TRUE,
-                           num.trees = 200,
-                           num.threads = 1)
+rf_model <- ranger::ranger(Risk ~ .,
+  data = german,
+  probability = TRUE,
+  num.trees = 200,
+  num.threads = 1
+)
 
-explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
-explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
+explainer_lm <- DALEX::explain(lm_model, data = german[, -1], y = y_numeric)
+explainer_rf <- DALEX::explain(rf_model, data = german[, -1], y = y_numeric)
 
 fobject <- fairness_check(explainer_lm, explainer_rf,
-                          protected = german$Sex,
-                          privileged = "male")
+  protected = german$Sex,
+  privileged = "male"
+)
 
-ms <- metric_scores(fobject, fairness_metrics = c("TPR","STP","ACC"))
+ms <- metric_scores(fobject, fairness_metrics = c("TPR", "STP", "ACC"))
 ms
 }

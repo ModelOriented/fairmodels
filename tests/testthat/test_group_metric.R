@@ -1,6 +1,4 @@
 test_that("Test group_metrics ", {
-
-
   expect_error(group_metric(fobject, fairness_metric = 1231))
   expect_error(group_metric(fobject, fairness_metric = c("FPR", "TPR")))
   expect_error(group_metric(fobject, fairness_metric = "TPRR"))
@@ -9,9 +7,10 @@ test_that("Test group_metrics ", {
   expect_error(group_metric(fobject, performance_metric = "f11"))
 
 
-  fobject <- fairness_check( explainer_glm, explainer_ranger,
-                             protected = compas$Ethnicity,
-                             privileged = "Caucasian")
+  fobject <- fairness_check(explainer_glm, explainer_ranger,
+    protected = compas$Ethnicity,
+    privileged = "Caucasian"
+  )
 
   plt <- plot(group_metric(fobject))
 
@@ -28,5 +27,4 @@ test_that("Test group_metrics ", {
 
 
   print(gm)
-
 })

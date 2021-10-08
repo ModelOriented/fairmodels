@@ -1,3 +1,12 @@
+# fairmodels 1.2.0
+* Added filtering metrics when plotting and printing of `fairness_object`. 
+* Added ability to add custom measure function to print method of `fairness_object` 
+* Refactored code with tidyverse style 
+* Changed the order of metrics in `metric_scores` plot to match the ones in `fairness_check`
+* Added instruction for creating custom metric in README
+* Added references to vignettes 
+* Enhanced the advanced vignette
+
 # fairmodels 1.1.1
 * Fixed error which appeared when 2 fairness objects had the same labels in them. Now if this appears it throws an error. [(#41)](https://github.com/ModelOriented/fairmodels/issues/41)
 * `privileged` parameter is now converted to character. [(#41)](https://github.com/ModelOriented/fairmodels/issues/41)

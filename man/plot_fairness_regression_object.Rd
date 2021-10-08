@@ -22,28 +22,29 @@ Red and green zone boundary can be moved through epsilon parameter, that needs t
 \examples{
 
 set.seed(123)
-data <- data.frame(x = c(rnorm(500, 500, 100), rnorm(500, 400, 200)),
-                   pop = c(rep('A', 500 ), rep('B', 500 )))
+data <- data.frame(
+  x = c(rnorm(500, 500, 100), rnorm(500, 400, 200)),
+  pop = c(rep("A", 500), rep("B", 500))
+)
 
 data$y <- rnorm(length(data$x), 1.5 * data$x, 100)
 
 # create model
-model <- lm(y~., data = data)
+model <- lm(y ~ ., data = data)
 
 # create explainer
 exp <- DALEX::explain(model, data = data, y = data$y)
 
 # create fobject
-fobject <- fairness_check_regression(exp, protected = data$pop, privileged = 'A')
+fobject <- fairness_check_regression(exp, protected = data$pop, privileged = "A")
 
 # results
 
 fobject
 plot(fobject)
-
 \donttest{
 
-model_ranger <- ranger::ranger(y~., data = data, seed = 123)
+model_ranger <- ranger::ranger(y ~ ., data = data, seed = 123)
 exp2 <- DALEX::explain(model_ranger, data = data, y = data$y)
 
 fobject <- fairness_check_regression(exp2, fobject)
@@ -53,6 +54,5 @@ fobject
 
 plot(fobject)
 }
-
 
 }

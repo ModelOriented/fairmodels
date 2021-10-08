@@ -31,35 +31,38 @@ If NA's appear heatmap will still plot, but with gray area where NA's were.
 
 data("german")
 
-y_numeric <- as.numeric(german$Risk) -1
+y_numeric <- as.numeric(german$Risk) - 1
 
-lm_model <- glm(Risk~.,
-                data = german,
-                family=binomial(link="logit"))
+lm_model <- glm(Risk ~ .,
+  data = german,
+  family = binomial(link = "logit")
+)
 
-rf_model <- ranger::ranger(Risk ~.,
-                           data = german,
-                           probability = TRUE,
-                           num.trees = 200,
-                           num.threads = 1)
+rf_model <- ranger::ranger(Risk ~ .,
+  data = german,
+  probability = TRUE,
+  num.trees = 200,
+  num.threads = 1
+)
 
-explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
-explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
+explainer_lm <- DALEX::explain(lm_model, data = german[, -1], y = y_numeric)
+explainer_rf <- DALEX::explain(rf_model, data = german[, -1], y = y_numeric)
 
 fobject <- fairness_check(explainer_lm, explainer_rf,
-                          protected = german$Sex,
-                          privileged = "male")
+  protected = german$Sex,
+  privileged = "male"
+)
 
- # same explainers with different cutoffs for female
+# same explainers with different cutoffs for female
 fobject <- fairness_check(explainer_lm, explainer_rf, fobject,
-                          protected = german$Sex,
-                          privileged = "male",
-                          cutoff = list(female = 0.4),
-                          label = c("lm_2", "rf_2"))
+  protected = german$Sex,
+  privileged = "male",
+  cutoff = list(female = 0.4),
+  label = c("lm_2", "rf_2")
+)
 
 
 fh <- fairness_heatmap(fobject)
 
 plot(fh)
-
 }

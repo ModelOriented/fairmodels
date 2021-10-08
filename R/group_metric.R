@@ -46,38 +46,39 @@
 #'
 #' data("german")
 #'
-#' y_numeric <- as.numeric(german$Risk) -1
+#' y_numeric <- as.numeric(german$Risk) - 1
 #'
-#' lm_model <- glm(Risk~.,
-#'                 data = german,
-#'                 family=binomial(link="logit"))
+#' lm_model <- glm(Risk ~ .,
+#'   data = german,
+#'   family = binomial(link = "logit")
+#' )
 #'
 #'
-#' explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+#' explainer_lm <- DALEX::explain(lm_model, data = german[, -1], y = y_numeric)
 #'
 #' fobject <- fairness_check(explainer_lm,
-#'                           protected = german$Sex,
-#'                           privileged = "male")
+#'   protected = german$Sex,
+#'   privileged = "male"
+#' )
 #'
 #' gm <- group_metric(fobject, "TPR", "f1", parity_loss = TRUE)
 #' plot(gm)
-#'
 #' \donttest{
 #'
-#' rf_model <- ranger::ranger(Risk ~.,
-#'                            data = german,
-#'                            probability = TRUE,
-#'                            num.trees = 200)
+#' rf_model <- ranger::ranger(Risk ~ .,
+#'   data = german,
+#'   probability = TRUE,
+#'   num.trees = 200
+#' )
 #'
-#' explainer_rf <- DALEX::explain(rf_model, data = german[,-1], y = y_numeric)
+#' explainer_rf <- DALEX::explain(rf_model, data = german[, -1], y = y_numeric)
 #'
 #' fobject <- fairness_check(explainer_rf, fobject)
 #'
 #' gm <- group_metric(fobject, "TPR", "f1", parity_loss = TRUE)
 #'
 #' plot(gm)
-#'
-#'}
+#' }
 #'
 #' @return \code{group_metric} object.
 #' It is a list with following items:
@@ -93,23 +94,22 @@
 #' @rdname group_metric
 #'
 
-group_metric <- function(x, fairness_metric = NULL, performance_metric = NULL, parity_loss = FALSE, verbose = TRUE){
-
+group_metric <- function(x, fairness_metric = NULL, performance_metric = NULL, parity_loss = FALSE, verbose = TRUE) {
   stopifnot(class(x) == "fairness_object")
   stopifnot(is.logical(parity_loss))
 
-  base  <- x$privileged
-  n     <- length(x$groups_data[[1]][[1]])
+  base <- x$privileged
+  n <- length(x$groups_data[[1]][[1]])
   n_exp <- length(x$explainers)
 
   if (is.null(fairness_metric)) {
-    fairness_metric <-  "TPR"
-    verbose_cat("Fairness Metric not given, setting deafult (", fairness_metric,")  \n", verbose = verbose)
+    fairness_metric <- "TPR"
+    verbose_cat("Fairness Metric not given, setting deafult (", fairness_metric, ")  \n", verbose = verbose)
   }
 
   if (is.null(performance_metric)) {
-    performance_metric <-  "accuracy"
-    verbose_cat("Performace metric not given, setting deafult (", performance_metric,")  \n", verbose = verbose)
+    performance_metric <- "accuracy"
+    verbose_cat("Performace metric not given, setting deafult (", performance_metric, ")  \n", verbose = verbose)
   }
 
 
@@ -119,62 +119,66 @@ group_metric <- function(x, fairness_metric = NULL, performance_metric = NULL, p
 
   # output for creating object
   verbose_cat("\nCreating object with: \nFairness metric: ", fairness_metric,
-      "\nPerformance metric: ", performance_metric, "\n\n", verbose = verbose)
+    "\nPerformance metric: ", performance_metric, "\n\n",
+    verbose = verbose
+  )
 
 
   # Fairness metric
   group_data <- list()
-  labels     <- list()
+  labels <- list()
 
-  for (i in seq_len(n_exp)){
+  for (i in seq_len(n_exp)) {
     group_data[[i]] <- x$groups_data[[i]][fairness_metric][[1]]
 
     # if parity loss, then scale
-    if (parity_loss) group_data[[i]] <- abs(group_data[[i]] - group_data[[i]][base] )
+    if (parity_loss) group_data[[i]] <- abs(group_data[[i]] - group_data[[i]][base])
 
-    labels[[i]]       <- x$label[i]
+    labels[[i]] <- x$label[i]
   }
 
   unlisted_group_data <- unlist(group_data)
-  row_names           <- names(unlisted_group_data)
-  labels              <- unlist(labels)
-  labels_rep          <- rep(labels, each = n)
+  row_names <- names(unlisted_group_data)
+  labels <- unlist(labels)
+  labels_rep <- rep(labels, each = n)
 
-  group_metric_data <- data.frame(group = row_names,
-                              score = unlisted_group_data,
-                              model = labels_rep)
+  group_metric_data <- data.frame(
+    group = row_names,
+    score = unlisted_group_data,
+    model = labels_rep
+  )
 
   # performance metric
-  cutoff   <- x$cutoff
+  cutoff <- x$cutoff
   mod_perf <- rep(0, length(x$explainers))
 
-  for (i in seq_len(n_exp)){
-
-    if (performance_metric == "auc"){
-      mod_perf[i]  <- model_performance(x$explainers[[i]])$measures[performance_metric][[1]]
-
+  for (i in seq_len(n_exp)) {
+    if (performance_metric == "auc") {
+      mod_perf[i] <- DALEX::model_performance(x$explainers[[i]])$measures[performance_metric][[1]]
     } else {
       # if else use custom cutoff function implemented in fairmodels
       mod_perf[i] <- group_model_performance(x$explainers[[i]],
-                                             protected  = x$protected,
-                                             cutoff     = x$cutoff[[i]],
-                                             performance_metric = performance_metric)
+        protected = x$protected,
+        cutoff = x$cutoff[[i]],
+        performance_metric = performance_metric
+      )
     }
-
   }
 
   performance_data <- data.frame(model = x$label, score = mod_perf)
 
-  if (parity_loss){
+  if (parity_loss) {
     fairness_metric <- paste0(fairness_metric, " parity loss")
-    group_metric_data <- group_metric_data[group_metric_data$group != x$privileged,]
+    group_metric_data <- group_metric_data[group_metric_data$group != x$privileged, ]
   }
 
-  group_metric <-  list(group_metric_data  = group_metric_data,
-                        performance_data   = performance_data,
-                        fairness_metric    = fairness_metric,
-                        performance_metric = performance_metric,
-                        label = x$label)
+  group_metric <- list(
+    group_metric_data = group_metric_data,
+    performance_data = performance_data,
+    fairness_metric = fairness_metric,
+    performance_metric = performance_metric,
+    label = x$label
+  )
 
   class(group_metric) <- "group_metric"
   return(group_metric)

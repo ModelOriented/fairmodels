@@ -34,37 +34,47 @@ library("ggplot2")
 
 set.seed(1)
 # custom data frame with kind and score
-custom_data <- data.frame(kind = as.factor(c(rep("second", 500),rep("first",500))),
-                          score = c(rnorm(500, 400,40), rnorm(500, 600, 100)))
+custom_data <- data.frame(
+  kind = as.factor(c(rep("second", 500), rep("first", 500))),
+  score = c(rnorm(500, 400, 40), rnorm(500, 600, 100))
+)
 
-ggplot(custom_data, aes(score, fill = kind)) + geom_density(alpha = 0.5)
+ggplot(custom_data, aes(score, fill = kind)) +
+  geom_density(alpha = 0.5)
 
-fixed_data <- disparate_impact_remover(data = custom_data,
-                                       protected = custom_data$kind,
-                                       features_to_transform = "score",
-                                       lambda = 0.8)
+fixed_data <- disparate_impact_remover(
+  data = custom_data,
+  protected = custom_data$kind,
+  features_to_transform = "score",
+  lambda = 0.8
+)
 
-ggplot(fixed_data, aes(score, fill = kind)) + geom_density(alpha = 0.5)
+ggplot(fixed_data, aes(score, fill = kind)) +
+  geom_density(alpha = 0.5)
 
 # lambda 1 gives identical distribution, lambda 0 (almost) original distributions
 
-fixed_data_unchanged <- disparate_impact_remover(data = custom_data,
-                                                 protected = custom_data$kind,
-                                                 features_to_transform = "score",
-                                                 lambda = 0)
+fixed_data_unchanged <- disparate_impact_remover(
+  data = custom_data,
+  protected = custom_data$kind,
+  features_to_transform = "score",
+  lambda = 0
+)
 
-ggplot(fixed_data_unchanged, aes(score, fill = kind)) + geom_density(alpha = 0.5)
+ggplot(fixed_data_unchanged, aes(score, fill = kind)) +
+  geom_density(alpha = 0.5)
 
 
-fixed_data_fully_changed <- disparate_impact_remover(data = custom_data,
-                                                     protected = custom_data$kind,
-                                                     features_to_transform = "score",
-                                                     lambda = 1)
+fixed_data_fully_changed <- disparate_impact_remover(
+  data = custom_data,
+  protected = custom_data$kind,
+  features_to_transform = "score",
+  lambda = 1
+)
 
 ggplot(fixed_data_fully_changed, aes(score, fill = kind)) +
   geom_density(alpha = 0.5) +
-  facet_wrap(kind~., nrow = 2)
-
+  facet_wrap(kind ~ ., nrow = 2)
 }
 \references{
 This method was implemented based on Feldman, Friedler, Moeller, Scheidegger, Venkatasubramanian 2015 \url{https://arxiv.org/pdf/1412.3756.pdf}

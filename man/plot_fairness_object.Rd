@@ -4,12 +4,15 @@
 \alias{plot.fairness_object}
 \title{Plot fairness object}
 \usage{
-\method{plot}{fairness_object}(x, ...)
+\method{plot}{fairness_object}(x, ..., fairness_metrics = c("ACC", "TPR", "PPV", "FPR", "STP"))
 }
 \arguments{
 \item{x}{\code{fairness_object} object}
 
 \item{...}{other plot parameters}
+
+\item{fairness_metrics}{character, vector of metrics. Subset of fairness metrics to be used.
+The full set is defined as c("ACC", "TPR", "PPV", "FPR", "STP").}
 }
 \value{
 \code{ggplot2} object
@@ -23,35 +26,41 @@ Red and green zone boundary can be moved through epsilon parameter, that needs t
 
 data("german")
 
-y_numeric <- as.numeric(german$Risk) -1
+y_numeric <- as.numeric(german$Risk) - 1
 
-lm_model <- glm(Risk~.,
-                data = german,
-                family=binomial(link="logit"))
+lm_model <- glm(Risk ~ .,
+  data = german,
+  family = binomial(link = "logit")
+)
 
-explainer_lm <- DALEX::explain(lm_model, data = german[,-1], y = y_numeric)
+explainer_lm <- DALEX::explain(lm_model, data = german[, -1], y = y_numeric)
 
 fobject <- fairness_check(explainer_lm,
-                          protected = german$Sex,
-                          privileged = "male")
+  protected = german$Sex,
+  privileged = "male"
+)
 plot(fobject)
-
 \donttest{
-rf_model <- ranger::ranger(Risk ~.,
-                           data = german,
-                           probability = TRUE,
-                           max.depth = 3,
-                           num.trees = 100,
-                           seed = 1)
+rf_model <- ranger::ranger(Risk ~ .,
+  data = german,
+  probability = TRUE,
+  max.depth = 3,
+  num.trees = 100,
+  seed = 1
+)
 
 
 explainer_rf <- DALEX::explain(rf_model,
-                               data = german[,-1],
-                               y = y_numeric)
+  data = german[, -1],
+  y = y_numeric
+)
 
 fobject <- fairness_check(explainer_rf, fobject)
 
 plot(fobject)
+
+# custom print
+plot(fobject, fairness_metrics = c("ACC", "TPR"))
 }
 
 }

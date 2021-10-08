@@ -16,7 +16,6 @@
 #' @param lambda numeric, amount of repair desired. Value from 0 to 1, where 0 will return almost unchanged dataset and 1 fully repaired dataset
 #'
 #'
-#' @importFrom stats ecdf median quantile
 #'
 #' @return repaired data (\code{data.frame} object)
 #' @export
@@ -27,58 +26,63 @@
 #'
 #' set.seed(1)
 #' # custom data frame with kind and score
-#' custom_data <- data.frame(kind = as.factor(c(rep("second", 500),rep("first",500))),
-#'                           score = c(rnorm(500, 400,40), rnorm(500, 600, 100)))
+#' custom_data <- data.frame(
+#'   kind = as.factor(c(rep("second", 500), rep("first", 500))),
+#'   score = c(rnorm(500, 400, 40), rnorm(500, 600, 100))
+#' )
 #'
-#' ggplot(custom_data, aes(score, fill = kind)) + geom_density(alpha = 0.5)
+#' ggplot(custom_data, aes(score, fill = kind)) +
+#'   geom_density(alpha = 0.5)
 #'
-#' fixed_data <- disparate_impact_remover(data = custom_data,
-#'                                        protected = custom_data$kind,
-#'                                        features_to_transform = "score",
-#'                                        lambda = 0.8)
+#' fixed_data <- disparate_impact_remover(
+#'   data = custom_data,
+#'   protected = custom_data$kind,
+#'   features_to_transform = "score",
+#'   lambda = 0.8
+#' )
 #'
-#' ggplot(fixed_data, aes(score, fill = kind)) + geom_density(alpha = 0.5)
+#' ggplot(fixed_data, aes(score, fill = kind)) +
+#'   geom_density(alpha = 0.5)
 #'
 #' # lambda 1 gives identical distribution, lambda 0 (almost) original distributions
 #'
-#' fixed_data_unchanged <- disparate_impact_remover(data = custom_data,
-#'                                                  protected = custom_data$kind,
-#'                                                  features_to_transform = "score",
-#'                                                  lambda = 0)
+#' fixed_data_unchanged <- disparate_impact_remover(
+#'   data = custom_data,
+#'   protected = custom_data$kind,
+#'   features_to_transform = "score",
+#'   lambda = 0
+#' )
 #'
-#' ggplot(fixed_data_unchanged, aes(score, fill = kind)) + geom_density(alpha = 0.5)
+#' ggplot(fixed_data_unchanged, aes(score, fill = kind)) +
+#'   geom_density(alpha = 0.5)
 #'
 #'
-#' fixed_data_fully_changed <- disparate_impact_remover(data = custom_data,
-#'                                                      protected = custom_data$kind,
-#'                                                      features_to_transform = "score",
-#'                                                      lambda = 1)
+#' fixed_data_fully_changed <- disparate_impact_remover(
+#'   data = custom_data,
+#'   protected = custom_data$kind,
+#'   features_to_transform = "score",
+#'   lambda = 1
+#' )
 #'
 #' ggplot(fixed_data_fully_changed, aes(score, fill = kind)) +
 #'   geom_density(alpha = 0.5) +
-#'   facet_wrap(kind~., nrow = 2)
-#'
-
-
+#'   facet_wrap(kind ~ ., nrow = 2)
 disparate_impact_remover <- function(data,
                                      protected,
                                      features_to_transform,
-                                     lambda = 1){
-
-
-
+                                     lambda = 1) {
   if (is.null(data)) stop("You must provide a dataframe")
-  if (! all(features_to_transform %in% colnames(data))) stop("features to transform must be array with column names to repair")
+  if (!all(features_to_transform %in% colnames(data))) stop("features to transform must be array with column names to repair")
 
-  if (! all(apply(data[features_to_transform], 2, function(x) is.numeric(x)))) stop("features to transform must be numeric columns in data")
+  if (!all(apply(data[features_to_transform], 2, function(x) is.numeric(x)))) stop("features to transform must be numeric columns in data")
   if (is.character(protected)) protected <- as.factor(protected)
-  if (! is.factor(protected)) stop("protected must be factor with levels acting as different protected subgroups")
-  if (! check_if_numeric_and_single(lambda)  ) stop ("lambda must be single numeric value between 0 and 1")
+  if (!is.factor(protected)) stop("protected must be factor with levels acting as different protected subgroups")
+  if (!check_if_numeric_and_single(lambda)) stop("lambda must be single numeric value between 0 and 1")
 
   data_repaired <- data
   protected_levels <- levels(protected)
 
-  for (feature in features_to_transform){
+  for (feature in features_to_transform) {
 
     # list of Fx^-1 as percentiles
     quantiles <- list()
@@ -87,15 +91,14 @@ disparate_impact_remover <- function(data,
     if (num_buckets > 101) num_buckets <- 101
 
     # values of buckets
-    bucket_values <- cumsum(rep(100/(num_buckets-1), num_buckets-1))
+    bucket_values <- cumsum(rep(100 / (num_buckets - 1), num_buckets - 1))
 
-    for (subgroup in protected_levels){
+    for (subgroup in protected_levels) {
       Y <- data[protected == subgroup, feature]
 
       # now let this be product of Fx^-1
 
-      quantiles[[subgroup]] <- quantile(Y, probs = seq(0,1, length.out = num_buckets))
-
+      quantiles[[subgroup]] <- stats::quantile(Y, probs = seq(0, 1, length.out = num_buckets))
     }
 
     # list of Fa^-1 - median of inversed distributions
@@ -103,53 +106,42 @@ disparate_impact_remover <- function(data,
 
     inversed_Fa <- rep(NA, num_buckets)
 
-    for (i in seq_len(num_buckets)){
-      inversed_Fa[i] <- median(sapply(quantiles, function(x) x[i]))
+    for (i in seq_len(num_buckets)) {
+      inversed_Fa[i] <- stats::median(sapply(quantiles, function(x) x[i]))
     }
 
-    for (subgroup in protected_levels){
+    for (subgroup in protected_levels) {
       Y <- data[protected == subgroup, feature]
 
-      inversed_Fx <- quantile(Y, probs = seq(0,1, length.out = num_buckets))
+      inversed_Fx <- stats::quantile(Y, probs = seq(0, 1, length.out = num_buckets))
 
       # each position corresponds to percentile
-      inversed_Fa_fixed <- (1-lambda)*inversed_Fx + lambda*inversed_Fa
+      inversed_Fa_fixed <- (1 - lambda) * inversed_Fx + lambda * inversed_Fa
 
-      Y_bucketized <- bucketize(num_buckets, ecdf(Y)(Y))
+      Y_bucketized <- bucketize(num_buckets, stats::ecdf(Y)(Y))
 
       levels(Y_bucketized) <- inversed_Fa_fixed
       Y_repaired <- as.numeric(as.character(Y_bucketized))
 
-      data_repaired[protected == subgroup , feature] <- Y_repaired
+      data_repaired[protected == subgroup, feature] <- Y_repaired
     }
-
   }
   return(data_repaired)
 }
 
 
-bucketize <- function(num_buckets, x){
+bucketize <- function(num_buckets, x) {
   ## this helper function "bucketizes" the data making boundaries between quantiles (q1, q2, the boundary is (q1+q2)/2 )
   ## the x is binned and assigned to certain buckets
 
 
-  bin_borders <- 2*(num_buckets-1)
-  boundry     <- 100/bin_borders
-  y           <- cumsum(rep(boundry, bin_borders))
-  bins        <- y[seq(1,2*(num_buckets-1),2)]
+  bin_borders <- 2 * (num_buckets - 1)
+  boundry <- 100 / bin_borders
+  y <- cumsum(rep(boundry, bin_borders))
+  bins <- y[seq(1, 2 * (num_buckets - 1), 2)]
   # add 0 and 100
-  bins        <- append(append(0, bins), 100)
+  bins <- append(append(0, bins), 100)
 
   # make the cut, each bucket means some quantile
-  cut(x*100, bins, include.lowest = TRUE)
+  cut(x * 100, bins, include.lowest = TRUE)
 }
-
-
-
-
-
-
-
-
-
-

@@ -6,7 +6,8 @@ output:
     df_print: paged
     toc: true
     toc_float: true
-    number_sections: true      
+    number_sections: true  
+bibliography: references.bib      
 vignette: >
   %\VignetteIndexEntry{Basic tutorial}
   %\VignetteEngine{knitr::rmarkdown}
@@ -15,9 +16,9 @@ vignette: >
 ---
 # fairmodels
 
-In this tutorial you will get to know when, why and how to use `fairmodels`. `fairmodels` is a tool for bias detection, visualization and mitigation. It is compatible with `DALEX` and `DALEXtra` which are model agnostic explainers. Some knowledge of how to use those explainers will be needed but in this tutorial you should grasp the idea.
+In this tutorial you will get to know when, why and how to use `fairmodels`. `fairmodels` is a tool for bias detection, visualization and mitigation. It is compatible with `DALEX` (@dalex) and `DALEXtra` which are model agnostic explainers. Some knowledge of how to use those explainers will be needed but in this tutorial you should grasp the idea.
 
-For this tutorial we will use `compas` data to see if someone will become recidivist in next 2 years.
+For this tutorial we will use `compas` data (@propublica) to see if someone will become recidivist in next 2 years.
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -57,7 +58,7 @@ compas$Two_yr_Recidivism <- as.factor(ifelse(compas$Two_yr_Recidivism == '1', '0
 
 ## Basic features
 
-We train a `ranger` model and create an explainer with `DALEX`.
+We train a `ranger` (@ranger) model and create an explainer with `DALEX`.
 ```{r}
 library(DALEX)
 library(ranger)
@@ -96,7 +97,7 @@ plot(fobject)
 
 Of course the `protected` parameter can be changed, for example to (here binary) `compas$Sex`.
 
-In many metrics `ranger` exceeds fairness threshold (which can be changed by `epsilon` parameter). If bars reach red field on the left it means that there is bias towards certain unprivileged subgroup. If they reach one on the right it means bias towards privileged (Caucasian - in all metrics here Caucasian subgroup is referenced as base - 1) subgroup. This values mean the proportion (ratio) of certain unprivileged subgroup to privileged subgroup (eg. Asian/Caucasian). By default it represents 80% rule (for eg. women should get credit at rate at least 80% of that of men) . Metrics measure how equal treatment and mistreatment among subgroups is. More on those metrics: [wikipedia](https://en.wikipedia.org/wiki/Fairness_(machine_learning))
+In many metrics `ranger` exceeds fairness threshold (which can be changed by `epsilon` parameter). If bars reach red field on the left it means that there is bias towards certain unprivileged subgroup. If they reach one on the right it means bias towards privileged (Caucasian - in all metrics here Caucasian subgroup is referenced as base - 1) subgroup. This values mean the proportion (ratio) of certain unprivileged subgroup to privileged subgroup (eg. Asian/Caucasian). By default it represents 80% rule (for eg. women should get credit at rate at least 80% of that of men) (@adverseImpact) . Metrics measure how equal treatment and mistreatment among subgroups is. More on those metrics: [wikipedia](https://en.wikipedia.org/wiki/Fairness_(machine_learning)) and in @rubin
 
 Why do we have this bias? Model did learn from biased data. We can see it on plot below
 
@@ -319,6 +320,8 @@ plot(cpc)
 
 # Summary 
 `fairmodels` is powerful and flexible tool for detecting bias and asserting fairness in models. Many metrics are available (there are tools to create own metrics based on confusion matrix). Besides bias detection `fairmodels` offers also bias mitigation. It is set of pre-processing and post-processing algorithms working either on data or on explainer which function is to lower parity loss in certain metrics. If you are interested in this and adult data case study, please check Advanced Tutorial. If you encountered a bug or you have cool idea for a new feature please write and issue [here](https://github.com/ModelOriented/fairmodels/issues). 
+
+# References
 
 
 
