@@ -51,7 +51,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy" class="external-link">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/" class="external-link">MI^2 DataLab</a> </span>
-          <span class="version version-default">1.1.0</span>
+          <span class="version version-default">1.2.0</span>
         </div>
       </div>
     </div>
@@ -111,8 +111,8 @@
 <div id="fairmodels" class="section level1">
 <h1 class="hasAnchor">
 <a href="#fairmodels" class="anchor" aria-hidden="true"></a>fairmodels</h1>
-<p>In this tutorial you will get to know when, why and how to use <code>fairmodels</code>. <code>fairmodels</code> is a tool for bias detection, visualization and mitigation. It is compatible with <code>DALEX</code> and <code>DALEXtra</code> which are model agnostic explainers. Some knowledge of how to use those explainers will be needed but in this tutorial you should grasp the idea.</p>
-<p>For this tutorial we will use <code>compas</code> data to see if someone will become recidivist in next 2 years.</p>
+<p>In this tutorial you will get to know when, why and how to use <code>fairmodels</code>. <code>fairmodels</code> is a tool for bias detection, visualization and mitigation. It is compatible with <code>DALEX</code> (<span class="citation">Biecek (2018)</span>) and <code>DALEXtra</code> which are model agnostic explainers. Some knowledge of how to use those explainers will be needed but in this tutorial you should grasp the idea.</p>
+<p>For this tutorial we will use <code>compas</code> data (<span class="citation">Angwin et al. (2016)</span>) to see if someone will become recidivist in next 2 years.</p>
 <div id="why" class="section level2">
 <h2 class="hasAnchor">
 <a href="#why" class="anchor" aria-hidden="true"></a>Why?</h2>
@@ -148,7 +148,7 @@
 <div id="basic-features" class="section level2">
 <h2 class="hasAnchor">
 <a href="#basic-features" class="anchor" aria-hidden="true"></a>Basic features</h2>
-<p>We train a <code>ranger</code> model and create an explainer with <code>DALEX</code>.</p>
+<p>We train a <code>ranger</code> (<span class="citation">Wright and Ziegler (2017)</span>) model and create an explainer with <code>DALEX</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dalex.drwhy.ai" class="external-link">DALEX</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/imbs-hl/ranger" class="external-link">ranger</a></span><span class="op">)</span>
@@ -167,10 +167,10 @@
 #&gt;   -&gt; target variable   :  6172  values 
 #&gt;   -&gt; predict function  :  yhat.ranger  will be used (  default  )
 #&gt;   -&gt; predicted values  :  No value for predict function target column. (  default  )
-#&gt;   -&gt; model_info        :  package ranger , ver. 0.12.1 , task classification (  default  ) 
-#&gt;   -&gt; predicted values  :  numerical, min =  0.1516143 , mean =  0.5449385 , max =  0.8639625  
+#&gt;   -&gt; model_info        :  package ranger , ver. 0.13.1 , task classification (  default  ) 
+#&gt;   -&gt; predicted values  :  numerical, min =  0.1606278 , mean =  0.5448914 , max =  0.8704811  
 #&gt;   -&gt; residual function :  difference between y and yhat (  default  )
-#&gt;   -&gt; residuals         :  numerical, min =  -0.851203 , mean =  -5.836907e-05 , max =  0.7866061  
+#&gt;   -&gt; residuals         :  numerical, min =  -0.8509849 , mean =  -1.129703e-05 , max =  0.7763267  
 #&gt;   A new explainer has been created!</code></pre>
 <div id="fairness-check" class="section level3">
 <h3 class="hasAnchor">
@@ -183,12 +183,12 @@
                           cutoff <span class="op">=</span> <span class="fl">0.5</span>,                         <span class="co"># cutoff - optional, default = 0.5</span>
                           colorize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>                         </code></pre></div>
 <pre><code>#&gt; Creating fairness classification object
-#&gt; -&gt; Privileged subgroup       : character ([32m Ok [39m )
-#&gt; -&gt; Protected variable        : factor ([32m Ok [39m ) 
+#&gt; -&gt; Privileged subgroup       : character ( [32m Ok  [39m )
+#&gt; -&gt; Protected variable        : factor ( [32m Ok  [39m ) 
 #&gt; -&gt; Cutoff values for explainers  : 0.5 ( for all subgroups )
 #&gt; -&gt; Fairness objects      : 0 objects 
-#&gt; -&gt; Checking explainers       : 1 in total ( [32m compatible [39m )
-#&gt; -&gt; Metric calculation        : 12/12 metrics calculated for all models
+#&gt; -&gt; Checking explainers       : 1 in total (  [32m compatible  [39m )
+#&gt; -&gt; Metric calculation        : 13/13 metrics calculated for all models
 #&gt;  Fairness object created succesfully</code></pre>
 <p>Let’s see if our ranger model has bias.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -197,12 +197,12 @@
 #&gt; Fairness check for models: ranger 
 #&gt; 
 #&gt; ranger passes 2/5 metrics
-#&gt; Total loss:  3.715297</code></pre>
+#&gt; Total loss :  3.779524</code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fobject</span><span class="op">)</span></code></pre></div>
 <p><img src="Basic_tutorial_files/figure-html/unnamed-chunk-7-1.png" width="720" style="display: block; margin: auto;"></p>
 <p>Of course the <code>protected</code> parameter can be changed, for example to (here binary) <code>compas$Sex</code>.</p>
-<p>In many metrics <code>ranger</code> exceeds fairness threshold (which can be changed by <code>epsilon</code> parameter). If bars reach red field on the left it means that there is bias towards certain unprivileged subgroup. If they reach one on the right it means bias towards privileged (Caucasian - in all metrics here Caucasian subgroup is referenced as base - 1) subgroup. This values mean the proportion (ratio) of certain unprivileged subgroup to privileged subgroup (eg. Asian/Caucasian). By default it represents 80% rule (for eg. women should get credit at rate at least 80% of that of men) . Metrics measure how equal treatment and mistreatment among subgroups is. More on those metrics: <a href="https://en.wikipedia.org/wiki/Fairness_(machine_learning)" class="external-link">wikipedia</a></p>
+<p>In many metrics <code>ranger</code> exceeds fairness threshold (which can be changed by <code>epsilon</code> parameter). If bars reach red field on the left it means that there is bias towards certain unprivileged subgroup. If they reach one on the right it means bias towards privileged (Caucasian - in all metrics here Caucasian subgroup is referenced as base - 1) subgroup. This values mean the proportion (ratio) of certain unprivileged subgroup to privileged subgroup (eg. Asian/Caucasian). By default it represents 80% rule (for eg. women should get credit at rate at least 80% of that of men) (<span class="citation">Code of Federal Regulations (1978)</span>) . Metrics measure how equal treatment and mistreatment among subgroups is. More on those metrics: <a href="https://en.wikipedia.org/wiki/Fairness_(machine_learning)" class="external-link">wikipedia</a> and in <span class="citation">Verma and Rubin (2018)</span></p>
 <p>Why do we have this bias? Model did learn from biased data. We can see it on plot below</p>
 </div>
 <div id="plot-density" class="section level3">
@@ -273,17 +273,17 @@
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">fobject</span><span class="op">$</span><span class="va">parity_loss_metric_data</span></code></pre></div>
 <pre><code>#&gt;         TPR       TNR       PPV       NPV       FNR       FPR       FDR
-#&gt; 1 0.6543728 0.9564557 0.4340678 0.4943407 2.0933227 1.6062123 1.2928436
+#&gt; 1 0.3976902 1.2511537 0.4859671 0.7339807 1.6654218 1.7041164 1.3910955
 #&gt; 2 0.5471779        NA 0.1630229        NA 3.2047184 1.9228318 0.3724644
-#&gt; 3 0.5448252 1.2424609 0.4534881 0.6177711 2.8734042 1.9082055 1.4775018
+#&gt; 3 0.4994710 1.2194950 0.4928365 0.9008151        NA 1.7568861 1.5821548
 #&gt; 4 0.6611125 0.7401031 0.7674172 0.8209521 0.8762755 0.8532876 1.4329174
-#&gt; 5 0.4137700 2.3668930 0.3776066 1.0926496 1.8646649 2.1220799 1.0803680
-#&gt;         FOR        TS       STP       ACC        F1
-#&gt; 1 0.7714054 0.6637935 1.1133131 0.4133125 0.4164699
-#&gt; 2 1.7116794 0.5362121 1.1034842 0.1969839 0.3361082
-#&gt; 3 1.5384098 0.8088979 1.0597961 0.4709283 0.4943004
-#&gt; 4 0.6729784 0.8970468 0.5742171 0.3638060 0.6304323
-#&gt; 5 1.5968950 0.6361545 1.0015251 0.3483270 0.3940276</code></pre>
+#&gt; 5 0.4460611 2.4782408 0.3635593 1.1033261 2.0704576 2.1997989 1.0446632
+#&gt;         FOR        TS       STP       ACC        F1 NEW_METRIC
+#&gt; 1 1.3892629 0.7150599 0.8731178 0.4174524 0.4430506   2.063112
+#&gt; 2 1.7116794 0.5362121 1.1034842 0.1969839 0.3361082   3.751896
+#&gt; 3        NA 0.8036110 0.9794188 0.5110107 0.4847157         NA
+#&gt; 4 0.6729784 0.8970468 0.5742171 0.3638060 0.6304323   1.537388
+#&gt; 5 1.6222822 0.6476388 1.0452198 0.3483270 0.4010080   2.516519</code></pre>
 <ul>
 <li>groups_data</li>
 </ul>
@@ -292,9 +292,9 @@
 <code class="sourceCode R"><span class="co"># for the first model</span>
 <span class="va">fobject</span><span class="op">$</span><span class="va">groups_data</span><span class="op">$</span><span class="va">ranger</span><span class="op">$</span><span class="va">TPR</span></code></pre></div>
 <pre><code>#&gt; African_American            Asian        Caucasian         Hispanic 
-#&gt;        0.6129458        0.8695652        0.7533177        0.8062500 
+#&gt;        0.6697490        0.8695652        0.8149883        0.8406250 
 #&gt;  Native_American            Other 
-#&gt;        0.6666667        0.8447489</code></pre>
+#&gt;        0.8333333        0.8858447</code></pre>
 <p>It is simply metrics for certain subgroup.</p>
 <p>What is relation between <code>$groups_data</code> and <code>$parity_loss_metric_data</code> ?</p>
 <p>If we were going only to take score from certain metric (Let’s say fpr and 0.3) we wouldn’t know if it is good or bad. But we are aiming for <strong>equal treatment over all groups</strong> so if this metric score would be the same in all groups it would be very good. But the metrics wouldn’t be comparable between each others (fpr - 0.3 in all groups and accuracy - 0.9 in all groups, both are good in terms of parity). That is why we use <strong>privileged</strong> - to set benchmark. And for example Caucasian in fpr had score of 0.3 and African American 0.6. After setting <code>privilieged = Caucasian</code> Caucasian would have score 0, and African American <code>log(0.6/0.3)</code>. It enables comparing and adding scores.</p>
@@ -365,17 +365,17 @@
 <code class="sourceCode R"><span class="va">fair_pca</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fairness_pca.html">fairness_pca</a></span><span class="op">(</span><span class="va">fobject</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">fair_pca</span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt; Fairness PCA : 
-#&gt;             PC1        PC2        PC3        PC4           PC5
-#&gt; [1,] -0.3910687  0.1209451 -1.4767286 -0.6861606 -5.551115e-17
-#&gt; [2,]  3.1363554 -1.4435339 -0.1137161  0.4786854  7.327472e-15
-#&gt; [3,] -0.1075246  1.7454128 -0.1302428  0.7912913 -4.329870e-15
-#&gt; [4,] -3.9766164 -1.0024527  0.4775875  0.1698693  4.218847e-15
-#&gt; [5,]  1.3388544  0.5796287  1.2431000 -0.7536853 -5.218048e-15
+#&gt;              PC1        PC2         PC3         PC4           PC5
+#&gt; [1,]  0.07441202  1.0776089  0.72583510 -0.18695167 -5.204170e-18
+#&gt; [2,] -2.88203374 -1.5627798 -0.13064023 -0.15603223  5.412337e-16
+#&gt; [3,]  0.80429037  1.3094613 -0.70952064 -0.12703787 -1.283695e-16
+#&gt; [4,]  3.46982827 -1.3868976  0.06235379  0.07205402 -4.996004e-16
+#&gt; [5,] -1.46649692  0.5626071  0.05197197  0.39796774 -1.554312e-15
 #&gt; 
 #&gt; Created with: 
 #&gt; [1] "ranger"   "lm"       "ranger_2" "ranger_3" "gbm"     
 #&gt; 
-#&gt; First two components explained 85 % of variance.</code></pre>
+#&gt; First two components explained 96 % of variance.</code></pre>
 <p>Let’s plot!</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fair_pca</span><span class="op">)</span></code></pre></div>
@@ -466,6 +466,27 @@
 <h1 class="hasAnchor">
 <a href="#summary" class="anchor" aria-hidden="true"></a>Summary</h1>
 <p><code>fairmodels</code> is powerful and flexible tool for detecting bias and asserting fairness in models. Many metrics are available (there are tools to create own metrics based on confusion matrix). Besides bias detection <code>fairmodels</code> offers also bias mitigation. It is set of pre-processing and post-processing algorithms working either on data or on explainer which function is to lower parity loss in certain metrics. If you are interested in this and adult data case study, please check Advanced Tutorial. If you encountered a bug or you have cool idea for a new feature please write and issue <a href="https://github.com/ModelOriented/fairmodels/issues" class="external-link">here</a>.</p>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1 class="hasAnchor">
+<a href="#references" class="anchor" aria-hidden="true"></a>References</h1>
+<div id="refs" class="references">
+<div id="ref-propublica">
+<p>Angwin, Julia, Jeff Larson, Surya Mattu, and and Lauren Kirchner. 2016. “Machine Bias: There’s Software Used Across the Country to Predict Future Criminals. And It’s Biased Against Blacks.” <em>ProPublica</em>. <a href="https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing" class="external-link">https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing</a>.</p>
+</div>
+<div id="ref-dalex">
+<p>Biecek, Przemyslaw. 2018. “DALEX: Explainers for Complex Predictive Models in R.” <em>Journal of Machine Learning Research</em> 19 (84): 1–5. <a href="https://jmlr.org/papers/v19/18-416.html" class="external-link">https://jmlr.org/papers/v19/18-416.html</a>.</p>
+</div>
+<div id="ref-adverseImpact">
+<p>Code of Federal Regulations. 1978. “SECTION 4D, Uniform Guidelines on Employee Selection Procedures (1978).” <a href="https://www.govinfo.gov/content/pkg/CFR-2014-title29-vol4/xml/CFR-2014-title29-vol4-part1607.xml" class="external-link">https://www.govinfo.gov/content/pkg/CFR-2014-title29-vol4/xml/CFR-2014-title29-vol4-part1607.xml</a>.</p>
+</div>
+<div id="ref-rubin">
+<p>Verma, Sahil, and Julia Rubin. 2018. “Fairness Definitions Explained.” In <em>Proceedings of the International Workshop on Software Fairness</em>, 1–7. FairWare ’18. New York, NY, USA: Association for Computing Machinery. <a href="https://doi.org/10.1145/3194770.3194776" class="external-link">https://doi.org/10.1145/3194770.3194776</a>.</p>
+</div>
+<div id="ref-ranger">
+<p>Wright, Marvin N., and Andreas Ziegler. 2017. “ranger: A Fast Implementation of Random Forests for High Dimensional Data in C++ and R.” <em>Journal of Statistical Software</em> 77 (1): 1–17. <a href="https://doi.org/10.18637/jss.v077.i01" class="external-link">https://doi.org/10.18637/jss.v077.i01</a>.</p>
+</div>
+</div>
 </div>
   </div>
 

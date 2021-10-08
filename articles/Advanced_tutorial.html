@@ -51,7 +51,7 @@
         <div class="info">
           <span class="partof">part of the <a href="https://github.com/ModelOriented/DrWhy" class="external-link">DrWhy.AI</a>
            developed by the <a href="https://mi2.mini.pw.edu.pl/" class="external-link">MI^2 DataLab</a> </span>
-          <span class="version version-default">1.1.0</span>
+          <span class="version version-default">1.2.0</span>
         </div>
       </div>
     </div>
@@ -140,7 +140,7 @@
 #&gt; 6             40  United-States</code></pre>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># for this vignette data will be truncated</span></code></pre></div>
-<p>We will use adult data to predict whether certain person has yearly salary exceeding 50 000 or not. Our protected variable will be sex. For this tutorial we will be using <code>gbm</code> and of course we will explain it with <code>DALEX</code>.</p>
+<p>We will use adult data to predict whether certain person has yearly salary exceeding 50 000 or not. Our protected variable will be sex. For this tutorial we will be using <code>gbm</code> and of course we will explain it with <code>DALEX</code> (<span class="citation">Biecek (2018)</span>).</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/gbm-developers/gbm" class="external-link">gbm</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dalex.drwhy.ai" class="external-link">DALEX</a></span><span class="op">)</span>
@@ -176,7 +176,7 @@
 #&gt; precision  : 0.7999238 
 #&gt; f1         : 0.6414547 
 #&gt; accuracy   : 0.8558705 
-#&gt; auc        : 0.9093789
+#&gt; auc        : 0.9093643
 #&gt; 
 #&gt; Residuals:
 #&gt;          0%         10%         20%         30%         40%         50% 
@@ -190,12 +190,12 @@
                           privileged <span class="op">=</span> <span class="st">"Male"</span>, 
                           colorize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt; Creating fairness classification object
-#&gt; -&gt; Privileged subgroup       : character ([32m Ok [39m )
-#&gt; -&gt; Protected variable        : factor ([32m Ok [39m ) 
+#&gt; -&gt; Privileged subgroup       : character ( [32m Ok  [39m )
+#&gt; -&gt; Protected variable        : factor ( [32m Ok  [39m ) 
 #&gt; -&gt; Cutoff values for explainers  : 0.5 ( for all subgroups ) 
 #&gt; -&gt; Fairness objects      : 0 objects 
-#&gt; -&gt; Checking explainers       : 1 in total ( [32m compatible [39m )
-#&gt; -&gt; Metric calculation        : 12/12 metrics calculated for all models
+#&gt; -&gt; Checking explainers       : 1 in total (  [32m compatible  [39m )
+#&gt; -&gt; Metric calculation        : 13/13 metrics calculated for all models
 #&gt;  Fairness object created succesfully</code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">fobject</span>, colorize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
@@ -203,7 +203,7 @@
 #&gt; Fairness check for models: gbm 
 #&gt; 
 #&gt; gbm passes 2/5 metrics
-#&gt; Total loss:  2.028729</code></pre>
+#&gt; Total loss :  2.028729</code></pre>
 <p>Our model passes only few metrics, how big is the bias?</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fobject</span><span class="op">)</span></code></pre></div>
@@ -220,7 +220,7 @@
 <div id="distribution-changing" class="section level3">
 <h3 class="hasAnchor">
 <a href="#distribution-changing" class="anchor" aria-hidden="true"></a>Distribution changing</h3>
-<p>Firs technique you will learn about is <code>disparate_impact_remover</code>. It is somehow limited as it works on ordinal, numeric data. This technique returns “fixed” data frame. Through parameter <code>lambda</code> we can manipulate with how much the distribution will be fixed. <code>lambda = 1</code> (default) will return data with identical distributions for all levels of protected variable whereas <code>lambda = 0</code> will barely change anything. We will transform a few features.</p>
+<p>Firs technique you will learn about is <code>disparate_impact_remover</code> (<span class="citation">Feldman et al. (2015)</span>). It is somehow limited as it works on ordinal, numeric data. This technique returns “fixed” data frame. Through parameter <code>lambda</code> we can manipulate with how much the distribution will be fixed. <code>lambda = 1</code> (default) will return data with identical distributions for all levels of protected variable whereas <code>lambda = 0</code> will barely change anything. We will transform a few features.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_fixed</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/disparate_impact_remover.html">disparate_impact_remover</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">adult</span>, protected <span class="op">=</span> <span class="va">protected</span>, 
                             features_to_transform <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"age"</span>, <span class="st">"hours_per_week"</span>,
@@ -247,7 +247,7 @@
 <div id="reweighting" class="section level3">
 <h3 class="hasAnchor">
 <a href="#reweighting" class="anchor" aria-hidden="true"></a>Reweighting</h3>
-<p>Reweighting is straightforward bias mitigation technique. It produces weights based on data to pass them to model so it can learn what to be careful about. As there can be multiple subgroups weights will come in form of vector.</p>
+<p>Reweighting (<span class="citation">Kamiran and Calders (2011)</span>) is straightforward bias mitigation technique. It produces weights based on data to pass them to model so it can learn what to be careful about. As there can be multiple subgroups weights will come in form of vector.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">weights</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/reweight.html">reweight</a></span><span class="op">(</span>protected <span class="op">=</span> <span class="va">protected</span>, y <span class="op">=</span> <span class="va">adult</span><span class="op">$</span><span class="va">salary</span><span class="op">)</span>
 
@@ -272,7 +272,7 @@
 <div id="resampling" class="section level3">
 <h3 class="hasAnchor">
 <a href="#resampling" class="anchor" aria-hidden="true"></a>Resampling</h3>
-<p>This method derives from reweighting the data but instead of weights it chooses observations from data the outcome of metrics. There is 2 types of resampling:<br>
+<p>This method derives from reweighting the data but instead of weights it chooses observations from data the outcome of metrics (<span class="citation">Kamiran and Calders (2011)</span>). There is 2 types of resampling:<br>
 1. <strong>uniform</strong> - takes random observation from particular subgroup (in particular case - y == 1 or y == 0)<br>
 2. <strong>preferential</strong> - takes/omits observations either close to cutoff or as far from cutoff as possible. It needs probabilities (<code>probs</code>)</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
@@ -322,7 +322,7 @@
 <div id="roc-pivot" class="section level3">
 <h3 class="hasAnchor">
 <a href="#roc-pivot" class="anchor" aria-hidden="true"></a>ROC pivot</h3>
-<p>ROC stands for Reject Option based Classification and pivot for the behavior of <code>probs</code>/<code>y_hat</code> as it pivots around the cutoff when it is in close zone. Close zone is defined by the <code>theta</code> parameter equal to 0.1 by default. In simple words depending on whether subgroup is privileged or not certain observations will change their probabilities to the opposite (but in equal distance) side of cutoff. For example if observation is unprivileged and unfavorable with probability 0.45 (assuming the <code>cutoff = 0.5</code>) probability will change it’s value to 0.55.</p>
+<p>ROC stands for Reject Option based Classification (<span class="citation">Kamiran, Karim, and Zhang (2012)</span>) and pivot for the behavior of <code>probs</code>/<code>y_hat</code> as it pivots around the cutoff when it is in close zone. Close zone is defined by the <code>theta</code> parameter equal to 0.1 by default. In simple words depending on whether subgroup is privileged or not certain observations will change their probabilities to the opposite (but in equal distance) side of cutoff. For example if observation is unprivileged and unfavorable with probability 0.45 (assuming the <code>cutoff = 0.5</code>) probability will change it’s value to 0.55.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># we will need normal explainer </span>
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
@@ -350,22 +350,22 @@
 #&gt; Fairness check for models: gbm_roc, gbm_uniform, gbm_preferential, gbm_weighted, gbm, gbm_dir 
 #&gt; 
 #&gt; gbm_roc passes 3/5 metrics
-#&gt; Total loss:  1.336648 
+#&gt; Total loss :  1.336648 
 #&gt; 
 #&gt; gbm_uniform passes 2/5 metrics
-#&gt; Total loss:  1.089414 
+#&gt; Total loss :  1.089414 
 #&gt; 
 #&gt; gbm_preferential passes 2/5 metrics
-#&gt; Total loss:  2.642933 
+#&gt; Total loss :  2.642933 
 #&gt; 
 #&gt; gbm_weighted passes 4/5 metrics
-#&gt; Total loss:  1.19968 
+#&gt; Total loss :  1.19968 
 #&gt; 
 #&gt; gbm passes 2/5 metrics
-#&gt; Total loss:  2.028729 
+#&gt; Total loss :  2.028729 
 #&gt; 
 #&gt; gbm_dir passes 3/5 metrics
-#&gt; Total loss:  1.777098</code></pre>
+#&gt; Total loss :  1.777098</code></pre>
 </div>
 <div id="cutoff-manipulation" class="section level3">
 <h3 class="hasAnchor">
@@ -407,25 +407,25 @@
 #&gt; Fairness check for models: gbm_cutoff, gbm_roc, gbm_uniform, gbm_preferential, gbm_weighted, gbm, gbm_dir 
 #&gt; 
 #&gt; gbm_cutoff passes 2/5 metrics
-#&gt; Total loss:  1.052137 
+#&gt; Total loss :  1.052137 
 #&gt; 
 #&gt; gbm_roc passes 3/5 metrics
-#&gt; Total loss:  1.336648 
+#&gt; Total loss :  1.336648 
 #&gt; 
 #&gt; gbm_uniform passes 2/5 metrics
-#&gt; Total loss:  1.089414 
+#&gt; Total loss :  1.089414 
 #&gt; 
 #&gt; gbm_preferential passes 2/5 metrics
-#&gt; Total loss:  2.642933 
+#&gt; Total loss :  2.642933 
 #&gt; 
 #&gt; gbm_weighted passes 4/5 metrics
-#&gt; Total loss:  1.19968 
+#&gt; Total loss :  1.19968 
 #&gt; 
 #&gt; gbm passes 2/5 metrics
-#&gt; Total loss:  2.028729 
+#&gt; Total loss :  2.028729 
 #&gt; 
 #&gt; gbm_dir passes 3/5 metrics
-#&gt; Total loss:  1.777098</code></pre>
+#&gt; Total loss :  1.777098</code></pre>
 </div>
 </div>
 </div>
@@ -443,12 +443,61 @@
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">paf</span><span class="op">)</span></code></pre></div>
 <p><img src="Advanced_tutorial_files/figure-html/unnamed-chunk-17-1.png" width="720" style="display: block; margin: auto;"></p>
-<p>The tradeoff is significant and it should be always be taken into consideration.</p>
+<p>The tradeoff is significant and it should be always be taken into consideration. # Checking fairness on a test set</p>
+<p>While performing standard model development developers usually split the data into train-test subsets. It is not only possible but advisable to check fairness on a test set. This may be done in following way:</p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"adult_test"</span><span class="op">)</span>
+
+<span class="va">adult_test</span><span class="op">$</span><span class="va">salary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">adult_test</span><span class="op">$</span><span class="va">salary</span><span class="op">)</span> <span class="op">-</span><span class="fl">1</span> 
+<span class="va">protected_test</span> <span class="op">&lt;-</span> <span class="va">adult_test</span><span class="op">$</span><span class="va">sex</span>
+
+<span class="va">adult_test</span> <span class="op">&lt;-</span> <span class="va">adult_test</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">adult_test</span><span class="op">)</span> <span class="op">!=</span> <span class="st">"sex"</span><span class="op">]</span>
+
+
+<span class="co"># on test</span>
+<span class="va">gbm_explainer_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dalex.drwhy.ai/reference/explain.html" class="external-link">explain</a></span><span class="op">(</span><span class="va">gbm_model</span>,
+                              data <span class="op">=</span> <span class="va">adult_test</span><span class="op">[</span>,<span class="op">-</span><span class="fl">1</span><span class="op">]</span>,
+                              y <span class="op">=</span> <span class="va">adult_test</span><span class="op">$</span><span class="va">salary</span>,
+                              verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+
+<span class="co"># the objects are tested on different data, so we cannot compare them on one plot</span>
+<span class="va">fobject_train</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fairness_check.html">fairness_check</a></span><span class="op">(</span><span class="va">gbm_explainer</span>, 
+                                 protected <span class="op">=</span> <span class="va">protected</span>, 
+                                 privileged <span class="op">=</span> <span class="st">"Male"</span>, 
+                                 verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+
+<span class="va">fobject_test</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fairness_check.html">fairness_check</a></span><span class="op">(</span><span class="va">gbm_explainer_test</span>, 
+                                 protected <span class="op">=</span> <span class="va">protected_test</span>, 
+                                 privileged <span class="op">=</span> <span class="st">"Male"</span>, 
+                                 verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span> <span class="co"># with patchwork library we will nicely compare the plots</span>
+
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fobject_train</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fobject_test</span><span class="op">)</span> </code></pre></div>
+<p><img src="Advanced_tutorial_files/figure-html/unnamed-chunk-18-1.png" width="720" style="display: block; margin: auto;"></p>
 </div>
 <div id="summary" class="section level1">
 <h1 class="hasAnchor">
 <a href="#summary" class="anchor" aria-hidden="true"></a>Summary</h1>
 <p>There is many ways to tackle bias in models. Thanks to <code>fairmodels</code> it is easy to compare changes and experiment with new models and bias mitigation techniques. It is also good idea to combine few techniques (for example minimizing once with weights and then with cutoff). <code>fairness_check</code> interface is flexible and allows combining models that were trained on different features, encodings etc. Please if you encounter some bug or you have an idea for new feature please write and issue <a href="https://github.com/ModelOriented/fairmodels/issues" class="external-link">here</a>.</p>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1 class="hasAnchor">
+<a href="#references" class="anchor" aria-hidden="true"></a>References</h1>
+<div id="refs" class="references">
+<div id="ref-dalex">
+<p>Biecek, Przemyslaw. 2018. “DALEX: Explainers for Complex Predictive Models in R.” <em>Journal of Machine Learning Research</em> 19 (84): 1–5. <a href="https://jmlr.org/papers/v19/18-416.html" class="external-link">https://jmlr.org/papers/v19/18-416.html</a>.</p>
+</div>
+<div id="ref-disparateImpact">
+<p>Feldman, Michael, Sorelle A. Friedler, John Moeller, Carlos Scheidegger, and Suresh Venkatasubramanian. 2015. “Certifying and Removing Disparate Impact.” In <em>Proceedings of the 21th Acm Sigkdd International Conference on Knowledge Discovery and Data Mining</em>, 259–68. KDD ’15. New York, NY, USA: Association for Computing Machinery. <a href="https://doi.org/10.1145/2783258.2783311" class="external-link">https://doi.org/10.1145/2783258.2783311</a>.</p>
+</div>
+<div id="ref-kamiran">
+<p>Kamiran, Faisal, and Toon Calders. 2011. “Data Pre-Processing Techniques for Classification Without Discrimination.” <em>Knowledge and Information Systems</em> 33 (October). <a href="https://doi.org/10.1007/s10115-011-0463-8" class="external-link">https://doi.org/10.1007/s10115-011-0463-8</a>.</p>
+</div>
+<div id="ref-postKamiran">
+<p>Kamiran, F., A. Karim, and X. Zhang. 2012. “Decision Theory for Discrimination-Aware Classification.” In <em>2012 Ieee 12th International Conference on Data Mining</em>, 924–29. <a href="https://doi.org/10.1109/ICDM.2012.45" class="external-link">https://doi.org/10.1109/ICDM.2012.45</a>.</p>
+</div>
+</div>
 </div>
   </div>
 
