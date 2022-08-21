@@ -187,7 +187,7 @@ check_unique_names <- function(x) {
 }
 
 check_names_in_names_vector <- function(x, y) {
-  return(names(x) %in% y)
+  return(all(names(x) %in% y))
 }
 
 
