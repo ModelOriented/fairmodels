@@ -1,8 +1,12 @@
 bibentry(bibtype = "Article",
-  title = "fairmodels: A Flexible Tool For Bias Detection",
+  title = "fairmodels: a Flexible Tool for Bias Detection, Visualization, and Mitigation in Binary Classification Models",
   author = "Jakub Wiśniewski and Przemysław Biecek",
-  year = "2021",
-  journal = "arxiv",
-  url = "https://arxiv.org/abs/2104.00507",
+  year = "2022",
+  journal = "The R Journal",
+  volume = "14",
+  issue = "1",
+  pages = "227-243",
+  doi = "10.32614/RJ-2022-019",
+  url = "https://rj.urbanek.nz/articles/RJ-2022-019/",
   header = "To cite fairmodels in publications use:"
 )
