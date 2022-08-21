@@ -1,6 +1,7 @@
 # fairmodels 1.2.1
 * changed CITATION file (added reference to the RJournal)
 * fix for https://github.com/ModelOriented/fairmodels/issues/49
+* fix for https://github.com/ModelOriented/fairmodels/issues/48
 
 # fairmodels 1.2.0
 * Added filtering metrics when plotting and printing of `fairness_object`. 

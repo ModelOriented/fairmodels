@@ -127,6 +127,11 @@ resample <- function(protected, y, type = "uniform", probs = NULL, cutoff = 0.5)
       Xsc <- sum(protected == subgroup & y == actual_class)
       # formula for constructing the weights
       w_vec[actual_class + 1] <- (Xs * Xc) / (n * Xsc)
+      # fix for https://github.com/ModelOriented/fairmodels/issues/48
+      if (is.infinite(w_vec[actual_class + 1])) {
+        w_vec[actual_class + 1] = 0
+        warning("Infinite weights, set to 0. Probably sizes of some protected groups are too small")
+      }
     }
     num_sc <- append(num_sc, list(num_c))
     weight_list <- append(weight_list, list(w_vec))
