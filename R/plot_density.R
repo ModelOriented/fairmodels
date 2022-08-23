@@ -46,7 +46,7 @@ plot_density <- function(x, ...) {
   }
 
   limits <- c(0, 1)
-  if (class(x) == "fairness_regression_object") limits <- NULL
+  if (inherits(x, "fairness_regression_object")) limits <- NULL
 
   probability <- protected <- label <- NULL
   p <- ggplot(density_data, aes(probability, protected)) +
@@ -64,7 +64,7 @@ plot_density <- function(x, ...) {
     ggtitle("Density plot") +
     facet_grid(rows = vars(label))
 
-  if (class(x) == "fairness_regression_object") {
+  if (inherits(x, "fairness_regression_object")) {
     p <- p + xlab("predicted values")
   }
 

@@ -1,7 +1,7 @@
 # fairmodels  <img src="man/figures/logo.png" align="right" width="150"/>
 
   <!-- badges: start -->
-  [![Codecov test coverage](https://codecov.io/gh/ModelOriented/fairmodels/branch/master/graph/badge.svg)](https://codecov.io/gh/ModelOriented/fairmodels?branch=master)
+  [![Codecov test coverage](https://codecov.io/gh/ModelOriented/fairmodels/branch/master/graph/badge.svg)](https://app.codecov.io/gh/ModelOriented/fairmodels?branch=master)
   [![R build status](https://github.com/ModelOriented/fairmodels/workflows/R-CMD-check/badge.svg)](https://github.com/ModelOriented/fairmodels/actions)
    [![CRAN](https://www.r-pkg.org/badges/version/fairmodels)](https://cran.r-project.org/package=fairmodels)
    ![Downloads](https://cranlogs.r-pkg.org/badges/fairmodels)

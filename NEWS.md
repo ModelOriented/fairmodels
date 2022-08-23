@@ -1,4 +1,6 @@
 # fairmodels 1.2.1
+* changed link to *codecov* in `README.md`
+* changed `class(x) == 'fairness_regression_object` to `inherits(x, "fairness_regression_object")` in `plot_density.R` according to CRAN comments
 * changed CITATION file (added reference to the RJournal)
 * fix for https://github.com/ModelOriented/fairmodels/issues/49
 * fix for https://github.com/ModelOriented/fairmodels/issues/48
