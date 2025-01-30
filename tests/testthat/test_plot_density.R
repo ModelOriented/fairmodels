@@ -41,5 +41,9 @@ test_that("Test plot_density", {
   plt <- plot_density(fobject)
 
   expect_s3_class(plt, "ggplot")
-  expect_equal(plt$labels$x, "predicted values")
+  if ("get_labs" %in% getNamespaceExports("ggplot2")) {
+    expect_equal(ggplot2::get_labs(plt)$x, "predicted values")
+  } else {
+    expect_equal(plt$labels$x, "predicted values")
+  }
 })
