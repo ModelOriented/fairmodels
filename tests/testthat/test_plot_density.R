@@ -11,7 +11,11 @@ test_that("Test plot_density", {
   plt <- plot_density(fobject)
 
   expect_s3_class(plt, "ggplot")
-  expect_equal(plt$labels$x, "probability")
+  if ("get_labs" %in% getNamespaceExports("ggplot2")) {
+    expect_equal(ggplot2::get_labs(plt)$x, "probability")
+  } else {
+    expect_equal(plt$labels$x, "probability")
+  }
   # no bias
   set.seed(123)
   data <- data.frame(
@@ -41,5 +45,9 @@ test_that("Test plot_density", {
   plt <- plot_density(fobject)
 
   expect_s3_class(plt, "ggplot")
-  expect_equal(plt$labels$x, "predicted values")
+  if ("get_labs" %in% getNamespaceExports("ggplot2")) {
+    expect_equal(ggplot2::get_labs(plt)$x, "predicted values")
+  } else {
+    expect_equal(plt$labels$x, "predicted values")
+  }
 })
