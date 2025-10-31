@@ -14,7 +14,7 @@
 #' @param flip_axis logical, whether to change axis with metrics on axis with models
 #' @param text_size numeric, size of text
 #'
-#' @return list of \code{ggplot2} objects
+#' @return ggplot object with the combined heatmap and dendograms
 #'
 #' @import patchwork
 #' @import ggplot2
@@ -166,10 +166,12 @@ plot.fairness_heatmap <- function(x, ...,
   data$score <- as.numeric(data$score)
 
   # heatmap
-  ifelse(!flip_axis,
-    p <- ggplot(data, aes(parity_loss_metric, model, fill = score)),
+  if(!flip_axis) {
+    p <- ggplot(data, aes(parity_loss_metric, model, fill = score))
+    
+  } else {
     p <- ggplot(data, aes(model, parity_loss_metric, fill = score))
-  )
+  }
 
   heatmap <- p + geom_tile(
     colour = "white",
@@ -199,15 +201,17 @@ plot.fairness_heatmap <- function(x, ...,
     )
   }
 
-  ifelse(!flip_axis,
-    dendogram_right <- dendogram_model + coord_flip(),
+  if (!flip_axis) {
+    dendogram_right <- dendogram_model + coord_flip()
+  } else {
     dendogram_right <- dendogram_metric + coord_flip()
-  )
+  }
 
-  ifelse(!flip_axis,
-    dendogram_top <- dendogram_metric,
+  if (!flip_axis) {
+    dendogram_top <- dendogram_metric
+  } else {
     dendogram_top <- dendogram_model
-  )
+  }
 
   # adding title
   dendogram_top <- dendogram_top +
@@ -216,11 +220,13 @@ plot.fairness_heatmap <- function(x, ...,
     )
 
   # Plot layout
-  dendogram_top + plot_spacer() +
+  final_plot <- (dendogram_top + plot_spacer() +
     heatmap + dendogram_right +
     patchwork::plot_layout(
       ncol = 2,
       widths = c(1, 0.4),
       heights = c(0.4, 1)
-    )
+    ))
+
+  return(final_plot)
 }
