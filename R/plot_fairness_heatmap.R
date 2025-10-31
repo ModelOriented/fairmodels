@@ -199,15 +199,17 @@ plot.fairness_heatmap <- function(x, ...,
     )
   }
 
-  ifelse(!flip_axis,
-    dendogram_right <- dendogram_model + coord_flip(),
+  if (!flip_axis) {
+    dendogram_right <- dendogram_model + coord_flip()
+  } else {
     dendogram_right <- dendogram_metric + coord_flip()
-  )
+  }
 
-  ifelse(!flip_axis,
-    dendogram_top <- dendogram_metric,
+  if (!flip_axis) {
+    dendogram_top <- dendogram_metric
+  } else {
     dendogram_top <- dendogram_model
-  )
+  }
 
   # adding title
   dendogram_top <- dendogram_top +
